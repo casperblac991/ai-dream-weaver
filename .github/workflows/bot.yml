@@ -1,0 +1,27 @@
+name: 🤖 تشغيل البوت التلقائي
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # يشغل كل 6 ساعات
+  workflow_dispatch:        # يسمح بالتشغيل اليدوي
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 تحميل الكود
+        uses: actions/checkout@v4
+      
+      - name: 🔧 إعداد Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 تثبيت المكتبات
+        run: |
+          pip install requests
+      
+      - name: 🤖 تشغيل البوت
+        run: python dream_weaver_bot.py
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
