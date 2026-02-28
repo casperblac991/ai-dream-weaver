@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Dream Weaver - تفسير الأحلام بالذكاء الاصطناعي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .dream-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.1em;
+            margin: 20px 0;
+            resize: vertical;
+        }
+        
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        .result-box {
+            background: white;
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .product-card {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .price {
+            font-size: 2em;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        
+        .buy-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .features {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .features li {
+            margin: 10px 0;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            opacity: 0.8;
+        }
+        
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        
+        .lang-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="lang-btn" onclick="changeLanguage('en')">EN</button>
+        <button class="lang-btn" onclick="changeLanguage('ar')">AR</button>
+        <button class="lang-btn" onclick="changeLanguage('es')">ES</button>
+        <button class="lang-btn" onclick="changeLanguage('de')">DE</button>
+        <button class="lang-btn" onclick="changeLanguage('fr')">FR</button>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>🌙 AI Dream Weaver</h1>
+            <p class="subtitle">حوّل أحلامك إلى تجارب تفاعلية بالذكاء الاصطناعي والواقع المعزز</p>
+        </header>
+
+        <div class="dream-section">
+            <h2>🔮 جرب التحليل السريع</h2>
+            <textarea id="dreamInput" placeholder="اكتب حلمك هنا... (مثال: حلمت أنني أطير في السماء)" rows="4"></textarea>
+            <br>
+            <button onclick="analyzeDream()">تحليل الحلم</button>
+            
+            <div id="resultBox" class="result-box">
+                <h3>التحليل السريع:</h3>
+                <p id="analysisText"></p>
+                <p style="color: #667eea; margin-top: 10px;">للحصول على التحليل الكامل مع الرموز التفاعلية AR، اختر إحدى الباقات أدناه</p>
+            </div>
+        </div>
+
+        <h2 style="text-align: center;">باقات تحليل الأحلام</h2>
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <h3>الباقة الأساسية</h3>
+                <div class="price">$4.99</div>
+                <ul class="features">
+                    <li>✅ تحليل حلم واحد</li>
+                    <li>✅ تقرير PDF مفصل</li>
+                    <li>✅ تسليم فوري</li>
+                </ul>
+                <a href="#" class="buy-btn" target="_blank">اشتري الآن</a>
+            </div>
+
+            <div class="product-card">
+                <h3>الباقة المميزة</h3>
+                <div class="price">$9.99</div>
+                <ul class="features">
+                    <li>✅ تحليل 3 أحلام</li>
+                    <li>✅ كتاب إلكتروني PDF</li>
+                    <li>✅ 5 رموز تفاعلية AR</li>
+                </ul>
+                <a href="#" class="buy-btn" target="_blank">اشتري الآن</a>
+            </div>
+
+            <div class="product-card">
+                <h3>الباقة الشاملة</h3>
+                <div class="price">$19.99</div>
+                <ul class="features">
+                    <li>✅ تحليل 10 أحلام</li>
+                    <li>✅ كتاب شامل عن الأحلام</li>
+                    <li>✅ 20 رمز AR تفاعلي</li>
+                    <li>✅ استشارة نصية</li>
+                </ul>
+                <a href="#" class="buy-btn" target="_blank">اشتري الآن</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 AI Dream Weaver - أول منصة تجمع الذكاء الاصطناعي والواقع المعزز لتفسير الأحلام</p>
+        </footer>
+    </div>
+
+    <script>
+        // نظام الترجمة البسيط
+        const translations = {
+            en: {
+                title: "🌙 AI Dream Weaver",
+                subtitle: "Turn your dreams into interactive experiences with AI and AR",
+                quickAnalysis: "Try Quick Analysis",
+                placeholder: "Write your dream here...",
+                analyze: "Analyze Dream"
+            },
+            ar: {
+                title: "🌙 AI Dream Weaver",
+                subtitle: "حوّل أحلامك إلى تجارب تفاعلية بالذكاء الاصطناعي والواقع المعزز",
+                quickAnalysis: "🔮 جرب التحليل السريع",
+                placeholder: "اكتب حلمك هنا...",
+                analyze: "تحليل الحلم"
+            },
+            es: {
+                title: "🌙 AI Dream Weaver",
+                subtitle: "Convierte tus sueños en experiencias interactivas con IA y AR",
+                quickAnalysis: "Prueba Análisis Rápido",
+                placeholder: "Escribe tu sueño aquí...",
+                analyze: "Analizar Sueño"
+            },
+            de: {
+                title: "🌙 AI Dream Weaver",
+                subtitle: "Verwandeln Sie Ihre Träume in interaktive Erlebnisse mit KI und AR",
+                quickAnalysis: "Schnellanalyse versuchen",
+                placeholder: "Schreiben Sie Ihren Traum hier...",
+                analyze: "Traum analysieren"
+            },
+            fr: {
+                title: "🌙 AI Dream Weaver",
+                subtitle: "Transformez vos rêves en expériences interactives avec l'IA et la RA",
+                quickAnalysis: "Essayez l'analyse rapide",
+                placeholder: "Écrivez votre rêve ici...",
+                analyze: "Analyser le rêve"
+            }
+        };
+
+        function changeLanguage(lang) {
+            if (lang === 'ar') {
+                document.documentElement.dir = 'rtl';
+            } else {
+                document.documentElement.dir = 'ltr';
+            }
+            
+            const t = translations[lang] || translations.en;
+            document.querySelector('h1').textContent = t.title;
+            document.querySelector('.subtitle').textContent = t.subtitle;
+            document.querySelector('.dream-section h2').textContent = t.quickAnalysis;
+            document.getElementById('dreamInput').placeholder = t.placeholder;
+            document.querySelector('button').textContent = t.analyze;
+        }
+
+        async function analyzeDream() {
+            const dream = document.getElementById('dreamInput').value;
+            if (!dream) {
+                alert('الرجاء كتابة الحلم أولاً');
+                return;
+            }
+
+            const resultBox = document.getElementById('resultBox');
+            const analysisText = document.getElementById('analysisText');
+            
+            resultBox.style.display = 'block';
+            analysisText.textContent = 'جاري التحليل...';
+
+            try {
+                // محاكاة تحليل (حين نربط API لاحقاً)
+                setTimeout(() => {
+                    analysisText.innerHTML = `تحليل سريع لحلمك: "${dream}"<br><br>يبدو أن حلمك يحتوي على رموز مهمة. للحصول على التحليل الكامل مع الرموز التفاعلية، اختر إحدى الباقات أعلاه.`;
+                }, 1500);
+                
+            } catch (error) {
+                analysisText.textContent = 'حدث خطأ. الرجاء المحاولة مرة أخرى.';
+            }
+        }
+    </script>
+</body>
+  </html>
