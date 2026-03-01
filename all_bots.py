@@ -236,3 +236,52 @@ if __name__ == "__main__":
     
     master = BotMaster()
     master.run_all()
+class OpenRouterAIBot:
+    """بوت الذكاء الاصطناعي الحقيقي عبر OpenRouter"""
+    
+    def __init__(self, data_manager):
+        self.data = data_manager
+        self.api_key = "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"
+        self.api_url = "https://openrouter.ai/api/v1/chat/completions"
+        self.log = log  # استخدام دالة الطباعة الموجودة
+        
+    def generate_smart_reply(self, user_message):
+        """توليد رد ذكي باستخدام OpenRouter"""
+        
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://ai-dream-weaver.vercel.app",
+            "X-Title": "AI Dream Weaver"
+        }
+        
+        data = {
+            "model": "deepseek/deepseek-chat:free",  # نموذج مجاني ممتاز
+            "messages": [
+                {"role": "system", "content": "أنت مساعد متخصص في تفسير الأحلام. أجب بلغة المستخدم."},
+                {"role": "user", "content": user_message}
+            ],
+            "temperature": 0.7,
+            "max_tokens": 500
+        }
+        
+        try:
+            response = requests.post(self.api_url, headers=headers, json=data, timeout=15)
+            if response.status_code == 200:
+                result = response.json()
+                return result['choices'][0]['message']['content']
+            else:
+                self.log(f"خطأ OpenRouter: {response.status_code}", "error")
+                return None
+        except Exception as e:
+            self.log(f"استثناء OpenRouter: {e}", "error")
+            return None
+    
+    def run_cycle(self):
+        """تشغيل دورة الذكاء الاصطناعي"""
+        self.log("🧠 [OpenRouter] بدء تشغيل الذكاء الاصطناعي...", "bot")
+        
+        # هنا يمكن إضافة منطق استخدام الذكاء في الردود
+        # مثلاً: تحسين ردود بوت تلغرام
+        
+        self.log("✅ [OpenRouter] الذكاء الاصطناعي جاهز", "success")
