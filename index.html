@@ -722,9 +722,12 @@
                 reportMesopotamia: "📜 بلاد الرافدين",
                 reportGreece: "📜 اليونان",
                 reportIbn: "📜 ابن سيرين",
+                close: "✕ إغلاق",
+                downloaded: "📥 تم التحميل",
+                downloadedSuccess: "تم تحميل الملف بنجاح",
                 flying: "الحرية والطموح والتحرر من القيود",
-                freedom: "الحرية والطموح والتحرر من القيود",
-                rapidChanges: "تغييرات سريعة في الحياة"
+                rapidChanges: "تغييرات سريعة في الحياة",
+                clickForInterpretation: "اضغط للتفسير"
             },
             en: {
                 title: "🌙 AI Dream Weaver",
@@ -774,9 +777,12 @@
                 reportMesopotamia: "📜 Mesopotamia",
                 reportGreece: "📜 Greece",
                 reportIbn: "📜 Ibn Sirin",
+                close: "✕ Close",
+                downloaded: "📥 Downloaded",
+                downloadedSuccess: "File downloaded successfully",
                 flying: "Freedom, ambition, and breaking free from constraints",
-                freedom: "Freedom, ambition, and breaking free from constraints",
-                rapidChanges: "Rapid life changes"
+                rapidChanges: "Rapid life changes",
+                clickForInterpretation: "Click for interpretation"
             },
             es: {
                 title: "🌙 AI Dream Weaver",
@@ -826,9 +832,12 @@
                 reportMesopotamia: "📜 Mesopotamia",
                 reportGreece: "📜 Grecia",
                 reportIbn: "📜 Ibn Sirin",
+                close: "✕ Cerrar",
+                downloaded: "📥 Descargado",
+                downloadedSuccess: "Archivo descargado con éxito",
                 flying: "Libertad, ambición y liberación de restricciones",
-                freedom: "Libertad, ambición y liberación de restricciones",
-                rapidChanges: "Cambios rápidos en la vida"
+                rapidChanges: "Cambios rápidos en la vida",
+                clickForInterpretation: "Haz clic para interpretar"
             },
             fr: {
                 title: "🌙 AI Dream Weaver",
@@ -878,9 +887,12 @@
                 reportMesopotamia: "📜 Mésopotamie",
                 reportGreece: "📜 Grèce",
                 reportIbn: "📜 Ibn Sirin",
+                close: "✕ Fermer",
+                downloaded: "📥 Téléchargé",
+                downloadedSuccess: "Fichier téléchargé avec succès",
                 flying: "Liberté, ambition et libération des contraintes",
-                freedom: "Liberté, ambition et libération des contraintes",
-                rapidChanges: "Changements rapides dans la vie"
+                rapidChanges: "Changements rapides dans la vie",
+                clickForInterpretation: "Cliquez pour interpréter"
             },
             de: {
                 title: "🌙 AI Dream Weaver",
@@ -930,9 +942,12 @@
                 reportMesopotamia: "📜 Mesopotamien",
                 reportGreece: "📜 Griechenland",
                 reportIbn: "📜 Ibn Sirin",
+                close: "✕ Schließen",
+                downloaded: "📥 Heruntergeladen",
+                downloadedSuccess: "Datei erfolgreich heruntergeladen",
                 flying: "Freiheit, Ehrgeiz und Befreiung von Zwängen",
-                freedom: "Freiheit, Ehrgeiz und Befreiung von Zwängen",
-                rapidChanges: "Schnelle Veränderungen im Leben"
+                rapidChanges: "Schnelle Veränderungen im Leben",
+                clickForInterpretation: "Klicken Sie zur Interpretation"
             }
         };
 
@@ -1052,7 +1067,7 @@
                 html += `
                     <div class="symbol-card" onclick="showSymbol('${symbol}')">
                         <div class="symbol-name">${symbol}</div>
-                        <div style="font-size:0.9em;">${lang === 'ar' ? 'اضغط للتفسير' : 'Click for interpretation'}</div>
+                        <div style="font-size:0.9em;">${t.clickForInterpretation}</div>
                     </div>
                 `;
             });
@@ -1071,7 +1086,7 @@
             { symbol: "قط", meaning: "الخيانة أو شخص غير مخلص" },
             { symbol: "كلب", meaning: "صديق مخلص أو عدو" },
             { symbol: "أسد", meaning: "القوة والسلطة والنفوذ" },
-            { symbol: "نار", meaning: "العاطفة والغضب المكبوت" },
+            { symbol: "نار", meaning: "العاطفة والغب المكبوت" },
             { symbol: "ماء", meaning: "الحياة والنقاء والعواطف" },
             { symbol: "جبل", meaning: "الطموح والتحديات" },
             { symbol: "مطر", meaning: "رحمة وخير وبركة" },
@@ -1103,8 +1118,11 @@
         }
 
         function showJournal() {
+            const lang = localStorage.getItem('preferred-language') || 'ar';
+            const t = translations[lang];
+            
             if (dreamJournal.length === 0) {
-                showModal('📔 مجلة أحلامك', 'لا توجد أحلام محفوظة بعد. اكتب حلمك الأول!');
+                showModal(t.journal, t.emptyJournal || 'لا توجد أحلام محفوظة بعد. اكتب حلمك الأول!');
                 return;
             }
             
@@ -1116,24 +1134,26 @@
                 </div>`;
             });
             
-            showModal('📔 مجلة أحلامك', content);
+            showModal(t.journal, content);
         }
 
-        // دالة showModal المعدلة
+        // دالة showModal المعدلة (مع ترجمة زر الإغلاق)
         function showModal(title, content) {
             const lang = localStorage.getItem('preferred-language') || 'ar';
+            const t = translations[lang];
+            const closeText = t.close || '✕ إغلاق';
+            
             const modal = document.createElement('div');
             modal.className = 'modal';
             modal.innerHTML = `
                 <h2>${title}</h2>
                 <div>${content}</div>
-                <button onclick="this.parentElement.remove()">${lang === 'ar' ? '✕ إغلاق' : lang === 'en' ? '✕ Close' : lang === 'es' ? '✕ Cerrar' : lang === 'fr' ? '✕ Fermer' : '✕ Schließen'}</button>
+                <button onclick="this.parentElement.remove()">${closeText}</button>
             `;
             document.body.appendChild(modal);
         }
 
         function showSymbol(symbol) {
-            const lang = localStorage.getItem('preferred-language') || 'ar';
             const found = dreamDictionary.find(s => s.symbol === symbol);
             if (found) {
                 showModal(`🔮 ${symbol}`, found.meaning);
@@ -1142,27 +1162,69 @@
 
         function showHistory(id) {
             const lang = localStorage.getItem('preferred-language') || 'ar';
+            const t = translations[lang];
+            
             const histories = {
-                egypt: translations[lang].historyEgypt + '\n\n' + (lang === 'ar' ? 'بنى المصريون "معابد الأحلام" حيث كان الكهنة يفسرون أحلام الفراعنة.' : 
-                      lang === 'en' ? 'The Egyptians built "Dream Temples" where priests interpreted the dreams of pharaohs.' :
-                      lang === 'es' ? 'Los egipcios construyeron "Templos de los Sueños" donde los sacerdotes interpretaban los sueños de los faraones.' :
-                      lang === 'fr' ? 'Les Égyptiens ont construit des "Temples des Rêves" où les prêtres interprétaient les rêves des pharaons.' :
-                      'Die Ägypter bauten "Traumtempel", in denen Priester die Träume der Pharaonen deuteten.'),
-                mesopotamia: translations[lang].historyMesopotamia + '\n\n' + (lang === 'ar' ? 'أقدم سجلات مكتوبة لتفسير الأحلام على ألواح طينية عمرها 5000 عام.' :
-                            lang === 'en' ? 'The oldest written records of dream interpretation on clay tablets dating back 5000 years.' :
-                            lang === 'es' ? 'Los registros escritos más antiguos de interpretación de sueños en tablillas de arcilla de hace 5000 años.' :
-                            lang === 'fr' ? 'Les plus anciens écrits sur l\'interprétation des rêves sur des tablettes d\'argile vieilles de 5000 ans.' :
-                            'Die ältesten schriftlichen Aufzeichnungen zur Traumdeutung auf 5000 Jahre alten Tontafeln.')
+                egypt: {
+                    ar: 'بنى المصريون "معابد الأحلام" حيث كان الكهنة يفسرون أحلام الفراعنة.',
+                    en: 'The Egyptians built "Dream Temples" where priests interpreted the dreams of pharaohs.',
+                    es: 'Los egipcios construyeron "Templos de los Sueños" donde los sacerdotes interpretaban los sueños de los faraones.',
+                    fr: 'Les Égyptiens ont construit des "Temples des Rêves" où les prêtres interprétaient les rêves des pharaons.',
+                    de: 'Die Ägypter bauten "Traumtempel", in denen Priester die Träume der Pharaonen deuteten.'
+                },
+                mesopotamia: {
+                    ar: 'أقدم سجلات مكتوبة لتفسير الأحلام على ألواح طينية عمرها 5000 عام.',
+                    en: 'The oldest written records of dream interpretation on clay tablets dating back 5000 years.',
+                    es: 'Los registros escritos más antiguos de interpretación de sueños en tablillas de arcilla de hace 5000 años.',
+                    fr: 'Les plus anciens écrits sur l\'interprétation des rêves sur des tablettes d\'argile vieilles de 5000 ans.',
+                    de: 'Die ältesten schriftlichen Aufzeichnungen zur Traumdeutung auf 5000 Jahre alten Tontafeln.'
+                },
+                greece: {
+                    ar: 'أبقراط اعتبر الأحلام مؤشرات صحية. بنوا معابد أسكليبيوس حيث ينام المرضى ويحلمون للعلاج.',
+                    en: 'Hippocrates considered dreams health indicators. They built Asclepius temples where patients slept and dreamed for healing.',
+                    es: 'Hipócrates consideraba los sueños indicadores de salud. Construyeron templos de Asclepio donde los pacientes dormían y soñaban para sanar.',
+                    fr: 'Hippocrate considérait les rêves comme des indicateurs de santé. Ils ont construit des temples d\'Asclépios où les patients dormaient et rêvaient pour guérir.',
+                    de: 'Hippokrates betrachtete Träume als Gesundheitsindikatoren. Sie bauten Asklepios-Tempel, in denen Patienten schliefen und träumten, um zu heilen.'
+                },
+                islamic: {
+                    ar: 'ابن سيرين أشهر مفسر أحلام في التاريخ الإسلامي. كتابه "تفسير الأحلام" مرجع أساسي حتى اليوم.',
+                    en: 'Ibn Sirin is the most famous dream interpreter in Islamic history. His book "Interpretation of Dreams" remains a key reference today.',
+                    es: 'Ibn Sirin es el intérprete de sueños más famoso de la historia islámica. Su libro "Interpretación de los Sueños" sigue siendo una referencia clave.',
+                    fr: 'Ibn Sirin est le plus célèbre interprète de rêves de l\'histoire islamique. Son livre "Interprétation des rêves" reste une référence clé.',
+                    de: 'Ibn Sirin ist der berühmteste Traumdeuter der islamischen Geschichte. Sein Buch "Traumdeutung" ist bis heute ein wichtiges Nachschlagewerk.'
+                },
+                modern: {
+                    ar: 'فرويد اعتبر الأحلام "الطريق الملكي للاوعي". يونغ أضاف فكرة "النماذج الأولية" و"اللاوعي الجمعي".',
+                    en: 'Freud considered dreams "the royal road to the unconscious." Jung added the concepts of "archetypes" and the "collective unconscious."',
+                    es: 'Freud consideraba los sueños "el camino real hacia el inconsciente". Jung añadió los conceptos de "arquetipos" e "inconsciente colectivo".',
+                    fr: 'Freud considérait les rêves comme "la voie royale vers l\'inconscient". Jung a ajouté les concepts d\'"archétypes" et d\'"inconscient collectif".',
+                    de: 'Freud betrachtete Träume als "Königsweg zum Unbewussten". Jung fügte die Konzepte der "Archetypen" und des "kollektiven Unbewussten" hinzu.'
+                }
             };
-            const title = translations[lang]['history' + id.charAt(0).toUpperCase() + id.slice(1)] || 'التاريخ';
-            showModal(`🏛️ ${title}`, histories[id] || 'معلومات عن هذه الحضارة');
+            
+            const titles = {
+                egypt: t.historyEgypt,
+                mesopotamia: t.historyMesopotamia,
+                greece: t.historyGreece,
+                islamic: t.historyIslamic,
+                modern: t.historyModern
+            };
+            
+            const content = histories[id]?.[lang] || histories[id]?.['ar'] || 'معلومات عن هذه الحضارة';
+            const title = titles[id] || 'التاريخ';
+            
+            showModal(title, content);
         }
 
         function loadReports() {
+            const lang = localStorage.getItem('preferred-language') || 'ar';
+            const t = translations[lang];
+            
             const reports = [
-                { title: "تفسير الأحلام في مصر القديمة", pages: "24 صفحة" },
-                { title: "بلاد الرافدين والأحلام", pages: "32 صفحة" },
-                { title: "اليونان القديمة", pages: "28 صفحة" }
+                { id: 'egypt', title: t.reportEgypt, pages: "24 " + (lang === 'ar' ? 'صفحة' : 'pages') },
+                { id: 'mesopotamia', title: t.reportMesopotamia, pages: "32 " + (lang === 'ar' ? 'صفحة' : 'pages') },
+                { id: 'greece', title: t.reportGreece, pages: "28 " + (lang === 'ar' ? 'صفحة' : 'pages') },
+                { id: 'ibn-sirin', title: t.reportIbn, pages: "36 " + (lang === 'ar' ? 'صفحة' : 'pages') }
             ];
             
             let html = '';
@@ -1171,16 +1233,33 @@
                     <div class="report-card">
                         <div class="report-title">${r.title}</div>
                         <p>📄 ${r.pages}</p>
-                        <button class="download-btn" onclick="downloadReport('${r.title}')">📥 تحميل PDF</button>
+                        <button class="download-btn" onclick="downloadReport('${r.id}')">📥 ${lang === 'ar' ? 'تحميل PDF' : 'Download PDF'}</button>
                     </div>
                 `;
             });
             document.getElementById('reportsGrid').innerHTML = html;
         }
 
-        function downloadReport(title) {
+        function downloadReport(id) {
             const lang = localStorage.getItem('preferred-language') || 'ar';
-            const content = `${title}\n\n${lang === 'ar' ? 'هذا تقرير تجريبي. للنسخة الكاملة، اشترك في الباقات المدفوعة.' : 'This is a sample report. For the full version, subscribe to our paid packages.'}`;
+            const t = translations[lang];
+            
+            const reportTitles = {
+                egypt: t.reportEgypt,
+                mesopotamia: t.reportMesopotamia,
+                greece: t.reportGreece,
+                'ibn-sirin': t.reportIbn
+            };
+            
+            const reportContents = {
+                egypt: `هذا تقرير عن ${t.reportEgypt}...`,
+                mesopotamia: `هذا تقرير عن ${t.reportMesopotamia}...`,
+                greece: `هذا تقرير عن ${t.reportGreece}...`,
+                'ibn-sirin': `هذا تقرير عن ${t.reportIbn}...`
+            };
+            
+            const title = reportTitles[id] || id;
+            const content = reportContents[id] || `تقرير عن ${title}`;
             
             const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
@@ -1190,8 +1269,7 @@
             a.click();
             URL.revokeObjectURL(url);
             
-            showModal(lang === 'ar' ? '📥 تم التحميل' : '📥 Downloaded', 
-                      `${lang === 'ar' ? 'تم تحميل الملف بنجاح:' : 'File downloaded successfully:'} "${title}"`);
+            showModal(t.downloaded, `${t.downloadedSuccess}: "${title}"`);
         }
 
         function analyzeDream() {
