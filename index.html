@@ -3,12 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Dream Weaver - منصة تفسير الأحلام متعددة اللغات</title>
-    
-    <!-- تحسين SEO -->
-    <meta name="description" content="أول منصة عربية متعددة اللغات لتفسير الأحلام بالذكاء الاصطناعي">
-    <meta name="keywords" content="تفسير الأحلام, الذكاء الاصطناعي, أحلام, تفسير حلم, 5 لغات">
-    <meta name="author" content="AI Dream Weaver">
+    <title>AI Dream Weaver - منصة تفسير الأحلام</title>
     
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0KEHTRWRYB"></script>
@@ -33,7 +28,6 @@
             min-height: 100vh;
         }
         
-        /* خلفية نجوم متحركة */
         .stars {
             position: fixed;
             top: 0;
@@ -60,7 +54,6 @@
             opacity: 0.3;
         }
         
-        /* شريط اللغات */
         .lang-bar {
             position: fixed;
             top: 20px;
@@ -105,7 +98,6 @@
             padding: 100px 20px 40px;
         }
         
-        /* الهيدر */
         .header {
             text-align: center;
             margin-bottom: 50px;
@@ -124,7 +116,6 @@
             color: #ffd700;
         }
         
-        /* إحصائيات */
         .stats {
             display: flex;
             justify-content: space-around;
@@ -150,7 +141,6 @@
             color: #00ffff;
         }
         
-        /* قسم تحليل الأحلام */
         .dream-section {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -227,7 +217,6 @@
             display: none;
         }
         
-        /* فهرس المكتبة */
         .library-index {
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid #ffd700;
@@ -297,7 +286,6 @@
             background: rgba(255, 215, 0, 0.3);
         }
         
-        /* نافذة منبثقة جميلة */
         .modal {
             position: fixed;
             top: 50%;
@@ -340,7 +328,6 @@
             margin-top: 10px;
         }
         
-        /* مكتبة الرموز */
         .symbols-section {
             margin: 40px 0;
         }
@@ -374,7 +361,6 @@
             margin-bottom: 5px;
         }
         
-        /* التقارير */
         .reports-section {
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid #ff00ff;
@@ -415,7 +401,6 @@
             cursor: pointer;
         }
         
-        /* المنتجات */
         .products-section {
             margin: 40px 0;
         }
@@ -458,7 +443,6 @@
             font-weight: bold;
         }
         
-        /* نموذج التسجيل */
         .signup-section {
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid #ffd700;
@@ -513,7 +497,6 @@
 <body>
     <div class="stars"></div>
     
-    <!-- شريط اللغات -->
     <div class="lang-bar">
         <button class="lang-btn active" onclick="changeLanguage('ar')">🇸🇦 عربي</button>
         <button class="lang-btn" onclick="changeLanguage('en')">🇬🇧 English</button>
@@ -523,13 +506,11 @@
     </div>
     
     <div class="container">
-        <!-- الهيدر -->
         <div class="header">
             <h1 id="mainTitle">🌙 AI Dream Weaver</h1>
             <p id="subtitle" class="subtitle">تفسير أحلامك بالذكاء الاصطناعي والواقع المعزز</p>
         </div>
         
-        <!-- إحصائيات -->
         <div class="stats">
             <div class="stat-item">
                 <div class="stat-number" id="visitors">1,247</div>
@@ -549,7 +530,6 @@
             </div>
         </div>
         
-        <!-- تحليل الأحلام -->
         <div class="dream-section">
             <h2 class="section-title" id="dreamTitle">🔮 جرب التحليل المجاني</h2>
             <textarea id="dreamInput" class="dream-input" placeholder="اكتب حلمك هنا..."></textarea>
@@ -562,18 +542,17 @@
             <div id="resultBox" class="result-box"></div>
         </div>
         
-        <!-- فهرس المكتبة -->
         <div class="library-index">
             <h2 class="section-title" style="color:#ffd700;" id="libraryTitle">📖 فهرس مكتبة الأحلام</h2>
             <div class="index-grid">
                 <div class="index-card">
                     <h3 id="civTitle" onclick="toggleSection('history')">🏛️ الحضارات (5) ▼</h3>
                     <ul id="history-list" class="index-list">
-                        <li onclick="showHistory('egypt', 'مصر القديمة')" id="historyEgypt">مصر القديمة (3000 ق.م)</li>
-                        <li onclick="showHistory('mesopotamia', 'بلاد الرافدين')" id="historyMesopotamia">بلاد الرافدين (2700 ق.م)</li>
-                        <li onclick="showHistory('greece', 'اليونان القديمة')" id="historyGreece">اليونان القديمة (500 ق.م)</li>
-                        <li onclick="showHistory('islamic', 'العصر الإسلامي')" id="historyIslamic">العصر الإسلامي (700م)</li>
-                        <li onclick="showHistory('modern', 'التحليل الحديث')" id="historyModern">التحليل الحديث (1900م)</li>
+                        <li onclick="showHistory('egypt')" id="historyEgypt">مصر القديمة (3000 ق.م)</li>
+                        <li onclick="showHistory('mesopotamia')" id="historyMesopotamia">بلاد الرافدين (2700 ق.م)</li>
+                        <li onclick="showHistory('greece')" id="historyGreece">اليونان القديمة (500 ق.م)</li>
+                        <li onclick="showHistory('islamic')" id="historyIslamic">العصر الإسلامي (700م)</li>
+                        <li onclick="showHistory('modern')" id="historyModern">التحليل الحديث (1900م)</li>
                     </ul>
                 </div>
                 
@@ -610,28 +589,25 @@
                 <div class="index-card">
                     <h3 id="repTitle" onclick="toggleSection('reports')">📄 التقارير (12) ▼</h3>
                     <ul id="reports-list" class="index-list">
-                        <li onclick="downloadReport('تفسير الأحلام في مصر القديمة')" id="reportEgypt">📜 مصر القديمة</li>
-                        <li onclick="downloadReport('بلاد الرافدين والأحلام')" id="reportMesopotamia">📜 بلاد الرافدين</li>
-                        <li onclick="downloadReport('اليونان القديمة')" id="reportGreece">📜 اليونان</li>
-                        <li onclick="downloadReport('ابن سيرين')" id="reportIbn">📜 ابن سيرين</li>
+                        <li onclick="downloadReport('egypt')" id="reportEgypt">📜 مصر القديمة</li>
+                        <li onclick="downloadReport('mesopotamia')" id="reportMesopotamia">📜 بلاد الرافدين</li>
+                        <li onclick="downloadReport('greece')" id="reportGreece">📜 اليونان</li>
+                        <li onclick="downloadReport('ibn-sirin')" id="reportIbn">📜 ابن سيرين</li>
                     </ul>
                 </div>
             </div>
         </div>
         
-        <!-- مكتبة الرموز -->
         <div class="symbols-section">
             <h2 class="section-title" id="symbolsMainTitle">📚 أشهر الرموز في الأحلام</h2>
             <div class="symbols-grid" id="symbolsGrid"></div>
         </div>
         
-        <!-- التقارير -->
         <div class="reports-section">
             <h2 class="section-title" id="reportsMainTitle">📊 أبحاث ودراسات</h2>
             <div class="reports-grid" id="reportsGrid"></div>
         </div>
         
-        <!-- المنتجات -->
         <div class="products-section">
             <h2 class="section-title" id="productsTitle">💰 باقات تحليل الأحلام</h2>
             <div class="products-grid">
@@ -674,7 +650,6 @@
             </div>
         </div>
         
-        <!-- نموذج التسجيل -->
         <div class="signup-section">
             <h2 id="signupTitle">🎁 سجل الآن واحصل على تحليل مجاني</h2>
             <p id="signupDesc">أول حلم مجاني + خصم 15% على أول باقة</p>
@@ -697,7 +672,7 @@
     </div>
     
     <script>
-        // ========== قاموس الترجمة الكامل مع ترجمة الرموز ==========
+        // ========== قاموس الترجمة الكامل (5 لغات) ==========
         const translations = {
             ar: {
                 title: "🌙 AI Dream Weaver",
@@ -747,7 +722,6 @@
                 reportMesopotamia: "📜 بلاد الرافدين",
                 reportGreece: "📜 اليونان",
                 reportIbn: "📜 ابن سيرين",
-                // ترجمة أسماء الرموز (الأهم!)
                 symbols_translation: {
                     "قط": "قط",
                     "كلب": "كلب",
@@ -769,6 +743,13 @@
                     "مفتاح": "مفتاح",
                     "باب": "باب",
                     "سفينة": "سفينة"
+                },
+                historyContent: {
+                    egypt: "🏛️ مصر القديمة (3000 ق.م)\n\nبنى المصريون 'معابد الأحلام' حيث كان الكهنة يفسرون أحلام الفراعنة. اعتقدوا أن الأحلام رسائل من الآلهة، خاصة من الإله تحوت.",
+                    mesopotamia: "🏛️ بلاد الرافدين (2700 ق.م)\n\nأقدم سجلات مكتوبة لتفسير الأحلام على ألواح طينية عمرها 5000 عام. في ملحمة جلجامش، رأى البطل أحلاماً فسرها على أنها نذير بقدوم صديقه.",
+                    greece: "🏛️ اليونان القديمة (500 ق.م)\n\nأبقراط اعتبر الأحلام مؤشرات صحية. بنوا معابد أسكليبيوس حيث ينام المرضى ويحلمون للعلاج.",
+                    islamic: "🏛️ العصر الإسلامي (700م)\n\nابن سيرين أشهر مفسر أحلام في التاريخ الإسلامي. كتابه 'تفسير الأحلام' مرجع أساسي حتى اليوم.",
+                    modern: "🏛️ التحليل الحديث (1900م)\n\nفرويد اعتبر الأحلام 'الطريق الملكي للاوعي'. يونغ أضاف فكرة 'النماذج الأولية' و'اللاوعي الجمعي'."
                 }
             },
             en: {
@@ -814,32 +795,39 @@
                 historyMesopotamia: "Mesopotamia (2700 BC)",
                 historyGreece: "Ancient Greece (500 BC)",
                 historyIslamic: "Islamic Era (700 AD)",
-                historyModern: "Modern Analysis (1900 AD)",
+                historyModern: "Modern Analysis (1900)",
                 reportEgypt: "📜 Ancient Egypt",
                 reportMesopotamia: "📜 Mesopotamia",
                 reportGreece: "📜 Greece",
                 reportIbn: "📜 Ibn Sirin",
                 symbols_translation: {
-                    "قط": "cat",
-                    "كلب": "dog",
-                    "أسد": "lion",
-                    "حصان": "horse",
-                    "ثعبان": "snake",
-                    "طيران": "flying",
-                    "بحر": "sea",
-                    "ميت": "dead",
-                    "زواج": "marriage",
-                    "ذهب": "gold",
-                    "أسنان": "teeth",
-                    "نار": "fire",
-                    "ماء": "water",
-                    "جبل": "mountain",
-                    "مطر": "rain",
-                    "ريح": "wind",
-                    "كنز": "treasure",
-                    "مفتاح": "key",
-                    "باب": "door",
-                    "سفينة": "ship"
+                    "قط": "Cat",
+                    "كلب": "Dog",
+                    "أسد": "Lion",
+                    "حصان": "Horse",
+                    "ثعبان": "Snake",
+                    "طيران": "Flying",
+                    "بحر": "Sea",
+                    "ميت": "Dead",
+                    "زواج": "Marriage",
+                    "ذهب": "Gold",
+                    "أسنان": "Teeth",
+                    "نار": "Fire",
+                    "ماء": "Water",
+                    "جبل": "Mountain",
+                    "مطر": "Rain",
+                    "ريح": "Wind",
+                    "كنز": "Treasure",
+                    "مفتاح": "Key",
+                    "باب": "Door",
+                    "سفينة": "Ship"
+                },
+                historyContent: {
+                    egypt: "🏛️ Ancient Egypt (3000 BC)\n\nThe Egyptians built 'Dream Temples' where priests interpreted the dreams of pharaohs. They believed dreams were messages from the gods, especially from Thoth.",
+                    mesopotamia: "🏛️ Mesopotamia (2700 BC)\n\nThe oldest written records of dream interpretation were found on clay tablets 5000 years old. In the Epic of Gilgamesh, the hero had dreams interpreted as omens.",
+                    greece: "🏛️ Ancient Greece (500 BC)\n\nHippocrates considered dreams health indicators. They built Asclepius temples where patients slept and dreamed for healing.",
+                    islamic: "🏛️ Islamic Era (700 AD)\n\nIbn Sirin is the most famous dream interpreter in Islamic history. His book 'Interpretation of Dreams' remains a key reference today.",
+                    modern: "🏛️ Modern Analysis (1900)\n\nFreud considered dreams 'the royal road to the unconscious'. Jung added the concepts of 'archetypes' and the 'collective unconscious'."
                 }
             },
             es: {
@@ -891,26 +879,33 @@
                 reportGreece: "📜 Grecia",
                 reportIbn: "📜 Ibn Sirin",
                 symbols_translation: {
-                    "قط": "gato",
-                    "كلب": "perro",
-                    "أسد": "león",
-                    "حصان": "caballo",
-                    "ثعبان": "serpiente",
-                    "طيران": "volar",
-                    "بحر": "mar",
-                    "ميت": "muerto",
-                    "زواج": "matrimonio",
-                    "ذهب": "oro",
-                    "أسنان": "dientes",
-                    "نار": "fuego",
-                    "ماء": "agua",
-                    "جبل": "montaña",
-                    "مطر": "lluvia",
-                    "ريح": "viento",
-                    "كنز": "tesoro",
-                    "مفتاح": "llave",
-                    "باب": "puerta",
-                    "سفينة": "barco"
+                    "قط": "Gato",
+                    "كلب": "Perro",
+                    "أسد": "León",
+                    "حصان": "Caballo",
+                    "ثعبان": "Serpiente",
+                    "طيران": "Volar",
+                    "بحر": "Mar",
+                    "ميت": "Muerto",
+                    "زواج": "Matrimonio",
+                    "ذهب": "Oro",
+                    "أسنان": "Dientes",
+                    "نار": "Fuego",
+                    "ماء": "Agua",
+                    "جبل": "Montaña",
+                    "مطر": "Lluvia",
+                    "ريح": "Viento",
+                    "كنز": "Tesoro",
+                    "مفتاح": "Llave",
+                    "باب": "Puerta",
+                    "سفينة": "Barco"
+                },
+                historyContent: {
+                    egypt: "🏛️ Egipto Antiguo (3000 a.C.)\n\nLos egipcios construyeron 'Templos de los Sueños' donde los sacerdotes interpretaban los sueños de los faraones. Creían que los sueños eran mensajes de los dioses.",
+                    mesopotamia: "🏛️ Mesopotamia (2700 a.C.)\n\nLos registros escritos más antiguos de interpretación de sueños se encontraron en tablillas de arcilla de 5000 años de antigüedad.",
+                    greece: "🏛️ Grecia Antigua (500 a.C.)\n\nHipócrates consideraba los sueños como indicadores de salud. Construyeron templos de Asclepio donde los pacientes dormían y soñaban para sanar.",
+                    islamic: "🏛️ Era Islámica (700 d.C.)\n\nIbn Sirin es el intérprete de sueños más famoso de la historia islámica. Su libro 'Interpretación de los Sueños' sigue siendo una referencia clave.",
+                    modern: "🏛️ Análisis Moderno (1900)\n\nFreud consideraba los sueños 'el camino real hacia el inconsciente'. Jung añadió los conceptos de 'arquetipos' e 'inconsciente colectivo'."
                 }
             },
             fr: {
@@ -962,26 +957,33 @@
                 reportGreece: "📜 Grèce",
                 reportIbn: "📜 Ibn Sirin",
                 symbols_translation: {
-                    "قط": "chat",
-                    "كلب": "chien",
-                    "أسد": "lion",
-                    "حصان": "cheval",
-                    "ثعبان": "serpent",
-                    "طيران": "voler",
-                    "بحر": "mer",
-                    "ميت": "mort",
-                    "زواج": "mariage",
-                    "ذهب": "or",
-                    "أسنان": "dents",
-                    "نار": "feu",
-                    "ماء": "eau",
-                    "جبل": "montagne",
-                    "مطر": "pluie",
-                    "ريح": "vent",
-                    "كنز": "trésor",
-                    "مفتاح": "clé",
-                    "باب": "porte",
-                    "سفينة": "bateau"
+                    "قط": "Chat",
+                    "كلب": "Chien",
+                    "أسد": "Lion",
+                    "حصان": "Cheval",
+                    "ثعبان": "Serpent",
+                    "طيران": "Voler",
+                    "بحر": "Mer",
+                    "ميت": "Mort",
+                    "زواج": "Mariage",
+                    "ذهب": "Or",
+                    "أسنان": "Dents",
+                    "نار": "Feu",
+                    "ماء": "Eau",
+                    "جبل": "Montagne",
+                    "مطر": "Pluie",
+                    "ريح": "Vent",
+                    "كنز": "Trésor",
+                    "مفتاح": "Clé",
+                    "باب": "Porte",
+                    "سفينة": "Bateau"
+                },
+                historyContent: {
+                    egypt: "🏛️ Égypte ancienne (3000 av. J.-C.)\n\nLes Égyptiens ont construit des 'Temples des Rêves' où les prêtres interprétaient les rêves des pharaons. Ils croyaient que les rêves étaient des messages des dieux.",
+                    mesopotamia: "🏛️ Mésopotamie (2700 av. J.-C.)\n\nLes plus anciens écrits sur l'interprétation des rêves ont été trouvés sur des tablettes d'argile vieilles de 5000 ans.",
+                    greece: "🏛️ Grèce antique (500 av. J.-C.)\n\nHippocrate considérait les rêves comme des indicateurs de santé. Ils ont construit des temples d'Asclépios où les patients dormaient et rêvaient pour guérir.",
+                    islamic: "🏛️ Ère islamique (700 apr. J.-C.)\n\nIbn Sirin est le plus célèbre interprète de rêves de l'histoire islamique. Son livre 'Interprétation des rêves' reste une référence clé.",
+                    modern: "🏛️ Analyse moderne (1900)\n\nFreud considérait les rêves comme 'la voie royale vers l'inconscient'. Jung a ajouté les concepts d''archétypes' et d''inconscient collectif'."
                 }
             },
             de: {
@@ -1038,9 +1040,9 @@
                     "أسد": "Löwe",
                     "حصان": "Pferd",
                     "ثعبان": "Schlange",
-                    "طيران": "fliegen",
+                    "طيران": "Fliegen",
                     "بحر": "Meer",
-                    "ميت": "tot",
+                    "ميت": "Tot",
                     "زواج": "Heirat",
                     "ذهب": "Gold",
                     "أسنان": "Zähne",
@@ -1053,15 +1055,20 @@
                     "مفتاح": "Schlüssel",
                     "باب": "Tür",
                     "سفينة": "Schiff"
+                },
+                historyContent: {
+                    egypt: "🏛️ Altes Ägypten (3000 v. Chr.)\n\nDie Ägypter bauten 'Traumtempel', in denen Priester die Träume der Pharaonen deuteten. Sie glaubten, Träume seien Botschaften der Götter.",
+                    mesopotamia: "🏛️ Mesopotamien (2700 v. Chr.)\n\nDie ältesten schriftlichen Aufzeichnungen zur Traumdeutung wurden auf 5000 Jahre alten Tontafeln gefunden.",
+                    greece: "🏛️ Antikes Griechenland (500 v. Chr.)\n\nHippokrates betrachtete Träume als Gesundheitsindikatoren. Sie bauten Asklepios-Tempel, in denen Patienten schliefen und träumten, um zu heilen.",
+                    islamic: "🏛️ Islamische Ära (700 n. Chr.)\n\nIbn Sirin ist der berühmteste Traumdeuter der islamischen Geschichte. Sein Buch 'Traumdeutung' ist bis heute ein wichtiges Nachschlagewerk.",
+                    modern: "🏛️ Moderne Analyse (1900)\n\nFreud betrachtete Träume als 'Königsweg zum Unbewussten'. Jung fügte die Konzepte der 'Archetypen' und des 'kollektiven Unbewussten' hinzu."
                 }
             }
         };
 
         function changeLanguage(lang) {
-            // تغيير اتجاه الصفحة
             document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             
-            // تغيير لون الأزرار النشطة
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.textContent.includes(lang.toUpperCase()) || 
@@ -1081,13 +1088,11 @@
             document.getElementById('saveBtn').textContent = t.save;
             document.getElementById('journalBtn').textContent = t.journal;
             
-            // الإحصائيات
             document.getElementById('visitorsLabel').textContent = t.visitors;
             document.getElementById('dreamsLabel').textContent = t.dreams;
             document.getElementById('customersLabel').textContent = t.customers;
             document.getElementById('reportsLabel').textContent = t.reports;
             
-            // الفهرس
             document.getElementById('libraryTitle').textContent = t.library;
             document.getElementById('civTitle').innerHTML = t.civilizations + ' ▼';
             document.getElementById('symTitle').innerHTML = t.symbols + ' ▼';
@@ -1096,20 +1101,17 @@
             document.getElementById('natureTitle').textContent = t.nature;
             document.getElementById('objectsTitle').textContent = t.objects;
             
-            // التاريخ
             document.getElementById('historyEgypt').textContent = t.historyEgypt;
             document.getElementById('historyMesopotamia').textContent = t.historyMesopotamia;
             document.getElementById('historyGreece').textContent = t.historyGreece;
             document.getElementById('historyIslamic').textContent = t.historyIslamic;
             document.getElementById('historyModern').textContent = t.historyModern;
             
-            // التقارير
             document.getElementById('reportEgypt').innerHTML = t.reportEgypt;
             document.getElementById('reportMesopotamia').innerHTML = t.reportMesopotamia;
             document.getElementById('reportGreece').innerHTML = t.reportGreece;
             document.getElementById('reportIbn').innerHTML = t.reportIbn;
             
-            // ترجمة أسماء الرموز (الأهم!)
             if (t.symbols_translation) {
                 document.getElementById('symbolCat').textContent = t.symbols_translation['قط'];
                 document.getElementById('symbolDog').textContent = t.symbols_translation['كلب'];
@@ -1128,17 +1130,14 @@
                 document.getElementById('symbolShip').textContent = t.symbols_translation['سفينة'];
             }
             
-            // عناوين رئيسية
             document.getElementById('symbolsMainTitle').textContent = t.symbolsMain;
             document.getElementById('reportsMainTitle').textContent = t.reportsMain;
             document.getElementById('productsTitle').textContent = t.productsTitle;
             
-            // المنتجات
             document.getElementById('basicTitle').textContent = t.basic;
             document.getElementById('premiumTitle').textContent = t.premium;
             document.getElementById('ultimateTitle').textContent = t.ultimate;
             
-            // ميزات المنتجات
             const basicFeatures = document.querySelectorAll('#basicFeatures li');
             t.basicFeatures.forEach((text, index) => {
                 if (basicFeatures[index]) basicFeatures[index].textContent = text;
@@ -1154,12 +1153,10 @@
                 if (ultimateFeatures[index]) ultimateFeatures[index].textContent = text;
             });
             
-            // أزرار الشراء
             document.getElementById('buyBasic').textContent = t.buy;
             document.getElementById('buyPremium').textContent = t.buy;
             document.getElementById('buyUltimate').textContent = t.buy;
             
-            // نموذج التسجيل
             document.getElementById('signupTitle').textContent = t.signup;
             document.getElementById('signupDesc').textContent = t.signupDesc;
             document.getElementById('userName').placeholder = t.name;
@@ -1167,24 +1164,17 @@
             document.getElementById('userPhone').placeholder = t.phone;
             document.getElementById('registerBtn').textContent = t.register;
             
-            // فوتر
             document.getElementById('footerText').textContent = t.footer;
             document.getElementById('privacyLink').textContent = t.privacy;
             document.getElementById('aboutLink').textContent = t.about;
             document.getElementById('contactLink').textContent = t.contact;
             
-            // إعادة تحميل الرموز في الشبكة
             loadSymbolsGrid(lang);
-            
             localStorage.setItem('preferred-language', lang);
-            console.log(`✅ اللغة تغيرت إلى: ${lang}`);
         }
 
-        // تحميل اللغة المفضلة عند فتح الصفحة
         window.onload = function() {
             const savedLang = localStorage.getItem('preferred-language') || 'ar';
-            
-            // تفعيل الزر المناسب
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.textContent.includes(savedLang.toUpperCase()) || 
@@ -1192,16 +1182,11 @@
                     btn.classList.add('active');
                 }
             });
-            
-            // تطبيق اللغة
             changeLanguage(savedLang);
-            
-            // تحميل التقارير
             loadReports();
             startCounters();
         };
 
-        // دالة خاصة لتحميل شبكة الرموز
         function loadSymbolsGrid(lang) {
             const t = translations[lang];
             const symbolsList = [
@@ -1226,7 +1211,6 @@
             document.getElementById('symbolsGrid').innerHTML = html;
         }
 
-        // ========== قاموس تفسير الأحلام ==========
         const dreamDictionary = [
             { symbol: "ثعبان", meaning: "تحذير من أعداء خفيين - في مصر القديمة كان رمزاً للحماية" },
             { symbol: "طيران", meaning: "الحرية والطموح والتحرر من القيود" },
@@ -1238,7 +1222,7 @@
             { symbol: "قط", meaning: "الخيانة أو شخص غير مخلص" },
             { symbol: "كلب", meaning: "صديق مخلص أو عدو" },
             { symbol: "أسد", meaning: "القوة والسلطة والنفوذ" },
-            { symbol: "نار", meaning: "العاطفة والغضب المكبوت" },
+            { symbol: "نار", meaning: "العاطفة والغب المكبوت" },
             { symbol: "ماء", meaning: "الحياة والنقاء والعواطف" },
             { symbol: "جبل", meaning: "الطموح والتحديات" },
             { symbol: "مطر", meaning: "رحمة وخير وبركة" },
@@ -1250,7 +1234,6 @@
             { symbol: "حصان", meaning: "القوة والسرعة والكرامة" }
         ];
 
-        // ========== مجلة الأحلام ==========
         let dreamJournal = JSON.parse(localStorage.getItem('dreamJournal') || '[]');
 
         function saveToJournal() {
@@ -1286,7 +1269,6 @@
             showModal('📔 مجلة أحلامك', content);
         }
 
-        // ========== نافذة منبثقة ==========
         function showModal(title, content) {
             const modal = document.createElement('div');
             modal.className = 'modal';
@@ -1305,19 +1287,14 @@
             }
         }
 
-        // ========== التاريخ والحضارات ==========
-        function showHistory(id, name) {
-            const histories = {
-                'egypt': '🏛️ مصر القديمة (3000 ق.م)\n\nبنى المصريون "معابد الأحلام" حيث كان الكهنة يفسرون أحلام الفراعنة. اعتقدوا أن الأحلام رسائل من الآلهة، خاصة من الإله تحوت.',
-                'mesopotamia': '🏛️ بلاد الرافدين (2700 ق.م)\n\nأقدم سجلات مكتوبة لتفسير الأحلام على ألواح طينية عمرها 5000 عام. في ملحمة جلجامش، رأى البطل أحلاماً فسرها على أنها نذير بقدوم صديقه.',
-                'greece': '🏛️ اليونان القديمة (500 ق.م)\n\nأبقراط اعتبر الأحلام مؤشرات صحية. بنوا معابد أسكليبيوس حيث ينام المرضى ويحلمون للعلاج.',
-                'islamic': '🏛️ العصر الإسلامي (700م)\n\nابن سيرين أشهر مفسر أحلام في التاريخ الإسلامي. كتابه "تفسير الأحلام" مرجع أساسي حتى اليوم.',
-                'modern': '🏛️ التحليل الحديث (1900م)\n\nفرويد اعتبر الأحلام "الطريق الملكي للاوعي". يونغ أضاف فكرة "النماذج الأولية" و"اللاوعي الجمعي".'
-            };
-            showModal(name, histories[id] || 'معلومات عن هذه الحضارة');
+        function showHistory(id) {
+            const currentLang = localStorage.getItem('preferred-language') || 'ar';
+            const t = translations[currentLang];
+            const content = t.historyContent[id] || 'معلومات عن هذه الحضارة';
+            const title = t['history' + id.charAt(0).toUpperCase() + id.slice(1)] || 'التاريخ';
+            showModal(title, content);
         }
 
-        // ========== التقارير ==========
         function loadReports() {
             const reports = [
                 { title: "تفسير الأحلام في مصر القديمة", pages: "24 صفحة" },
@@ -1350,7 +1327,6 @@
             showModal('📥 تم التحميل', `تم تحميل "${title}" بنجاح.`);
         }
 
-        // ========== تحليل الأحلام ==========
         function analyzeDream() {
             const dream = document.getElementById('dreamInput').value;
             if (!dream) {
@@ -1379,7 +1355,6 @@
             }, 2000);
         }
 
-        // ========== مشاركة الحلم ==========
         function shareDream() {
             const dream = document.getElementById('dreamInput').value;
             if (!dream) {
@@ -1390,7 +1365,6 @@
             window.open(`https://twitter.com/intent/tweet?text=${text}&url=${window.location.href}`, '_blank');
         }
 
-        // ========== تسجيل المستخدمين ==========
         function registerUser() {
             const name = document.getElementById('userName').value;
             const email = document.getElementById('userEmail').value;
@@ -1411,7 +1385,6 @@
             document.getElementById('userPhone').value = '';
         }
 
-        // ========== وظائف الفهرس ==========
         function toggleSection(id) {
             const el = document.getElementById(id + '-list');
             if (el) {
@@ -1419,7 +1392,6 @@
             }
         }
 
-        // ========== عدادات متحركة ==========
         function startCounters() {
             setInterval(() => {
                 let v = document.getElementById('visitors');
