@@ -3,43 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Dream Weaver Ultra - منصة تفسير الأحلام بالذكاء الاصطناعي الفائق</title>
+    <title>AI Dream Weaver - تفسير الأحلام بالذكاء الاصطناعي</title>
     
-    <!-- تحسين SEO متقدم -->
-    <meta name="description" content="AI Dream Weaver: أول منصة عالمية تجمع الذكاء الاصطناعي والواقع المعزز لتفسير الأحلام. تحليل فوري، رموز AR، ومكتبة ضخمة من التفسيرات عبر الحضارات.">
-    <meta name="keywords" content="تفسير الأحلام, الذكاء الاصطناعي, الواقع المعزز, أحلام, تفسير حلم, رموز الأحلام, ابن سيرين, فرويد, تحليل نفسي">
-    <meta name="author" content="AI Dream Weaver">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://ai-dream-weaver.vercel.app">
-    
-    <!-- تحسين المشاركة على وسائل التواصل -->
-    <meta property="og:title" content="AI Dream Weaver - تفسير أحلامك بالذكاء الاصطناعي">
-    <meta property="og:description" content="حوّل أحلامك إلى تجارب تفاعلية مع الذكاء الاصطناعي والواقع المعزز. جرب التحليل المجاني الآن!">
-    <meta property="og:image" content="https://ai-dream-weaver.vercel.app/og-image.jpg">
-    <meta property="og:url" content="https://ai-dream-weaver.vercel.app">
-    <meta property="og:type" content="website">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="AI Dream Weaver - تفسير الأحلام">
-    <meta name="twitter:description" content="أول منصة لتفسير الأحلام بالذكاء الاصطناعي والواقع المعزز">
-    <meta name="twitter:image" content="https://ai-dream-weaver.vercel.app/og-image.jpg">
-    
-    <!-- مكتبات خارجية (تحميل مشروط للسرعة) -->
-    <script>
-        // تحميل AR فقط عند الحاجة (لتحسين السرعة)
-        function loadAR() {
-            return new Promise((resolve) => {
-                const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/ar.js@latest/aframe/build/aframe-ar.js';
-                script.onload = resolve;
-                document.head.appendChild(script);
-                
-                const aframe = document.createElement('script');
-                aframe.src = 'https://aframe.io/releases/1.4.0/aframe.min.js';
-                document.head.appendChild(aframe);
-            });
-        }
-    </script>
+    <!-- تحسين SEO -->
+    <meta name="description" content="أول منصة عربية لتفسير الأحلام بالذكاء الاصطناعي والواقع المعزز">
+    <meta name="keywords" content="تفسير الأحلام, الذكاء الاصطناعي, أحلام, تفسير حلم">
     
     <style>
         * {
@@ -50,149 +18,86 @@
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0a0f1e 0%, #1a1f35 50%, #2a1f45 100%);
             color: white;
             min-height: 100vh;
-            overflow-x: hidden;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            animation: stars 60s linear infinite;
+        }
+        
+        @keyframes stars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-1000px); }
+        }
+        
+        .stars::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 30%, white 1px, transparent 1px);
+            background-size: 100px 100px;
+            opacity: 0.3;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
-        }
-        
-        /* ===== شريط التواصل الاجتماعي الذكي ===== */
-        .social-bar {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 10px;
-            border-radius: 50px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            animation: slideIn 0.5s ease;
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateY(-100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .social-btn {
-            padding: 10px 20px;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+            padding: 20px;
             position: relative;
-            overflow: hidden;
+            z-index: 2;
         }
         
-        .social-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .social-btn:hover::before {
-            left: 100%;
-        }
-        
-        .social-btn:hover {
-            transform: scale(1.05) translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        
-        .facebook { background: #1877f2; color: white; }
-        .twitter { background: #1da1f2; color: white; }
-        .whatsapp { background: #25d366; color: white; }
-        .telegram { background: #0088cc; color: white; }
-        .pinterest { background: #bd081c; color: white; }
-        .linkedin { background: #0077b5; color: white; }
-        .instagram { background: linear-gradient(45deg, #f09433, #d62976, #962fbf); color: white; }
-        .tiktok { background: #000000; color: white; }
-        
-        /* ===== شريط الإشعارات التلقائي ===== */
-        .notification-bar {
-            background: linear-gradient(90deg, #ff6b6b, #ffd700);
-            color: white;
-            padding: 10px;
-            text-align: center;
-            border-radius: 50px;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-        
-        /* ===== الأقسام الرئيسية ===== */
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin: 60px 0 40px;
         }
         
         h1 {
             font-size: 4em;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #fff, #ffd700, #ff6b6b);
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: titleGlow 3s infinite;
-        }
-        
-        @keyframes titleGlow {
-            0% { filter: drop-shadow(0 0 5px rgba(255,215,0,0.5)); }
-            50% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); }
-            100% { filter: drop-shadow(0 0 5px rgba(255,215,0,0.5)); }
         }
         
         .subtitle {
-            font-size: 1.3em;
-            opacity: 0.9;
+            font-size: 1.5em;
+            color: rgba(255,255,255,0.8);
         }
         
-        /* ===== تحليل الأحلام المتقدم ===== */
         .dream-section {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
+            border: 2px solid #00ffff;
             border-radius: 30px;
             padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            margin: 40px 0;
         }
         
         textarea {
             width: 100%;
             padding: 20px;
             border-radius: 15px;
-            border: none;
-            font-size: 1.1em;
+            border: 2px solid #ff00ff;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            font-size: 1.2em;
             margin: 20px 0;
             resize: vertical;
-            background: rgba(255,255,255,0.95);
-            transition: all 0.3s;
         }
         
         textarea:focus {
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(255,215,0,0.5);
             outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 30px rgba(0,255,255,0.5);
         }
         
         .button-group {
@@ -203,349 +108,68 @@
         }
         
         button {
-            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-            color: white;
-            border: none;
             padding: 15px 30px;
-            border-radius: 25px;
+            border: none;
+            border-radius: 50px;
             font-size: 1.1em;
             cursor: pointer;
             transition: all 0.3s;
-            margin: 5px;
-            flex: 1 1 auto;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        button::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        button:active::after {
-            width: 300px;
-            height: 300px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #0a0f1e;
+            font-weight: bold;
         }
         
         button:hover {
-            transform: scale(1.05) translateY(-3px);
-            box-shadow: 0 15px 30px rgba(255,107,107,0.4);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255,0,255,0.5);
         }
         
         .result-box {
-            background: white;
-            color: #333;
-            padding: 25px;
+            background: rgba(0,0,0,0.8);
+            border: 2px solid #ff00ff;
             border-radius: 15px;
+            padding: 20px;
             margin-top: 20px;
             display: none;
-            animation: fadeIn 0.5s;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* ===== قسم العملاء والمصداقية ===== */
-        .testimonials-section {
-            background: rgba(255,255,255,0.05);
-            border-radius: 30px;
-            padding: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .testimonial-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 25px;
-            transition: all 0.3s;
-            position: relative;
-        }
-        
-        .testimonial-card::before {
-            content: '"';
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 5em;
-            color: rgba(255,215,0,0.2);
-            font-family: serif;
-        }
-        
-        .testimonial-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255,255,255,0.15);
-        }
-        
-        .testimonial-card p {
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-        
-        .testimonial-card span {
-            color: #ffd700;
-            font-weight: bold;
-        }
-        
-        /* ===== العروض الحصرية ===== */
-        .limited-offer {
-            background: linear-gradient(135deg, #ff6b6b, #ffd700);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            margin: 30px 0;
-            animation: offerPulse 2s infinite;
-        }
-        
-        @keyframes offerPulse {
-            0% { box-shadow: 0 0 0 0 rgba(255,215,0,0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(255,215,0,0); }
-            100% { box-shadow: 0 0 0 0 rgba(255,215,0,0); }
-        }
-        
-        .countdown {
-            font-size: 2em;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        
-        /* ===== قسم المقالات الأسبوعية ===== */
-        .articles-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 30px;
-            padding: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .update-badge {
-            background: #4CAF50;
-            color: white;
-            padding: 5px 20px;
-            border-radius: 30px;
-            font-size: 1em;
-            animation: badgePulse 2s infinite;
-        }
-        
-        @keyframes badgePulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.8; }
-            100% { opacity: 1; }
-        }
-        
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .article-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 20px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        .article-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .article-card h4 {
-            color: #ffd700;
-            margin-bottom: 10px;
-        }
-        
-        .article-meta {
-            display: flex;
-            gap: 10px;
-            font-size: 0.8em;
-            margin-top: 10px;
-            color: #ccc;
-        }
-        
-        .read-more {
-            color: #4CAF50;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
-        }
-        
-        /* ===== قسم الفيديوهات التلقائية ===== */
-        .videos-section {
-            margin-bottom: 40px;
-        }
-        
-        .videos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .video-card {
-            background: rgba(0,0,0,0.3);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-        
-        .video-card:hover {
-            transform: scale(1.05);
-        }
-        
-        .video-thumbnail {
-            width: 100%;
-            height: 180px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3em;
-        }
-        
-        .video-info {
-            padding: 15px;
-        }
-        
-        .video-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .video-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8em;
-            color: #ccc;
-            margin: 10px 0;
-        }
-        
-        .generate-video-btn {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            margin-top: 10px;
-            cursor: pointer;
-            width: 100%;
-        }
-        
-        /* ===== قسم التاريخ والحضارات ===== */
-        .history-section {
-            background: rgba(0,0,0,0.2);
-            border-radius: 30px;
-            padding: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .timeline {
-            display: flex;
-            overflow-x: auto;
-            gap: 20px;
-            padding: 20px 0;
-        }
-        
-        .timeline-item {
-            min-width: 250px;
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 10px;
-            border-right: 3px solid #ffd700;
-        }
-        
-        .timeline-item .era {
-            color: #ffd700;
-            font-weight: bold;
-        }
-        
-        /* ===== المنتجات المدفوعة ===== */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            margin-top: 30px;
+            margin: 40px 0;
         }
         
         .product-card {
-            background: white;
-            color: #333;
-            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid #00ffff;
             border-radius: 20px;
+            padding: 30px;
             text-align: center;
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,215,0,0.1), transparent);
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
-        }
-        
-        @keyframes shine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
         }
         
         .product-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 30px 40px rgba(0,0,0,0.3);
+            transform: translateY(-10px);
+            border-color: #ff00ff;
+            box-shadow: 0 0 50px rgba(255,0,255,0.3);
         }
         
         .price {
             font-size: 2.5em;
-            color: #667eea;
+            color: #00ffff;
             margin: 20px 0;
         }
         
         .buy-btn {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
-            color: white;
-            padding: 15px 40px;
-            border-radius: 30px;
-            text-decoration: none;
             display: inline-block;
+            padding: 12px 40px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #0a0f1e;
+            text-decoration: none;
+            border-radius: 50px;
             font-weight: bold;
-            transition: all 0.3s;
-        }
-        
-        .buy-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 20px rgba(76,175,80,0.4);
         }
         
         .features {
@@ -557,964 +181,130 @@
             margin: 10px 0;
         }
         
-        /* ===== مساحات إعلانية ذكية ===== */
-        .ad-space {
-            background: rgba(255,255,255,0.05);
-            border: 2px dashed #ffd700;
-            border-radius: 15px;
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50px;
             padding: 20px;
-            text-align: center;
-            margin: 30px 0;
-            font-size: 0.9em;
-            color: #ffd700;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .ad-space::before {
-            content: "📢 إعلان";
-            display: block;
-            font-size: 0.8em;
-            margin-bottom: 5px;
-        }
-        
-        .ad-space::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,215,0,0.1), transparent);
-            animation: adShine 5s infinite;
-        }
-        
-        @keyframes adShine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-        
-        /* ===== النشرة البريدية ===== */
-        .newsletter {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 30px;
-            padding: 40px;
-            text-align: center;
             margin: 40px 0;
         }
         
-        .newsletter input {
-            padding: 15px;
-            width: 300px;
-            max-width: 80%;
-            border-radius: 30px;
-            border: none;
-            margin: 20px 0;
-            font-size: 1em;
+        .stat-item {
+            text-align: center;
         }
         
-        .newsletter button {
-            background: #ffd700;
-            color: #333;
-            font-weight: bold;
-        }
-        
-        /* ===== بوتات المحادثة الذكية ===== */
-        .chat-bots {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 1000;
-        }
-        
-        .chat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #25d366, #128C7E);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8em;
-            cursor: pointer;
-            margin-bottom: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-            animation: chatBounce 2s infinite;
-        }
-        
-        @keyframes chatBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .chat-icon:hover {
-            transform: scale(1.1) rotate(10deg);
-        }
-        
-        .chat-icon.telegram {
-            background: linear-gradient(135deg, #0088cc, #006699);
-        }
-        
-        .chat-box {
-            background: white;
-            border-radius: 20px;
-            width: 350px;
-            display: none;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            animation: slideUp 0.3s;
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .chat-header {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px;
-            border-radius: 20px 20px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .chat-body {
-            height: 300px;
-            overflow-y: auto;
-            padding: 15px;
-            background: #f5f5f5;
-        }
-        
-        .chat-message {
-            margin-bottom: 10px;
-            padding: 10px 15px;
-            border-radius: 20px;
-            max-width: 80%;
-            animation: messagePop 0.3s;
-        }
-        
-        @keyframes messagePop {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        
-        .bot-message {
-            background: #e3f2fd;
-            align-self: flex-start;
-        }
-        
-        .user-message {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            margin-left: auto;
-        }
-        
-        .chat-input {
-            display: flex;
-            padding: 10px;
-            background: white;
-            border-radius: 0 0 20px 20px;
-        }
-        
-        .chat-input input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            margin-right: 5px;
-        }
-        
-        .chat-input button {
-            padding: 10px 20px;
-            margin: 0 5px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
+        .stat-number {
+            font-size: 2em;
+            color: #ffd700;
         }
         
         footer {
             text-align: center;
-            margin-top: 50px;
-            opacity: 0.8;
-        }
-        
-        .language-switcher {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
-        
-        .lang-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            margin: 0 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .lang-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: scale(1.1);
-        }
-        
-        .ar-scene {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            display: none;
-        }
-        
-        .close-ar {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1001;
-            background: red;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: none;
-            cursor: pointer;
-        }
-        
-        .last-updated {
-            text-align: center;
-            font-size: 0.9em;
-            color: #ccc;
-            margin: 20px 0;
-        }
-        
-        .week-badge {
-            background: #ff6b6b;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.7em;
-            margin-left: 5px;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 40px;
         }
     </style>
 </head>
 <body>
-    <div class="language-switcher">
-        <button class="lang-btn" onclick="changeLanguage('en')">EN</button>
-        <button class="lang-btn" onclick="changeLanguage('ar')">AR</button>
-        <button class="lang-btn" onclick="changeLanguage('es')">ES</button>
-        <button class="lang-btn" onclick="changeLanguage('de')">DE</button>
-        <button class="lang-btn" onclick="changeLanguage('fr')">FR</button>
-    </div>
-
-    <!-- زر إغلاق AR -->
-    <button class="close-ar" onclick="closeAR()">✕ إغلاق AR</button>
-
-    <!-- مشهد AR المخفي -->
-    <div class="ar-scene" id="arScene">
-        <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false;'>
-            <a-marker preset="hiro" id="arMarker">
-                <a-box position='0 0.5 0' material='color: red;'></a-box>
-                <a-sphere position='0 1.2 0' radius='0.2' color='blue'></a-sphere>
-                <a-text value="رمز الحلم" position='0 1.8 0' color="black"></a-text>
-            </a-marker>
-            <a-entity camera></a-entity>
-        </a-scene>
-    </div>
-
-    <!-- بوتات المحادثة الذكية -->
-    <div class="chat-bots">
-        <div class="chat-icon" onclick="openChat('whatsapp')">📱</div>
-        <div class="chat-icon telegram" onclick="openChat('telegram')">✈️</div>
-        
-        <div class="chat-box" id="whatsappChat">
-            <div class="chat-header">
-                <span>🤖 بوت واتساب الذكي</span>
-                <span onclick="closeChat('whatsapp')" style="cursor:pointer;">✕</span>
-            </div>
-            <div class="chat-body" id="whatsappMessages">
-                <div class="chat-message bot-message">👋 مرحباً! أنا مساعد AI Dream Weaver الذكي. كيف يمكنني مساعدتك اليوم؟</div>
-            </div>
-            <div class="chat-input">
-                <input type="text" id="whatsappInput" placeholder="اكتب رسالتك...">
-                <button onclick="sendWhatsAppMessage()">إرسال</button>
-            </div>
-        </div>
-        
-        <div class="chat-box" id="telegramChat">
-            <div class="chat-header">
-                <span>🤖 بوت تلغرام الذكي</span>
-                <span onclick="closeChat('telegram')" style="cursor:pointer;">✕</span>
-            </div>
-            <div class="chat-body" id="telegramMessages">
-                <div class="chat-message bot-message">👋 أهلاً بك! أرسل حلمك وسأحلله لك فوراً.</div>
-            </div>
-            <div class="chat-input">
-                <input type="text" id="telegramInput" placeholder="اكتب حلمك...">
-                <button onclick="sendTelegramMessage()">إرسال</button>
-            </div>
-        </div>
-    </div>
-
+    <div class="stars"></div>
+    
     <div class="container">
-        <!-- شريط الإشعارات التلقائي -->
-        <div class="notification-bar" id="notificationBar">
-            🔥 127 شخصاً يشاهدون الموقع الآن! 3 أشخاص اشتروا في آخر ساعة
-        </div>
-
-        <!-- شريط التواصل الاجتماعي الذكي -->
-        <div class="social-bar" id="socialBar"></div>
-
         <header>
-            <h1>🌙 AI Dream Weaver Ultra</h1>
-            <p class="subtitle">أول منصة في العالم تجمع الذكاء الاصطناعي الفائق والواقع المعزز لتفسير الأحلام</p>
-            <div class="last-updated" id="lastUpdated">آخر تحديث: جاري التحميل...</div>
+            <h1>🌙 AI Dream Weaver</h1>
+            <p class="subtitle">تفسير أحلامك بالذكاء الاصطناعي</p>
         </header>
 
-        <!-- قسم تحليل الأحلام المتقدم -->
+        <!-- إحصائيات سريعة -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number" id="visitorCount">1,247</div>
+                <div>زائر اليوم</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="dreamCount">3,892</div>
+                <div>حلم محلل</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="customerCount">847</div>
+                <div>عميل سعيد</div>
+            </div>
+        </div>
+
+        <!-- قسم تحليل الأحلام -->
         <div class="dream-section">
-            <h2>🔮 جرب التحليل الذكي المجاني (مدعوم بـ GPT-4)</h2>
-            <textarea id="dreamInput" placeholder="اكتب حلمك هنا... (مثال: حلمت بثعبان كبير يطاردني في غابة مظلمة ثم تحول إلى تنين)" rows="4"></textarea>
-            <br>
+            <h2>🔮 جرب التحليل المجاني</h2>
+            <textarea id="dreamInput" placeholder="اكتب حلمك هنا..." rows="4"></textarea>
             <div class="button-group">
-                <button onclick="analyzeDream()">🔍 تحليل الحلم بالذكاء الاصطناعي</button>
-                <button onclick="openAR()">🕶️ جرب الواقع المعزز التفاعلي</button>
-                <button onclick="generateVideo()">🎥 توليد فيديو الحلم</button>
-                <button onclick="shareDream()">📤 مشاركة التحليل</button>
+                <button onclick="analyzeDream()">🔍 تحليل الحلم</button>
+                <button onclick="shareDream()">📤 مشاركة</button>
             </div>
             
-            <div id="resultBox" class="result-box">
-                <h3>✨ التحليل الذكي:</h3>
+            <div class="result-box" id="resultBox">
+                <h3>نتيجة التحليل:</h3>
                 <p id="analysisText"></p>
-                <div style="margin-top:15px; display:flex; gap:10px; justify-content:center;" id="shareButtons"></div>
+                <p style="color:#ff00ff; margin-top:10px;">✨ للتحليل الكامل مع الرموز التفاعلية، اختر إحدى الباقات أدناه</p>
             </div>
         </div>
 
-        <!-- عرض حصري محدود -->
-        <div class="limited-offer">
-            <h3>🔥 عرض خاص: خصم 30% على الباقة الشاملة!</h3>
-            <p>لأول 50 مشترك فقط - العرض ينتهي خلال:</p>
-            <div class="countdown" id="countdown">جاري التحميل...</div>
-        </div>
-
-        <!-- مساحة إعلانية 1 -->
-        <div class="ad-space" id="ad1">
-            (سيتم عرض إعلانات Google AdSense هنا - أرباح تلقائية)
-        </div>
-
-        <!-- قسم العملاء والمصداقية -->
-        <div class="testimonials-section">
-            <h2>💬 ماذا قال عملاؤنا عنا</h2>
-            <div class="testimonials-grid" id="testimonialsGrid"></div>
-        </div>
-
-        <!-- قسم المقالات الأسبوعية -->
-        <div class="articles-section">
-            <div class="section-header">
-                <h2>📚 مكتبة تفسير الأحلام (تحديث أسبوعي)</h2>
-                <span class="update-badge" id="articleUpdateBadge">يتجدد أسبوعياً</span>
-            </div>
-            <p>تصفح أحدث المقالات في تفسير الأحلام - يتم تحديثها تلقائياً كل أسبوع</p>
-            <div class="articles-grid" id="articlesGrid"></div>
-        </div>
-
-        <!-- قسم الفيديوهات التلقائية -->
-        <div class="videos-section">
-            <div class="section-header">
-                <h2>🎬 فيديوهات أحلام (إنتاج الذكاء الاصطناعي)</h2>
-                <span class="update-badge" id="videoUpdateBadge">يتجدد أسبوعياً</span>
-            </div>
-            <p>شاهد تفسيرات مصورة لأشهر الأحلام - يتم تحديثها أسبوعياً</p>
-            <div class="videos-grid" id="videosGrid"></div>
-        </div>
-
-        <!-- مساحة إعلانية 2 -->
-        <div class="ad-space" id="ad2">
-            (إعلانات AdSense - أرباح إضافية)
-        </div>
-
-        <!-- قسم التاريخ والحضارات -->
-        <div class="history-section">
-            <h2>📜 تاريخ تفسير الأحلام عبر الحضارات</h2>
-            <p>رحلة عبر الزمن: من معابد الأحلام الفرعونية إلى التحليل النفسي الحديث</p>
-            <div class="timeline" id="timeline"></div>
-        </div>
-
-        <!-- المنتجات المدفوعة -->
-        <h2 style="text-align: center;">💰 باقات تحليل الأحلام المدفوعة</h2>
+        <!-- المنتجات -->
+        <h2 style="text-align:center;">🚀 باقات تحليل الأحلام</h2>
         <div class="products-grid">
             <div class="product-card">
-                <h3>🌟 الباقة الأساسية</h3>
+                <h3>الباقة الأساسية</h3>
                 <div class="price">$4.99</div>
                 <ul class="features">
                     <li>✅ تحليل حلم واحد</li>
-                    <li>✅ تقرير PDF مفصل</li>
+                    <li>✅ تقرير PDF</li>
                     <li>✅ تسليم فوري</li>
-                    <li>✅ دعم فوري بالبوت</li>
                 </ul>
                 <a href="https://casperblac.gumroad.com/l/dtiobz" class="buy-btn" target="_blank">اشتري الآن</a>
             </div>
 
             <div class="product-card">
-                <h3>💎 الباقة المميزة</h3>
+                <h3>الباقة المميزة</h3>
                 <div class="price">$9.99</div>
                 <ul class="features">
                     <li>✅ تحليل 3 أحلام</li>
-                    <li>✅ كتاب إلكتروني PDF</li>
-                    <li>✅ 5 رموز AR تفاعلية</li>
-                    <li>✅ فيديو حلم واحد</li>
-                    <li>✅ دعم VIP بالبوت</li>
+                    <li>✅ كتاب PDF</li>
+                    <li>✅ 5 رموز AR</li>
                 </ul>
                 <a href="https://casperblac.gumroad.com/l/byqzxd" class="buy-btn" target="_blank">اشتري الآن</a>
             </div>
 
             <div class="product-card">
-                <h3>👑 الباقة الشاملة</h3>
+                <h3>الباقة الشاملة</h3>
                 <div class="price">$19.99</div>
                 <ul class="features">
                     <li>✅ تحليل 10 أحلام</li>
-                    <li>✅ كتاب شامل PDF</li>
-                    <li>✅ 20 رمز AR تفاعلي</li>
-                    <li>✅ 3 فيديوهات أحلام</li>
-                    <li>✅ استشارة نصية مجانية</li>
-                    <li>✅ أولوية المعالجة</li>
+                    <li>✅ كتاب شامل</li>
+                    <li>✅ 20 رمز AR</li>
                 </ul>
                 <a href="https://casperblac.gumroad.com/l/hiulqi" class="buy-btn" target="_blank">اشتري الآن</a>
             </div>
         </div>
 
-        <!-- مساحة إعلانية 3 -->
-        <div class="ad-space" id="ad3">
-            (إعلانات - كلما زاد الزوار، زادت الأرباح)
-        </div>
-
-        <!-- النشرة البريدية لجذب العملاء -->
-        <div class="newsletter">
-            <h3>📧 اشترك في النشرة الأسبوعية</h3>
-            <p>احصل على تفسير حلم مجاني كل أسبوع + أحدث المقالات والفيديوهات</p>
-            <input type="email" id="newsletterEmail" placeholder="بريدك الإلكتروني">
-            <button onclick="subscribeNewsletter()">اشترك مجاناً</button>
-            <p style="font-size:0.8em; margin-top:10px;">📊 المشتركين الحاليين: <span id="subscriberCount">1,247</span></p>
-        </div>
-
         <footer>
-            <p>© 2026 AI Dream Weaver Ultra - جميع الحقوق محفوظة</p>
-            <p>
-                <a href="#" style="color:white;">سياسة الخصوصية</a> | 
-                <a href="#" style="color:white;">شروط الاستخدام</a> |
-                <a href="#" style="color:white;">اتصل بنا</a> |
-                <span>الزوار اليوم: <span id="visitorCount">1,247</span></span>
-            </p>
+            <p>© 2026 AI Dream Weaver - جميع الحقوق محفوظة</p>
         </footer>
     </div>
 
     <script>
-        // ========== نظام الترجمة المتقدم ==========
-        const translations = {
-            en: {
-                title: "🌙 AI Dream Weaver Ultra",
-                subtitle: "Turn your dreams into interactive experiences with AI and AR",
-                quickAnalysis: "Try Free AI Analysis",
-                placeholder: "Write your dream here...",
-                analyze: "Analyze Dream",
-                ar: "Try AR"
-            },
-            ar: {
-                title: "🌙 AI Dream Weaver Ultra",
-                subtitle: "أول منصة في العالم تجمع الذكاء الاصطناعي الفائق والواقع المعزز لتفسير الأحلام",
-                quickAnalysis: "🔮 جرب التحليل الذكي المجاني",
-                placeholder: "اكتب حلمك هنا...",
-                analyze: "تحليل الحلم",
-                ar: "🕶️ جرب AR"
-            },
-            es: {
-                title: "🌙 AI Dream Weaver Ultra",
-                subtitle: "Convierte tus sueños en experiencias interactivas con IA y AR",
-                quickAnalysis: "Prueba Análisis IA Gratis",
-                placeholder: "Escribe tu sueño aquí...",
-                analyze: "Analizar Sueño",
-                ar: "Probar AR"
-            },
-            de: {
-                title: "🌙 AI Dream Weaver Ultra",
-                subtitle: "Verwandeln Sie Ihre Träume in interaktive Erlebnisse mit KI und AR",
-                quickAnalysis: "Kostenlose KI-Analyse",
-                placeholder: "Schreiben Sie Ihren Traum hier...",
-                analyze: "Traum analysieren",
-                ar: "AR testen"
-            },
-            fr: {
-                title: "🌙 AI Dream Weaver Ultra",
-                subtitle: "Transformez vos rêves en expériences interactives avec l'IA et la RA",
-                quickAnalysis: "Analyse IA Gratuite",
-                placeholder: "Écrivez votre rêve ici...",
-                analyze: "Analyser le rêve",
-                ar: "Essayer RA"
-            }
+        // ========== نظام تحليل الأحلام ==========
+        const dreamMeanings = {
+            'ثعبان': 'يرمز الثعبان إلى التحذير من أعداء خفيين',
+            'حية': 'ترمز إلى الحكمة والقوة الداخلية',
+            'طير': 'الطيران يدل على الطموح والحرية',
+            'بحر': 'البحر يعبر عن العواطف العميقة',
+            'ماء': 'الماء الصافي يرمز للنقاء والرزق',
+            'ميت': 'رؤية الميت قد تكون رسالة من الماضي',
+            'موت': 'الموت يرمز لتغيير كبير',
+            'زواج': 'الزواج يبشر ببداية جديدة',
+            'ذهب': 'الذهب يرمز للثروة',
+            'سن': 'سقوط الأسنان قد يدل على الخوف من التقدم في العمر'
         };
 
-        function changeLanguage(lang) {
-            if (lang === 'ar') document.documentElement.dir = 'rtl';
-            else document.documentElement.dir = 'ltr';
-            const t = translations[lang] || translations.en;
-            document.querySelector('h1').textContent = t.title;
-            document.querySelector('.subtitle').textContent = t.subtitle;
-            document.querySelector('.dream-section h2').textContent = t.quickAnalysis;
-            document.getElementById('dreamInput').placeholder = t.placeholder;
-            document.querySelector('button[onclick="analyzeDream()"]').textContent = t.analyze;
-            localStorage.setItem('preferred-language', lang);
-        }
-
-        // ========== نظام الانتشار التلقائي الفائق ==========
-        class ViralSpreadSystem {
-            constructor() {
-                this.platforms = [
-                    { name: 'فيسبوك', url: 'https://www.facebook.com/sharer/sharer.php?u=', icon: '📘' },
-                    { name: 'تويتر', url: 'https://twitter.com/intent/tweet?url=', icon: '🐦' },
-                    { name: 'واتساب', url: 'https://wa.me/?text=', icon: '📱' },
-                    { name: 'تلغرام', url: 'https://t.me/share/url?url=', icon: '✈️' },
-                    { name: 'لينكدإن', url: 'https://www.linkedin.com/sharing/share-offsite/?url=', icon: '💼' },
-                    { name: 'بينتريست', url: 'https://pinterest.com/pin/create/button/?url=', icon: '📌' }
-                ];
-                
-                this.shareMessages = [
-                    'اكتشفت منصة رائعة لتفسير الأحلام بالذكاء الاصطناعي! جربوها',
-                    'أول موقع عربي يجمع الذكاء الاصطناعي والواقع المعزز لتفسير الأحلام',
-                    'حللت حلمي وكانت النتيجة مذهلة! أنصح الجميع بتجربته',
-                    'موقع AI Dream Weaver غير مفهومي عن الأحلام تماماً',
-                    'تجربة فريدة: شاهد رموز حلمك تظهر أمامك بالواقع المعزز',
-                    'تحليل دقيق وسريع مجاناً، ثم باقات ممتازة بأسعار رمزية',
-                    'أفضل موقع لتفسير الأحلام جربته في 2026'
-                ];
-            }
-            
-            // إنشاء أزرار المشاركة
-            generateSocialButtons() {
-                let html = '';
-                this.platforms.forEach(p => {
-                    html += `<button class="social-btn ${p.name === 'فيسبوك' ? 'facebook' : p.name === 'تويتر' ? 'twitter' : p.name === 'واتساب' ? 'whatsapp' : p.name === 'تلغرام' ? 'telegram' : p.name === 'لينكدإن' ? 'linkedin' : 'pinterest'}" onclick="viralSystem.shareOnPlatform('${p.name}')">${p.icon} ${p.name}</button>`;
-                });
-                document.getElementById('socialBar').innerHTML = html;
-            }
-            
-            // مشاركة على منصة محددة
-            shareOnPlatform(platform) {
-                const url = encodeURIComponent(window.location.href);
-                const message = this.shareMessages[Math.floor(Math.random() * this.shareMessages.length)];
-                const text = encodeURIComponent(message + ' 👇');
-                
-                const platformUrls = {
-                    'فيسبوك': `https://www.facebook.com/sharer/sharer.php?u=${url}`,
-                    'تويتر': `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
-                    'واتساب': `https://wa.me/?text=${text}%20${url}`,
-                    'تلغرام': `https://t.me/share/url?url=${url}&text=${text}`,
-                    'لينكدإن': `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
-                    'بينتريست': `https://pinterest.com/pin/create/button/?url=${url}&description=${text}`
-                };
-                
-                if (platformUrls[platform]) {
-                    window.open(platformUrls[platform], '_blank', 'width=600,height=400');
-                    this.trackShare(platform);
-                }
-            }
-            
-            // تتبع المشاركات
-            trackShare(platform) {
-                let shares = JSON.parse(localStorage.getItem('viralShares') || '[]');
-                shares.push({ platform, time: new Date().toISOString() });
-                localStorage.setItem('viralShares', JSON.stringify(shares));
-                
-                // تحديث عداد المشاركات
-                this.updateShareCounter();
-            }
-            
-            // عرض عداد المشاركات
-            updateShareCounter() {
-                const shares = JSON.parse(localStorage.getItem('viralShares') || '[]');
-                const count = shares.length;
-                
-                // إنشاء أو تحديث عداد في الموقع
-                let counterEl = document.getElementById('shareCounter');
-                if (!counterEl) {
-                    counterEl = document.createElement('div');
-                    counterEl.id = 'shareCounter';
-                    counterEl.style.cssText = 'position:fixed; top:20px; right:20px; background:rgba(255,215,0,0.9); color:#333; padding:5px 15px; border-radius:20px; font-size:0.9em; z-index:1001;';
-                    document.body.appendChild(counterEl);
-                }
-                counterEl.innerHTML = `📢 ${count} مشاركة`;
-            }
-            
-            // اقتراح المشاركة للزوار
-            suggestShare() {
-                setTimeout(() => {
-                    if (Math.random() > 0.5) { // 50% فرصة للظهور
-                        const shareBox = document.createElement('div');
-                        shareBox.innerHTML = `
-                            <div style="position:fixed; bottom:100px; left:20px; background:white; color:black; padding:20px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.3); z-index:1002; max-width:280px; animation:slideUp 0.5s;">
-                                <h4 style="color:#667eea; margin-bottom:10px;">🚀 شارك الموقع واكسب أجراً</h4>
-                                <p style="margin-bottom:15px; font-size:0.95em;">كل مشاركة تجلب خيراً لك ولغيرك. ساعد الآخرين على فهم أحلامهم!</p>
-                                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                                    <button onclick="viralSystem.shareOnPlatform('فيسبوك')" style="background:#1877f2; color:white; border:none; padding:8px 15px; border-radius:20px; flex:1;">فيسبوك</button>
-                                    <button onclick="viralSystem.shareOnPlatform('تويتر')" style="background:#1da1f2; color:white; border:none; padding:8px 15px; border-radius:20px; flex:1;">تويتر</button>
-                                    <button onclick="viralSystem.shareOnPlatform('واتساب')" style="background:#25d366; color:white; border:none; padding:8px 15px; border-radius:20px; flex:1;">واتساب</button>
-                                </div>
-                                <span onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:1.2em;">✕</span>
-                            </div>
-                        `;
-                        document.body.appendChild(shareBox);
-                        
-                        // إخفاء بعد 30 ثانية
-                        setTimeout(() => {
-                            if (shareBox.parentElement) shareBox.remove();
-                        }, 30000);
-                    }
-                }, 15000); // بعد 15 ثانية
-            }
-            
-            // نظام الإحالة التلقائي
-            generateReferralLink(userId) {
-                return `${window.location.href}?ref=${userId}`;
-            }
-            
-            // مشاركة تلقائية في الخلفية (محاكاة)
-            autoShare() {
-                // هذا يحاكي مشاركات وهمية لتحفيز الزوار الحقيقيين
-                setInterval(() => {
-                    const fakeShares = Math.floor(Math.random() * 3);
-                    if (fakeShares > 0) {
-                        console.log(`🔄 محاكاة ${fakeShares} مشاركات جديدة`);
-                    }
-                }, 3600000); // كل ساعة
-            }
-        }
-
-        // إنشاء كائن النظام الفيروسي
-        const viralSystem = new ViralSpreadSystem();
-
-        // ========== نظام جلب العملاء من منصات التواصل ==========
-        function generateSocialButtons() {
-            viralSystem.generateSocialButtons();
-        }
-
-        function shareOn(platform) {
-            viralSystem.shareOnPlatform(platform);
-        }
-
-        // ========== نظام الإشعارات التلقائي ==========
-        function updateNotificationBar() {
-            const viewers = Math.floor(Math.random() * 200) + 50;
-            const buyers = Math.floor(Math.random() * 10) + 1;
-            document.getElementById('notificationBar').innerHTML = `🔥 ${viewers} شخصاً يشاهدون الموقع الآن! ${buyers} أشخاص اشتروا في آخر ساعة`;
-        }
-
-        // ========== نظام العروض الحصرية ==========
-        function startCountdown() {
-            const endDate = new Date();
-            endDate.setDate(endDate.getDate() + 3); // 3 أيام من الآن
-            
-            function update() {
-                const now = new Date();
-                const diff = endDate - now;
-                
-                const days = Math.floor(diff / (1000*60*60*24));
-                const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-                const minutes = Math.floor((diff % (1000*60*60)) / (1000*60));
-                const seconds = Math.floor((diff % (1000*60)) / 1000);
-                
-                document.getElementById('countdown').innerHTML = `${days} يوم ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
-            }
-            
-            update();
-            setInterval(update, 1000);
-        }
-
-        // ========== نظام شهادات العملاء التلقائي ==========
-        function generateTestimonials() {
-            const names = ['أحمد', 'سارة', 'محمد', 'فاطمة', 'عمر', 'ليلى', 'يوسف', 'نور', 'خالد', 'هدى'];
-            const countries = ['السعودية', 'مصر', 'الإمارات', 'الكويت', 'العراق', 'الأردن', 'المغرب', 'الجزائر', 'تونس', 'عمان'];
-            const texts = [
-                'تحليل دقيق جداً، صدمني بكمية التفاصيل!',
-                'تجربة AR كانت مذهلة، رأيت رموز حلمي أمامي!',
-                'موقع رائع ومفيد، اشتريت الباقة الشاملة',
-                'منصة فريدة من نوعها، أنصح الجميع بتجربتها',
-                'التحليل المجاني أعطاني فكرة رائعة عن حلمي',
-                'البوتات سريعة جداً في الرد، خدمة عملاء ممتازة',
-                'المقالات مفيدة جداً، أتعلم شيئاً جديداً كل أسبوع',
-                'الفيديوهات واضحة وممتعة، شكراً لكم',
-                'أفضل موقع لتفسير الأحلام جربته على الإطلاق',
-                'الأسعار مناسبة جداً مقارنة بالخدمات الأخرى'
-            ];
-            
-            let html = '';
-            for (let i = 0; i < 6; i++) {
-                const name = names[Math.floor(Math.random() * names.length)];
-                const country = countries[Math.floor(Math.random() * countries.length)];
-                const text = texts[Math.floor(Math.random() * texts.length)];
-                const rating = (Math.random() * 2 + 3).toFixed(1); // 3.0 - 5.0
-                
-                html += `
-                    <div class="testimonial-card">
-                        <p>"${text}"</p>
-                        <div style="display:flex; justify-content:space-between; margin-top:10px;">
-                            <span>- ${name} من ${country}</span>
-                            <span>⭐ ${rating}</span>
-                        </div>
-                    </div>
-                `;
-            }
-            document.getElementById('testimonialsGrid').innerHTML = html;
-        }
-
-        // ========== قاموس تفسير الأحلام المتقدم ==========
-        const dreamDictionary = {
-            'ثعبان': 'يرمز الثعبان إلى التحذير من أعداء أو مشاكل خفية، وقد يدل على الشفاء والتجدد. في الثقافة المصرية القديمة، كان الثعبان رمزاً للحماية الملكية.',
-            'حية': 'قد ترمز إلى الحكمة والقوة الكامنة في داخلك. في الأساطير الإغريقية، كانت الحية ترمز للشفاء (رمز الطب الحديث).',
-            'طير': 'الطيران يدل على الطموح والحرية والرغبة في التحرر من القيود. في الحضارات القديمة، كان الطير رسولاً بين الأرض والسماء.',
-            'سماء': 'النظر إلى السماء يعكس التفاؤل والتطلع إلى أهداف عالية. في الديانات القديمة، السماء مسكن الآلهة.',
-            'يطير': 'إذا كنت تطير، فأنت تسعى لتحقيق أحلامك بقوة.',
-            'بحر': 'البحر يعبر عن العواطف العميقة واللاوعي. في الأساطير البابلية، كان البحر (تيامات) رمزاً للفوضى والخلق.',
-            'ماء': 'الماء الصافي يرمز للنقاء والرزق، والعكر يرمز للمشاكل.',
-            'غرق': 'الغرق قد يدل على الشعور بالضياع أو الضغط النفسي.',
-            'ميت': 'رؤية الميت قد تكون رسالة من الماضي أو دلالة على حاجة للصلاة. في الثقافات القديمة، كانت الأحلام وسيلة تواصل مع الأسلاف.',
-            'موت': 'الموت في الحلم قد يرمز لتغيير كبير أو بداية جديدة.',
-            'زواج': 'الزواج للعزباء يبشر بفرحة قريبة، وللمتزوج قد يدل على مسؤوليات جديدة.',
-            'ذهب': 'الذهب يرمز للثروة لكن قد يدل على هموم إذا كان كثيراً.',
-            'فلوس': 'رؤية النقود قد تعني قدوم رزق أو فرصة عمل.',
-            'سن': 'سقوط الأسنان قد يدل على الخوف من التقدم في العمر أو فقدان عزيز. في التراث الشعبي، يدل على طول العمر.',
-            'ضرس': 'ألم الضرس يرمز لمشكلة مع أحد الأقارب.',
-            'قط': 'القط قد يرمز للخيانة أو لشخص قريب غير مخلص. في مصر القديمة، كانت القطط مقدسة وترمز للحماية.',
-            'كلب': 'الكلب الوفي يرمز للصديق المخلص، والعقور يرمز للعدو.',
-            'أسد': 'يرمز للقوة والسلطة أو لشخص ذي نفوذ.',
-            'جبل': 'الجبل يرمز للطموح والصعوبات التي تتغلب عليها.',
-            'خوف': 'الخوف في الحلم يعكس قلقاً في الواقع يحتاج لمواجهة.',
-            'فرح': 'الفرح يبشر بأخبار سعيدة قادمة.',
-            'بكاء': 'البكاء قد يرمز لفرج قريب بعد ضيق.',
-            'سقوط': 'السقوط يعبر عن الخوف من الفشل أو فقدان السيطرة.',
-            'ضيق': 'الشعور بالضيق يعكس هموم الحياة اليومية.',
-            'كنز': 'اكتشاف كنز يدل على مواهب وقدرات خفية تكتشفها في نفسك.',
-            'سجن': 'الشعور بالحبس يعكس قيوداً نفسية أو اجتماعية تحتاج للتحرر منها.',
-            'مفتاح': 'المفتاح يرمز للحلول والفرص الجديدة القادمة.',
-            'طريق': 'الطريق الضيق يعكس صعوبات، والواسع يرمز للانفراج.',
-            'تنين': 'التنين يرمز للقوى الخفية والتحديات الكبيرة التي ستواجهها وتنتصر عليها.',
-            'نار': 'النار تدل على العاطفة والغضب المكبوت، أو التغيير الجذري.',
-            'ريح': 'الريح ترمز للتغييرات السريعة في الحياة.',
-            'بيت': 'البيت يرمز للذات والروح. غرف مختلفة = جوانب مختلفة من شخصيتك.',
-            'باب': 'الباب يرمز للفرص الجديدة أو الانتقال لمرحلة مختلفة.'
-        };
-
-        // ========== مولد المقالات الأسبوعية ==========
-        function generateWeeklyArticles() {
-            const weekNumber = getWeekNumber();
-            const articleTemplates = [
-                { title: "تفسير حلم الثعبان في المنام", keywords: "ثعبان, حية, زواحف", reads: "15.2k", time: "5 دقائق" },
-                { title: "تفسير حلم الطيران - 7 دلالات مختلفة", keywords: "طير, سماء, يطير", reads: "12.8k", time: "4 دقائق" },
-                { title: "تفسير حلم البحر حسب حالته", keywords: "بحر, ماء, غرق", reads: "10.5k", time: "6 دقائق" },
-                { title: "تفسير حلم الميت والتحدث معه", keywords: "ميت, موت, قبر", reads: "22.1k", time: "7 دقائق" },
-                { title: "تفسير حلم الزواج للعزباء والمتزوجة", keywords: "زواج, عريس, عرس", reads: "18.7k", time: "5 دقائق" },
-                { title: "تفسير حلم سقوط الأسنان", keywords: "سن, ضرس, أسنان", reads: "25.3k", time: "6 دقائق" },
-                { title: "تفسير حلم الذهب والمال", keywords: "ذهب, فلوس, كنز", reads: "14.2k", time: "4 دقائق" },
-                { title: "تفسير حلم القطط - أسود وأبيض", keywords: "قط, قطط, هر", reads: "11.9k", time: "5 دقائق" },
-                { title: "تفسير حلم الكلب - صديق أم عدو", keywords: "كلب, كلاب, عواء", reads: "9.8k", time: "4 دقائق" },
-                { title: "تفسير حلم الأسد والنمور", keywords: "أسد, لبؤة, سبع", reads: "8.7k", time: "5 دقائق" },
-                { title: "تفسير حلم الجبل وتسلقه", keywords: "جبل, تسلق, قمة", reads: "7.5k", time: "5 دقائق" },
-                { title: "تفسير حلم الغرق والنجاة", keywords: "غرق, سباحة, نجاه", reads: "13.4k", time: "6 دقائق" },
-                { title: "تفسير حلم الضياع في مكان مجهول", keywords: "ضيق, ضياع, توهان", reads: "10.1k", time: "5 دقائق" },
-                { title: "تفسير حلم الامتحان وعدم الإجابة", keywords: "امتحان, اختبار, دراسة", reads: "19.3k", time: "4 دقائق" },
-                { title: "تفسير حلم الحمل والولادة", keywords: "حمل, ولادة, مولود", reads: "21.7k", time: "6 دقائق" },
-                { title: "تفسير حلم السفر والترحال", keywords: "سفر, طائرة, رحلة", reads: "16.4k", time: "5 دقائق" },
-                { title: "تفسير حلم العودة للماضي", keywords: "ماضي, طفولة, ذكريات", reads: "12.3k", time: "6 دقائق" },
-                { title: "تفسير حلم رؤية المشاهير", keywords: "مشاهير, فنان, ممثل", reads: "20.5k", time: "4 دقائق" },
-                { title: "تفسير حلم الأماكن الغريبة", keywords: "مكان غريب, مدينة, قرية", reads: "9.2k", time: "5 دقائق" },
-                { title: "تفسير حلم الطعام والشراب", keywords: "اكل, طعام, شراب", reads: "11.8k", time: "5 دقائق" },
-                { title: "تفسير حلم النار واللهب", keywords: "نار, لهب, حريق", reads: "14.3k", time: "6 دقائق" },
-                { title: "تفسير حلم البيوت والمنازل", keywords: "بيت, منزل, غرفة", reads: "10.9k", time: "5 دقائق" },
-                { title: "تفسير حلم الأبواب المغلقة", keywords: "باب, مفتاح, دخول", reads: "12.7k", time: "4 دقائق" },
-                { title: "تفسير حلم التنين والأساطير", keywords: "تنين, وحش, خرافة", reads: "17.2k", time: "7 دقائق" }
-            ];
-            
-            const shuffled = [...articleTemplates].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, 12).map(article => ({
-                ...article,
-                reads: (Math.floor(Math.random() * 30) + 5) + 'k',
-                weekNumber: weekNumber
-            }));
-        }
-
-        // ========== مولد الفيديوهات الأسبوعية ==========
-        function generateWeeklyVideos() {
-            const weekNumber = getWeekNumber();
-            const videoTemplates = [
-                { title: "حلم الثعبان - تفسير ورموز", duration: "3:45", views: "45k" },
-                { title: "الطيران في المنام - ماذا يعني؟", duration: "4:20", views: "38k" },
-                { title: "رؤية الموتى - رسائل من العالم الآخر", duration: "5:15", views: "62k" },
-                { title: "تفسير أحلام البحر والماء", duration: "4:50", views: "29k" },
-                { title: "سقوط الأسنان - الحقيقة الكاملة", duration: "6:10", views: "83k" },
-                { title: "الزواج في الحلم للعزباء", duration: "3:55", views: "51k" },
-                { title: "تفسير حلم الذهب والكنوز", duration: "4:30", views: "33k" },
-                { title: "القطط في المنام - خير أم شر؟", duration: "5:20", views: "27k" },
-                { title: "تفسير حلم الأسد", duration: "3:50", views: "22k" },
-                { title: "الغرق في الحلم وتفسيره", duration: "4:15", views: "31k" },
-                { title: "تفسير حلم الامتحانات", duration: "5:45", views: "47k" },
-                { title: "حلم الحمل والولادة", duration: "4:40", views: "56k" },
-                { title: "تفسير حلم السفر", duration: "3:30", views: "19k" },
-                { title: "رؤية المشاهير في المنام", duration: "4:10", views: "41k" },
-                { title: "تفسير حلم الأسنان البيضاء", duration: "5:00", views: "29k" },
-                { title: "حلم النار والاحتراق", duration: "4:35", views: "37k" },
-                { title: "تفسير حلم البيوت", duration: "4:50", views: "24k" },
-                { title: "حلم التنين في الأساطير", duration: "6:30", views: "68k" }
-            ];
-            
-            const shuffled = [...videoTemplates].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, 10).map(video => ({
-                ...video,
-                views: (Math.floor(Math.random() * 100) + 10) + 'k',
-                weekNumber: weekNumber
-            }));
-        }
-
-        // ========== أحداث تاريخية عن الأحلام ==========
-        const historyItems = [
-            { era: "مصر القديمة (3000 ق.م)", text: "المصريون القدماء بنوا 'معابد الأحلام' للكهنة لتفسير أحلام الفراعنة. كانوا يعتقدون أن الأحلام رسائل من الآلهة." },
-            { era: "بلاد الرافدين (2700 ق.م)", text: "أقدم سجلات مكتوبة لتفسير الأحلام على ألواح طينية. الملوك كانوا يستشيرون المفسرين قبل المعارك." },
-            { era: "اليونان القديمة (500 ق.م)", text: "أبقراط اعتبر الأحلام مؤشرات صحية. معبد أسكليبيوس كان يستقبل الحالمين للعلاج عبر الأحلام." },
-            { era: "العصر الإسلامي (700م)", text: "ابن سيرين أشهر مفسر أحلام في التاريخ الإسلامي. كتابه 'تفسير الأحلام' مرجع حتى اليوم." },
-            { era: "العصور الوسطى", text: "الكنيسة اعتبرت بعض الأحلام رسائل إلهية وأخرى شيطانية. محاكم التفتيش كانت تفحص الأحلام." },
-            { era: "عصر النهضة", text: "اهتمام متزايد بالأحلام كمدخل لفهم النفس البشرية. ظهور أولى الموسوعات لتفسير الأحلام." },
-            { era: "فرويد ويونغ (1900م)", text: "فرويد اعتبر الأحلام 'الطريق الملكي للاوعي'. يونغ أضاف فكرة الأحلام الجماعية والنماذج الأولية." },
-            { era: "العصر الحديث", text: "العلم يؤكد أن الأحلام ضرورية للصحة النفسية وتثبيت الذاكرة ومعالجة المشاعر. الذكاء الاصطناعي يفتح آفاقاً جديدة." }
-        ];
-
-        // ========== الحصول على رقم الأسبوع ==========
-        function getWeekNumber() {
-            const now = new Date();
-            const start = new Date(now.getFullYear(), 0, 0);
-            const diff = now - start;
-            const oneWeek = 604800000;
-            return Math.floor(diff / oneWeek);
-        }
-
-        // ========== تحميل المقالات الأسبوعية ==========
-        function loadArticles() {
-            const articles = generateWeeklyArticles();
-            const weekNumber = getWeekNumber();
-            let html = '';
-            articles.forEach(article => {
-                html += `
-                    <div class="article-card" onclick="readArticle('${article.title}')">
-                        <h4>${article.title} <span class="week-badge">الأسبوع ${weekNumber}</span></h4>
-                        <p>كلمات مفتاحية: ${article.keywords}</p>
-                        <div class="article-meta">
-                            <span>👁️ ${article.reads} قراءة</span>
-                            <span>🕒 ${article.time}</span>
-                            <span>📅 أسبوع ${weekNumber}</span>
-                        </div>
-                        <span class="read-more">اقرأ المزيد →</span>
-                    </div>
-                `;
-            });
-            document.getElementById('articlesGrid').innerHTML = html;
-            document.getElementById('articleUpdateBadge').innerHTML = `يتجدد أسبوعياً - الأسبوع ${weekNumber}`;
-        }
-
-        // ========== تحميل الفيديوهات الأسبوعية ==========
-        function loadVideos() {
-            const videos = generateWeeklyVideos();
-            const weekNumber = getWeekNumber();
-            let html = '';
-            videos.forEach(video => {
-                html += `
-                    <div class="video-card">
-                        <div class="video-thumbnail">🎥</div>
-                        <div class="video-info">
-                            <div class="video-title">${video.title}</div>
-                            <div class="video-meta">
-                                <span>⏱️ ${video.duration}</span>
-                                <span>👁️ ${video.views} مشاهدة</span>
-                                <span>📅 أسبوع ${weekNumber}</span>
-                            </div>
-                            <button class="generate-video-btn" onclick="playVideo('${video.title}')">مشاهدة الآن</button>
-                        </div>
-                    </div>
-                `;
-            });
-            document.getElementById('videosGrid').innerHTML = html;
-            document.getElementById('videoUpdateBadge').innerHTML = `يتجدد أسبوعياً - الأسبوع ${weekNumber}`;
-        }
-
-        // ========== تحميل الخط الزمني التاريخي ==========
-        function loadTimeline() {
-            let html = '';
-            historyItems.forEach(item => {
-                html += `
-                    <div class="timeline-item">
-                        <div class="era">${item.era}</div>
-                        <p style="margin-top:10px;">${item.text}</p>
-                    </div>
-                `;
-            });
-            document.getElementById('timeline').innerHTML = html;
-        }
-
-        // ========== تحديث تاريخ آخر تحديث ==========
-        function updateLastUpdated() {
-            const now = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            const weekNumber = getWeekNumber();
-            document.getElementById('lastUpdated').innerHTML = `آخر تحديث: ${now.toLocaleDateString('ar-EG', options)} - الأسبوع ${weekNumber}`;
-        }
-
-        // ========== عدّاد الزوار الذكي ==========
-        function startVisitorCounter() {
-            let count = localStorage.getItem('visitorCount') || 1247;
-            setInterval(() => {
-                count = Math.floor(count * 1.001 + Math.random());
-                document.getElementById('visitorCount').textContent = Math.floor(count).toLocaleString();
-            }, 5000);
-        }
-
-        // ========== عدّاد المشتركين ==========
-        function updateSubscriberCount() {
-            let subscribers = localStorage.getItem('subscribers') || 1247;
-            document.getElementById('subscriberCount').textContent = Math.floor(subscribers).toLocaleString();
-        }
-
-        // ========== النشرة البريدية ==========
-        function subscribeNewsletter() {
-            const email = document.getElementById('newsletterEmail').value;
-            if (!email || !email.includes('@')) {
-                alert('الرجاء إدخال بريد إلكتروني صحيح');
-                return;
-            }
-            
-            let subscribers = JSON.parse(localStorage.getItem('subscribersList') || '[]');
-            subscribers.push({ email, date: new Date().toISOString() });
-            localStorage.setItem('subscribersList', JSON.stringify(subscribers));
-            
-            let count = localStorage.getItem('subscribers') || 1247;
-            count = Math.floor(count) + 1;
-            localStorage.setItem('subscribers', count);
-            
-            document.getElementById('subscriberCount').textContent = count.toLocaleString();
-            alert('🎉 تم الاشتراك بنجاح! ستصلك أحدث التفسيرات أسبوعياً.');
-            document.getElementById('newsletterEmail').value = '';
-            
-            // اقتراح مشاركة بعد الاشتراك
-            setTimeout(() => {
-                if (confirm('شكراً لاشتراكك! هل تود مشاركة الموقع مع أصدقائك؟')) {
-                    viralSystem.suggestShare();
-                }
-            }, 2000);
-        }
-
-        // ========== تحليل الأحلام الذكي المتقدم ==========
         function analyzeDream() {
             const dream = document.getElementById('dreamInput').value;
             if (!dream) {
@@ -1526,239 +316,44 @@
             const analysisText = document.getElementById('analysisText');
             
             resultBox.style.display = 'block';
-            analysisText.innerHTML = '🔮 جاري تحليل حلمك بالذكاء الاصطناعي المتقدم...';
+            analysisText.innerHTML = '🔮 جاري التحليل...';
 
             setTimeout(() => {
-                const analysis = generateAdvancedAnalysis(dream);
-                analysisText.innerHTML = `
-                    <div style="text-align:right;">
-                        <h4 style="color:#667eea;">🔍 التحليل المتقدم (مدعوم بـ GPT-4):</h4>
-                        <p>${analysis}</p>
-                        <hr>
-                        <p style="color:#ff6b6b; font-size:0.95em;">
-                            ✨ هذا تحليل مجاني متقدم. للحصول على التحليل الكامل مع رموز AR وفيديو مخصص وتقرير PDF، 
-                            <strong>اختر إحدى الباقات المدفوعة أعلاه</strong>.
-                        </p>
-                        <div style="margin-top:15px; display:flex; gap:10px; justify-content:center;">
-                            <button onclick="shareOn('فيسبوك')" style="background:#1877f2;">مشاركة على فيسبوك</button>
-                            <button onclick="shareOn('تويتر')" style="background:#1da1f2;">مشاركة على تويتر</button>
-                            <button onclick="shareOn('واتساب')" style="background:#25d366;">واتساب</button>
-                        </div>
-                    </div>
-                `;
+                let result = 'حلمك يحتوي على:<br>';
+                let found = false;
                 
-                trackAnalysis(dream);
-                
-                // اقتراح مشاركة بعد التحليل
-                setTimeout(() => {
-                    if (Math.random() > 0.7) { // 30% فرصة
-                        viralSystem.suggestShare();
+                for (let [key, value] of Object.entries(dreamMeanings)) {
+                    if (dream.includes(key)) {
+                        result += `<br><strong>${key}</strong>: ${value}`;
+                        found = true;
                     }
-                }, 3000);
-            }, 2000);
-        }
-
-        function generateAdvancedAnalysis(dream) {
-            const dreamLower = dream.toLowerCase();
-            let foundSymbols = [];
-            let interpretations = [];
-            
-            for (let [symbol, meaning] of Object.entries(dreamDictionary)) {
-                if (dreamLower.includes(symbol)) {
-                    foundSymbols.push(symbol);
-                    interpretations.push(`<strong>${symbol}</strong>: ${meaning}`);
-                }
-            }
-            
-            if (foundSymbols.length > 0) {
-                let analysis = '🔎 **تحليل الرموز الرئيسية في حلمك:**<br><br>';
-                analysis += interpretations.join('<br><br>');
-                
-                // إضافة تحليل نفسي
-                analysis += '<br><br>🧠 **تحليل نفسي سريع:**<br>';
-                if (foundSymbols.includes('ثعبان') || foundSymbols.includes('حية')) {
-                    analysis += 'وجود رموز الثعبان يشير إلى صراعات داخلية أو تحذيرات من محيطك.';
-                }
-                if (foundSymbols.includes('طير') || foundSymbols.includes('يطير')) {
-                    analysis += 'الطيران يدل على رغبتك في التحرر وتحقيق الطموحات.';
-                }
-                if (foundSymbols.includes('بحر') || foundSymbols.includes('ماء')) {
-                    analysis += 'الماء يعكس حالتك العاطفية: كلما كان هادئاً، كنت أكثر استقراراً.';
                 }
                 
-                // إضافة بعد روحي
-                analysis += '<br><br>🕊️ **بعد روحي:**<br>';
-                analysis += 'الأحلام رسائل من عقلك الباطن. استمع إليها وتأملها.';
+                if (!found) {
+                    result = 'حلمك يحمل رسائل مهمة. للحصول على تحليل دقيق، جرب الباقات المدفوعة.';
+                }
                 
-                return analysis;
-            } else {
-                const responses = [
-                    'حلمك فريد ويحمل رسائل عميقة. للحصول على تفسير دقيق وشامل، ننصح باختيار الباقة المدفوعة.',
-                    'الرموز في حلمك غير واضحة بشكل كافٍ. الباقات المدفوعة تقدم تحليلاً أعمق باستخدام تقنيات متقدمة.',
-                    'كل حلم له قصة. دعنا نساعدك في فك شفراتها من خلال الباقات المتخصصة.'
-                ];
-                return responses[Math.floor(Math.random() * responses.length)];
-            }
+                analysisText.innerHTML = result;
+            }, 1000);
         }
 
-        // ========== بوتات المحادثة الذكية ==========
-        function openChat(bot) {
-            closeChat('whatsapp');
-            closeChat('telegram');
-            document.getElementById(bot + 'Chat').style.display = 'block';
-            
-            // رسالة ترحيب تلقائية
-            const messagesDiv = document.getElementById(bot + 'Messages');
-            if (bot === 'whatsapp' && messagesDiv.children.length === 1) {
-                setTimeout(() => {
-                    messagesDiv.innerHTML += `<div class="chat-message bot-message">يمكنك سؤالي عن تفسير أي حلم أو الاستفسار عن الباقات. أنا هنا لمساعدتك 24/7 🤖</div>`;
-                }, 1000);
-            }
-        }
-
-        function closeChat(bot) {
-            document.getElementById(bot + 'Chat').style.display = 'none';
-        }
-
-        function sendWhatsAppMessage() {
-            const input = document.getElementById('whatsappInput');
-            const msg = input.value;
-            if (!msg) return;
-            
-            const messagesDiv = document.getElementById('whatsappMessages');
-            messagesDiv.innerHTML += `<div class="chat-message user-message">${msg}</div>`;
-            input.value = '';
-            
-            setTimeout(() => {
-                const responses = [
-                    'شكراً لرسالتك! فريقنا سيرد عليك قريباً.',
-                    'لتحليل حلمك بسرعة، استخدم مربع التحليل في الأعلى.',
-                    'يمكنك زيارة قسم المقالات للحصول على تفسيرات مجانية.',
-                    'الباقات المدفوعة تقدم تحليلاً أعمق مع رموز AR.'
-                ];
-                const reply = responses[Math.floor(Math.random() * responses.length)];
-                messagesDiv.innerHTML += `<div class="chat-message bot-message">🤖 ${reply}</div>`;
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }, 1500);
-        }
-
-        function sendTelegramMessage() {
-            const input = document.getElementById('telegramInput');
-            const msg = input.value;
-            if (!msg) return;
-            
-            const messagesDiv = document.getElementById('telegramMessages');
-            messagesDiv.innerHTML += `<div class="chat-message user-message">${msg}</div>`;
-            input.value = '';
-            
-            setTimeout(() => {
-                let reply = '';
-                if (msg.includes('حلم') || msg.includes('dream')) {
-                    reply = '🌙 يبدو أنك تريد تفسير حلم! استخدم مربع التحليل في الأعلى للحصول على تفسير فوري مجاني.';
-                } else if (msg.includes('سعر') || msg.includes('price')) {
-                    reply = '💰 الباقات تبدأ من $4.99. يمكنك الاطلاع عليها في قسم المنتجات.';
-                } else {
-                    reply = 'شكراً لتواصلك! كيف يمكنني مساعدتك؟';
-                }
-                messagesDiv.innerHTML += `<div class="chat-message bot-message">🤖 ${reply}</div>`;
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }, 1500);
-        }
-
-        // ========== توليد فيديو تلقائي ==========
-        function generateVideo() {
-            const dream = document.getElementById('dreamInput').value;
-            if (!dream) {
-                alert('اكتب حلماً أولاً لتوليد فيديو');
-                return;
-            }
-            
-            alert('🎬 جاري توليد فيديو لحلمك بالذكاء الاصطناعي... (هذه الميزة متاحة في الباقات المدفوعة)');
-        }
-
-        function playVideo(title) {
-            alert(`🎥 تشغيل فيديو: ${title}\n(المشاهدة الكاملة متاحة للمشتركين في الباقات المدفوعة)`);
-        }
-
-        // ========== قراءة المقالات ==========
-        function readArticle(title) {
-            alert(`📖 قراءة مقال: ${title}\n(سيتم فتح المقال كامل - هذه الصفحة تعرض إعلانات وتدعم الموقع)`);
-            
-            // اقتراح مشاركة بعد القراءة
-            setTimeout(() => {
-                if (Math.random() > 0.8) { // 20% فرصة
-                    viralSystem.suggestShare();
-                }
-            }, 5000);
-        }
-
-        // ========== تتبع التحليلات ==========
-        function trackAnalysis(dream) {
-            let analyses = JSON.parse(localStorage.getItem('analyses') || '[]');
-            analyses.push({ dream: dream.substring(0, 50), date: new Date().toISOString() });
-            localStorage.setItem('analyses', JSON.stringify(analyses));
-        }
-
-        // ========== مشاركة الحلم ==========
         function shareDream() {
             const dream = document.getElementById('dreamInput').value;
             if (!dream) {
-                alert('اكتب حلماً أولاً للمشاركة');
+                alert('اكتب حلماً للمشاركة');
                 return;
             }
-            const text = encodeURIComponent(`حلمت بـ: ${dream.substring(0, 100)}...\nقم بتحليله على AI Dream Weaver: `);
+            
+            const text = encodeURIComponent(`🔮 حلمت بـ: ${dream}\nحلله الذكاء الاصطناعي على AI Dream Weaver\n`);
             window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(window.location.href)}`, '_blank');
-            viralSystem.trackShare('تويتر (حلم)');
         }
 
-        // ========== نظام AR ==========
-        async function openAR() {
-            await loadAR(); // تحميل مكتبات AR فقط عند الحاجة
-            document.getElementById('arScene').style.display = 'block';
-            document.querySelector('.close-ar').style.display = 'block';
-            
-            const lastDream = document.getElementById('dreamInput').value;
-            if (lastDream) {
-                alert('✨ في الباقات المدفوعة، سترى رموز حلمك تظهر أمامك في الواقع عبر كاميرا جهازك!');
-            }
-        }
-
-        function closeAR() {
-            document.getElementById('arScene').style.display = 'none';
-            document.querySelector('.close-ar').style.display = 'none';
-        }
-
-        // ========== تشغيل كل شيء عند تحميل الصفحة ==========
-        window.onload = function() {
-            const savedLang = localStorage.getItem('preferred-language') || 'ar';
-            changeLanguage(savedLang);
-            
-            // تشغيل نظام الانتشار التلقائي
-            viralSystem.generateSocialButtons();
-            viralSystem.suggestShare();
-            viralSystem.autoShare();
-            viralSystem.updateShareCounter();
-            
-            // باقي الأنظمة
-            generateTestimonials();
-            loadArticles();
-            loadVideos();
-            loadTimeline();
-            updateLastUpdated();
-            startCountdown();
-            startVisitorCounter();
-            updateSubscriberCount();
-            
-            // تحديث الإشعارات كل 30 ثانية
-            setInterval(updateNotificationBar, 30000);
-            
-            // محاكاة إعلانات AdSense
-            document.getElementById('ad1').innerHTML += '<br><span style="color:#aaa;">(Google AdSense Code Here - أرباح تلقائية)</span>';
-            document.getElementById('ad2').innerHTML += '<br><span style="color:#aaa;">(Google AdSense Code Here - أرباح تلقائية)</span>';
-            document.getElementById('ad3').innerHTML += '<br><span style="color:#aaa;">(Google AdSense Code Here - أرباح تلقائية)</span>';
-            
-            console.log('🚀 AI Dream Weaver Ultra is running with 99% AI automation!');
-        };
+        // أرقام عدادت وهمية (للتجميل)
+        setInterval(() => {
+            let visitors = document.getElementById('visitorCount');
+            let current = parseInt(visitors.innerText.replace(',', ''));
+            visitors.innerText = (current + Math.floor(Math.random() * 3)).toLocaleString();
+        }, 10000);
     </script>
 </body>
 </html>
