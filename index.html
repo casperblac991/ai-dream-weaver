@@ -6,8 +6,8 @@
     <title>AI Dream Weaver - منصة تفسير الأحلام بالذكاء الاصطناعي</title>
     
     <!-- تحسين SEO -->
-    <meta name="description" content="أول منصة عربية لتفسير الأحلام بالذكاء الاصطناعي والواقع المعزز - تفسير دقيق لأحلامك مع رموز AR ومكتبة تاريخية">
-    <meta name="keywords" content="تفسير الأحلام, الذكاء الاصطناعي, أحلام, تفسير حلم, ابن سيرين, فرويد, يونغ, رموز الأحلام">
+    <meta name="description" content="أول منصة عربية لتفسير الأحلام بالذكاء الاصطناعي والواقع المعزز">
+    <meta name="keywords" content="تفسير الأحلام, الذكاء الاصطناعي, أحلام, تفسير حلم, ابن سيرين">
     <meta name="author" content="AI Dream Weaver">
     
     <!-- Google Analytics -->
@@ -296,6 +296,49 @@
             background: rgba(255, 215, 0, 0.3);
         }
         
+        /* نافذة منبثقة جميلة */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #1a1f35, #2a1f45);
+            border: 2px solid #ffd700;
+            border-radius: 20px;
+            padding: 30px;
+            z-index: 2000;
+            max-width: 400px;
+            color: white;
+            box-shadow: 0 0 50px #ff00ff;
+            animation: modalPop 0.3s;
+        }
+        
+        @keyframes modalPop {
+            from { transform: translate(-50%, -40%); opacity: 0; }
+            to { transform: translate(-50%, -50%); opacity: 1; }
+        }
+        
+        .modal h2 {
+            color: #00ffff;
+            margin-bottom: 15px;
+        }
+        
+        .modal p {
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+        
+        .modal button {
+            background: #ff00ff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
         /* مكتبة الرموز */
         .symbols-section {
             margin: 40px 0;
@@ -367,6 +410,8 @@
             border-radius: 25px;
             font-weight: bold;
             margin-top: 10px;
+            border: none;
+            cursor: pointer;
         }
         
         /* المنتجات */
@@ -510,7 +555,8 @@
             <div class="button-group">
                 <button class="btn btn-primary" id="analyzeBtn" onclick="analyzeDream()">🔍 تحليل الحلم</button>
                 <button class="btn btn-secondary" id="shareBtn" onclick="shareDream()">📤 مشاركة</button>
-                <button class="btn btn-secondary" id="saveBtn" onclick="saveToJournal()">💾 حفظ في المجلة</button>
+                <button class="btn btn-secondary" onclick="saveToJournal()">💾 حفظ في المجلة</button>
+                <button class="btn btn-secondary" onclick="showJournal()">📖 عرض المجلة</button>
             </div>
             <div id="resultBox" class="result-box"></div>
         </div>
@@ -522,11 +568,11 @@
                 <div class="index-card">
                     <h3 onclick="toggleSection('history')">🏛️ الحضارات (5) ▼</h3>
                     <ul id="history-list" class="index-list">
-                        <li onclick="loadHistory('egypt')">مصر القديمة (3000 ق.م)</li>
-                        <li onclick="loadHistory('mesopotamia')">بلاد الرافدين (2700 ق.م)</li>
-                        <li onclick="loadHistory('greece')">اليونان القديمة (500 ق.م)</li>
-                        <li onclick="loadHistory('islamic')">العصر الإسلامي (700م)</li>
-                        <li onclick="loadHistory('modern')">التحليل الحديث (1900م)</li>
+                        <li onclick="showHistory('egypt', 'مصر القديمة')">مصر القديمة (3000 ق.م)</li>
+                        <li onclick="showHistory('mesopotamia', 'بلاد الرافدين')">بلاد الرافدين (2700 ق.م)</li>
+                        <li onclick="showHistory('greece', 'اليونان القديمة')">اليونان القديمة (500 ق.م)</li>
+                        <li onclick="showHistory('islamic', 'العصر الإسلامي')">العصر الإسلامي (700م)</li>
+                        <li onclick="showHistory('modern', 'التحليل الحديث')">التحليل الحديث (1900م)</li>
                     </ul>
                 </div>
                 
@@ -535,27 +581,27 @@
                     <div id="symbols-list" class="index-list">
                         <div class="symbol-category">
                             <h4>🐾 حيوانات</h4>
-                            <span onclick="loadSymbol('ثعبان')">ثعبان</span>
-                            <span onclick="loadSymbol('أسد')">أسد</span>
-                            <span onclick="loadSymbol('كلب')">كلب</span>
-                            <span onclick="loadSymbol('قط')">قط</span>
-                            <span onclick="loadSymbol('حصان')">حصان</span>
+                            <span onclick="showSymbol('ثعبان')">ثعبان</span>
+                            <span onclick="showSymbol('أسد')">أسد</span>
+                            <span onclick="showSymbol('كلب')">كلب</span>
+                            <span onclick="showSymbol('قط')">قط</span>
+                            <span onclick="showSymbol('حصان')">حصان</span>
                         </div>
                         <div class="symbol-category">
                             <h4>🌊 طبيعة</h4>
-                            <span onclick="loadSymbol('بحر')">بحر</span>
-                            <span onclick="loadSymbol('جبل')">جبل</span>
-                            <span onclick="loadSymbol('نار')">نار</span>
-                            <span onclick="loadSymbol('مطر')">مطر</span>
-                            <span onclick="loadSymbol('ريح')">ريح</span>
+                            <span onclick="showSymbol('بحر')">بحر</span>
+                            <span onclick="showSymbol('جبل')">جبل</span>
+                            <span onclick="showSymbol('نار')">نار</span>
+                            <span onclick="showSymbol('مطر')">مطر</span>
+                            <span onclick="showSymbol('ريح')">ريح</span>
                         </div>
                         <div class="symbol-category">
                             <h4>💎 أشياء</h4>
-                            <span onclick="loadSymbol('ذهب')">ذهب</span>
-                            <span onclick="loadSymbol('باب')">باب</span>
-                            <span onclick="loadSymbol('مفتاح')">مفتاح</span>
-                            <span onclick="loadSymbol('كنز')">كنز</span>
-                            <span onclick="loadSymbol('سفينة')">سفينة</span>
+                            <span onclick="showSymbol('ذهب')">ذهب</span>
+                            <span onclick="showSymbol('باب')">باب</span>
+                            <span onclick="showSymbol('مفتاح')">مفتاح</span>
+                            <span onclick="showSymbol('كنز')">كنز</span>
+                            <span onclick="showSymbol('سفينة')">سفينة</span>
                         </div>
                     </div>
                 </div>
@@ -563,12 +609,12 @@
                 <div class="index-card">
                     <h3 onclick="toggleSection('reports')">📄 التقارير (12) ▼</h3>
                     <ul id="reports-list" class="index-list">
-                        <li onclick="loadReport('egypt')">📜 مصر القديمة</li>
-                        <li onclick="loadReport('mesopotamia')">📜 بلاد الرافدين</li>
-                        <li onclick="loadReport('greece')">📜 اليونان</li>
-                        <li onclick="loadReport('ibn-sirin')">📜 ابن سيرين</li>
-                        <li onclick="loadReport('freud')">📜 فرويد ويونغ</li>
-                        <li onclick="loadReport('symbols')">📜 الرموز المشتركة</li>
+                        <li onclick="downloadReport('تفسير الأحلام في مصر القديمة')">📜 مصر القديمة</li>
+                        <li onclick="downloadReport('بلاد الرافدين والأحلام')">📜 بلاد الرافدين</li>
+                        <li onclick="downloadReport('اليونان القديمة')">📜 اليونان</li>
+                        <li onclick="downloadReport('ابن سيرين')">📜 ابن سيرين</li>
+                        <li onclick="downloadReport('فرويد ويونغ')">📜 فرويد ويونغ</li>
+                        <li onclick="downloadReport('الرموز المشتركة')">📜 الرموز المشتركة</li>
                     </ul>
                 </div>
             </div>
@@ -737,7 +783,6 @@
             document.getElementById('dreamTitle').textContent = t.dreamTitle;
             document.getElementById('analyzeBtn').textContent = t.analyze;
             document.getElementById('shareBtn').textContent = t.share;
-            document.getElementById('saveBtn').textContent = t.save;
             document.getElementById('visitorsLabel').textContent = t.visitors;
             document.getElementById('dreamsLabel').textContent = t.dreams;
             document.getElementById('customersLabel').textContent = t.customers;
@@ -763,7 +808,7 @@
             startCounters();
         };
 
-        // ========== قاموس تفسير الأحلام ==========
+        // ========== قاموس تفسير الأحلام (30 رمزاً) ==========
         const dreamDictionary = [
             { symbol: "ثعبان", meaning: "تحذير من أعداء خفيين - في مصر القديمة كان رمزاً للحماية" },
             { symbol: "طيران", meaning: "الحرية والطموح والتحرر من القيود" },
@@ -797,7 +842,55 @@
             { symbol: "شمس", meaning: "القوة والحيوية" }
         ];
 
-        // تحميل الرموز
+        // ========== مجلة الأحلام ==========
+        let dreamJournal = JSON.parse(localStorage.getItem('dreamJournal') || '[]');
+
+        function saveToJournal() {
+            const dream = document.getElementById('dreamInput').value;
+            if (!dream) {
+                alert('اكتب حلماً أولاً');
+                return;
+            }
+            
+            dreamJournal.push({
+                dream: dream,
+                date: new Date().toLocaleString('ar-EG')
+            });
+            
+            localStorage.setItem('dreamJournal', JSON.stringify(dreamJournal));
+            alert('✅ تم حفظ الحلم في مجلتك');
+        }
+
+        function showJournal() {
+            if (dreamJournal.length === 0) {
+                showModal('📭 مجلة الأحلام', 'لا توجد أحلام محفوظة بعد. اكتب حلمك الأول!');
+                return;
+            }
+            
+            let content = '';
+            dreamJournal.forEach((item, index) => {
+                content += `<div style="margin-bottom:15px; padding:10px; background:rgba(255,255,255,0.1); border-radius:10px;">
+                    <strong>${index + 1}.</strong> ${item.dream}<br>
+                    <small style="color:#ffd700;">📅 ${item.date}</small>
+                </div>`;
+            });
+            
+            showModal('📔 مجلة أحلامك', content);
+        }
+
+        // ========== نافذة منبثقة جميلة ==========
+        function showModal(title, content) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <h2>${title}</h2>
+                <div>${content}</div>
+                <button onclick="this.parentElement.remove()">✕ إغلاق</button>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // ========== عرض الرموز ==========
         function loadSymbols() {
             let html = '';
             dreamDictionary.slice(0, 12).forEach(s => {
@@ -811,25 +904,34 @@
             document.getElementById('symbolsGrid').innerHTML = html;
         }
 
-        // عرض تفسير الرمز
         function showSymbol(symbol) {
             const found = dreamDictionary.find(s => s.symbol === symbol);
             if (found) {
-                alert(`🔮 ${symbol}\n\n${found.meaning}`);
+                showModal(`🔮 ${found.symbol}`, found.meaning);
             }
         }
 
-        // التقارير
-        const reports = [
-            { title: "تفسير الأحلام في مصر القديمة", pages: "24 صفحة" },
-            { title: "بلاد الرافدين والأحلام", pages: "32 صفحة" },
-            { title: "اليونان القديمة", pages: "28 صفحة" },
-            { title: "ابن سيرين", pages: "36 صفحة" },
-            { title: "فرويد ويونغ", pages: "42 صفحة" },
-            { title: "الرموز المشتركة", pages: "38 صفحة" }
-        ];
+        // ========== التاريخ والحضارات ==========
+        function showHistory(id, name) {
+            const histories = {
+                'egypt': '🏛️ مصر القديمة (3000 ق.م)\n\nبنى المصريون "معابد الأحلام" حيث كان الكهنة يفسرون أحلام الفراعنة. اعتقدوا أن الأحلام رسائل من الآلهة.',
+                'mesopotamia': '🏛️ بلاد الرافدين (2700 ق.م)\n\nأقدم سجلات مكتوبة لتفسير الأحلام على ألواح طينية. الملوك كانوا يستشيرون المفسرين.',
+                'greece': '🏛️ اليونان القديمة (500 ق.م)\n\nأبقراط اعتبر الأحلام مؤشرات صحية. بنوا معابد للعلاج بالأحلام.'
+            };
+            showModal(name, histories[id] || 'معلومات عن هذه الحضارة قيد الإعداد');
+        }
 
+        // ========== التقارير ==========
         function loadReports() {
+            const reports = [
+                { title: "تفسير الأحلام في مصر القديمة", pages: "24 صفحة" },
+                { title: "بلاد الرافدين والأحلام", pages: "32 صفحة" },
+                { title: "اليونان القديمة", pages: "28 صفحة" },
+                { title: "ابن سيرين", pages: "36 صفحة" },
+                { title: "فرويد ويونغ", pages: "42 صفحة" },
+                { title: "الرموز المشتركة", pages: "38 صفحة" }
+            ];
+            
             let html = '';
             reports.forEach(r => {
                 html += `
@@ -844,10 +946,28 @@
         }
 
         function downloadReport(title) {
-            alert(`📥 تم تحميل "${title}"\n(نسخة تجريبية - للنسخة الكاملة اشترك في الباقات)`);
+            const reportsContent = {
+                'تفسير الأحلام في مصر القديمة': 'تقرير عن تفسير الأحلام في مصر القديمة...',
+                'بلاد الرافدين والأحلام': 'تقرير عن الأحلام في بلاد الرافدين...',
+                'اليونان القديمة': 'تقرير عن تفسير الأحلام عند الإغريق...',
+                'ابن سيرين': 'تقرير عن ابن سيرين وتفسير الأحلام...',
+                'فرويد ويونغ': 'تقرير عن فرويد ويونغ...',
+                'الرموز المشتركة': 'تقرير عن الرموز المشتركة...'
+            };
+            
+            const content = reportsContent[title] || 'تقرير تجريبي';
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${title}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showModal('📥 تم التحميل', `تم تحميل "${title}" بنجاح. للنسخة الكاملة، اشترك في الباقات المدفوعة.`);
         }
 
-        // تحليل الأحلام
+        // ========== تحليل الأحلام ==========
         function analyzeDream() {
             const dream = document.getElementById('dreamInput').value;
             if (!dream) {
@@ -876,7 +996,7 @@
             }, 2000);
         }
 
-        // مشاركة الحلم
+        // ========== مشاركة الحلم ==========
         function shareDream() {
             const dream = document.getElementById('dreamInput').value;
             if (!dream) {
@@ -888,41 +1008,7 @@
             window.open(`https://twitter.com/intent/tweet?text=${text}&url=${window.location.href}`, '_blank');
         }
 
-        // حفظ في المجلة
-        function saveToJournal() {
-            const dream = document.getElementById('dreamInput').value;
-            if (!dream) {
-                alert('اكتب حلماً أولاً');
-                return;
-            }
-            
-            let journal = JSON.parse(localStorage.getItem('dreamJournal') || '[]');
-            journal.push({ dream: dream, date: new Date().toLocaleDateString('ar-EG') });
-            localStorage.setItem('dreamJournal', JSON.stringify(journal));
-            alert('✅ تم حفظ الحلم في مجلة أحلامك');
-        }
-
-        // وظائف الفهرس
-        function toggleSection(id) {
-            const el = document.getElementById(id + '-list');
-            if (el) {
-                el.classList.toggle('active');
-            }
-        }
-
-        function loadHistory(era) {
-            alert(`🏛️ جاري تحميل تاريخ ${era}... (سيتم فتح المقالة كاملة)`);
-        }
-
-        function loadSymbol(symbol) {
-            showSymbol(symbol);
-        }
-
-        function loadReport(report) {
-            alert(`📄 جاري تحميل التقرير... (سيتم فتح PDF)`);
-        }
-
-        // تسجيل المستخدمين
+        // ========== تسجيل المستخدمين ==========
         function registerUser() {
             const name = document.getElementById('userName').value;
             const email = document.getElementById('userEmail').value;
@@ -932,19 +1018,26 @@
                 return;
             }
             
-            alert(`🎉 مرحباً ${name}! تم تسجيلك بنجاح. سنرسل لك تحليل مجاني قريباً.`);
-            
-            // حفظ في localStorage
             let users = JSON.parse(localStorage.getItem('users') || '[]');
             users.push({ name, email, date: new Date().toISOString() });
             localStorage.setItem('users', JSON.stringify(users));
+            
+            showModal('🎉 تم التسجيل بنجاح', `مرحباً ${name}! سنرسل لك تحليل مجاني قريباً.`);
             
             document.getElementById('userName').value = '';
             document.getElementById('userEmail').value = '';
             document.getElementById('userPhone').value = '';
         }
 
-        // عدادات متحركة
+        // ========== وظائف الفهرس ==========
+        function toggleSection(id) {
+            const el = document.getElementById(id + '-list');
+            if (el) {
+                el.classList.toggle('active');
+            }
+        }
+
+        // ========== عدادات متحركة ==========
         function startCounters() {
             setInterval(() => {
                 let v = document.getElementById('visitors');
