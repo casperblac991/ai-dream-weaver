@@ -1,32 +1,28 @@
-name: تحديث المحتوى الأسبوعي
+name: التجديد الأسبوعي للمتجر
 
 on:
   schedule:
-    # كل يوم إثنين الساعة 00:00
-    - cron: '0 0 * * 1'
-  workflow_dispatch: # للتشغيل اليدوي
+    - cron: '0 0 * * 1'  # كل يوم إثنين الساعة 00:00
+  workflow_dispatch:  # للتشغيل اليدوي
 
 jobs:
-  update-content:
+  weekly-update:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: إعداد Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-    
-    - name: تحديث ملف index.html
-      run: |
-        echo "✅ سيتم تحديث المحتوى الأسبوعي تلقائياً"
-        # هنا يمكن إضافة كود Python لتعديل المقالات والفيديوهات
-    
-    - name: رفع التغييرات
-      run: |
-        git config --global user.name 'AI Bot'
-        git config --global user.email 'bot@users.noreply.github.com'
-        git add index.html
-        git commit -m "🤖 تحديث أسبوعي للمقالات والفيديوهات - $(date +'%Y-%m-%d')"
-        git push
+      - uses: actions/checkout@v4
+      
+      - name: إعداد Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: تشغيل بوت التجديد الأسبوعي
+        run: python weekly_update.py
+      
+      - name: رفع التغييرات
+        run: |
+          git config --global user.name 'AI Bot'
+          git config --global user.email 'bot@users.noreply.github.com'
+          git add weekly_*.json *.log *.txt
+          git commit -m "🤖 تحديث أسبوعي - $(date +'%Y-%m-%d')" || exit 0
+          git push
