@@ -569,11 +569,11 @@
                 <div class="index-card">
                     <h3 id="civTitle" onclick="toggleSection('history')">🏛️ الحضارات (5) ▼</h3>
                     <ul id="history-list" class="index-list">
-                        <li onclick="showHistory('egypt', 'مصر القديمة')">مصر القديمة (3000 ق.م)</li>
-                        <li onclick="showHistory('mesopotamia', 'بلاد الرافدين')">بلاد الرافدين (2700 ق.م)</li>
-                        <li onclick="showHistory('greece', 'اليونان القديمة')">اليونان القديمة (500 ق.م)</li>
-                        <li onclick="showHistory('islamic', 'العصر الإسلامي')">العصر الإسلامي (700م)</li>
-                        <li onclick="showHistory('modern', 'التحليل الحديث')">التحليل الحديث (1900م)</li>
+                        <li onclick="showHistory('egypt', 'مصر القديمة')" id="historyEgypt">مصر القديمة (3000 ق.م)</li>
+                        <li onclick="showHistory('mesopotamia', 'بلاد الرافدين')" id="historyMesopotamia">بلاد الرافدين (2700 ق.م)</li>
+                        <li onclick="showHistory('greece', 'اليونان القديمة')" id="historyGreece">اليونان القديمة (500 ق.م)</li>
+                        <li onclick="showHistory('islamic', 'العصر الإسلامي')" id="historyIslamic">العصر الإسلامي (700م)</li>
+                        <li onclick="showHistory('modern', 'التحليل الحديث')" id="historyModern">التحليل الحديث (1900م)</li>
                     </ul>
                 </div>
                 
@@ -582,27 +582,27 @@
                     <div id="symbols-list" class="index-list">
                         <div class="symbol-category">
                             <h4 id="animalsTitle">🐾 حيوانات</h4>
-                            <span onclick="showSymbol('ثعبان')">ثعبان</span>
-                            <span onclick="showSymbol('أسد')">أسد</span>
-                            <span onclick="showSymbol('كلب')">كلب</span>
-                            <span onclick="showSymbol('قط')">قط</span>
-                            <span onclick="showSymbol('حصان')">حصان</span>
+                            <span onclick="showSymbol('قط')" id="symbolCat">قط</span>
+                            <span onclick="showSymbol('كلب')" id="symbolDog">كلب</span>
+                            <span onclick="showSymbol('أسد')" id="symbolLion">أسد</span>
+                            <span onclick="showSymbol('حصان')" id="symbolHorse">حصان</span>
+                            <span onclick="showSymbol('ثعبان')" id="symbolSnake">ثعبان</span>
                         </div>
                         <div class="symbol-category">
                             <h4 id="natureTitle">🌊 طبيعة</h4>
-                            <span onclick="showSymbol('بحر')">بحر</span>
-                            <span onclick="showSymbol('جبل')">جبل</span>
-                            <span onclick="showSymbol('نار')">نار</span>
-                            <span onclick="showSymbol('مطر')">مطر</span>
-                            <span onclick="showSymbol('ريح')">ريح</span>
+                            <span onclick="showSymbol('بحر')" id="symbolSea">بحر</span>
+                            <span onclick="showSymbol('جبل')" id="symbolMountain">جبل</span>
+                            <span onclick="showSymbol('نار')" id="symbolFire">نار</span>
+                            <span onclick="showSymbol('مطر')" id="symbolRain">مطر</span>
+                            <span onclick="showSymbol('ريح')" id="symbolWind">ريح</span>
                         </div>
                         <div class="symbol-category">
                             <h4 id="objectsTitle">💎 أشياء</h4>
-                            <span onclick="showSymbol('ذهب')">ذهب</span>
-                            <span onclick="showSymbol('باب')">باب</span>
-                            <span onclick="showSymbol('مفتاح')">مفتاح</span>
-                            <span onclick="showSymbol('كنز')">كنز</span>
-                            <span onclick="showSymbol('سفينة')">سفينة</span>
+                            <span onclick="showSymbol('ذهب')" id="symbolGold">ذهب</span>
+                            <span onclick="showSymbol('باب')" id="symbolDoor">باب</span>
+                            <span onclick="showSymbol('مفتاح')" id="symbolKey">مفتاح</span>
+                            <span onclick="showSymbol('كنز')" id="symbolTreasure">كنز</span>
+                            <span onclick="showSymbol('سفينة')" id="symbolShip">سفينة</span>
                         </div>
                     </div>
                 </div>
@@ -610,12 +610,10 @@
                 <div class="index-card">
                     <h3 id="repTitle" onclick="toggleSection('reports')">📄 التقارير (12) ▼</h3>
                     <ul id="reports-list" class="index-list">
-                        <li onclick="downloadReport('تفسير الأحلام في مصر القديمة')">📜 مصر القديمة</li>
-                        <li onclick="downloadReport('بلاد الرافدين والأحلام')">📜 بلاد الرافدين</li>
-                        <li onclick="downloadReport('اليونان القديمة')">📜 اليونان</li>
-                        <li onclick="downloadReport('ابن سيرين')">📜 ابن سيرين</li>
-                        <li onclick="downloadReport('فرويد ويونغ')">📜 فرويد ويونغ</li>
-                        <li onclick="downloadReport('الرموز المشتركة')">📜 الرموز المشتركة</li>
+                        <li onclick="downloadReport('تفسير الأحلام في مصر القديمة')" id="reportEgypt">📜 مصر القديمة</li>
+                        <li onclick="downloadReport('بلاد الرافدين والأحلام')" id="reportMesopotamia">📜 بلاد الرافدين</li>
+                        <li onclick="downloadReport('اليونان القديمة')" id="reportGreece">📜 اليونان</li>
+                        <li onclick="downloadReport('ابن سيرين')" id="reportIbn">📜 ابن سيرين</li>
                     </ul>
                 </div>
             </div>
@@ -699,7 +697,7 @@
     </div>
     
     <script>
-        // ========== نظام الترجمة المتكامل (5 لغات) ==========
+        // ========== قاموس الترجمة الكامل مع ترجمة الرموز ==========
         const translations = {
             ar: {
                 title: "🌙 AI Dream Weaver",
@@ -739,7 +737,39 @@
                 footer: "© 2026 AI Dream Weaver - جميع الحقوق محفوظة",
                 privacy: "سياسة الخصوصية",
                 about: "من نحن",
-                contact: "اتصل بنا"
+                contact: "اتصل بنا",
+                historyEgypt: "مصر القديمة (3000 ق.م)",
+                historyMesopotamia: "بلاد الرافدين (2700 ق.م)",
+                historyGreece: "اليونان القديمة (500 ق.م)",
+                historyIslamic: "العصر الإسلامي (700م)",
+                historyModern: "التحليل الحديث (1900م)",
+                reportEgypt: "📜 مصر القديمة",
+                reportMesopotamia: "📜 بلاد الرافدين",
+                reportGreece: "📜 اليونان",
+                reportIbn: "📜 ابن سيرين",
+                // ترجمة أسماء الرموز (الأهم!)
+                symbols_translation: {
+                    "قط": "قط",
+                    "كلب": "كلب",
+                    "أسد": "أسد",
+                    "حصان": "حصان",
+                    "ثعبان": "ثعبان",
+                    "طيران": "طيران",
+                    "بحر": "بحر",
+                    "ميت": "ميت",
+                    "زواج": "زواج",
+                    "ذهب": "ذهب",
+                    "أسنان": "أسنان",
+                    "نار": "نار",
+                    "ماء": "ماء",
+                    "جبل": "جبل",
+                    "مطر": "مطر",
+                    "ريح": "ريح",
+                    "كنز": "كنز",
+                    "مفتاح": "مفتاح",
+                    "باب": "باب",
+                    "سفينة": "سفينة"
+                }
             },
             en: {
                 title: "🌙 AI Dream Weaver",
@@ -779,7 +809,38 @@
                 footer: "© 2026 AI Dream Weaver - All Rights Reserved",
                 privacy: "Privacy Policy",
                 about: "About Us",
-                contact: "Contact Us"
+                contact: "Contact Us",
+                historyEgypt: "Ancient Egypt (3000 BC)",
+                historyMesopotamia: "Mesopotamia (2700 BC)",
+                historyGreece: "Ancient Greece (500 BC)",
+                historyIslamic: "Islamic Era (700 AD)",
+                historyModern: "Modern Analysis (1900 AD)",
+                reportEgypt: "📜 Ancient Egypt",
+                reportMesopotamia: "📜 Mesopotamia",
+                reportGreece: "📜 Greece",
+                reportIbn: "📜 Ibn Sirin",
+                symbols_translation: {
+                    "قط": "cat",
+                    "كلب": "dog",
+                    "أسد": "lion",
+                    "حصان": "horse",
+                    "ثعبان": "snake",
+                    "طيران": "flying",
+                    "بحر": "sea",
+                    "ميت": "dead",
+                    "زواج": "marriage",
+                    "ذهب": "gold",
+                    "أسنان": "teeth",
+                    "نار": "fire",
+                    "ماء": "water",
+                    "جبل": "mountain",
+                    "مطر": "rain",
+                    "ريح": "wind",
+                    "كنز": "treasure",
+                    "مفتاح": "key",
+                    "باب": "door",
+                    "سفينة": "ship"
+                }
             },
             es: {
                 title: "🌙 AI Dream Weaver",
@@ -819,7 +880,38 @@
                 footer: "© 2026 AI Dream Weaver - Todos los derechos",
                 privacy: "Privacidad",
                 about: "Nosotros",
-                contact: "Contacto"
+                contact: "Contacto",
+                historyEgypt: "Egipto Antiguo (3000 a.C.)",
+                historyMesopotamia: "Mesopotamia (2700 a.C.)",
+                historyGreece: "Grecia Antigua (500 a.C.)",
+                historyIslamic: "Era Islámica (700 d.C.)",
+                historyModern: "Análisis Moderno (1900)",
+                reportEgypt: "📜 Egipto",
+                reportMesopotamia: "📜 Mesopotamia",
+                reportGreece: "📜 Grecia",
+                reportIbn: "📜 Ibn Sirin",
+                symbols_translation: {
+                    "قط": "gato",
+                    "كلب": "perro",
+                    "أسد": "león",
+                    "حصان": "caballo",
+                    "ثعبان": "serpiente",
+                    "طيران": "volar",
+                    "بحر": "mar",
+                    "ميت": "muerto",
+                    "زواج": "matrimonio",
+                    "ذهب": "oro",
+                    "أسنان": "dientes",
+                    "نار": "fuego",
+                    "ماء": "agua",
+                    "جبل": "montaña",
+                    "مطر": "lluvia",
+                    "ريح": "viento",
+                    "كنز": "tesoro",
+                    "مفتاح": "llave",
+                    "باب": "puerta",
+                    "سفينة": "barco"
+                }
             },
             fr: {
                 title: "🌙 AI Dream Weaver",
@@ -859,7 +951,38 @@
                 footer: "© 2026 AI Dream Weaver - Tous droits",
                 privacy: "Confidentialité",
                 about: "À propos",
-                contact: "Contact"
+                contact: "Contact",
+                historyEgypt: "Égypte ancienne (3000 av. J.-C.)",
+                historyMesopotamia: "Mésopotamie (2700 av. J.-C.)",
+                historyGreece: "Grèce antique (500 av. J.-C.)",
+                historyIslamic: "Ère islamique (700 apr. J.-C.)",
+                historyModern: "Analyse moderne (1900)",
+                reportEgypt: "📜 Égypte",
+                reportMesopotamia: "📜 Mésopotamie",
+                reportGreece: "📜 Grèce",
+                reportIbn: "📜 Ibn Sirin",
+                symbols_translation: {
+                    "قط": "chat",
+                    "كلب": "chien",
+                    "أسد": "lion",
+                    "حصان": "cheval",
+                    "ثعبان": "serpent",
+                    "طيران": "voler",
+                    "بحر": "mer",
+                    "ميت": "mort",
+                    "زواج": "mariage",
+                    "ذهب": "or",
+                    "أسنان": "dents",
+                    "نار": "feu",
+                    "ماء": "eau",
+                    "جبل": "montagne",
+                    "مطر": "pluie",
+                    "ريح": "vent",
+                    "كنز": "trésor",
+                    "مفتاح": "clé",
+                    "باب": "porte",
+                    "سفينة": "bateau"
+                }
             },
             de: {
                 title: "🌙 AI Dream Weaver",
@@ -899,17 +1022,44 @@
                 footer: "© 2026 AI Dream Weaver - Alle Rechte",
                 privacy: "Datenschutz",
                 about: "Über uns",
-                contact: "Kontakt"
+                contact: "Kontakt",
+                historyEgypt: "Altes Ägypten (3000 v. Chr.)",
+                historyMesopotamia: "Mesopotamien (2700 v. Chr.)",
+                historyGreece: "Antikes Griechenland (500 v. Chr.)",
+                historyIslamic: "Islamische Ära (700 n. Chr.)",
+                historyModern: "Moderne Analyse (1900)",
+                reportEgypt: "📜 Ägypten",
+                reportMesopotamia: "📜 Mesopotamien",
+                reportGreece: "📜 Griechenland",
+                reportIbn: "📜 Ibn Sirin",
+                symbols_translation: {
+                    "قط": "Katze",
+                    "كلب": "Hund",
+                    "أسد": "Löwe",
+                    "حصان": "Pferd",
+                    "ثعبان": "Schlange",
+                    "طيران": "fliegen",
+                    "بحر": "Meer",
+                    "ميت": "tot",
+                    "زواج": "Heirat",
+                    "ذهب": "Gold",
+                    "أسنان": "Zähne",
+                    "نار": "Feuer",
+                    "ماء": "Wasser",
+                    "جبل": "Berg",
+                    "مطر": "Regen",
+                    "ريح": "Wind",
+                    "كنز": "Schatz",
+                    "مفتاح": "Schlüssel",
+                    "باب": "Tür",
+                    "سفينة": "Schiff"
+                }
             }
         };
 
         function changeLanguage(lang) {
             // تغيير اتجاه الصفحة
-            if (lang === 'ar') {
-                document.documentElement.dir = 'rtl';
-            } else {
-                document.documentElement.dir = 'ltr';
-            }
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             
             // تغيير لون الأزرار النشطة
             document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -922,11 +1072,9 @@
             
             const t = translations[lang];
             
-            // الهيدر
+            // تحديث النصوص الأساسية
             document.getElementById('mainTitle').textContent = t.title;
             document.getElementById('subtitle').textContent = t.subtitle;
-            
-            // تحليل الأحلام
             document.getElementById('dreamTitle').textContent = t.dreamTitle;
             document.getElementById('analyzeBtn').textContent = t.analyze;
             document.getElementById('shareBtn').textContent = t.share;
@@ -947,6 +1095,38 @@
             document.getElementById('animalsTitle').textContent = t.animals;
             document.getElementById('natureTitle').textContent = t.nature;
             document.getElementById('objectsTitle').textContent = t.objects;
+            
+            // التاريخ
+            document.getElementById('historyEgypt').textContent = t.historyEgypt;
+            document.getElementById('historyMesopotamia').textContent = t.historyMesopotamia;
+            document.getElementById('historyGreece').textContent = t.historyGreece;
+            document.getElementById('historyIslamic').textContent = t.historyIslamic;
+            document.getElementById('historyModern').textContent = t.historyModern;
+            
+            // التقارير
+            document.getElementById('reportEgypt').innerHTML = t.reportEgypt;
+            document.getElementById('reportMesopotamia').innerHTML = t.reportMesopotamia;
+            document.getElementById('reportGreece').innerHTML = t.reportGreece;
+            document.getElementById('reportIbn').innerHTML = t.reportIbn;
+            
+            // ترجمة أسماء الرموز (الأهم!)
+            if (t.symbols_translation) {
+                document.getElementById('symbolCat').textContent = t.symbols_translation['قط'];
+                document.getElementById('symbolDog').textContent = t.symbols_translation['كلب'];
+                document.getElementById('symbolLion').textContent = t.symbols_translation['أسد'];
+                document.getElementById('symbolHorse').textContent = t.symbols_translation['حصان'];
+                document.getElementById('symbolSnake').textContent = t.symbols_translation['ثعبان'];
+                document.getElementById('symbolSea').textContent = t.symbols_translation['بحر'];
+                document.getElementById('symbolMountain').textContent = t.symbols_translation['جبل'];
+                document.getElementById('symbolFire').textContent = t.symbols_translation['نار'];
+                document.getElementById('symbolRain').textContent = t.symbols_translation['مطر'];
+                document.getElementById('symbolWind').textContent = t.symbols_translation['ريح'];
+                document.getElementById('symbolGold').textContent = t.symbols_translation['ذهب'];
+                document.getElementById('symbolDoor').textContent = t.symbols_translation['باب'];
+                document.getElementById('symbolKey').textContent = t.symbols_translation['مفتاح'];
+                document.getElementById('symbolTreasure').textContent = t.symbols_translation['كنز'];
+                document.getElementById('symbolShip').textContent = t.symbols_translation['سفينة'];
+            }
             
             // عناوين رئيسية
             document.getElementById('symbolsMainTitle').textContent = t.symbolsMain;
@@ -993,6 +1173,9 @@
             document.getElementById('aboutLink').textContent = t.about;
             document.getElementById('contactLink').textContent = t.contact;
             
+            // إعادة تحميل الرموز في الشبكة
+            loadSymbolsGrid(lang);
+            
             localStorage.setItem('preferred-language', lang);
             console.log(`✅ اللغة تغيرت إلى: ${lang}`);
         }
@@ -1003,22 +1186,45 @@
             
             // تفعيل الزر المناسب
             document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
                 if (btn.textContent.includes(savedLang.toUpperCase()) || 
                     (savedLang === 'ar' && btn.textContent.includes('عربي'))) {
                     btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
                 }
             });
             
             // تطبيق اللغة
             changeLanguage(savedLang);
             
-            // تحميل البيانات
-            loadSymbols();
+            // تحميل التقارير
             loadReports();
             startCounters();
         };
+
+        // دالة خاصة لتحميل شبكة الرموز
+        function loadSymbolsGrid(lang) {
+            const t = translations[lang];
+            const symbolsList = [
+                "ثعبان", "طيران", "بحر", "ميت", "زواج", "ذهب", 
+                "أسنان", "قط", "كلب", "أسد", "نار", "ماء", 
+                "جبل", "مطر", "ريح", "كنز", "مفتاح", "باب", "سفينة", "حصان"
+            ];
+            
+            let html = '';
+            symbolsList.slice(0, 12).forEach(symbol => {
+                const displaySymbol = (t.symbols_translation && t.symbols_translation[symbol]) 
+                    ? t.symbols_translation[symbol] 
+                    : symbol;
+                    
+                html += `
+                    <div class="symbol-card" onclick="showSymbol('${symbol}')">
+                        <div class="symbol-name">${displaySymbol}</div>
+                        <div style="font-size:0.9em;">${lang === 'ar' ? 'اضغط للتفسير' : 'Click for interpretation'}</div>
+                    </div>
+                `;
+            });
+            document.getElementById('symbolsGrid').innerHTML = html;
+        }
 
         // ========== قاموس تفسير الأحلام ==========
         const dreamDictionary = [
@@ -1031,7 +1237,17 @@
             { symbol: "أسنان", meaning: "العمر والأهل" },
             { symbol: "قط", meaning: "الخيانة أو شخص غير مخلص" },
             { symbol: "كلب", meaning: "صديق مخلص أو عدو" },
-            { symbol: "أسد", meaning: "القوة والسلطة والنفوذ" }
+            { symbol: "أسد", meaning: "القوة والسلطة والنفوذ" },
+            { symbol: "نار", meaning: "العاطفة والغضب المكبوت" },
+            { symbol: "ماء", meaning: "الحياة والنقاء والعواطف" },
+            { symbol: "جبل", meaning: "الطموح والتحديات" },
+            { symbol: "مطر", meaning: "رحمة وخير وبركة" },
+            { symbol: "ريح", meaning: "تغييرات سريعة في الحياة" },
+            { symbol: "كنز", meaning: "مواهب وقدرات خفية" },
+            { symbol: "مفتاح", meaning: "حلول وفرص جديدة" },
+            { symbol: "باب", meaning: "فرص جديدة" },
+            { symbol: "سفينة", meaning: "رحلة حياة ونجاة" },
+            { symbol: "حصان", meaning: "القوة والسرعة والكرامة" }
         ];
 
         // ========== مجلة الأحلام ==========
@@ -1040,7 +1256,7 @@
         function saveToJournal() {
             const dream = document.getElementById('dreamInput').value;
             if (!dream) {
-                alert('اكتب حلماً أولاً');
+                alert('الرجاء كتابة الحلم أولاً');
                 return;
             }
             
@@ -1082,20 +1298,6 @@
             document.body.appendChild(modal);
         }
 
-        // ========== عرض الرموز ==========
-        function loadSymbols() {
-            let html = '';
-            dreamDictionary.slice(0, 9).forEach(s => {
-                html += `
-                    <div class="symbol-card" onclick="showSymbol('${s.symbol}')">
-                        <div class="symbol-name">${s.symbol}</div>
-                        <div style="font-size:0.9em;">اضغط للتفسير</div>
-                    </div>
-                `;
-            });
-            document.getElementById('symbolsGrid').innerHTML = html;
-        }
-
         function showSymbol(symbol) {
             const found = dreamDictionary.find(s => s.symbol === symbol);
             if (found) {
@@ -1106,9 +1308,11 @@
         // ========== التاريخ والحضارات ==========
         function showHistory(id, name) {
             const histories = {
-                'egypt': '🏛️ مصر القديمة (3000 ق.م)\n\nبنى المصريون "معابد الأحلام" حيث كان الكهنة يفسرون أحلام الفراعنة.',
-                'mesopotamia': '🏛️ بلاد الرافدين (2700 ق.م)\n\nأقدم سجلات مكتوبة لتفسير الأحلام على ألواح طينية.',
-                'greece': '🏛️ اليونان القديمة (500 ق.م)\n\nأبقراط اعتبر الأحلام مؤشرات صحية.'
+                'egypt': '🏛️ مصر القديمة (3000 ق.م)\n\nبنى المصريون "معابد الأحلام" حيث كان الكهنة يفسرون أحلام الفراعنة. اعتقدوا أن الأحلام رسائل من الآلهة، خاصة من الإله تحوت.',
+                'mesopotamia': '🏛️ بلاد الرافدين (2700 ق.م)\n\nأقدم سجلات مكتوبة لتفسير الأحلام على ألواح طينية عمرها 5000 عام. في ملحمة جلجامش، رأى البطل أحلاماً فسرها على أنها نذير بقدوم صديقه.',
+                'greece': '🏛️ اليونان القديمة (500 ق.م)\n\nأبقراط اعتبر الأحلام مؤشرات صحية. بنوا معابد أسكليبيوس حيث ينام المرضى ويحلمون للعلاج.',
+                'islamic': '🏛️ العصر الإسلامي (700م)\n\nابن سيرين أشهر مفسر أحلام في التاريخ الإسلامي. كتابه "تفسير الأحلام" مرجع أساسي حتى اليوم.',
+                'modern': '🏛️ التحليل الحديث (1900م)\n\nفرويد اعتبر الأحلام "الطريق الملكي للاوعي". يونغ أضاف فكرة "النماذج الأولية" و"اللاوعي الجمعي".'
             };
             showModal(name, histories[id] || 'معلومات عن هذه الحضارة');
         }
@@ -1168,7 +1372,7 @@
                 
                 if (found.length > 0) {
                     resultBox.innerHTML = found.join('<br><br>') + 
-                        '<br><br>✨ للحصول على تحليل أعمق، اختر الباقات المدفوعة';
+                        '<br><br>✨ للحصول على تحليل أعمق مع رموز AR، اختر إحدى الباقات أعلاه';
                 } else {
                     resultBox.innerHTML = 'حلمك يحمل رسائل مهمة. جرب الباقات المدفوعة لتحليل دقيق.';
                 }
