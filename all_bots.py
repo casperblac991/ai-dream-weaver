@@ -185,7 +185,7 @@ class UnsplashBot:
         log("✅ [Unsplash] انتهى", "success")
 
 
-# ========== 3. بوت ريديت (محدث) ==========
+# ========== 3. بوت ريديت ==========
 class RedditBot:
     def __init__(self, data_manager: DataManager):
         self.data = data_manager
@@ -193,18 +193,19 @@ class RedditBot:
             'تفسير حلم', 'معنى حلمي', 'حلمت ب',
             'dream interpretation', 'what does my dream mean'
         ]
+        self.log = log
     
     def run_cycle(self):
-        log("🤖 [ريديت] بدء البحث...", "bot")
+        self.log("🤖 [ريديت] بدء البحث...", "bot")
         found = 0
         
         # استخدام وكيل متصفح حقيقي
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
         
         # تجربة عدة subreddits
-        subreddits = ['dreaminterpretation', 'Dreams', 'psychology', 'tafseer']
+        subreddits = ['dreaminterpretation', 'Dreams', 'psychology']
         
         for sub in subreddits:
             try:
@@ -223,22 +224,21 @@ class RedditBot:
                                     'username': post_data['author'],
                                     'title': post_data['title'][:100],
                                     'url': f"https://reddit.com{post_data['permalink']}",
-                                    'subreddit': sub,
-                                    'score': post_data['score']
+                                    'subreddit': sub
                                 })
                                 found += 1
                                 break
                     
-                    log(f"✅ [ريديت] تم العثور على {found} منشورات في r/{sub}", "success")
+                    self.log(f"✅ [ريديت] تم العثور على {found} منشورات في r/{sub}", "success")
                 else:
-                    log(f"⚠️ [ريديت] فشل الاتصال بـ r/{sub}: {response.status_code}", "warning")
+                    self.log(f"⚠️ [ريديت] فشل الاتصال بـ r/{sub}: {response.status_code}", "warning")
                     
             except Exception as e:
-                log(f"⚠️ [ريديت] خطأ في r/{sub}: {e}", "warning")
+                self.log(f"⚠️ [ريديت] خطأ في r/{sub}: {e}", "warning")
             
             time.sleep(2)  # احترام لسياسات ريديت
         
-        log(f"✅ [ريديت] انتهى - إجمالي المنشورات: {found}", "success")
+        self.log(f"✅ [ريديت] انتهى - إجمالي المنشورات: {found}", "success")
 
 
 # ========== المدير الرئيسي ==========
@@ -293,6 +293,5 @@ if __name__ == "__main__":
     if not UNSPLASH_ACCESS_KEY:
         print("⚠️ تحذير: مفتاح Unsplash غير موجود")
     
-    # تشغيل البوتات
     master = BotMaster()
     master.run_all()
