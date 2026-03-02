@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موسوعة الحضارات - نَسَّاج الأحلام</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0f1e, #1a1f35);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 40px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #ffd700;
+            font-size: 3.5em;
+            text-align: center;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffd700, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            color: #00ffff;
+            margin-bottom: 30px;
+        }
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .report-card {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid #ffd700;
+            border-radius: 20px;
+            padding: 25px;
+            transition: transform 0.3s, border-color 0.3s;
+            cursor: pointer;
+        }
+        .report-card:hover {
+            transform: translateY(-10px);
+            border-color: #ff00ff;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+        }
+        .report-title {
+            color: #ffd700;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .report-date {
+            color: #00ffff;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+        .read-btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background: linear-gradient(45deg, #ffd700, #ff00ff);
+            color: black;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .read-btn:hover {
+            transform: scale(1.05);
+        }
+        .counter {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 1.5em;
+            color: #ffd700;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 60px;
+            border: 1px solid #ffd700;
+        }
+        .loading {
+            text-align: center;
+            font-size: 1.2em;
+            color: #00ffff;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 موسوعة الحضارات</h1>
+        <p class="subtitle">طقوس تفسير الأحلام عبر تاريخ البشرية</p>
+        
+        <div class="counter" id="reportCounter">
+            <span id="counterValue">جاري تحميل التقارير...</span>
+        </div>
+        
+        <div class="reports-grid" id="reportsGrid"></div>
+        
+        <div style="text-align: center;">
+            <a href="/" class="back-link">← العودة إلى الرئيسية</a>
+        </div>
+        
+        <footer>
+            <p>© 2026 نَسَّاج الأحلام - موسوعة الحضارات</p>
+        </footer>
+    </div>
+    
+    <script>
+        async function loadReports() {
+            try {
+                // محاولة تحميل الفهرس
+                const response = await fetch('/reports/index.json');
+                
+                if (!response.ok) {
+                    throw new Error('لا توجد تقارير بعد');
+                }
+                
+                const data = await response.json();
+                
+                // تحديث العداد
+                document.getElementById('counterValue').innerHTML = 
+                    `📊 إجمالي التقارير: ${data.total_reports || 0}`;
+                
+                if (!data.reports || data.reports.length === 0) {
+                    document.getElementById('reportsGrid').innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
+                            <p style="font-size: 1.5em; color: #ffd700;">✨ لا توجد تقارير بعد</p>
+                            <p>سيتم إضافة تقرير جديد كل يوم قريباً...</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // عرض التقارير
+                let html = '';
+                // عرض أحدث التقارير أولاً
+                const sortedReports = [...data.reports].reverse();
+                
+                sortedReports.forEach(report => {
+                    const date = new Date(report.date).toLocaleDateString('ar-EG', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    
+                    html += `
+                        <div class="report-card">
+                            <div class="report-title">${report.title}</div>
+                            <div class="report-date">📅 ${date}</div>
+                            <a href="/reports/${report.file}" class="read-btn" target="_blank">📖 قراءة التقرير</a>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('reportsGrid').innerHTML = html;
+                
+            } catch (error) {
+                console.error('خطأ:', error);
+                
+                document.getElementById('counterValue').innerHTML = '📊 لا توجد تقارير بعد';
+                
+                document.getElementById('reportsGrid').innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
+                        <p style="font-size: 1.5em; color: #ffd700;">✨ مرحباً بك في موسوعة الحضارات</p>
+                        <p>سيتم إضافة أول تقرير قريباً...</p>
+                        <p style="margin-top: 30px; color: #00ffff;">🔮 قريباً: حضارة بلاد الرافدين</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // تشغيل عند تحميل الصفحة
+        loadReports();
+        
+        // تحديث كل 5 دقائق (للتقارير الجديدة)
+        setInterval(loadReports, 300000);
+    </script>
+</body>
+</html>
