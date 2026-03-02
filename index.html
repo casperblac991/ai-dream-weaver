@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نَسَّاج الأحلام - تفسير الأحلام بالذكاء الاصطناعي</title>
     
-    <!-- Google Analytics (اختياري) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0KEHTRWRYB"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -13,6 +13,9 @@
         gtag('js', new Date());
         gtag('config', 'G-0KEHTRWRYB');
     </script>
+    
+    <!-- jsPDF للتقارير PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
         * {
@@ -94,16 +97,50 @@
             box-shadow: 0 0 20px #ffd700;
         }
         
+        /* شريط التنقل (الفهرس) */
+        .nav-bar {
+            background: rgba(10, 15, 30, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid #ffd700;
+            border-radius: 60px;
+            padding: 15px 30px;
+            margin: 120px auto 20px;
+            max-width: 900px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+        }
+        
+        .nav-link.active {
+            background: linear-gradient(45deg, #ffd700, #ff00ff);
+            color: black;
+        }
+        
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 100px 20px 40px;
+            padding: 20px 20px 40px;
         }
         
         /* الهيدر */
         .header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
         
         h1 {
@@ -208,6 +245,11 @@
             transform: scale(1.05);
         }
         
+        .category-btn.active {
+            background: linear-gradient(45deg, #ffd700, #ff00ff);
+            color: black;
+        }
+        
         .search-btn {
             padding: 12px 40px;
             border: none;
@@ -223,6 +265,14 @@
         .search-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 0 20px #ffd700;
+        }
+        
+        .search-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: none;
         }
         
         /* الرموز */
@@ -326,7 +376,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         
@@ -451,6 +501,36 @@
             width: 100%;
         }
         
+        /* مصادر موثوقة */
+        .sources-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 30px;
+            border: 1px solid #ffd700;
+        }
+        
+        .sources-title {
+            color: #ffd700;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .sources-list {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .source-item {
+            background: rgba(255,215,0,0.2);
+            padding: 8px 25px;
+            border-radius: 50px;
+            border: 1px solid #ffd700;
+        }
+        
         footer {
             text-align: center;
             padding: 40px;
@@ -458,10 +538,20 @@
             margin-top: 60px;
         }
         
+        footer a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
         @media (max-width: 768px) {
             h1 { font-size: 2.5em; }
             .stats { flex-direction: column; }
             .lang-bar { flex-wrap: wrap; width: 90%; }
+            .nav-bar { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
@@ -477,9 +567,19 @@
         <button class="lang-btn" onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
     </div>
     
+    <!-- شريط التنقل (الفهرس) -->
+    <div class="nav-bar">
+        <a href="#home" class="nav-link active" onclick="scrollToSection('home')">🏠 الرئيسية</a>
+        <a href="#search" class="nav-link" onclick="scrollToSection('search')">🔍 بحث</a>
+        <a href="#symbols" class="nav-link" onclick="scrollToSection('symbols')">📚 الرموز</a>
+        <a href="#reports" class="nav-link" onclick="scrollToSection('reports')">📊 تقارير</a>
+        <a href="#plans" class="nav-link" onclick="scrollToSection('plans')">💰 باقات</a>
+        <a href="/reports.html" class="nav-link">📖 موسوعة الحضارات</a>
+    </div>
+    
     <div class="container">
         <!-- الهيدر -->
-        <div class="header">
+        <div id="home" class="header">
             <h1 id="mainTitle">🌙 نَسَّاج الأحلام</h1>
             <p id="subtitle" class="subtitle">تفسير أحلامك بالذكاء الاصطناعي والواقع المعزز</p>
         </div>
@@ -505,33 +605,34 @@
         </div>
         
         <!-- قسم البحث -->
-        <div class="search-section">
+        <div id="search" class="search-section">
             <h2 class="search-title" id="searchTitle">🔍 ابحث عن تفسير حلمك</h2>
-            <input type="text" id="dreamInput" class="search-input" placeholder="اكتب الرمز أو الحلم... (ثعبان، طيران، بحر...)">
+            <input type="text" id="dreamInput" class="search-input" placeholder="اكتب الرمز أو الحلم...">
             <div class="category-buttons">
+                <button class="category-btn" onclick="filterCategory('all')" id="allBtn">الكل</button>
                 <button class="category-btn" onclick="filterCategory('animals')" id="animalsBtn">حيوانات</button>
                 <button class="category-btn" onclick="filterCategory('nature')" id="natureBtn">طبيعة</button>
                 <button class="category-btn" onclick="filterCategory('objects')" id="objectsBtn">أشياء</button>
                 <button class="category-btn" onclick="filterCategory('people')" id="peopleBtn">أشخاص</button>
             </div>
             <button class="search-btn" onclick="searchDream()" id="searchBtn">بحث</button>
-            <div id="searchResult" style="margin-top:20px;"></div>
+            <div id="searchResult" class="search-result"></div>
         </div>
         
         <!-- قائمة الرموز -->
-        <div class="symbols-section">
+        <div id="symbols" class="symbols-section">
             <h2 class="symbols-title" id="symbolsTitle">📚 قاموس الأحلام الشامل</h2>
             <div class="symbols-grid" id="symbolsGrid"></div>
         </div>
         
         <!-- التقارير -->
-        <div class="reports-section">
+        <div id="reports" class="reports-section">
             <h2 class="reports-title" id="reportsTitle">📊 أبحاث ودراسات</h2>
             <div class="reports-grid" id="reportsGrid"></div>
         </div>
         
         <!-- الباقات -->
-        <div class="plans-section">
+        <div id="plans" class="plans-section">
             <h2 class="plans-title" id="plansTitle">💰 باقات تفسير الأحلام</h2>
             <div class="plans-grid">
                 <!-- الباقة المجانية -->
@@ -543,58 +644,72 @@
                         <li>✅ تفسير مختصر</li>
                         <li>✅ مصادر إسلامية</li>
                     </ul>
-                    <button class="plan-btn" onclick="selectPlan('free')" id="freeBtn">ابدأ مجاناً</button>
+                    <button class="plan-btn" onclick="window.open('https://casperblac.gumroad.com/l/dtiobz', '_blank')" id="freeBtn">ابدأ مجاناً</button>
                 </div>
                 
-                <!-- الباقة الاحترافية (الأكثر شعبية) -->
-                <div class="plan-card popular">
-                    <div class="plan-name" id="proPlanName">الباقة الاحترافية</div>
-                    <div class="plan-price" id="proPlanPrice">$5.99 <small>/شهر</small></div>
-                    <ul class="plan-features" id="proFeatures">
-                        <li>✅ 10 أحلام شهرياً</li>
-                        <li>✅ تفسير شامل</li>
-                        <li>✅ تحليل جميع الرموز</li>
-                        <li>✅ سجل حفظ الأحلام</li>
-                        <li>✅ إحصائيات متقدمة</li>
-                    </ul>
-                    <button class="plan-btn" onclick="selectPlan('pro')" id="proBtn">اشترك الآن</button>
-                </div>
-                
-                <!-- الباقة المميزة -->
+                <!-- الباقة الأساسية -->
                 <div class="plan-card">
+                    <div class="plan-name" id="basicPlanName">الباقة الأساسية</div>
+                    <div class="plan-price" id="basicPlanPrice">$4.99 <small>مرة واحدة</small></div>
+                    <ul class="plan-features" id="basicFeatures">
+                        <li>✅ 10 أحلام</li>
+                        <li>✅ تفسير شامل</li>
+                        <li>✅ تحليل الرموز</li>
+                        <li>✅ سجل حفظ الأحلام</li>
+                    </ul>
+                    <button class="plan-btn" onclick="window.open('https://casperblac.gumroad.com/l/dtiobz', '_blank')" id="basicBtn">اشتر الآن</button>
+                </div>
+                
+                <!-- الباقة المميزة (الأكثر شعبية) -->
+                <div class="plan-card popular">
                     <div class="plan-name" id="premiumPlanName">الباقة المميزة</div>
                     <div class="plan-price" id="premiumPlanPrice">$9.99 <small>مرة واحدة</small></div>
                     <ul class="plan-features" id="premiumFeatures">
-                        <li>✅ 30 حلماً شهرياً</li>
+                        <li>✅ 30 حلماً</li>
                         <li>✅ تفسير شامل جداً</li>
                         <li>✅ تحليل متقدم للرموز</li>
                         <li>✅ سجل + إحصائيات</li>
                         <li>✅ دعم فني أولوية</li>
                         <li>✅ وصول للميزات الجديدة</li>
                     </ul>
-                    <button class="plan-btn" onclick="selectPlan('premium')" id="premiumBtn">اشترك الآن</button>
+                    <button class="plan-btn" onclick="window.open('https://casperblac.gumroad.com/l/byqzxd', '_blank')" id="premiumBtn">اشتر الآن</button>
+                </div>
+                
+                <!-- الباقة الشاملة -->
+                <div class="plan-card">
+                    <div class="plan-name" id="ultimatePlanName">الباقة الشاملة</div>
+                    <div class="plan-price" id="ultimatePlanPrice">$19.99 <small>مرة واحدة</small></div>
+                    <ul class="plan-features" id="ultimateFeatures">
+                        <li>✅ 100 حلماً</li>
+                        <li>✅ تفسير كامل</li>
+                        <li>✅ تحليل جميع الرموز</li>
+                        <li>✅ سجل متقدم</li>
+                        <li>✅ دعم VIP</li>
+                        <li>✅ جميع الميزات الجديدة</li>
+                    </ul>
+                    <button class="plan-btn" onclick="window.open('https://casperblac.gumroad.com/l/hiulqi', '_blank')" id="ultimateBtn">اشتر الآن</button>
                 </div>
             </div>
         </div>
         
         <!-- مصادر موثوقة -->
-        <div style="text-align: center; margin: 40px 0; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 20px;">
-            <h2 style="color:#ffd700;">📚 مصادرنا الموثوقة</h2>
-            <p style="margin:10px 0;">نعتمد على أشهر المفسرين في التاريخ الإسلامي</p>
-            <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
-                <span style="background:rgba(255,215,0,0.2); padding:5px 15px; border-radius:20px;">ابن سيرين</span>
-                <span style="background:rgba(255,215,0,0.2); padding:5px 15px; border-radius:20px;">النابلسي</span>
-                <span style="background:rgba(255,215,0,0.2); padding:5px 15px; border-radius:20px;">ابن شاهين</span>
-                <span style="background:rgba(255,215,0,0.2); padding:5px 15px; border-radius:20px;">صحيح مسلم</span>
+        <div class="sources-section">
+            <h2 class="sources-title" id="sourcesTitle">📚 مصادرنا الموثوقة</h2>
+            <p>نعتمد على أشهر المفسرين في التاريخ الإسلامي</p>
+            <div class="sources-list">
+                <span class="source-item">ابن سيرين</span>
+                <span class="source-item">النابلسي</span>
+                <span class="source-item">ابن شاهين</span>
+                <span class="source-item">صحيح مسلم</span>
             </div>
         </div>
         
         <footer>
             <p id="footerText">© 2026 نَسَّاج الأحلام - جميع الحقوق محفوظة</p>
             <p>
-                <a href="#" style="color:#ffd700;" id="privacyLink">سياسة الخصوصية</a> | 
-                <a href="#" style="color:#ffd700;" id="aboutLink">من نحن</a> |
-                <a href="#" style="color:#ffd700;" id="contactLink">اتصل بنا</a>
+                <a href="#" id="privacyLink">سياسة الخصوصية</a> | 
+                <a href="#" id="aboutLink">من نحن</a> |
+                <a href="#" id="contactLink">اتصل بنا</a>
             </p>
         </footer>
     </div>
@@ -606,7 +721,8 @@
                 title: "🌙 نَسَّاج الأحلام",
                 subtitle: "تفسير أحلامك بالذكاء الاصطناعي والواقع المعزز",
                 searchTitle: "🔍 ابحث عن تفسير حلمك",
-                searchPlaceholder: "اكتب الرمز أو الحلم... (ثعبان، طيران، بحر...)",
+                searchPlaceholder: "اكتب الرمز أو الحلم...",
+                allBtn: "الكل",
                 animalsBtn: "حيوانات",
                 natureBtn: "طبيعة",
                 objectsBtn: "أشياء",
@@ -616,21 +732,26 @@
                 reportsTitle: "📊 أبحاث ودراسات",
                 plansTitle: "💰 باقات تفسير الأحلام",
                 freePlanName: "الباقة المجانية",
-                proPlanName: "الباقة الاحترافية",
+                basicPlanName: "الباقة الأساسية",
                 premiumPlanName: "الباقة المميزة",
+                ultimatePlanName: "الباقة الشاملة",
                 freePlanPrice: "$0 مجاني",
-                proPlanPrice: "$5.99 /شهر",
+                basicPlanPrice: "$4.99 مرة واحدة",
                 premiumPlanPrice: "$9.99 مرة واحدة",
+                ultimatePlanPrice: "$19.99 مرة واحدة",
                 freeFeatures: ["✅ 3 أحلام شهرياً", "✅ تفسير مختصر", "✅ مصادر إسلامية"],
-                proFeatures: ["✅ 10 أحلام شهرياً", "✅ تفسير شامل", "✅ تحليل جميع الرموز", "✅ سجل حفظ الأحلام", "✅ إحصائيات متقدمة"],
-                premiumFeatures: ["✅ 30 حلماً شهرياً", "✅ تفسير شامل جداً", "✅ تحليل متقدم للرموز", "✅ سجل + إحصائيات", "✅ دعم فني أولوية", "✅ وصول للميزات الجديدة"],
+                basicFeatures: ["✅ 10 أحلام", "✅ تفسير شامل", "✅ تحليل الرموز", "✅ سجل حفظ الأحلام"],
+                premiumFeatures: ["✅ 30 حلماً", "✅ تفسير شامل جداً", "✅ تحليل متقدم للرموز", "✅ سجل + إحصائيات", "✅ دعم فني أولوية", "✅ وصول للميزات الجديدة"],
+                ultimateFeatures: ["✅ 100 حلماً", "✅ تفسير كامل", "✅ تحليل جميع الرموز", "✅ سجل متقدم", "✅ دعم VIP", "✅ جميع الميزات الجديدة"],
                 freeBtn: "ابدأ مجاناً",
-                proBtn: "اشترك الآن",
-                premiumBtn: "اشترك الآن",
+                basicBtn: "اشتر الآن",
+                premiumBtn: "اشتر الآن",
+                ultimateBtn: "اشتر الآن",
                 visitors: "زائر اليوم",
                 dreams: "حلم محلل",
                 customers: "عميل سعيد",
                 reports: "تقرير",
+                sourcesTitle: "📚 مصادرنا الموثوقة",
                 footer: "© 2026 نَسَّاج الأحلام - جميع الحقوق محفوظة",
                 privacy: "سياسة الخصوصية",
                 about: "من نحن",
@@ -649,12 +770,7 @@
                 reportMesopotamia: "📜 بلاد الرافدين",
                 reportGreece: "📜 اليونان",
                 reportIbn: "📜 ابن سيرين",
-                historyContentEgypt: "بنى المصريون القدماء 'معابد الأحلام' حيث كان الكهنة المتخصصون يفسرون أحلام الفراعنة والنبلاء. اعتقدوا أن الأحلام رسائل من الآلهة، خاصة من الإله تحوت إله الحكمة.",
-                historyContentMesopotamia: "في بلاد الرافدين، وُجدت أقدم السجلات المكتوبة لتفسير الأحلام على ألواح طينية عمرها 5000 عام. كان الملوك يستشيرون المفسرين قبل اتخاذ القرارات المصيرية.",
-                historyContentGreece: "اعتقد الإغريق أن الأحلام رسائل من الآلهة، وبنوا معابد مخصصة للنوم والعلاج بالأحلام. أبقراط اعتبر الأحلام مؤشرات صحية مهمة.",
-                historyContentIslamic: "ابن سيرين (653-729م) هو أشهر مفسر أحلام في التاريخ الإسلامي. كتابه 'تفسير الأحلام' يعد مرجعاً أساسياً حتى اليوم، ويتميز بتفسير الرموز حسب سياق الرائي.",
-                historyContentModern: "سيغموند فرويد اعتبر الأحلام 'الطريق الملكي للاوعي'. كارل يونغ أضاف مفهوم 'النماذج الأولية' و'اللاوعي الجمعي'، حيث تحمل الأحلام رموزاً مشتركة بين البشر.",
-                // أسماء الرموز المترجمة
+                // أسماء الرموز
                 snake: "ثعبان",
                 flying: "طيران",
                 sea: "بحر",
@@ -678,12 +794,12 @@
                 // تفسيرات الرموز
                 symbolMeaningSnake: "تحذير من أعداء خفيين. في مصر القديمة كان رمزاً للحماية الملكية.",
                 symbolMeaningFlying: "الحرية والطموح والرغبة في التحرر من القيود.",
-                symbolMeaningSea: "العواطف العميقة واللاوعي. في الأساطير البابلية، كان البحر رمزاً للخلق.",
-                symbolMeaningDead: "رسالة من الماضي أو حاجة للدعاء. في الثقافات القديمة، وسيلة تواصل مع الأسلاف.",
-                symbolMeaningMarriage: "بداية جديدة ومسؤوليات جديدة في الحياة.",
+                symbolMeaningSea: "العواطف العميقة واللاوعي.",
+                symbolMeaningDead: "رسالة من الماضي أو حاجة للدعاء.",
+                symbolMeaningMarriage: "بداية جديدة ومسؤوليات جديدة.",
                 symbolMeaningGold: "الثراء والخير، لكن قد يدل على هموم إذا كان كثيراً.",
                 symbolMeaningTeeth: "العمر والأهل. سقوط الأسنان يدل على الخوف من التقدم.",
-                symbolMeaningCat: "الخيانة أو شخص غير مخلص. في مصر القديمة كانت القطط مقدسة.",
+                symbolMeaningCat: "الخيانة أو شخص غير مخلص.",
                 symbolMeaningDog: "صديق مخلص أو عدو حسب حالته.",
                 symbolMeaningLion: "القوة والسلطة والنفوذ.",
                 symbolMeaningFire: "العاطفة والغضب المكبوت والتغيير الجذري.",
@@ -701,7 +817,8 @@
                 title: "🌙 Dream Weaver",
                 subtitle: "Interpret Your Dreams with AI and AR",
                 searchTitle: "🔍 Search for Your Dream Interpretation",
-                searchPlaceholder: "Write the symbol or dream... (snake, flying, sea...)",
+                searchPlaceholder: "Write the symbol or dream...",
+                allBtn: "All",
                 animalsBtn: "Animals",
                 natureBtn: "Nature",
                 objectsBtn: "Objects",
@@ -711,21 +828,26 @@
                 reportsTitle: "📊 Research & Studies",
                 plansTitle: "💰 Dream Interpretation Plans",
                 freePlanName: "Free Plan",
-                proPlanName: "Professional Plan",
+                basicPlanName: "Basic Plan",
                 premiumPlanName: "Premium Plan",
+                ultimatePlanName: "Ultimate Plan",
                 freePlanPrice: "$0 Free",
-                proPlanPrice: "$5.99 /month",
+                basicPlanPrice: "$4.99 one-time",
                 premiumPlanPrice: "$9.99 one-time",
+                ultimatePlanPrice: "$19.99 one-time",
                 freeFeatures: ["✅ 3 dreams/month", "✅ Brief interpretation", "✅ Islamic sources"],
-                proFeatures: ["✅ 10 dreams/month", "✅ Comprehensive interpretation", "✅ All symbols analysis", "✅ Dream journal", "✅ Advanced statistics"],
-                premiumFeatures: ["✅ 30 dreams/month", "✅ Very comprehensive interpretation", "✅ Advanced symbols analysis", "✅ Journal + statistics", "✅ Priority support", "✅ Access to new features"],
+                basicFeatures: ["✅ 10 dreams", "✅ Comprehensive interpretation", "✅ Symbol analysis", "✅ Dream journal"],
+                premiumFeatures: ["✅ 30 dreams", "✅ Very comprehensive interpretation", "✅ Advanced symbol analysis", "✅ Journal + statistics", "✅ Priority support", "✅ Access to new features"],
+                ultimateFeatures: ["✅ 100 dreams", "✅ Complete interpretation", "✅ All symbols analysis", "✅ Advanced journal", "✅ VIP support", "✅ All new features"],
                 freeBtn: "Start Free",
-                proBtn: "Subscribe Now",
-                premiumBtn: "Subscribe Now",
+                basicBtn: "Buy Now",
+                premiumBtn: "Buy Now",
+                ultimateBtn: "Buy Now",
                 visitors: "Visitors Today",
                 dreams: "Dreams Analyzed",
                 customers: "Happy Customers",
                 reports: "Reports",
+                sourcesTitle: "📚 Trusted Sources",
                 footer: "© 2026 Dream Weaver - All Rights Reserved",
                 privacy: "Privacy Policy",
                 about: "About Us",
@@ -744,12 +866,6 @@
                 reportMesopotamia: "📜 Mesopotamia",
                 reportGreece: "📜 Greece",
                 reportIbn: "📜 Ibn Sirin",
-                historyContentEgypt: "The ancient Egyptians built 'Dream Temples' where specialized priests interpreted the dreams of pharaohs and nobles. They believed dreams were messages from the gods, especially from Thoth, the god of wisdom.",
-                historyContentMesopotamia: "In Mesopotamia, the oldest written records of dream interpretation were found on clay tablets dating back 5000 years. Kings consulted interpreters before making crucial decisions.",
-                historyContentGreece: "The Greeks believed dreams were messages from the gods and built special temples for sleep and dream healing. Hippocrates considered dreams important health indicators.",
-                historyContentIslamic: "Ibn Sirin (653-729 AD) is the most famous dream interpreter in Islamic history. His book 'Interpretation of Dreams' remains a key reference to this day, characterized by interpreting symbols according to the dreamer's context.",
-                historyContentModern: "Sigmund Freud considered dreams 'the royal road to the unconscious'. Carl Jung added the concepts of 'archetypes' and the 'collective unconscious', where dreams carry common symbols among humans.",
-                // Translated symbol names
                 snake: "Snake",
                 flying: "Flying",
                 sea: "Sea",
@@ -770,15 +886,14 @@
                 door: "Door",
                 ship: "Ship",
                 horse: "Horse",
-                // Symbol meanings
                 symbolMeaningSnake: "Warning of hidden enemies. In ancient Egypt, it was a symbol of royal protection.",
                 symbolMeaningFlying: "Freedom, ambition, and the desire to break free from constraints.",
-                symbolMeaningSea: "Deep emotions and the subconscious. In Babylonian mythology, the sea symbolized creation.",
-                symbolMeaningDead: "A message from the past or a need for prayer. In ancient cultures, a means of communicating with ancestors.",
-                symbolMeaningMarriage: "New beginnings and new responsibilities in life.",
+                symbolMeaningSea: "Deep emotions and the subconscious.",
+                symbolMeaningDead: "A message from the past or a need for prayer.",
+                symbolMeaningMarriage: "New beginnings and new responsibilities.",
                 symbolMeaningGold: "Wealth and goodness, but may indicate worries if excessive.",
                 symbolMeaningTeeth: "Age and family. Falling teeth indicate fear of aging.",
-                symbolMeaningCat: "Betrayal or an insincere person. In ancient Egypt, cats were sacred.",
+                symbolMeaningCat: "Betrayal or an insincere person.",
                 symbolMeaningDog: "A loyal friend or an enemy depending on its state.",
                 symbolMeaningLion: "Power, authority, and influence.",
                 symbolMeaningFire: "Passion, repressed anger, and radical change.",
@@ -796,7 +911,8 @@
                 title: "🌙 Tejedor de Sueños",
                 subtitle: "Interpreta tus Sueños con IA y AR",
                 searchTitle: "🔍 Busca la interpretación de tu sueño",
-                searchPlaceholder: "Escribe el símbolo o sueño... (serpiente, volar, mar...)",
+                searchPlaceholder: "Escribe el símbolo o sueño...",
+                allBtn: "Todo",
                 animalsBtn: "Animales",
                 natureBtn: "Naturaleza",
                 objectsBtn: "Objetos",
@@ -806,21 +922,26 @@
                 reportsTitle: "📊 Investigaciones y Estudios",
                 plansTitle: "💰 Planes de interpretación de sueños",
                 freePlanName: "Plan Gratuito",
-                proPlanName: "Plan Profesional",
+                basicPlanName: "Plan Básico",
                 premiumPlanName: "Plan Premium",
+                ultimatePlanName: "Plan Definitivo",
                 freePlanPrice: "$0 Gratis",
-                proPlanPrice: "$5.99 /mes",
-                premiumPlanPrice: "$9.99 una vez",
+                basicPlanPrice: "$4.99 único",
+                premiumPlanPrice: "$9.99 único",
+                ultimatePlanPrice: "$19.99 único",
                 freeFeatures: ["✅ 3 sueños/mes", "✅ Interpretación breve", "✅ Fuentes islámicas"],
-                proFeatures: ["✅ 10 sueños/mes", "✅ Interpretación completa", "✅ Análisis de todos los símbolos", "✅ Diario de sueños", "✅ Estadísticas avanzadas"],
-                premiumFeatures: ["✅ 30 sueños/mes", "✅ Interpretación muy completa", "✅ Análisis avanzado de símbolos", "✅ Diario + estadísticas", "✅ Soporte prioritario", "✅ Acceso a nuevas funciones"],
+                basicFeatures: ["✅ 10 sueños", "✅ Interpretación completa", "✅ Análisis de símbolos", "✅ Diario de sueños"],
+                premiumFeatures: ["✅ 30 sueños", "✅ Interpretación muy completa", "✅ Análisis avanzado de símbolos", "✅ Diario + estadísticas", "✅ Soporte prioritario", "✅ Acceso a nuevas funciones"],
+                ultimateFeatures: ["✅ 100 sueños", "✅ Interpretación completa", "✅ Análisis de todos los símbolos", "✅ Diario avanzado", "✅ Soporte VIP", "✅ Todas las nuevas funciones"],
                 freeBtn: "Empezar Gratis",
-                proBtn: "Suscribirse",
-                premiumBtn: "Suscribirse",
+                basicBtn: "Comprar",
+                premiumBtn: "Comprar",
+                ultimateBtn: "Comprar",
                 visitors: "Visitantes Hoy",
                 dreams: "Sueños Analizados",
                 customers: "Clientes Felices",
                 reports: "Informes",
+                sourcesTitle: "📚 Fuentes Confiables",
                 footer: "© 2026 Tejedor de Sueños - Todos los derechos reservados",
                 privacy: "Política de Privacidad",
                 about: "Sobre Nosotros",
@@ -839,11 +960,6 @@
                 reportMesopotamia: "📜 Mesopotamia",
                 reportGreece: "📜 Grecia",
                 reportIbn: "📜 Ibn Sirin",
-                historyContentEgypt: "Los antiguos egipcios construyeron 'Templos de los Sueños' donde sacerdotes especializados interpretaban los sueños de faraones y nobles. Creían que los sueños eran mensajes de los dioses, especialmente de Thoth, el dios de la sabiduría.",
-                historyContentMesopotamia: "En Mesopotamia, los registros escritos más antiguos de interpretación de sueños se encontraron en tablillas de arcilla de 5000 años de antigüedad. Los reyes consultaban a los intérpretes antes de tomar decisiones cruciales.",
-                historyContentGreece: "Los griegos creían que los sueños eran mensajes de los dioses y construyeron templos especiales para dormir y curar con sueños. Hipócrates consideraba los sueños indicadores importantes de salud.",
-                historyContentIslamic: "Ibn Sirin (653-729 d.C.) es el intérprete de sueños más famoso de la historia islámica. Su libro 'Interpretación de los Sueños' sigue siendo una referencia clave hasta hoy, caracterizado por interpretar símbolos según el contexto del soñador.",
-                historyContentModern: "Sigmund Freud consideraba los sueños 'el camino real hacia el inconsciente'. Carl Jung añadió los conceptos de 'arquetipos' e 'inconsciente colectivo', donde los sueños portan símbolos comunes entre los humanos.",
                 snake: "Serpiente",
                 flying: "Volar",
                 sea: "Mar",
@@ -863,33 +979,14 @@
                 key: "Llave",
                 door: "Puerta",
                 ship: "Barco",
-                horse: "Caballo",
-                symbolMeaningSnake: "Advertencia de enemigos ocultos. En el antiguo Egipto, era un símbolo de protección real.",
-                symbolMeaningFlying: "Libertad, ambición y deseo de liberarse de restricciones.",
-                symbolMeaningSea: "Emociones profundas y el subconsciente. En la mitología babilónica, el mar simbolizaba la creación.",
-                symbolMeaningDead: "Un mensaje del pasado o necesidad de oración. En culturas antiguas, un medio de comunicarse con los ancestros.",
-                symbolMeaningMarriage: "Nuevos comienzos y nuevas responsabilidades en la vida.",
-                symbolMeaningGold: "Riqueza y bondad, pero puede indicar preocupaciones si es excesivo.",
-                symbolMeaningTeeth: "Edad y familia. Dientes que caen indican miedo al envejecimiento.",
-                symbolMeaningCat: "Traición o persona insincera. En el antiguo Egipto, los gatos eran sagrados.",
-                symbolMeaningDog: "Un amigo leal o un enemigo según su estado.",
-                symbolMeaningLion: "Poder, autoridad e influencia.",
-                symbolMeaningFire: "Pasión, ira reprimida y cambio radical.",
-                symbolMeaningWater: "Vida, pureza y emociones.",
-                symbolMeaningMountain: "Ambición y desafíos que superas.",
-                symbolMeaningRain: "Misericordia, bondad y bendiciones venideras.",
-                symbolMeaningWind: "Cambios rápidos en la vida.",
-                symbolMeaningTreasure: "Talentos y habilidades ocultas que descubres en ti mismo.",
-                symbolMeaningKey: "Soluciones y nuevas oportunidades que vienen.",
-                symbolMeaningDoor: "Nuevas oportunidades o transición a una etapa diferente.",
-                symbolMeaningShip: "Viaje de la vida y supervivencia de peligros.",
-                symbolMeaningHorse: "Fuerza, velocidad y dignidad."
+                horse: "Caballo"
             },
             fr: {
                 title: "🌙 Tisseur de Rêves",
                 subtitle: "Interprétez vos Rêves avec IA et RA",
                 searchTitle: "🔍 Cherchez l'interprétation de votre rêve",
-                searchPlaceholder: "Écrivez le symbole ou le rêve... (serpent, voler, mer...)",
+                searchPlaceholder: "Écrivez le symbole ou le rêve...",
+                allBtn: "Tout",
                 animalsBtn: "Animaux",
                 natureBtn: "Nature",
                 objectsBtn: "Objets",
@@ -899,21 +996,26 @@
                 reportsTitle: "📊 Recherches et Études",
                 plansTitle: "💰 Forfaits d'interprétation des rêves",
                 freePlanName: "Forfait Gratuit",
-                proPlanName: "Forfait Professionnel",
+                basicPlanName: "Forfait de Base",
                 premiumPlanName: "Forfait Premium",
+                ultimatePlanName: "Forfait Ultime",
                 freePlanPrice: "$0 Gratuit",
-                proPlanPrice: "$5.99 /mois",
+                basicPlanPrice: "$4.99 unique",
                 premiumPlanPrice: "$9.99 unique",
+                ultimatePlanPrice: "$19.99 unique",
                 freeFeatures: ["✅ 3 rêves/mois", "✅ Interprétation brève", "✅ Sources islamiques"],
-                proFeatures: ["✅ 10 rêves/mois", "✅ Interprétation complète", "✅ Analyse de tous les symboles", "✅ Journal de rêves", "✅ Statistiques avancées"],
-                premiumFeatures: ["✅ 30 rêves/mois", "✅ Interprétation très complète", "✅ Analyse avancée des symboles", "✅ Journal + statistiques", "✅ Support prioritaire", "✅ Accès aux nouvelles fonctionnalités"],
+                basicFeatures: ["✅ 10 rêves", "✅ Interprétation complète", "✅ Analyse des symboles", "✅ Journal de rêves"],
+                premiumFeatures: ["✅ 30 rêves", "✅ Interprétation très complète", "✅ Analyse avancée des symboles", "✅ Journal + statistiques", "✅ Support prioritaire", "✅ Accès aux nouvelles fonctionnalités"],
+                ultimateFeatures: ["✅ 100 rêves", "✅ Interprétation complète", "✅ Analyse de tous les symboles", "✅ Journal avancé", "✅ Support VIP", "✅ Toutes les nouvelles fonctionnalités"],
                 freeBtn: "Commencer Gratuit",
-                proBtn: "S'abonner",
-                premiumBtn: "S'abonner",
+                basicBtn: "Acheter",
+                premiumBtn: "Acheter",
+                ultimateBtn: "Acheter",
                 visitors: "Visiteurs Aujourd'hui",
                 dreams: "Rêves Analysés",
                 customers: "Clients Satisfaits",
                 reports: "Rapports",
+                sourcesTitle: "📚 Sources Fiables",
                 footer: "© 2026 Tisseur de Rêves - Tous droits réservés",
                 privacy: "Politique de Confidentialité",
                 about: "À Propos",
@@ -932,11 +1034,6 @@
                 reportMesopotamia: "📜 Mésopotamie",
                 reportGreece: "📜 Grèce",
                 reportIbn: "📜 Ibn Sirin",
-                historyContentEgypt: "Les anciens Égyptiens ont construit des 'Temples des Rêves' où des prêtres spécialisés interprétaient les rêves des pharaons et des nobles. Ils croyaient que les rêves étaient des messages des dieux, en particulier de Thot, le dieu de la sagesse.",
-                historyContentMesopotamia: "En Mésopotamie, les plus anciens écrits sur l'interprétation des rêves ont été trouvés sur des tablettes d'argile vieilles de 5000 ans. Les rois consultaient les interprètes avant de prendre des décisions cruciales.",
-                historyContentGreece: "Les Grecs croyaient que les rêves étaient des messages des dieux et ont construit des temples spéciaux pour dormir et guérir par les rêves. Hippocrate considérait les rêves comme des indicateurs de santé importants.",
-                historyContentIslamic: "Ibn Sirin (653-729 apr. J.-C.) est le plus célèbre interprète de rêves de l'histoire islamique. Son livre 'Interprétation des rêves' reste une référence clé à ce jour, caractérisé par l'interprétation des symboles selon le contexte du rêveur.",
-                historyContentModern: "Sigmund Freud considérait les rêves comme 'la voie royale vers l'inconscient'. Carl Jung a ajouté les concepts d''archétypes' et d''inconscient collectif', où les rêves portent des symboles communs parmi les humains.",
                 snake: "Serpent",
                 flying: "Voler",
                 sea: "Mer",
@@ -956,33 +1053,14 @@
                 key: "Clé",
                 door: "Porte",
                 ship: "Bateau",
-                horse: "Cheval",
-                symbolMeaningSnake: "Avertissement d'ennemis cachés. Dans l'Égypte ancienne, c'était un symbole de protection royale.",
-                symbolMeaningFlying: "Liberté, ambition et désir de se libérer des contraintes.",
-                symbolMeaningSea: "Émotions profondes et inconscient. Dans la mythologie babylonienne, la mer symbolisait la création.",
-                symbolMeaningDead: "Un message du passé ou un besoin de prière. Dans les cultures anciennes, un moyen de communiquer avec les ancêtres.",
-                symbolMeaningMarriage: "Nouveaux départs et nouvelles responsabilités dans la vie.",
-                symbolMeaningGold: "Richesse et bonté, mais peut indiquer des soucis si excessif.",
-                symbolMeaningTeeth: "Âge et famille. Les dents qui tombent indiquent la peur du vieillissement.",
-                symbolMeaningCat: "Trahison ou personne insincère. Dans l'Égypte ancienne, les chats étaient sacrés.",
-                symbolMeaningDog: "Un ami loyal ou un ennemi selon son état.",
-                symbolMeaningLion: "Pouvoir, autorité et influence.",
-                symbolMeaningFire: "Passion, colère refoulée et changement radical.",
-                symbolMeaningWater: "Vie, pureté et émotions.",
-                symbolMeaningMountain: "Ambition et défis que vous surmontez.",
-                symbolMeaningRain: "Miséricorde, bonté et bénédictions à venir.",
-                symbolMeaningWind: "Changements rapides dans la vie.",
-                symbolMeaningTreasure: "Talents et capacités cachés que vous découvrez en vous.",
-                symbolMeaningKey: "Solutions et nouvelles opportunités à venir.",
-                symbolMeaningDoor: "Nouvelles opportunités ou transition vers une étape différente.",
-                symbolMeaningShip: "Voyage de la vie et survie aux dangers.",
-                symbolMeaningHorse: "Force, rapidité et dignité."
+                horse: "Cheval"
             },
             de: {
                 title: "🌙 Traumweber",
                 subtitle: "Deuten Sie Träume mit KI und AR",
                 searchTitle: "🔍 Suchen Sie nach Ihrer Traumdeutung",
-                searchPlaceholder: "Schreiben Sie das Symbol oder den Traum... (Schlange, fliegen, Meer...)",
+                searchPlaceholder: "Schreiben Sie das Symbol oder den Traum...",
+                allBtn: "Alle",
                 animalsBtn: "Tiere",
                 natureBtn: "Natur",
                 objectsBtn: "Objekte",
@@ -992,21 +1070,26 @@
                 reportsTitle: "📊 Forschung & Studien",
                 plansTitle: "💰 Traumdeutungs-Pläne",
                 freePlanName: "Kostenloser Plan",
-                proPlanName: "Professioneller Plan",
+                basicPlanName: "Basis-Plan",
                 premiumPlanName: "Premium-Plan",
+                ultimatePlanName: "Ultimativer Plan",
                 freePlanPrice: "$0 Kostenlos",
-                proPlanPrice: "$5.99 /Monat",
+                basicPlanPrice: "$4.99 einmalig",
                 premiumPlanPrice: "$9.99 einmalig",
+                ultimatePlanPrice: "$19.99 einmalig",
                 freeFeatures: ["✅ 3 Träume/Monat", "✅ Kurze Deutung", "✅ Islamische Quellen"],
-                proFeatures: ["✅ 10 Träume/Monat", "✅ Umfassende Deutung", "✅ Analyse aller Symbole", "✅ Traumtagebuch", "✅ Erweiterte Statistiken"],
-                premiumFeatures: ["✅ 30 Träume/Monat", "✅ Sehr umfassende Deutung", "✅ Erweiterte Symbolanalyse", "✅ Tagebuch + Statistiken", "✅ Prioritäts-Support", "✅ Zugang zu neuen Funktionen"],
+                basicFeatures: ["✅ 10 Träume", "✅ Umfassende Deutung", "✅ Symbolanalyse", "✅ Traumtagebuch"],
+                premiumFeatures: ["✅ 30 Träume", "✅ Sehr umfassende Deutung", "✅ Erweiterte Symbolanalyse", "✅ Tagebuch + Statistiken", "✅ Prioritäts-Support", "✅ Zugang zu neuen Funktionen"],
+                ultimateFeatures: ["✅ 100 Träume", "✅ Vollständige Deutung", "✅ Analyse aller Symbole", "✅ Erweitertes Tagebuch", "✅ VIP-Support", "✅ Alle neuen Funktionen"],
                 freeBtn: "Kostenlos Starten",
-                proBtn: "Jetzt Abonnieren",
-                premiumBtn: "Jetzt Abonnieren",
+                basicBtn: "Kaufen",
+                premiumBtn: "Kaufen",
+                ultimateBtn: "Kaufen",
                 visitors: "Besucher Heute",
                 dreams: "Analysierte Träume",
                 customers: "Zufriedene Kunden",
                 reports: "Berichte",
+                sourcesTitle: "📚 Vertrauenswürdige Quellen",
                 footer: "© 2026 Traumweber - Alle Rechte vorbehalten",
                 privacy: "Datenschutz",
                 about: "Über uns",
@@ -1025,11 +1108,6 @@
                 reportMesopotamia: "📜 Mesopotamien",
                 reportGreece: "📜 Griechenland",
                 reportIbn: "📜 Ibn Sirin",
-                historyContentEgypt: "Die alten Ägypter bauten 'Traumtempel', in denen spezialisierte Priester die Träume von Pharaonen und Adligen deuteten. Sie glaubten, Träume seien Botschaften der Götter, insbesondere von Thoth, dem Gott der Weisheit.",
-                historyContentMesopotamia: "In Mesopotamien wurden die ältesten schriftlichen Aufzeichnungen zur Traumdeutung auf 5000 Jahre alten Tontafeln gefunden. Könige konsultierten Deuter vor entscheidenden Entscheidungen.",
-                historyContentGreece: "Die Griechen glaubten, Träume seien Botschaften der Götter und bauten spezielle Tempel zum Schlafen und Heilen durch Träume. Hippokrates betrachtete Träume als wichtige Gesundheitsindikatoren.",
-                historyContentIslamic: "Ibn Sirin (653-729 n. Chr.) ist der berühmteste Traumdeuter der islamischen Geschichte. Sein Buch 'Traumdeutung' ist bis heute eine wichtige Referenz, charakterisiert durch die Deutung von Symbolen nach dem Kontext des Träumers.",
-                historyContentModern: "Sigmund Freud betrachtete Träume als 'Königsweg zum Unbewussten'. Carl Jung fügte die Konzepte der 'Archetypen' und des 'kollektiven Unbewussten' hinzu, wo Träume gemeinsame Symbole unter Menschen tragen.",
                 snake: "Schlange",
                 flying: "Fliegen",
                 sea: "Meer",
@@ -1049,32 +1127,62 @@
                 key: "Schlüssel",
                 door: "Tür",
                 ship: "Schiff",
-                horse: "Pferd",
-                symbolMeaningSnake: "Warnung vor versteckten Feinden. Im alten Ägypten war es ein Symbol des königlichen Schutzes.",
-                symbolMeaningFlying: "Freiheit, Ehrgeiz und der Wunsch, sich von Zwängen zu befreien.",
-                symbolMeaningSea: "Tiefe Emotionen und das Unterbewusstsein. In der babylonischen Mythologie symbolisierte das Meer die Schöpfung.",
-                symbolMeaningDead: "Eine Botschaft aus der Vergangenheit oder ein Bedürfnis nach Gebet. In alten Kulturen ein Mittel zur Kommunikation mit Vorfahren.",
-                symbolMeaningMarriage: "Neuanfänge und neue Verantwortungen im Leben.",
-                symbolMeaningGold: "Reichtum und Güte, kann aber bei Übermaß auf Sorgen hinweisen.",
-                symbolMeaningTeeth: "Alter und Familie. Zahnausfall deutet auf Angst vor dem Altern hin.",
-                symbolMeaningCat: "Verrat oder unaufrichtige Person. Im alten Ägypten waren Katzen heilig.",
-                symbolMeaningDog: "Ein treuer Freund oder Feind je nach Zustand.",
-                symbolMeaningLion: "Macht, Autorität und Einfluss.",
-                symbolMeaningFire: "Leidenschaft, unterdrückte Wut und radikaler Wandel.",
-                symbolMeaningWater: "Leben, Reinheit und Emotionen.",
-                symbolMeaningMountain: "Ehrgeiz und Herausforderungen, die Sie überwinden.",
-                symbolMeaningRain: "Barmherzigkeit, Güte und kommende Segnungen.",
-                symbolMeaningWind: "Schnelle Veränderungen im Leben.",
-                symbolMeaningTreasure: "Verborgene Talente und Fähigkeiten, die Sie in sich entdecken.",
-                symbolMeaningKey: "Lösungen und neue Chancen, die kommen.",
-                symbolMeaningDoor: "Neue Chancen oder Übergang zu einer anderen Phase.",
-                symbolMeaningShip: "Lebensreise und Überleben von Gefahren.",
-                symbolMeaningHorse: "Stärke, Schnelligkeit und Würde."
+                horse: "Pferd"
             }
+        };
+
+        // ========== قائمة الرموز ==========
+        const symbolsList = [
+            { key: "snake", category: "animals" },
+            { key: "flying", category: "actions" },
+            { key: "sea", category: "nature" },
+            { key: "dead", category: "people" },
+            { key: "marriage", category: "events" },
+            { key: "gold", category: "objects" },
+            { key: "teeth", category: "body" },
+            { key: "cat", category: "animals" },
+            { key: "dog", category: "animals" },
+            { key: "lion", category: "animals" },
+            { key: "fire", category: "nature" },
+            { key: "water", category: "nature" },
+            { key: "mountain", category: "nature" },
+            { key: "rain", category: "nature" },
+            { key: "wind", category: "nature" },
+            { key: "treasure", category: "objects" },
+            { key: "key", category: "objects" },
+            { key: "door", category: "objects" },
+            { key: "ship", category: "objects" },
+            { key: "horse", category: "animals" }
+        ];
+
+        // ========== قائمة التقارير ==========
+        const reportsList = [
+            { id: 'egypt', key: 'reportEgypt' },
+            { id: 'mesopotamia', key: 'reportMesopotamia' },
+            { id: 'greece', key: 'reportGreece' },
+            { id: 'ibn', key: 'reportIbn' }
+        ];
+
+        let currentCategory = 'all';
+        let currentLanguage = 'ar';
+
+        // ========== تحميل اللغة المفضلة ==========
+        window.onload = function() {
+            const savedLang = localStorage.getItem('preferred-language') || 'ar';
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.includes(savedLang.toUpperCase()) || 
+                    (savedLang === 'ar' && btn.textContent.includes('عربي'))) {
+                    btn.classList.add('active');
+                }
+            });
+            changeLanguage(savedLang);
+            startCounters();
         };
 
         // ========== دالة تغيير اللغة ==========
         function changeLanguage(lang) {
+            currentLanguage = lang;
             document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             
             document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -1092,6 +1200,7 @@
             document.getElementById('subtitle').textContent = t.subtitle;
             document.getElementById('searchTitle').textContent = t.searchTitle;
             document.getElementById('dreamInput').placeholder = t.searchPlaceholder;
+            document.getElementById('allBtn').textContent = t.allBtn;
             document.getElementById('animalsBtn').textContent = t.animalsBtn;
             document.getElementById('natureBtn').textContent = t.natureBtn;
             document.getElementById('objectsBtn').textContent = t.objectsBtn;
@@ -1102,20 +1211,55 @@
             document.getElementById('plansTitle').textContent = t.plansTitle;
             
             document.getElementById('freePlanName').textContent = t.freePlanName;
-            document.getElementById('proPlanName').textContent = t.proPlanName;
+            document.getElementById('basicPlanName').textContent = t.basicPlanName;
             document.getElementById('premiumPlanName').textContent = t.premiumPlanName;
+            document.getElementById('ultimatePlanName').textContent = t.ultimatePlanName;
+            
             document.getElementById('freePlanPrice').innerHTML = t.freePlanPrice;
-            document.getElementById('proPlanPrice').innerHTML = t.proPlanPrice;
+            document.getElementById('basicPlanPrice').innerHTML = t.basicPlanPrice;
             document.getElementById('premiumPlanPrice').innerHTML = t.premiumPlanPrice;
+            document.getElementById('ultimatePlanPrice').innerHTML = t.ultimatePlanPrice;
+            
+            document.getElementById('freeBtn').textContent = t.freeBtn;
+            document.getElementById('basicBtn').textContent = t.basicBtn;
+            document.getElementById('premiumBtn').textContent = t.premiumBtn;
+            document.getElementById('ultimateBtn').textContent = t.ultimateBtn;
+            
+            document.getElementById('visitorsLabel').textContent = t.visitors;
+            document.getElementById('dreamsLabel').textContent = t.dreams;
+            document.getElementById('customersLabel').textContent = t.customers;
+            document.getElementById('reportsLabel').textContent = t.reports;
+            
+            document.getElementById('sourcesTitle').textContent = t.sourcesTitle;
+            document.getElementById('footerText').textContent = t.footer;
+            document.getElementById('privacyLink').textContent = t.privacy;
+            document.getElementById('aboutLink').textContent = t.about;
+            document.getElementById('contactLink').textContent = t.contact;
+            
+            // تحديث ميزات الباقات
+            updateFeatures(lang);
+            
+            // إعادة تحميل الرموز
+            loadSymbols();
+            
+            // إعادة تحميل التقارير
+            loadReports();
+            
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // ========== تحديث ميزات الباقات ==========
+        function updateFeatures(lang) {
+            const t = translations[lang];
             
             const freeFeatures = document.querySelectorAll('#freeFeatures li');
             t.freeFeatures.forEach((text, index) => {
                 if (freeFeatures[index]) freeFeatures[index].textContent = text;
             });
             
-            const proFeatures = document.querySelectorAll('#proFeatures li');
-            t.proFeatures.forEach((text, index) => {
-                if (proFeatures[index]) proFeatures[index].textContent = text;
+            const basicFeatures = document.querySelectorAll('#basicFeatures li');
+            t.basicFeatures.forEach((text, index) => {
+                if (basicFeatures[index]) basicFeatures[index].textContent = text;
             });
             
             const premiumFeatures = document.querySelectorAll('#premiumFeatures li');
@@ -1123,54 +1267,26 @@
                 if (premiumFeatures[index]) premiumFeatures[index].textContent = text;
             });
             
-            document.getElementById('freeBtn').textContent = t.freeBtn;
-            document.getElementById('proBtn').textContent = t.proBtn;
-            document.getElementById('premiumBtn').textContent = t.premiumBtn;
-            
-            document.getElementById('visitorsLabel').textContent = t.visitors;
-            document.getElementById('dreamsLabel').textContent = t.dreams;
-            document.getElementById('customersLabel').textContent = t.customers;
-            document.getElementById('reportsLabel').textContent = t.reports;
-            
-            document.getElementById('footerText').textContent = t.footer;
-            document.getElementById('privacyLink').textContent = t.privacy;
-            document.getElementById('aboutLink').textContent = t.about;
-            document.getElementById('contactLink').textContent = t.contact;
-            
-            // إعادة تحميل الرموز والتقارير باللغة الجديدة
-            loadSymbols(lang);
-            loadReports(lang);
-            
-            localStorage.setItem('preferred-language', lang);
+            const ultimateFeatures = document.querySelectorAll('#ultimateFeatures li');
+            t.ultimateFeatures.forEach((text, index) => {
+                if (ultimateFeatures[index]) ultimateFeatures[index].textContent = text;
+            });
         }
 
-        // ========== تحميل اللغة المفضلة عند فتح الصفحة ==========
-        window.onload = function() {
-            const savedLang = localStorage.getItem('preferred-language') || 'ar';
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.textContent.includes(savedLang.toUpperCase()) || 
-                    (savedLang === 'ar' && btn.textContent.includes('عربي'))) {
-                    btn.classList.add('active');
-                }
-            });
-            changeLanguage(savedLang);
-            startCounters();
-        };
-
-        // ========== قائمة الرموز ==========
-        const symbolsList = [
-            "snake", "flying", "sea", "dead", "marriage", "gold", "teeth", "cat", "dog", "lion",
-            "fire", "water", "mountain", "rain", "wind", "treasure", "key", "door", "ship", "horse"
-        ];
-
-        function loadSymbols(lang) {
-            const t = translations[lang];
+        // ========== تحميل الرموز ==========
+        function loadSymbols() {
+            const t = translations[currentLanguage];
+            let filteredSymbols = symbolsList;
+            
+            if (currentCategory !== 'all') {
+                filteredSymbols = symbolsList.filter(s => s.category === currentCategory);
+            }
+            
             let html = '';
-            symbolsList.forEach(symbolKey => {
-                const symbolName = t[symbolKey] || symbolKey;
+            filteredSymbols.forEach(symbol => {
+                const symbolName = t[symbol.key] || symbol.key;
                 html += `
-                    <div class="symbol-card" onclick="showSymbol('${symbolKey}')">
+                    <div class="symbol-card" onclick="showSymbol('${symbol.key}')">
                         <div class="symbol-name">${symbolName}</div>
                         <div style="font-size:0.9em;">${t.clickForInterpretation}</div>
                     </div>
@@ -1179,72 +1295,129 @@
             document.getElementById('symbolsGrid').innerHTML = html;
         }
 
+        // ========== تصفية الرموز حسب الفئة ==========
+        function filterCategory(category) {
+            currentCategory = category;
+            
+            // تحديث الأزرار النشطة
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(category + 'Btn').classList.add('active');
+            
+            // إعادة تحميل الرموز
+            loadSymbols();
+        }
+
         // ========== عرض الرمز ==========
         function showSymbol(symbolKey) {
-            const lang = localStorage.getItem('preferred-language') || 'ar';
-            const t = translations[lang];
+            const t = translations[currentLanguage];
             const meaningKey = `symbolMeaning${symbolKey.charAt(0).toUpperCase() + symbolKey.slice(1)}`;
             const meaning = t[meaningKey] || t.symbolMeaningSnake;
             const symbolName = t[symbolKey] || symbolKey;
             showModal(`🔮 ${symbolName}`, meaning);
         }
 
-        // ========== التقارير ==========
-        const reportsList = [
-            { id: 'egypt', key: 'reportEgypt' },
-            { id: 'mesopotamia', key: 'reportMesopotamia' },
-            { id: 'greece', key: 'reportGreece' },
-            { id: 'ibn', key: 'reportIbn' }
-        ];
+        // ========== البحث عن حلم ==========
+        function searchDream() {
+            const query = document.getElementById('dreamInput').value.toLowerCase().trim();
+            const resultDiv = document.getElementById('searchResult');
+            const t = translations[currentLanguage];
+            
+            if (!query) {
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = t.pleaseEnter || 'الرجاء إدخال كلمة للبحث';
+                return;
+            }
+            
+            // البحث في الرموز
+            const foundSymbols = symbolsList.filter(s => {
+                const symbolName = t[s.key] || s.key;
+                return symbolName.toLowerCase().includes(query);
+            });
+            
+            if (foundSymbols.length > 0) {
+                let resultText = t.foundSymbols || 'تم العثور على الرموز التالية:\n';
+                foundSymbols.forEach(s => {
+                    const symbolName = t[s.key] || s.key;
+                    resultText += `\n• ${symbolName}`;
+                });
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = resultText;
+            } else {
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = t.noResults || 'لم يتم العثور على نتائج';
+            }
+        }
 
-        function loadReports(lang) {
-            const t = translations[lang];
+        // ========== تحميل التقارير ==========
+        function loadReports() {
+            const t = translations[currentLanguage];
             let html = '';
             reportsList.forEach(report => {
                 html += `
                     <div class="report-card">
                         <div class="report-title">${t[report.key]}</div>
-                        <button class="download-btn" onclick="downloadReport('${report.id}')">${t.downloaded}</button>
+                        <button class="download-btn" onclick="downloadReport('${report.id}')">📥 ${t.downloaded || 'تحميل'}</button>
                     </div>
                 `;
             });
             document.getElementById('reportsGrid').innerHTML = html;
         }
 
+        // ========== تحميل التقرير كـ PDF ==========
         function downloadReport(id) {
-            const lang = localStorage.getItem('preferred-language') || 'ar';
-            const t = translations[lang];
-            const contentKey = `historyContent${id.charAt(0).toUpperCase() + id.slice(1)}`;
-            const content = t[contentKey] || t.historyContentEgypt;
-            const titleKey = `report${id.charAt(0).toUpperCase() + id.slice(1)}`;
-            const title = t[titleKey] || t.reportEgypt;
+            const t = translations[currentLanguage];
             
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${title}.txt`;
-            a.click();
-            URL.revokeObjectURL(url);
+            const reportContents = {
+                egypt: t.historyContentEgypt || "معلومات عن مصر القديمة...",
+                mesopotamia: t.historyContentMesopotamia || "معلومات عن بلاد الرافدين...",
+                greece: t.historyContentGreece || "معلومات عن اليونان القديمة...",
+                ibn: t.historyContentIslamic || "معلومات عن ابن سيرين..."
+            };
             
-            showModal(t.downloaded, `${t.downloadedSuccess}: "${title}"`);
+            const reportTitles = {
+                egypt: t.reportEgypt,
+                mesopotamia: t.reportMesopotamia,
+                greece: t.reportGreece,
+                ibn: t.reportIbn
+            };
+            
+            const title = reportTitles[id] || "تقرير";
+            const content = reportContents[id] || "محتوى التقرير";
+            
+            // إنشاء PDF باستخدام jsPDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // إضافة العنوان
+            doc.setFontSize(20);
+            doc.setTextColor(255, 215, 0); // ذهبي
+            doc.text(title, 105, 20, null, null, 'center');
+            
+            // إضافة التاريخ
+            doc.setFontSize(12);
+            doc.setTextColor(0, 255, 255); // سماوي
+            doc.text(`📅 ${new Date().toLocaleDateString('ar-EG')}`, 105, 30, null, null, 'center');
+            
+            // إضافة المحتوى
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0); // أسود
+        
+            // تقسيم النص إلى أسطر
+            const splitText = doc.splitTextToSize(content, 180);
+            doc.text(splitText, 15, 40);
+            
+            // حفظ الملف
+            doc.save(`${title}.pdf`);
+            
+            // إظهار رسالة نجاح
+            showModal(t.downloaded, `${t.downloadedSuccess || 'تم تحميل الملف بنجاح'}: "${title}"`);
         }
 
-        // ========== نوافذ التاريخ ==========
-        function showHistory(historyId) {
-            const lang = localStorage.getItem('preferred-language') || 'ar';
-            const t = translations[lang];
-            const titleKey = `history${historyId.charAt(0).toUpperCase() + historyId.slice(1)}`;
-            const contentKey = `historyContent${historyId.charAt(0).toUpperCase() + historyId.slice(1)}`;
-            const title = t[titleKey] || t.historyEgypt;
-            const content = t[contentKey] || t.historyContentEgypt;
-            showModal(`🏛️ ${title}`, content);
-        }
-
-        // ========== نافذة منبثقة عامة ==========
+        // ========== نافذة منبثقة ==========
         function showModal(title, content) {
-            const lang = localStorage.getItem('preferred-language') || 'ar';
-            const t = translations[lang];
+            const t = translations[currentLanguage];
             
             // إزالة أي نافذة مفتوحة سابقاً
             const existingModal = document.querySelector('.modal');
@@ -1260,33 +1433,23 @@
             document.body.appendChild(modal);
         }
 
-        // ========== وظائف البحث والتصفية ==========
-        function filterCategory(category) {
-            // يمكن تنفيذها لاحقاً
-            alert(`تصفية حسب: ${category}`);
-        }
-
-        function searchDream() {
-            const query = document.getElementById('dreamInput').value;
-            if (query) {
-                alert(`بحث عن: ${query}`);
-            } else {
-                alert('الرجاء إدخال كلمة للبحث');
+        // ========== التمرير إلى قسم معين ==========
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
             }
-        }
-
-        function selectPlan(plan) {
-            const lang = localStorage.getItem('preferred-language') || 'ar';
-            const t = translations[lang];
-            let planName = '';
-            if (plan === 'free') planName = t.freePlanName;
-            else if (plan === 'pro') planName = t.proPlanName;
-            else planName = t.premiumPlanName;
-            alert(`تم اختيار: ${planName}\nسيتم توجيهك إلى صفحة الدفع.`);
+            
+            // تحديث الرابط النشط
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
         }
 
         // ========== عدادات متحركة ==========
         function startCounters() {
+            // أرقام حقيقية من البوتات (يمكن تحديثها لاحقاً)
             setInterval(() => {
                 let v = document.getElementById('visitors');
                 let current = parseInt(v.textContent.replace(',', ''));
@@ -1300,8 +1463,15 @@
             }, 30000);
         }
 
-        // روابط التاريخ (يمكن إضافتها في الفهرس)
-        // يمكن إضافة عناصر HTML للتاريخ في قسم منفصل إذا أردت
+        // دالة لتاريخ الحضارات (يمكن تفعيلها لاحقاً)
+        function showHistory(historyId) {
+            const t = translations[currentLanguage];
+            const titleKey = `history${historyId.charAt(0).toUpperCase() + historyId.slice(1)}`;
+            const contentKey = `historyContent${historyId.charAt(0).toUpperCase() + historyId.slice(1)}`;
+            const title = t[titleKey] || titleKey;
+            const content = t[contentKey] || "معلومات عن هذه الحضارة";
+            showModal(`🏛️ ${title}`, content);
+        }
     </script>
 </body>
 </html>
