@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نَسَّاج الأحلام - تفسير الأحلام بالذكاء الاصطناعي</title>
     
-    <!-- Google Analytics -->
+    <!-- Google Analytics (اختياري) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0KEHTRWRYB"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -13,14 +13,6 @@
         gtag('js', new Date());
         gtag('config', 'G-0KEHTRWRYB');
     </script>
-    
-    <!-- OpenRouter API للذكاء الاصطناعي -->
-    <script>
-        const OPENROUTER_KEY = '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';
-    </script>
-    
-    <!-- jsPDF للتقارير PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
         * {
@@ -36,7 +28,6 @@
             min-height: 100vh;
         }
         
-        /* خلفية نجوم متحركة */
         .stars {
             position: fixed;
             top: 0;
@@ -63,89 +54,15 @@
             opacity: 0.3;
         }
         
-        /* شريط اللغات */
-        .lang-bar {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            background: rgba(10, 15, 30, 0.95);
-            backdrop-filter: blur(10px);
-            border: 2px solid #ffd700;
-            border-radius: 50px;
-            padding: 10px 20px;
-            display: flex;
-            gap: 10px;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-        }
-        
-        .lang-btn {
-            background: transparent;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-        
-        .lang-btn:hover {
-            background: rgba(255, 215, 0, 0.2);
-        }
-        
-        .lang-btn.active {
-            background: linear-gradient(45deg, #ffd700, #ff00ff);
-            color: black;
-            box-shadow: 0 0 20px #ffd700;
-        }
-        
-        /* شريط التنقل (الفهرس) */
-        .nav-bar {
-            background: rgba(10, 15, 30, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid #ffd700;
-            border-radius: 60px;
-            padding: 15px 30px;
-            margin: 120px auto 20px;
-            max-width: 1000px;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .nav-link {
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 30px;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-        
-        .nav-link:hover {
-            background: rgba(255, 215, 0, 0.2);
-            color: #ffd700;
-        }
-        
-        .nav-link.active {
-            background: linear-gradient(45deg, #ffd700, #ff00ff);
-            color: black;
-        }
-        
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px 20px 40px;
+            padding: 100px 20px 40px;
         }
         
-        /* الهيدر */
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
         
         h1 {
@@ -161,7 +78,6 @@
             color: #ffd700;
         }
         
-        /* الإحصائيات */
         .stats {
             display: flex;
             justify-content: space-around;
@@ -190,7 +106,6 @@
             color: #ff00ff;
         }
         
-        /* قسم البحث */
         .search-section {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -226,35 +141,6 @@
             box-shadow: 0 0 30px #ffd700;
         }
         
-        .category-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-        
-        .category-btn {
-            padding: 12px 30px;
-            border: 2px solid #ffd700;
-            border-radius: 50px;
-            background: transparent;
-            color: #ffd700;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .category-btn:hover {
-            background: rgba(255, 215, 0, 0.2);
-            transform: scale(1.05);
-        }
-        
-        .category-btn.active {
-            background: linear-gradient(45deg, #ffd700, #ff00ff);
-            color: black;
-        }
-        
         .search-btn {
             padding: 12px 40px;
             border: none;
@@ -272,15 +158,6 @@
             box-shadow: 0 0 20px #ffd700;
         }
         
-        .search-result {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            display: none;
-        }
-        
-        /* الرموز */
         .symbols-section {
             margin: 40px 0;
         }
@@ -321,27 +198,6 @@
             margin-bottom: 5px;
         }
         
-        .perspective-badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-size: 0.7em;
-            margin: 5px 2px;
-        }
-        
-        .islamic-badge {
-            background: rgba(0, 255, 0, 0.2);
-            border: 1px solid #00ff00;
-            color: #00ff00;
-        }
-        
-        .modern-badge {
-            background: rgba(255, 0, 255, 0.2);
-            border: 1px solid #ff00ff;
-            color: #ff00ff;
-        }
-        
-        /* التقارير */
         .reports-section {
             margin: 40px 0;
         }
@@ -385,7 +241,6 @@
             cursor: pointer;
         }
         
-        /* الباقات */
         .plans-section {
             margin: 40px 0;
         }
@@ -479,127 +334,6 @@
             cursor: pointer;
         }
         
-        /* ذاكرة الأحلام الذكية */
-        .dream-memory-section {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid #00ffff;
-            border-radius: 30px;
-            padding: 30px;
-            margin: 40px 0;
-        }
-        
-        .memory-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .memory-card {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .memory-number {
-            font-size: 2.5em;
-            color: #00ffff;
-        }
-        
-        .symbol-frequency {
-            display: inline-block;
-            margin: 5px;
-            padding: 5px 10px;
-            background: rgba(255, 215, 0, 0.2);
-            border-radius: 20px;
-        }
-        
-        /* منظورين للتفسير */
-        .perspective-tabs {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        
-        .perspective-tab {
-            padding: 10px 20px;
-            border: 1px solid #ffd700;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .perspective-tab.active {
-            background: linear-gradient(45deg, #ffd700, #ff00ff);
-            color: black;
-        }
-        
-        .perspective-content {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            line-height: 1.8;
-        }
-        
-        /* نافذة منبثقة */
-        .modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #1a1f35, #2a1f45);
-            border: 2px solid #ffd700;
-            border-radius: 20px;
-            padding: 30px;
-            z-index: 2000;
-            max-width: 500px;
-            width: 90%;
-            color: white;
-            box-shadow: 0 0 50px #ff00ff;
-            animation: modalPop 0.3s;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        
-        @keyframes modalPop {
-            from { transform: translate(-50%, -40%); opacity: 0; }
-            to { transform: translate(-50%, -50%); opacity: 1; }
-        }
-        
-        .modal h2 {
-            color: #ffd700;
-            margin-bottom: 15px;
-        }
-        
-        .modal-content {
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 10px;
-            line-height: 1.6;
-        }
-        
-        .modal button {
-            background: #ff00ff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 15px;
-            width: 100%;
-        }
-        
-        .modal-close {
-            float: left;
-            font-size: 1.5em;
-            cursor: pointer;
-        }
-        
-        /* مصادر موثوقة */
         .sources-section {
             text-align: center;
             margin: 40px 0;
@@ -648,936 +382,255 @@
         @media (max-width: 768px) {
             h1 { font-size: 2.5em; }
             .stats { flex-direction: column; }
-            .lang-bar { flex-wrap: wrap; width: 90%; }
-            .nav-bar { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
 <body>
     <div class="stars"></div>
     
-    <!-- شريط اللغات -->
-    <div class="lang-bar">
-        <button class="lang-btn active" onclick="changeLanguage('ar')">🇸🇦 عربي</button>
-        <button class="lang-btn" onclick="changeLanguage('en')">🇬🇧 English</button>
-        <button class="lang-btn" onclick="changeLanguage('es')">🇪🇸 Español</button>
-    </div>
-    
-    <!-- شريط التنقل (الفهرس) -->
-    <div class="nav-bar">
-        <a href="#home" class="nav-link active" onclick="scrollToSection('home')">🏠 الرئيسية</a>
-        <a href="#search" class="nav-link" onclick="scrollToSection('search')">🔍 بحث</a>
-        <a href="#symbols" class="nav-link" onclick="scrollToSection('symbols')">📚 الرموز</a>
-        <a href="#memory" class="nav-link" onclick="scrollToSection('memory')">🧠 ذاكرة الأحلام</a>
-        <a href="#reports" class="nav-link" onclick="scrollToSection('reports')">📊 تقارير</a>
-        <a href="#plans" class="nav-link" onclick="scrollToSection('plans')">💰 باقات</a>
-        <a href="#" class="nav-link" onclick="openDreamChat()">💬 دردشة الأحلام</a>
-    </div>
-    
     <div class="container">
-        <!-- الهيدر -->
-        <div id="home" class="header">
-            <h1 id="mainTitle">🌙 نَسَّاج الأحلام</h1>
-            <p id="subtitle" class="subtitle">تفسير أحلامك بالذكاء الاصطناعي والواقع المعزز</p>
+        <div class="header">
+            <h1>🌙 نَسَّاج الأحلام</h1>
+            <p class="subtitle">تفسير أحلامك بالذكاء الاصطناعي والواقع المعزز</p>
         </div>
         
-        <!-- الإحصائيات -->
         <div class="stats">
             <div class="stat-item">
                 <div class="stat-number" id="visitors">1,247</div>
-                <div class="stat-label" id="visitorsLabel">زائر اليوم</div>
+                <div>زائر اليوم</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number" id="dreams">3,892</div>
-                <div class="stat-label" id="dreamsLabel">حلم محلل</div>
+                <div>حلم محلل</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number" id="customers">847</div>
-                <div class="stat-label" id="customersLabel">عميل سعيد</div>
+                <div>عميل سعيد</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number" id="reportsCount">12</div>
-                <div class="stat-label" id="reportsLabel">تقرير</div>
+                <div>تقرير</div>
             </div>
         </div>
         
-        <!-- قسم البحث -->
-        <div id="search" class="search-section">
-            <h2 class="search-title" id="searchTitle">🔍 ابحث عن تفسير حلمك</h2>
+        <div class="search-section">
+            <h2 class="search-title">🔍 ابحث عن تفسير حلمك</h2>
             <input type="text" id="dreamInput" class="search-input" placeholder="اكتب الرمز أو الحلم...">
-            <div class="category-buttons">
-                <button class="category-btn" onclick="filterCategory('all')" id="allBtn">الكل</button>
-                <button class="category-btn" onclick="filterCategory('animals')" id="animalsBtn">حيوانات</button>
-                <button class="category-btn" onclick="filterCategory('nature')" id="natureBtn">طبيعة</button>
-                <button class="category-btn" onclick="filterCategory('objects')" id="objectsBtn">أشياء</button>
-                <button class="category-btn" onclick="filterCategory('people')" id="peopleBtn">أشخاص</button>
-            </div>
-            <div class="button-group">
-                <button class="search-btn" onclick="searchDream()" id="searchBtn">بحث</button>
-                <button class="search-btn" onclick="generateDreamImage()" id="imageBtn">🎨 توليد صورة</button>
-                <button class="search-btn" onclick="openDreamChat()" id="chatBtn">💬 دردشة</button>
-            </div>
-            <div id="searchResult" class="search-result"></div>
-            <div id="dreamImage" class="search-result" style="text-align: center;"></div>
+            <button class="search-btn" onclick="searchDream()">بحث</button>
+            <div id="searchResult" class="search-result" style="display:none; margin-top:20px;"></div>
         </div>
         
-        <!-- قائمة الرموز -->
-        <div id="symbols" class="symbols-section">
-            <h2 class="symbols-title" id="symbolsTitle">📚 قاموس الأحلام الشامل</h2>
+        <div class="symbols-section">
+            <h2 class="symbols-title">📚 قاموس الأحلام الشامل</h2>
             <div class="symbols-grid" id="symbolsGrid"></div>
         </div>
         
-        <!-- ذاكرة الأحلام الذكية (الميزة 1) -->
-        <div id="memory" class="dream-memory-section">
-            <h2 class="symbols-title" style="color:#00ffff;">🧠 ذاكرة الأحلام الذكية</h2>
-            <p style="text-align:center; margin-bottom:20px;">تحليل أنماط أحلامك واكتشاف الرموز المتكررة</p>
-            
-            <div class="memory-stats" id="memoryStats">
-                <div class="memory-card">
-                    <div class="memory-number" id="totalDreamsMemory">0</div>
-                    <div>إجمالي الأحلام</div>
-                </div>
-                <div class="memory-card">
-                    <div class="memory-number" id="uniqueSymbolsMemory">0</div>
-                    <div>رموز مميزة</div>
-                </div>
-                <div class="memory-card">
-                    <div class="memory-number" id="mostFrequentSymbol">-</div>
-                    <div>الرمز الأكثر تكراراً</div>
-                </div>
-            </div>
-            
-            <div id="symbolFrequency" style="text-align:center; margin:20px 0;"></div>
-            
-            <div style="text-align:center;">
-                <button class="search-btn" onclick="analyzeDreamMemory()">🔍 تحليل ذاكرة أحلامي</button>
-                <button class="search-btn" onclick="clearDreamMemory()" style="background:linear-gradient(45deg, #ff0000, #ff00ff);">🗑️ مسح الذاكرة</button>
-            </div>
-        </div>
-        
-        <!-- التقارير -->
-        <div id="reports" class="reports-section">
-            <h2 class="reports-title" id="reportsTitle">📊 أبحاث ودراسات</h2>
+        <div class="reports-section">
+            <h2 class="reports-title">📊 أبحاث ودراسات</h2>
             <div class="reports-grid" id="reportsGrid"></div>
         </div>
         
-        <!-- الباقات -->
-        <div id="plans" class="plans-section">
-            <h2 class="plans-title" id="plansTitle">💰 باقات تفسير الأحلام</h2>
+        <div class="plans-section">
+            <h2 class="plans-title">💰 باقات تفسير الأحلام</h2>
             <div class="plans-grid">
-                <!-- الباقة المجانية -->
                 <div class="plan-card">
-                    <div class="plan-name" id="freePlanName">الباقة المجانية</div>
-                    <div class="plan-price" id="freePlanPrice">$0 <small>مجاني</small></div>
-                    <ul class="plan-features" id="freeFeatures">
+                    <div class="plan-name">الباقة المجانية</div>
+                    <div class="plan-price">$0 <small>مجاني</small></div>
+                    <ul class="plan-features">
                         <li>✅ 3 أحلام شهرياً</li>
                         <li>✅ تفسير مختصر</li>
                         <li>✅ مصادر إسلامية</li>
                     </ul>
-                    <button class="plan-btn" onclick="window.open('https://casperblac.gumroad.com/l/dtiobz?wanted=true&thankyou_url=https://ai-dream-weaver.vercel.app/thank-you.html', '_blank')" id="freeBtn">ابدأ مجاناً</button>
+                    <button class="plan-btn" onclick="window.open('https://casperblac.gumroad.com/l/dtiobz', '_blank')">ابدأ مجاناً</button>
                 </div>
                 
-                <!-- الباقة الأساسية -->
                 <div class="plan-card">
-                    <div class="plan-name" id="basicPlanName">الباقة الأساسية</div>
-                    <div class="plan-price" id="basicPlanPrice">$4.99 <small>مرة واحدة</small></div>
-                    <ul class="plan-features" id="basicFeatures">
+                    <div class="plan-name">الباقة الأساسية</div>
+                    <div class="plan-price">$4.99 <small>مرة واحدة</small></div>
+                    <ul class="plan-features">
                         <li>✅ 10 أحلام</li>
                         <li>✅ تفسير شامل</li>
                         <li>✅ تحليل الرموز</li>
                         <li>✅ سجل حفظ الأحلام</li>
-                        <li>✅ منظورين للتفسير</li>
                     </ul>
-                    <button class="plan-btn" onclick="window.open('https://casperblac.gumroad.com/l/dtiobz?wanted=true&thankyou_url=https://ai-dream-weaver.vercel.app/thank-you.html', '_blank')" id="basicBtn">اشتر الآن</button>
+                    <button class="plan-btn" onclick="window.open('https://casperblac.gumroad.com/l/dtiobz', '_blank')">اشتر الآن</button>
                 </div>
                 
-                <!-- الباقة المميزة (الأكثر شعبية) -->
                 <div class="plan-card popular">
-                    <div class="plan-name" id="premiumPlanName">الباقة المميزة</div>
-                    <div class="plan-price" id="premiumPlanPrice">$9.99 <small>مرة واحدة</small></div>
-                    <ul class="plan-features" id="premiumFeatures">
+                    <div class="plan-name">الباقة المميزة</div>
+                    <div class="plan-price">$9.99 <small>مرة واحدة</small></div>
+                    <ul class="plan-features">
                         <li>✅ 30 حلماً</li>
                         <li>✅ تفسير شامل جداً</li>
                         <li>✅ تحليل متقدم للرموز</li>
                         <li>✅ سجل + إحصائيات</li>
-                        <li>✅ منظورين للتفسير</li>
-                        <li>✅ توليد صور الأحلام</li>
-                        <li>✅ دردشة تفاعلية</li>
+                        <li>✅ دعم فني أولوية</li>
                     </ul>
-                    <button class="plan-btn" onclick="window.open('https://casperblac.gumroad.com/l/byqzxd?wanted=true&thankyou_url=https://ai-dream-weaver.vercel.app/thank-you.html', '_blank')" id="premiumBtn">اشتر الآن</button>
+                    <button class="plan-btn" onclick="window.open('https://casperblac.gumroad.com/l/byqzxd', '_blank')">اشتر الآن</button>
                 </div>
                 
-                <!-- الباقة الشاملة -->
                 <div class="plan-card">
-                    <div class="plan-name" id="ultimatePlanName">الباقة الشاملة</div>
-                    <div class="plan-price" id="ultimatePlanPrice">$19.99 <small>مرة واحدة</small></div>
-                    <ul class="plan-features" id="ultimateFeatures">
+                    <div class="plan-name">الباقة الشاملة</div>
+                    <div class="plan-price">$19.99 <small>مرة واحدة</small></div>
+                    <ul class="plan-features">
                         <li>✅ 100 حلماً</li>
                         <li>✅ تفسير كامل</li>
                         <li>✅ تحليل جميع الرموز</li>
                         <li>✅ سجل متقدم</li>
-                        <li>✅ منظورين للتفسير</li>
-                        <li>✅ توليد صور غير محدود</li>
-                        <li>✅ دردشة تفاعلية متقدمة</li>
-                        <li>✅ تحويل الكوابيس</li>
+                        <li>✅ دعم VIP</li>
+                        <li>✅ جميع الميزات الجديدة</li>
                     </ul>
-                    <button class="plan-btn" onclick="window.open('https://casperblac.gumroad.com/l/hiulqi?wanted=true&thankyou_url=https://ai-dream-weaver.vercel.app/thank-you.html', '_blank')" id="ultimateBtn">اشتر الآن</button>
+                    <button class="plan-btn" onclick="window.open('https://casperblac.gumroad.com/l/hiulqi', '_blank')">اشتر الآن</button>
                 </div>
             </div>
         </div>
         
-        <!-- مصادر موثوقة -->
         <div class="sources-section">
-            <h2 class="sources-title" id="sourcesTitle">📚 مصادرنا الموثوقة</h2>
-            <p id="sourcesDesc">نعتمد على أشهر المفسرين في التاريخ الإسلامي</p>
+            <h2 class="sources-title">📚 مصادرنا الموثوقة</h2>
+            <p>نعتمد على أشهر المفسرين في التاريخ الإسلامي</p>
             <div class="sources-list">
-                <span class="source-item" id="sourceIbnSirin">ابن سيرين</span>
-                <span class="source-item" id="sourceNabulsi">النابلسي</span>
-                <span class="source-item" id="sourceIbnShaheen">ابن شاهين</span>
-                <span class="source-item" id="sourceMuslim">صحيح مسلم</span>
+                <span class="source-item">ابن سيرين</span>
+                <span class="source-item">النابلسي</span>
+                <span class="source-item">ابن شاهين</span>
+                <span class="source-item">صحيح مسلم</span>
             </div>
         </div>
         
         <footer>
-            <p id="footerText">© 2026 نَسَّاج الأحلام - جميع الحقوق محفوظة</p>
+            <p>© 2026 نَسَّاج الأحلام - جميع الحقوق محفوظة</p>
             <p>
-                <a href="#" id="privacyLink">سياسة الخصوصية</a> | 
-                <a href="#" id="aboutLink">من نحن</a> |
-                <a href="#" id="contactLink">اتصل بنا</a>
+                <a href="#">سياسة الخصوصية</a> | 
+                <a href="#">من نحن</a> |
+                <a href="#">اتصل بنا</a>
             </p>
         </footer>
     </div>
     
-    <!-- نافذة الدردشة التفاعلية (الميزة 4) -->
-    <div id="chatModal" class="modal" style="display:none; max-width: 600px;">
-        <div class="modal-header">
-            <h2>💬 دردشة الأحلام</h2>
-            <span class="modal-close" onclick="closeChat()">✕</span>
-        </div>
-        <div class="modal-content" id="chatMessages" style="height: 300px; overflow-y: auto;">
-            <div class="chat-message bot">👋 مرحباً! أنا مساعد الأحلام الذكي. شاركني حلمك أو اسألني عن أي رمز.</div>
-        </div>
-        <div class="chat-input" style="display: flex; gap: 10px; margin-top: 15px;">
-            <input type="text" id="chatInput" placeholder="اكتب رسالتك..." style="flex:1; padding:10px; border-radius:30px; border:none;">
-            <button onclick="sendChatMessage()" style="padding:10px 20px; background:#ff00ff; border:none; border-radius:30px; color:white;">إرسال</button>
-        </div>
-    </div>
-    
     <script>
-        // ========== المتغيرات العامة ==========
-        let currentLanguage = 'ar';
-        let currentCategory = 'all';
-        let dreamJournal = JSON.parse(localStorage.getItem('dreamJournal') || '[]');
-        let chatMessages = [];
-        
-        // ========== قائمة الرموز ==========
+        // قائمة الرموز (20 رمزاً)
         const symbolsList = [
-            { key: "snake", name: "ثعبان", category: "animals", 
-              islamic: "يرمز الثعبان إلى عدو خفي أو شخص يتربص بك. في تفسير ابن سيرين، قد يدل على وجود شخص حاسد في محيطك. قتله في المنام يعني التغلب على الأعداء.",
-              modern: "يرمز الثعبان في التحليل النفسي إلى الطاقة الجنسية الكامنة أو الخوف من الغدر. قد يعكس صراعات داخلية مع جوانب مظلمة في النفس." },
-            { key: "flying", name: "طيران", category: "actions",
-              islamic: "الطيران في المنام يدل على السفر أو تغير الحال. إذا كنت تطير بجناحين، فهذا خير ومنزلة عالية. الطيران بلا جناحين قد يعني الخوف أو القلق.",
-              modern: "يعبر عن الرغبة في التحرر من القيود والهروب من الواقع. قد يدل على الطموح العالي أو الرغبة في تحقيق أشياء تبدو بعيدة المنال." },
-            { key: "sea", name: "بحر", category: "nature",
-              islamic: "البحر في المنام يدل على الملك أو السلطان أو العالم. شرب ماء البحر يعني الرزق بقدر حاجتك. الغرق في البحر قد يدل على الذنوب.",
-              modern: "يرمز إلى العواطف العميقة واللاوعي الجمعي. البحر الهادئ يعكس سلاماً داخلياً، بينما الهائج يعبر عن مشاعر مضطربة." },
-            { key: "dead", name: "ميت", category: "people",
-              islamic: "رؤية الميت تدل على حاله عند ربه. إذا كان سعيداً فخير، وإن كان حزيناً فشر. إطعام الميت يدل على الصدقة.",
-              modern: "قد يعبر عن جزء من شخصيتك انتهى أو تغير. أو رسالة من عقلك الباطن تربطك بذكريات الماضي." },
-            { key: "marriage", name: "زواج", category: "events",
-              islamic: "الزواج للعزباء بشرى بفرحة قريبة، وللمتزوج قد يدل على مسؤوليات جديدة أو مشاريع. حفل الزواج قد يعني حصول هموم.",
-              modern: "يرمز إلى اتحاد جوانب مختلفة من الشخصية. بداية مرحلة جديدة، أو رغبة في الالتزام والاستقرار." },
-            { key: "gold", name: "ذهب", category: "objects",
-              islamic: "الذهب في المنام للمرأة زينة وللرجل قد يدل على هموم أو حزن. لبس الذهب للرجال قد يكون مكروهاً. العثور على كنز ذهب قد يعني رزقاً حلالاً.",
-              modern: "يرمز إلى القيمة الذاتية والثروة الداخلية. قد يعكس رغبات مادية أو تقدير الذات." },
-            { key: "teeth", name: "أسنان", category: "body",
-              islamic: "الأسنان تدل على الأهل والأقارب. سقوطها يدل على طول العمر أو مرض قريب. تسوسها يدل على ديون.",
-              modern: "يرمز إلى القلق بشأن المظهر أو الخوف من التقدم في العمر. سقوط الأسنان قد يعبر عن فقدان السيطرة." },
-            { key: "cat", name: "قط", category: "animals",
-              islamic: "القط يدل على حارس البيت أو لص خفي. قد يعني وجود شخص متلون في محيطك.",
-              modern: "يرمز إلى الاستقلالية والغموض. قد يعكس جانباً مستقلاً من شخصيتك أو امرأة في حياتك." },
-            { key: "dog", name: "كلب", category: "animals",
-              islamic: "الكلب يدل على صديق مخلص أو عدو. الكلب النابح يدل على تحذير من خطر.",
-              modern: "يرمز إلى الوفاء والولاء. قد يعكس صداقة عميقة أو حماية." },
-            { key: "lion", name: "أسد", category: "animals",
-              islamic: "الأسد يدل على سلطان جائر أو عدو قوي. ركوب الأسد يعني تسلطاً على عدو.",
-              modern: "يرمز إلى القوة الداخلية والشجاعة. قد يعكس رغبة في السيطرة أو قيادة." },
-            { key: "fire", name: "نار", category: "nature",
-              islamic: "النار تدل على الحرب والفتنة. النار في الموقد تدل على رزق قادم. الاحتراق يدل على مصيبة.",
-              modern: "يرمز إلى الغضب المكبوت أو الشغف. قد يعكس تحولاً جذرياً أو تطهيراً." },
-            { key: "water", name: "ماء", category: "nature",
-              islamic: "الماء الصافي يدل على الخير والرزق، والعكر يدل على الهم. شرب ماء زمزم يدل على الشفاء.",
-              modern: "يرمز إلى الحياة والعواطف. الماء الصافي يعكس صفاء النفس، والعكر يعكس اضطراباً عاطفياً." },
-            { key: "mountain", name: "جبل", category: "nature",
-              islamic: "الجبل يدل على رفعة المنزلة والثبات. تسلقه يدل على تحقيق هدف صعب.",
-              modern: "يرمز إلى التحديات التي تواجهها. قمة الجبل تعكس الأهداف والطموحات." },
-            { key: "rain", name: "مطر", category: "nature",
-              islamic: "المطر يدل على رحمة وخير. المطر الغزير قد يدل على فتنة.",
-              modern: "يرمز إلى التطهير والتجدد. قد يعكس مشاعر حزينة أو راحة بعد فترة صعبة." },
-            { key: "wind", name: "ريح", category: "nature",
-              islamic: "الريح قد تدل على العذاب أو النصر. الريح الهادئة تدل على البشرى.",
-              modern: "يرمز إلى التغيير. ريح قوية تعكس تغييرات مفاجئة في الحياة." },
-            { key: "treasure", name: "كنز", category: "objects",
-              islamic: "الكنز يدل على رزق قادم. العثور على كنز في مكان معروف قد يعني إرثاً.",
-              modern: "يرمز إلى اكتشاف الذات والقدرات الخفية. قد يعكس ثروة داخلية تكتشفها." },
-            { key: "key", name: "مفتاح", category: "objects",
-              islamic: "المفتاح يدل على فتح باب رزق أو علم. إعطاء مفتاح يدل على وصول علم.",
-              modern: "يرمز إلى الحلول والفرص الجديدة. قد يعكس اكتشاف طريقة لتخطي عقبة." },
-            { key: "door", name: "باب", category: "objects",
-              islamic: "الباب المفتوح يدل على رزق، والمغلق يدل على انسداد. الدخول من باب يدل على عمل جديد.",
-              modern: "يرمز إلى فرص جديدة أو مرحلة انتقالية. الباب المغلق قد يعكس شعوراً بالرفض." },
-            { key: "ship", name: "سفينة", category: "objects",
-              islamic: "السفينة تدل على نجاة من خطر أو وسيلة سفر. ركوبها يدل على أمان.",
-              modern: "يرمز إلى رحلة الحياة. قد تعكس قدرتك على تخطي الصعاب." },
-            { key: "horse", name: "حصان", category: "animals",
-              islamic: "الحصان يدل على عز وكرامة. ركوبه يدل على نيل سلطة. الفرس العربية تدل على المرأة الصالحة.",
-              modern: "يرمز إلى الطاقة والقوة الداخلية. قد يعكس رغبة في الحرية والسرعة في تحقيق الأهداف." }
+            { key: "snake", name: "ثعبان" },
+            { key: "flying", name: "طيران" },
+            { key: "sea", name: "بحر" },
+            { key: "dead", name: "ميت" },
+            { key: "marriage", name: "زواج" },
+            { key: "gold", name: "ذهب" },
+            { key: "teeth", name: "أسنان" },
+            { key: "cat", name: "قط" },
+            { key: "dog", name: "كلب" },
+            { key: "lion", name: "أسد" },
+            { key: "fire", name: "نار" },
+            { key: "water", name: "ماء" },
+            { key: "mountain", name: "جبل" },
+            { key: "rain", name: "مطر" },
+            { key: "wind", name: "ريح" },
+            { key: "treasure", name: "كنز" },
+            { key: "key", name: "مفتاح" },
+            { key: "door", name: "باب" },
+            { key: "ship", name: "سفينة" },
+            { key: "horse", name: "حصان" }
         ];
 
-        // ========== الترجمات (3 لغات) ==========
-        const translations = {
-            ar: {
-                title: "🌙 نَسَّاج الأحلام",
-                subtitle: "تفسير أحلامك بالذكاء الاصطناعي والواقع المعزز",
-                searchTitle: "🔍 ابحث عن تفسير حلمك",
-                searchPlaceholder: "اكتب الرمز أو الحلم...",
-                allBtn: "الكل",
-                animalsBtn: "حيوانات",
-                natureBtn: "طبيعة",
-                objectsBtn: "أشياء",
-                peopleBtn: "أشخاص",
-                searchBtn: "بحث",
-                imageBtn: "🎨 توليد صورة",
-                chatBtn: "💬 دردشة",
-                symbolsTitle: "📚 قاموس الأحلام الشامل",
-                reportsTitle: "📊 أبحاث ودراسات",
-                plansTitle: "💰 باقات تفسير الأحلام",
-                freePlanName: "الباقة المجانية",
-                basicPlanName: "الباقة الأساسية",
-                premiumPlanName: "الباقة المميزة",
-                ultimatePlanName: "الباقة الشاملة",
-                freePlanPrice: "$0 مجاني",
-                basicPlanPrice: "$4.99 مرة واحدة",
-                premiumPlanPrice: "$9.99 مرة واحدة",
-                ultimatePlanPrice: "$19.99 مرة واحدة",
-                freeFeatures: ["✅ 3 أحلام شهرياً", "✅ تفسير مختصر", "✅ مصادر إسلامية"],
-                basicFeatures: ["✅ 10 أحلام", "✅ تفسير شامل", "✅ تحليل الرموز", "✅ سجل حفظ الأحلام", "✅ منظورين للتفسير"],
-                premiumFeatures: ["✅ 30 حلماً", "✅ تفسير شامل جداً", "✅ تحليل متقدم للرموز", "✅ سجل + إحصائيات", "✅ منظورين للتفسير", "✅ توليد صور الأحلام", "✅ دردشة تفاعلية"],
-                ultimateFeatures: ["✅ 100 حلماً", "✅ تفسير كامل", "✅ تحليل جميع الرموز", "✅ سجل متقدم", "✅ منظورين للتفسير", "✅ توليد صور غير محدود", "✅ دردشة تفاعلية متقدمة", "✅ تحويل الكوابيس"],
-                visitors: "زائر اليوم",
-                dreams: "حلم محلل",
-                customers: "عميل سعيد",
-                reports: "تقرير",
-                sourcesTitle: "📚 مصادرنا الموثوقة",
-                sourcesDesc: "نعتمد على أشهر المفسرين في التاريخ الإسلامي",
-                footer: "© 2026 نَسَّاج الأحلام - جميع الحقوق محفوظة",
-                privacy: "سياسة الخصوصية",
-                about: "من نحن",
-                contact: "اتصل بنا",
-                close: "✕ إغلاق",
-                downloaded: "📥 تم التحميل",
-                clickForInterpretation: "اضغط للتفسير",
-                perspectiveIslamic: "المنظور الإسلامي",
-                perspectiveModern: "المنظور الحديث",
-                chatWelcome: "👋 مرحباً! أنا مساعد الأحلام الذكي. شاركني حلمك أو اسألني عن أي رمز.",
-                memoryTitle: "🧠 ذاكرة الأحلام الذكية",
-                totalDreams: "إجمالي الأحلام",
-                uniqueSymbols: "رموز مميزة",
-                mostFrequent: "الرمز الأكثر تكراراً",
-                nightmareTransform: "😌 تحويل الكابوس",
-                alternativeEnding: "اقتراح نهاية بديلة:"
-            },
-            en: {
-                title: "🌙 Dream Weaver",
-                subtitle: "Interpret Your Dreams with AI and AR",
-                searchTitle: "🔍 Search for Your Dream Interpretation",
-                searchPlaceholder: "Write the symbol or dream...",
-                allBtn: "All",
-                animalsBtn: "Animals",
-                natureBtn: "Nature",
-                objectsBtn: "Objects",
-                peopleBtn: "People",
-                searchBtn: "Search",
-                imageBtn: "🎨 Generate Image",
-                chatBtn: "💬 Chat",
-                symbolsTitle: "📚 Complete Dream Dictionary",
-                reportsTitle: "📊 Research & Studies",
-                plansTitle: "💰 Dream Interpretation Plans",
-                freePlanName: "Free Plan",
-                basicPlanName: "Basic Plan",
-                premiumPlanName: "Premium Plan",
-                ultimatePlanName: "Ultimate Plan",
-                freePlanPrice: "$0 Free",
-                basicPlanPrice: "$4.99 one-time",
-                premiumPlanPrice: "$9.99 one-time",
-                ultimatePlanPrice: "$19.99 one-time",
-                freeFeatures: ["✅ 3 dreams/month", "✅ Brief interpretation", "✅ Islamic sources"],
-                basicFeatures: ["✅ 10 dreams", "✅ Comprehensive interpretation", "✅ Symbol analysis", "✅ Dream journal", "✅ Two perspectives"],
-                premiumFeatures: ["✅ 30 dreams", "✅ Very comprehensive interpretation", "✅ Advanced symbol analysis", "✅ Journal + statistics", "✅ Two perspectives", "✅ Dream image generation", "✅ Interactive chat"],
-                ultimateFeatures: ["✅ 100 dreams", "✅ Complete interpretation", "✅ All symbols analysis", "✅ Advanced journal", "✅ Two perspectives", "✅ Unlimited image generation", "✅ Advanced interactive chat", "✅ Nightmare transformation"],
-                visitors: "Visitors Today",
-                dreams: "Dreams Analyzed",
-                customers: "Happy Customers",
-                reports: "Reports",
-                sourcesTitle: "📚 Trusted Sources",
-                sourcesDesc: "We rely on the most famous interpreters in Islamic history",
-                footer: "© 2026 Dream Weaver - All Rights Reserved",
-                privacy: "Privacy Policy",
-                about: "About Us",
-                contact: "Contact Us",
-                close: "✕ Close",
-                downloaded: "📥 Downloaded",
-                clickForInterpretation: "Click for interpretation",
-                perspectiveIslamic: "Islamic Perspective",
-                perspectiveModern: "Modern Perspective",
-                chatWelcome: "👋 Hello! I'm your AI dream assistant. Share your dream or ask about any symbol.",
-                memoryTitle: "🧠 Smart Dream Memory",
-                totalDreams: "Total Dreams",
-                uniqueSymbols: "Unique Symbols",
-                mostFrequent: "Most Frequent Symbol",
-                nightmareTransform: "😌 Nightmare Transformation",
-                alternativeEnding: "Alternative ending suggestion:"
-            },
-            es: {
-                title: "🌙 Tejedor de Sueños",
-                subtitle: "Interpreta tus Sueños con IA y AR",
-                searchTitle: "🔍 Busca la interpretación de tu sueño",
-                searchPlaceholder: "Escribe el símbolo o sueño...",
-                allBtn: "Todo",
-                animalsBtn: "Animales",
-                natureBtn: "Naturaleza",
-                objectsBtn: "Objetos",
-                peopleBtn: "Personas",
-                searchBtn: "Buscar",
-                imageBtn: "🎨 Generar Imagen",
-                chatBtn: "💬 Chat",
-                symbolsTitle: "📚 Diccionario completo de sueños",
-                reportsTitle: "📊 Investigaciones y Estudios",
-                plansTitle: "💰 Planes de interpretación de sueños",
-                freePlanName: "Plan Gratuito",
-                basicPlanName: "Plan Básico",
-                premiumPlanName: "Plan Premium",
-                ultimatePlanName: "Plan Definitivo",
-                freePlanPrice: "$0 Gratis",
-                basicPlanPrice: "$4.99 único",
-                premiumPlanPrice: "$9.99 único",
-                ultimatePlanPrice: "$19.99 único",
-                freeFeatures: ["✅ 3 sueños/mes", "✅ Interpretación breve", "✅ Fuentes islámicas"],
-                basicFeatures: ["✅ 10 sueños", "✅ Interpretación completa", "✅ Análisis de símbolos", "✅ Diario de sueños", "✅ Dos perspectivas"],
-                premiumFeatures: ["✅ 30 sueños", "✅ Interpretación muy completa", "✅ Análisis avanzado de símbolos", "✅ Diario + estadísticas", "✅ Dos perspectivas", "✅ Generación de imágenes", "✅ Chat interactivo"],
-                ultimateFeatures: ["✅ 100 sueños", "✅ Interpretación completa", "✅ Análisis de todos los símbolos", "✅ Diario avanzado", "✅ Dos perspectivas", "✅ Imágenes ilimitadas", "✅ Chat avanzado", "✅ Transformación de pesadillas"],
-                visitors: "Visitantes Hoy",
-                dreams: "Sueños Analizados",
-                customers: "Clientes Felices",
-                reports: "Informes",
-                sourcesTitle: "📚 Fuentes Confiables",
-                sourcesDesc: "Nos basamos en los intérpretes más famosos de la historia islámica",
-                footer: "© 2026 Tejedor de Sueños - Todos los derechos reservados",
-                privacy: "Política de Privacidad",
-                about: "Sobre Nosotros",
-                contact: "Contacto",
-                close: "✕ Cerrar",
-                downloaded: "📥 Descargado",
-                clickForInterpretation: "Haz clic para interpretar",
-                perspectiveIslamic: "Perspectiva Islámica",
-                perspectiveModern: "Perspectiva Moderna",
-                chatWelcome: "👋 ¡Hola! Soy tu asistente de sueños AI. Comparte tu sueño o pregunta sobre cualquier símbolo.",
-                memoryTitle: "🧠 Memoria Inteligente de Sueños",
-                totalDreams: "Sueños Totales",
-                uniqueSymbols: "Símbolos Únicos",
-                mostFrequent: "Símbolo Más Frecuente",
-                nightmareTransform: "😌 Transformación de Pesadilla",
-                alternativeEnding: "Sugerencia de final alternativo:"
-            }
+        // تفسيرات الرموز
+        const symbolMeanings = {
+            snake: "تحذير من أعداء خفيين. في مصر القديمة كان رمزاً للحماية الملكية.",
+            flying: "الحرية والطموح والرغبة في التحرر من القيود.",
+            sea: "العواطف العميقة واللاوعي.",
+            dead: "رسالة من الماضي أو حاجة للدعاء.",
+            marriage: "بداية جديدة ومسؤوليات جديدة.",
+            gold: "الثراء والخير، لكن قد يدل على هموم إذا كان كثيراً.",
+            teeth: "العمر والأهل. سقوط الأسنان يدل على الخوف من التقدم.",
+            cat: "الخيانة أو شخص غير مخلص.",
+            dog: "صديق مخلص أو عدو حسب حالته.",
+            lion: "القوة والسلطة والنفوذ.",
+            fire: "العاطفة والغضب المكبوت والتغيير الجذري.",
+            water: "الحياة والنقاء والعواطف.",
+            mountain: "الطموح والتحديات التي تتغلب عليها.",
+            rain: "رحمة وخير وبركة قادمة.",
+            wind: "تغييرات سريعة في الحياة.",
+            treasure: "مواهب وقدرات خفية تكتشفها في نفسك.",
+            key: "حلول وفرص جديدة قادمة.",
+            door: "فرص جديدة أو انتقال لمرحلة مختلفة.",
+            ship: "رحلة حياة ونجاة من المخاطر.",
+            horse: "القوة والسرعة والكرامة."
         };
 
-        // ========== تحميل الصفحة ==========
+        // التقارير
+        const reportsList = [
+            { id: "egypt", title: "📜 مصر القديمة" },
+            { id: "mesopotamia", title: "📜 بلاد الرافدين" },
+            { id: "greece", title: "📜 اليونان" },
+            { id: "ibn", title: "📜 ابن سيرين" }
+        ];
+
+        // تحميل الصفحة
         window.onload = function() {
             loadSymbols();
             loadReports();
             startCounters();
-            updateDreamMemory();
-            
-            const savedLang = localStorage.getItem('preferred-language') || 'ar';
-            changeLanguage(savedLang);
         };
 
-        // ========== تغيير اللغة ==========
-        function changeLanguage(lang) {
-            currentLanguage = lang;
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.textContent.includes(lang.toUpperCase())) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            const t = translations[lang];
-            
-            document.getElementById('mainTitle').textContent = t.title;
-            document.getElementById('subtitle').textContent = t.subtitle;
-            document.getElementById('searchTitle').textContent = t.searchTitle;
-            document.getElementById('dreamInput').placeholder = t.searchPlaceholder;
-            document.getElementById('allBtn').textContent = t.allBtn;
-            document.getElementById('animalsBtn').textContent = t.animalsBtn;
-            document.getElementById('natureBtn').textContent = t.natureBtn;
-            document.getElementById('objectsBtn').textContent = t.objectsBtn;
-            document.getElementById('peopleBtn').textContent = t.peopleBtn;
-            document.getElementById('searchBtn').textContent = t.searchBtn;
-            document.getElementById('imageBtn').textContent = t.imageBtn;
-            document.getElementById('chatBtn').textContent = t.chatBtn;
-            document.getElementById('symbolsTitle').textContent = t.symbolsTitle;
-            document.getElementById('reportsTitle').textContent = t.reportsTitle;
-            document.getElementById('plansTitle').textContent = t.plansTitle;
-            
-            document.getElementById('freePlanName').textContent = t.freePlanName;
-            document.getElementById('basicPlanName').textContent = t.basicPlanName;
-            document.getElementById('premiumPlanName').textContent = t.premiumPlanName;
-            document.getElementById('ultimatePlanName').textContent = t.ultimatePlanName;
-            document.getElementById('freePlanPrice').innerHTML = t.freePlanPrice;
-            document.getElementById('basicPlanPrice').innerHTML = t.basicPlanPrice;
-            document.getElementById('premiumPlanPrice').innerHTML = t.premiumPlanPrice;
-            document.getElementById('ultimatePlanPrice').innerHTML = t.ultimatePlanPrice;
-            
-            document.getElementById('visitorsLabel').textContent = t.visitors;
-            document.getElementById('dreamsLabel').textContent = t.dreams;
-            document.getElementById('customersLabel').textContent = t.customers;
-            document.getElementById('reportsLabel').textContent = t.reports;
-            
-            document.getElementById('sourcesTitle').textContent = t.sourcesTitle;
-            document.getElementById('sourcesDesc').textContent = t.sourcesDesc;
-            document.getElementById('footerText').textContent = t.footer;
-            document.getElementById('privacyLink').textContent = t.privacy;
-            document.getElementById('aboutLink').textContent = t.about;
-            document.getElementById('contactLink').textContent = t.contact;
-            
-            updateFeatures(lang);
-            localStorage.setItem('preferred-language', lang);
-        }
-
-        // ========== تحديث ميزات الباقات ==========
-        function updateFeatures(lang) {
-            const t = translations[lang];
-            
-            const freeFeatures = document.querySelectorAll('#freeFeatures li');
-            t.freeFeatures.forEach((text, index) => {
-                if (freeFeatures[index]) freeFeatures[index].textContent = text;
-            });
-            
-            const basicFeatures = document.querySelectorAll('#basicFeatures li');
-            t.basicFeatures.forEach((text, index) => {
-                if (basicFeatures[index]) basicFeatures[index].textContent = text;
-            });
-            
-            const premiumFeatures = document.querySelectorAll('#premiumFeatures li');
-            t.premiumFeatures.forEach((text, index) => {
-                if (premiumFeatures[index]) premiumFeatures[index].textContent = text;
-            });
-            
-            const ultimateFeatures = document.querySelectorAll('#ultimateFeatures li');
-            t.ultimateFeatures.forEach((text, index) => {
-                if (ultimateFeatures[index]) ultimateFeatures[index].textContent = text;
-            });
-        }
-
-        // ========== تحميل الرموز ==========
         function loadSymbols() {
-            const t = translations[currentLanguage];
-            let filteredSymbols = symbolsList;
-            
-            if (currentCategory !== 'all') {
-                filteredSymbols = symbolsList.filter(s => s.category === currentCategory);
-            }
-            
             let html = '';
-            filteredSymbols.forEach(symbol => {
+            symbolsList.forEach(symbol => {
                 html += `
                     <div class="symbol-card" onclick="showSymbol('${symbol.key}')">
                         <div class="symbol-name">${symbol.name}</div>
-                        <div>
-                            <span class="perspective-badge islamic-badge">${t.perspectiveIslamic}</span>
-                            <span class="perspective-badge modern-badge">${t.perspectiveModern}</span>
-                        </div>
-                        <div style="font-size:0.9em; margin-top:5px;">${t.clickForInterpretation}</div>
+                        <div style="font-size:0.9em;">اضغط للتفسير</div>
                     </div>
                 `;
             });
             document.getElementById('symbolsGrid').innerHTML = html;
         }
 
-        // ========== عرض الرمز ==========
         function showSymbol(key) {
-            const symbol = symbolsList.find(s => s.key === key);
-            if (!symbol) return;
-            
-            const t = translations[currentLanguage];
-            
-            let content = `
-                <div style="margin-bottom:20px;">
-                    <div class="perspective-tabs">
-                        <span class="perspective-tab active" onclick="showPerspective('islamic', '${key}')">${t.perspectiveIslamic}</span>
-                        <span class="perspective-tab" onclick="showPerspective('modern', '${key}')">${t.perspectiveModern}</span>
-                    </div>
-                    <div id="perspectiveContent" class="perspective-content">${symbol.islamic}</div>
-                </div>
-            `;
-            
-            showModal(`🔮 ${symbol.name}`, content);
+            const meaning = symbolMeanings[key] || "تفسير هذا الرمز قيد الإعداد";
+            alert(`🔮 ${symbolsList.find(s => s.key === key).name}\n\n${meaning}`);
         }
 
-        // ========== تغيير المنظور (الميزة 2) ==========
-        function showPerspective(type, key) {
-            const symbol = symbolsList.find(s => s.key === key);
-            if (!symbol) return;
-            
-            const content = type === 'islamic' ? symbol.islamic : symbol.modern;
-            document.getElementById('perspectiveContent').innerHTML = content;
-            
-            document.querySelectorAll('.perspective-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-        }
-
-        // ========== تصفية الرموز ==========
-        function filterCategory(category) {
-            currentCategory = category;
-            
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById(category + 'Btn').classList.add('active');
-            
-            loadSymbols();
-        }
-
-        // ========== البحث عن حلم ==========
-        function searchDream() {
-            const query = document.getElementById('dreamInput').value.trim().toLowerCase();
-            const resultDiv = document.getElementById('searchResult');
-            const t = translations[currentLanguage];
-            
-            if (!query) {
-                resultDiv.style.display = 'block';
-                resultDiv.innerHTML = 'الرجاء إدخال كلمة للبحث';
-                return;
-            }
-            
-            const foundSymbols = symbolsList.filter(s => 
-                s.name.includes(query) || 
-                s.islamic.includes(query) || 
-                s.modern.includes(query)
-            );
-            
-            if (foundSymbols.length > 0) {
-                let result = `تم العثور على ${foundSymbols.length} نتائج:<br><br>`;
-                foundSymbols.forEach(s => {
-                    result += `🔹 <strong>${s.name}</strong>: ${s.islamic.substring(0, 50)}...<br>`;
-                });
-                resultDiv.innerHTML = result;
-                
-                // حفظ في ذاكرة الأحلام (الميزة 1)
-                saveToDreamMemory(query, foundSymbols.map(s => s.name));
-            } else {
-                resultDiv.innerHTML = 'لم يتم العثور على نتائج. جرب كلمات أخرى.';
-            }
-            
-            resultDiv.style.display = 'block';
-        }
-
-        // ========== توليد صورة الحلم (الميزة 3) ==========
-        async function generateDreamImage() {
-            const dream = document.getElementById('dreamInput').value.trim();
-            if (!dream) {
-                alert('الرجاء كتابة حلم أولاً');
-                return;
-            }
-            
-            const imageDiv = document.getElementById('dreamImage');
-            imageDiv.style.display = 'block';
-            imageDiv.innerHTML = '🎨 جاري توليد الصورة...';
-            
-            try {
-                // استخدام OpenRouter لتوليد الصورة (Stable Diffusion)
-                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${OPENROUTER_KEY}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        "model": "stabilityai/stable-diffusion-xl",
-                        "prompt": `A surreal artistic dream interpretation of: ${dream}`,
-                        "max_tokens": 100
-                    })
-                });
-                
-                const data = await response.json();
-                // ملاحظة: هذا مجرد مثال - في الواقع تحتاج API مخصص لتوليد الصور
-                imageDiv.innerHTML = `
-                    <p>✨ تم توليد صورة لحلمك:</p>
-                    <div style="background: linear-gradient(45deg, #ffd700, #ff00ff); width:200px; height:200px; margin:20px auto; border-radius:20px;"></div>
-                    <p><small>(هذه محاكاة - الإصدار الكامل يولد صورة حقيقية)</small></p>
-                `;
-            } catch (error) {
-                imageDiv.innerHTML = '❌ حدث خطأ في توليد الصورة';
-            }
-        }
-
-        // ========== تحويل الكابوس (الميزة 5) ==========
-        function transformNightmare(dreamText) {
-            const nightmares = ['خوف', 'قتل', 'موت', 'سقوط', 'مطاردة', 'وحش', 'دم'];
-            let isNightmare = nightmares.some(word => dreamText.includes(word));
-            
-            if (!isNightmare) return null;
-            
-            const alternatives = [
-                "تحول الخوف إلى قوة دافعة للتغيير الإيجابي",
-                "السقوط تحول إلى طيران في سماء من السلام",
-                "المطاردة انتهت بلقاء صديق جديد",
-                "الموت كان بداية لحياة جديدة مليئة بالأمل"
-            ];
-            
-            return alternatives[Math.floor(Math.random() * alternatives.length)];
-        }
-
-        // ========== حفظ في ذاكرة الأحلام (الميزة 1) ==========
-        function saveToDreamMemory(query, symbols) {
-            const memory = JSON.parse(localStorage.getItem('dreamMemory') || '[]');
-            memory.push({
-                date: new Date().toISOString(),
-                dream: query,
-                symbols: symbols
-            });
-            
-            // الاحتفاظ بآخر 50 حلماً فقط
-            if (memory.length > 50) {
-                memory.shift();
-            }
-            
-            localStorage.setItem('dreamMemory', JSON.stringify(memory));
-            updateDreamMemory();
-        }
-
-        // ========== تحليل ذاكرة الأحلام (الميزة 1) ==========
-        function analyzeDreamMemory() {
-            const memory = JSON.parse(localStorage.getItem('dreamMemory') || '[]');
-            const t = translations[currentLanguage];
-            
-            if (memory.length === 0) {
-                alert('لا توجد أحلام محفوظة بعد');
-                return;
-            }
-            
-            // إحصائيات
-            document.getElementById('totalDreamsMemory').textContent = memory.length;
-            
-            const allSymbols = [];
-            memory.forEach(item => {
-                if (item.symbols) {
-                    allSymbols.push(...item.symbols);
-                }
-            });
-            
-            const uniqueSymbols = [...new Set(allSymbols)];
-            document.getElementById('uniqueSymbolsMemory').textContent = uniqueSymbols.length;
-            
-            // الرمز الأكثر تكراراً
-            const symbolCount = {};
-            allSymbols.forEach(s => {
-                symbolCount[s] = (symbolCount[s] || 0) + 1;
-            });
-            
-            let mostFrequent = '';
-            let maxCount = 0;
-            for (let [symbol, count] of Object.entries(symbolCount)) {
-                if (count > maxCount) {
-                    maxCount = count;
-                    mostFrequent = symbol;
-                }
-            }
-            
-            document.getElementById('mostFrequentSymbol').textContent = mostFrequent || '-';
-            
-            // عرض تكرار الرموز
-            let freqHtml = '';
-            for (let [symbol, count] of Object.entries(symbolCount)) {
-                freqHtml += `<span class="symbol-frequency">${symbol} (${count})</span> `;
-            }
-            document.getElementById('symbolFrequency').innerHTML = freqHtml;
-        }
-
-        // ========== تحديث ذاكرة الأحلام ==========
-        function updateDreamMemory() {
-            const memory = JSON.parse(localStorage.getItem('dreamMemory') || '[]');
-            document.getElementById('totalDreamsMemory').textContent = memory.length;
-            
-            const allSymbols = [];
-            memory.forEach(item => {
-                if (item.symbols) {
-                    allSymbols.push(...item.symbols);
-                }
-            });
-            
-            document.getElementById('uniqueSymbolsMemory').textContent = [...new Set(allSymbols)].length;
-        }
-
-        // ========== مسح ذاكرة الأحلام ==========
-        function clearDreamMemory() {
-            if (confirm('هل أنت متأكد من مسح جميع أحلامك المحفوظة؟')) {
-                localStorage.removeItem('dreamMemory');
-                updateDreamMemory();
-                document.getElementById('symbolFrequency').innerHTML = '';
-                document.getElementById('mostFrequentSymbol').textContent = '-';
-            }
-        }
-
-        // ========== فتح نافذة الدردشة (الميزة 4) ==========
-        function openDreamChat() {
-            const modal = document.getElementById('chatModal');
-            modal.style.display = 'block';
-            
-            const messages = document.getElementById('chatMessages');
-            const t = translations[currentLanguage];
-            
-            if (messages.children.length === 1) {
-                const msg = document.createElement('div');
-                msg.className = 'chat-message bot';
-                msg.style.marginBottom = '10px';
-                msg.style.padding = '8px';
-                msg.style.background = 'rgba(0,255,0,0.1)';
-                msg.style.borderRadius = '10px';
-                msg.textContent = t.chatWelcome;
-                messages.appendChild(msg);
-            }
-        }
-
-        // ========== إغلاق نافذة الدردشة ==========
-        function closeChat() {
-            document.getElementById('chatModal').style.display = 'none';
-        }
-
-        // ========== إرسال رسالة في الدردشة ==========
-        function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            if (!message) return;
-            
-            const messages = document.getElementById('chatMessages');
-            
-            // رسالة المستخدم
-            const userMsg = document.createElement('div');
-            userMsg.className = 'chat-message user';
-            userMsg.style.marginBottom = '10px';
-            userMsg.style.padding = '8px';
-            userMsg.style.background = 'rgba(255,255,255,0.1)';
-            userMsg.style.borderRadius = '10px';
-            userMsg.style.textAlign = 'left';
-            userMsg.textContent = message;
-            messages.appendChild(userMsg);
-            
-            input.value = '';
-            
-            // رد البوت
-            setTimeout(() => {
-                const botMsg = document.createElement('div');
-                botMsg.className = 'chat-message bot';
-                botMsg.style.marginBottom = '10px';
-                botMsg.style.padding = '8px';
-                botMsg.style.background = 'rgba(0,255,0,0.1)';
-                botMsg.style.borderRadius = '10px';
-                
-                // تحليل الكابوس (الميزة 5)
-                const alternative = transformNightmare(message);
-                if (alternative) {
-                    const t = translations[currentLanguage];
-                    botMsg.innerHTML = `<strong>${t.nightmareTransform}</strong><br>${t.alternativeEnding} ${alternative}`;
-                } else {
-                    botMsg.textContent = generateChatResponse(message);
-                }
-                
-                messages.appendChild(botMsg);
-                messages.scrollTop = messages.scrollHeight;
-            }, 1000);
-        }
-
-        // ========== توليد رد بسيط للدردشة ==========
-        function generateChatResponse(message) {
-            const responses = [
-                "هذا حلم مثير للاهتمام. أخبرني أكثر عن شعورك فيه.",
-                "الرموز في حلمك تحمل رسائل مهمة. هل تواجه شيئاً مشابهاً في حياتك؟",
-                "يمكنك البحث عن تفسير هذا الرمز في قاموس الرموز أعلاه.",
-                "الأحلام مرآة لعقلنا الباطن. ما رأيك في دلالة هذا الحلم؟",
-                "لاحظت وجود رمز قوي في حلمك. هل تريد معرفة المزيد عنه؟"
-            ];
-            return responses[Math.floor(Math.random() * responses.length)];
-        }
-
-        // ========== تحميل التقارير ==========
         function loadReports() {
-            const reports = [
-                { title: "تفسير الأحلام في مصر القديمة", file: "egypt" },
-                { title: "بلاد الرافدين والأحلام", file: "mesopotamia" },
-                { title: "اليونان القديمة", file: "greece" },
-                { title: "ابن سيرين", file: "ibn" }
-            ];
-            
             let html = '';
-            reports.forEach(r => {
+            reportsList.forEach(report => {
                 html += `
                     <div class="report-card">
-                        <div class="report-title">${r.title}</div>
-                        <button class="download-btn" onclick="downloadReport('${r.file}')">📥 تحميل PDF</button>
+                        <div class="report-title">${report.title}</div>
+                        <button class="download-btn" onclick="downloadReport('${report.id}')">📥 تحميل PDF</button>
                     </div>
                 `;
             });
             document.getElementById('reportsGrid').innerHTML = html;
         }
 
-        // ========== تحميل التقرير ==========
         function downloadReport(id) {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
             const titles = {
-                egypt: "تفسير الأحلام في مصر القديمة",
-                mesopotamia: "بلاد الرافدين والأحلام",
+                egypt: "مصر القديمة",
+                mesopotamia: "بلاد الرافدين",
                 greece: "اليونان القديمة",
                 ibn: "ابن سيرين"
             };
+            alert(`📥 جاري تحميل تقرير "${titles[id]}" (نسخة تجريبية)`);
+        }
+
+        function searchDream() {
+            const query = document.getElementById('dreamInput').value.trim().toLowerCase();
+            const resultDiv = document.getElementById('searchResult');
             
-            doc.setFontSize(20);
-            doc.text(titles[id], 105, 20, { align: 'center' });
-            doc.setFontSize(12);
-            doc.text("هذا تقرير تجريبي. للنسخة الكاملة، اشترك في الباقات المدفوعة.", 20, 40);
-            doc.save(`${titles[id]}.pdf`);
-        }
+            if (!query) {
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = 'الرجاء إدخال كلمة للبحث';
+                return;
+            }
 
-        // ========== نافذة منبثقة ==========
-        function showModal(title, content) {
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.innerHTML = `
-                <h2>${title}</h2>
-                <div class="modal-content">${content}</div>
-                <button onclick="this.parentElement.remove()">${translations[currentLanguage].close}</button>
-            `;
-            document.body.appendChild(modal);
-        }
-
-        // ========== التمرير إلى قسم ==========
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            const found = symbolsList.filter(s => s.name.includes(query));
             
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            event.target.classList.add('active');
+            if (found.length > 0) {
+                resultDiv.innerHTML = `تم العثور على الرموز: ${found.map(s => s.name).join('، ')}`;
+            } else {
+                resultDiv.innerHTML = 'لم يتم العثور على نتائج';
+            }
+            resultDiv.style.display = 'block';
         }
 
-        // ========== عدادات متحركة ==========
         function startCounters() {
             setInterval(() => {
                 let v = document.getElementById('visitors');
