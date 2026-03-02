@@ -1,83 +1,658 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Dream Weaver | نسيج الأحلام - منصة الفن وتفسير الأحلام</title>
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0KEHTRWRYB"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-0KEHTRWRYB');
-    </script>
-    
-    <style>
-        /* تصميم عصري ومظلم - Dark Mode - محسن للأداء */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #0a0f1e 0%, #1a1f35 50%, #2a1f45 100%); color: white; min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; line-height: 1.6; }
-        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-        
-        .main-card {
-            background: rgba(20, 20, 25, 0.8); padding: 50px; border-radius: 25px; border: 1px solid #3a3a45;
-            text-align: center; backdrop-filter: blur(15px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-            max-width: 1000px; margin: 40px 20px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حالم | منصة الأحلام الذكية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #f0c060;
+    --gold-light: #fde68a;
+    --deep: #0a0514;
+    --purple: #1e0a3c;
+    --violet: #2d1060;
+    --accent: #7c3aed;
+    --accent2: #a855f7;
+    --pink: #ec4899;
+    --cyan: #06b6d4;
+    --text: #e2d9f3;
+  }
 
-        h1 { font-size: 3.5rem; margin-bottom: 15px; font-weight: 800; }
-        .highlight { background: linear-gradient(90deg, #a855f7, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        p { color: #d0d0d0; margin-bottom: 45px; font-size: 1.2rem; }
-        
-        .btn {
-            background: linear-gradient(135deg, #a855f7, #3b82f6); color: white; padding: 18px 40px;
-            border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.2rem;
-            transition: all 0.3s ease; display: inline-block; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
-            border: none; cursor: pointer;
-        }
-        .btn:hover { opacity: 0.9; transform: translateY(-4px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
-        /* تنظيم الميزات على شكل شبكة */
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 60px; }
-        .feature-card { background: rgba(255, 255, 255, 0.03); padding: 30px; border-radius: 15px; border: 1px solid #3a3a45; transition: 0.3s; text-align: right; }
-        .feature-card:hover { border-color: #a855f7; transform: translateY(-5px); }
-        .feature-card h3 { color: #3b82f6; margin-bottom: 10px; }
-        .feature-card p { font-size: 0.95rem; margin: 0; color: #b0b0b0; }
-        
-        @media (max-width: 600px) { h1 { font-size: 2.2rem; } .main-card { padding: 30px; } }
-    </style>
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--deep);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  .bg-layer {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 20% 50%, #1e0a3c 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
+                radial-gradient(ellipse at 60% 80%, #1a0530 0%, transparent 50%),
+                #050210;
+  }
+
+  .stars { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+
+  .star {
+    position: absolute; border-radius: 50%; background: white;
+    animation: twinkle var(--d, 3s) ease-in-out infinite alternate;
+  }
+
+  @keyframes twinkle {
+    from { opacity: 0.1; transform: scale(1); }
+    to { opacity: 0.8; transform: scale(1.3); }
+  }
+
+  .nebula {
+    position: fixed; border-radius: 50%; filter: blur(80px); z-index: 0;
+    animation: float 10s ease-in-out infinite alternate;
+  }
+
+  @keyframes float {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(20px, -30px) scale(1.05); }
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(5, 2, 16, 0.6);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+  }
+
+  .logo {
+    font-family: 'Cairo', sans-serif; font-size: 1.8rem; font-weight: 900;
+    background: linear-gradient(135deg, var(--gold), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .logo span { color: var(--pink); -webkit-text-fill-color: var(--pink); }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+
+  .nav-links a {
+    color: rgba(226, 217, 243, 0.7); text-decoration: none;
+    font-size: 0.95rem; transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    color: white !important; padding: 0.6rem 1.5rem;
+    border-radius: 50px; font-weight: 700;
+    transition: transform 0.3s, box-shadow 0.3s !important;
+  }
+  .nav-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5) !important;
+  }
+
+  .hero {
+    position: relative; z-index: 1; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 8rem 2rem 4rem;
+  }
+
+  .hero-content { max-width: 900px; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(124, 58, 237, 0.15);
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    color: var(--accent2); padding: 0.4rem 1.2rem;
+    border-radius: 50px; font-size: 0.85rem; margin-bottom: 2rem;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .badge-dot {
+    width: 8px; height: 8px; background: var(--accent2);
+    border-radius: 50%; animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: 'Cairo', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem); font-weight: 900;
+    line-height: 1.1; margin-bottom: 1.5rem;
+    animation: fadeDown 0.8s 0.1s ease both;
+  }
+
+  .hero h1 .gold {
+    background: linear-gradient(135deg, var(--gold), #f97316);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .hero h1 .purple {
+    background: linear-gradient(135deg, var(--accent2), var(--pink));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .hero p {
+    font-size: 1.25rem; color: rgba(226, 217, 243, 0.7);
+    line-height: 1.8; max-width: 650px; margin: 0 auto 2.5rem;
+    animation: fadeDown 0.8s 0.2s ease both;
+  }
+
+  .hero-btns {
+    display: flex; gap: 1rem; justify-content: center;
+    flex-wrap: wrap; animation: fadeDown 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    color: white; padding: 1rem 2.5rem; border-radius: 50px;
+    font-size: 1.1rem; font-weight: 700; text-decoration: none;
+    transition: all 0.3s; box-shadow: 0 0 40px rgba(124, 58, 237, 0.4);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(168, 85, 247, 0.6); }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text); padding: 1rem 2.5rem; border-radius: 50px;
+    font-size: 1.1rem; font-weight: 600; text-decoration: none;
+    transition: all 0.3s; backdrop-filter: blur(10px);
+  }
+  .btn-secondary:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(168, 85, 247, 0.1); }
+
+  .stats-bar {
+    position: relative; z-index: 1;
+    display: flex; justify-content: center; gap: 4rem;
+    padding: 2.5rem; flex-wrap: wrap;
+    background: rgba(255,255,255,0.03);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-family: 'Cairo', sans-serif; font-size: 2.5rem; font-weight: 900;
+    background: linear-gradient(135deg, var(--gold), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .stat-label { font-size: 0.85rem; color: rgba(226,217,243,0.5); margin-top: 0.2rem; }
+
+  .section { position: relative; z-index: 1; padding: 6rem 2rem; }
+
+  .section-title {
+    text-align: center; font-family: 'Cairo', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 1rem;
+  }
+
+  .section-sub { text-align: center; color: rgba(226,217,243,0.6); font-size: 1.1rem; margin-bottom: 4rem; }
+
+  .compare-table {
+    max-width: 900px; margin: 0 auto; border-radius: 20px; overflow: hidden;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    box-shadow: 0 0 60px rgba(124, 58, 237, 0.1);
+  }
+
+  .compare-header {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    background: rgba(30, 10, 60, 0.8); backdrop-filter: blur(20px);
+  }
+
+  .compare-header div {
+    padding: 1.5rem; text-align: center;
+    font-weight: 800; font-size: 1.1rem;
+    border-left: 1px solid rgba(255,255,255,0.08);
+  }
+  .compare-header div:first-child { border-left: none; }
+
+  .our-col {
+    background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(236,72,153,0.2));
+    color: var(--gold) !important; position: relative;
+  }
+
+  .our-col::after {
+    content: '⭐ الأفضل';
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--gold), #f97316);
+    color: black; font-size: 0.7rem; padding: 0.2rem 0.8rem;
+    border-radius: 50px; font-weight: 800; white-space: nowrap;
+  }
+
+  .compare-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    border-top: 1px solid rgba(255,255,255,0.06); transition: background 0.3s;
+  }
+  .compare-row:hover { background: rgba(124,58,237,0.05); }
+
+  .compare-row div {
+    padding: 1.2rem 1.5rem; text-align: center; font-size: 0.95rem;
+    border-left: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+  }
+
+  .compare-row div:first-child {
+    border-left: none; color: rgba(226,217,243,0.7); font-weight: 600;
+    justify-content: flex-start; padding-right: 2rem;
+  }
+
+  .compare-row .our-val { background: rgba(124,58,237,0.08); color: var(--gold-light); font-weight: 700; }
+
+  .check { color: #4ade80; font-size: 1.2rem; }
+  .cross { color: #f87171; font-size: 1.2rem; }
+  .partial { color: var(--gold); }
+
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+
+  .feature-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px; padding: 2rem; transition: all 0.4s;
+    position: relative; overflow: hidden; cursor: pointer;
+  }
+
+  .feature-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--c1, rgba(124,58,237,0.1)), var(--c2, rgba(236,72,153,0.05)));
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-card:hover { border-color: rgba(124,58,237,0.4); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+
+  .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+
+  .feature-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    color: white; font-size: 0.7rem; padding: 0.2rem 0.6rem;
+    border-radius: 50px; font-weight: 700; margin-bottom: 0.8rem;
+  }
+
+  .feature-card h3 { font-family: 'Cairo', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.8rem; color: white; }
+  .feature-card p { color: rgba(226,217,243,0.6); line-height: 1.7; font-size: 0.95rem; }
+
+  .card-purple { --c1: rgba(124,58,237,0.15); --c2: rgba(168,85,247,0.05); }
+  .card-pink { --c1: rgba(236,72,153,0.15); --c2: rgba(244,114,182,0.05); }
+  .card-cyan { --c1: rgba(6,182,212,0.15); --c2: rgba(34,211,238,0.05); }
+  .card-gold { --c1: rgba(240,192,96,0.15); --c2: rgba(253,230,138,0.05); }
+  .card-green { --c1: rgba(74,222,128,0.15); --c2: rgba(134,239,172,0.05); }
+  .card-orange { --c1: rgba(249,115,22,0.15); --c2: rgba(251,146,60,0.05); }
+
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; max-width: 1100px; margin: 0 auto; }
+
+  .why-card {
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px; padding: 1.5rem; display: flex; gap: 1rem;
+    align-items: flex-start; transition: all 0.3s;
+  }
+  .why-card:hover { border-color: rgba(240,192,96,0.3); background: rgba(240,192,96,0.04); }
+
+  .why-num { font-family: 'Cairo', sans-serif; font-size: 2rem; font-weight: 900; color: rgba(240,192,96,0.3); line-height: 1; min-width: 2.5rem; }
+  .why-card h4 { color: white; font-weight: 700; margin-bottom: 0.3rem; }
+  .why-card p { color: rgba(226,217,243,0.55); font-size: 0.9rem; line-height: 1.6; }
+
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+
+  .price-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px; padding: 2.5rem; text-align: center;
+    transition: all 0.4s; position: relative;
+  }
+
+  .price-card.featured {
+    background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(236,72,153,0.1));
+    border-color: rgba(124,58,237,0.5); transform: scale(1.03);
+    box-shadow: 0 0 60px rgba(124,58,237,0.2);
+  }
+
+  .price-tag {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    color: white; font-size: 0.8rem; font-weight: 800;
+    padding: 0.3rem 1.2rem; border-radius: 50px; white-space: nowrap;
+  }
+
+  .price-name { font-family: 'Cairo', sans-serif; font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; }
+
+  .price-amount {
+    font-family: 'Cairo', sans-serif; font-size: 3.5rem; font-weight: 900;
+    background: linear-gradient(135deg, var(--gold), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1;
+  }
+
+  .price-period { color: rgba(226,217,243,0.5); font-size: 0.9rem; margin-bottom: 2rem; }
+
+  .price-features { list-style: none; text-align: right; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.8rem; }
+
+  .price-features li { display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: rgba(226,217,243,0.8); }
+  .price-features li::before { content: '✓'; color: #4ade80; font-weight: 800; }
+
+  .price-btn {
+    display: block;
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    color: white; padding: 0.9rem; border-radius: 50px;
+    font-weight: 700; font-size: 1rem; text-decoration: none; transition: all 0.3s;
+  }
+  .price-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(124,58,237,0.4); }
+  .price-btn.outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text); }
+  .price-btn.outline:hover { border-color: var(--accent2); color: var(--accent2); box-shadow: none; }
+
+  .cta-section { position: relative; z-index: 1; padding: 8rem 2rem; text-align: center; }
+
+  .cta-box {
+    max-width: 800px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(236,72,153,0.15));
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 30px; padding: 5rem 3rem;
+    position: relative; overflow: hidden;
+  }
+
+  .cta-box h2 { font-family: 'Cairo', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 1rem; }
+  .cta-box p { color: rgba(226,217,243,0.7); font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.7; }
+
+  footer {
+    position: relative; z-index: 1;
+    background: rgba(5,2,16,0.8); border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 3rem 2rem; text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Cairo', sans-serif; font-size: 2rem; font-weight: 900;
+    background: linear-gradient(135deg, var(--gold), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem;
+  }
+
+  footer p { color: rgba(226,217,243,0.4); font-size: 0.9rem; }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .scroll-indicator {
+    position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    color: rgba(226,217,243,0.3); font-size: 0.8rem;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-8px); }
+  }
+
+  .scroll-arrow { width: 24px; height: 24px; border-right: 2px solid rgba(226,217,243,0.3); border-bottom: 2px solid rgba(226,217,243,0.3); transform: rotate(45deg); }
+
+  .dream-visual { position: relative; width: 500px; height: 300px; margin: 4rem auto; animation: fadeDown 1s 0.5s ease both; }
+
+  .dream-card { position: absolute; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+
+  .dream-card-main {
+    width: 340px; height: 220px; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #1e0a3c, #0c0a3e);
+    border: 1px solid rgba(124,58,237,0.4);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 1rem; z-index: 3;
+  }
+
+  .dream-orb {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #a855f7, #7c3aed, #1e0a3c);
+    box-shadow: 0 0 40px rgba(168,85,247,0.6);
+    animation: orbPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes orbPulse {
+    0%, 100% { box-shadow: 0 0 40px rgba(168,85,247,0.6); transform: scale(1); }
+    50% { box-shadow: 0 0 60px rgba(168,85,247,0.9), 0 0 100px rgba(168,85,247,0.3); transform: scale(1.05); }
+  }
+
+  @keyframes load {
+    from { width: 30%; }
+    to { width: 85%; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem; }
+    .nav-links { display: none; }
+    .dream-visual { display: none; }
+    .stats-bar { gap: 2rem; }
+    .compare-row div:first-child { font-size: 0.8rem; padding-right: 0.8rem; }
+  }
+</style>
 </head>
 <body>
-    <div class="stars"></div>
-    
-    <div class="main-card">
-        <h1>نَسَّاج <span class="highlight">الأحلام</span></h1>
-        <p>المنصة المتكاملة: تفسير أحلامك بدقة، وتوليد صور فنية مذهلة، مع أدوات تعديل متقدمة واتساق الشخصيات.</p>
-        
-        <a href="reports.html" class="btn" onclick="openReport(event)">ابدأ التجربة الآن</a>
 
-        <div class="features-grid">
-            <div class="feature-card"><h3>🔍 تفسير وتوليد</h3><p>حلل رموز أحلامك وحولها لصور بصرية بضغطة زر واحدة.</p></div>
-            <div class="feature-card"><h3>✂️ تعديل متقدم</h3><p>غير الخلفيات، أضف عناصر، أو عدل صورك مباشرة داخل المنصة.</p></div>
-            <div class="feature-card"><h3>👤 اتساق الشخصيات</h3><p>ولد نفس الشخصية في وضعيات ومشاهد مختلفة بثبات عالي.</p></div>
-            <div class="feature-card"><h3>🌐 نظام بيئي</h3><p>ربط سلس مع أدواتك المفضلة لتوفير سير عمل متكامل.</p></div>
-            <div class="feature-card"><h3>🚀 سرعة فائقة</h3><p>نتائج في ثوانٍ بفضل خوادم Vercel المتقدمة والشبكة السحابية.</p></div>
-            <div class="feature-card"><h3>🎨 معرض المجتمع</h3><p>تصفح إبداعات المستخدمين واستلهم منها لأعمالك القادمة.</p></div>
-        </div>
+<div class="bg-layer"></div>
+<div class="stars" id="stars"></div>
+<div class="nebula" style="width:600px;height:600px;background:rgba(124,58,237,0.12);top:-100px;right:-200px;animation-duration:12s;"></div>
+<div class="nebula" style="width:500px;height:500px;background:rgba(236,72,153,0.08);bottom:0;left:-150px;animation-duration:15s;animation-direction:alternate-reverse;"></div>
+<div class="nebula" style="width:400px;height:400px;background:rgba(6,182,212,0.06);top:50%;left:50%;animation-duration:18s;"></div>
+
+<nav>
+  <div class="logo">حالِم<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">المميزات</a></li>
+    <li><a href="#compare">المقارنة</a></li>
+    <li><a href="#pricing">الأسعار</a></li>
+    <li><a href="#start" class="nav-cta">ابدأ مجاناً</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      الجيل القادم من تفسير الأحلام بالذكاء الاصطناعي
     </div>
+    <h1>
+      حوّل أحلامك إلى<br>
+      <span class="gold">عوالم بصرية</span><br>
+      <span class="purple">لا حدود لها</span>
+    </h1>
+    <p>منصة حالِم تتجاوز حدود التفسير — نحن نبني لك تجربة كاملة: تفسير عميق، توليد صور سينمائية، تحريك بالذكاء الاصطناعي، وذاكرة تحفظ كل حلم عشته.</p>
+    <div class="hero-btns">
+      <a href="#start" class="btn-primary">🌙 ابدأ رحلتك مجاناً</a>
+      <a href="#features" class="btn-secondary">✨ اكتشف المميزات</a>
+    </div>
+    <div class="dream-visual">
+      <div class="dream-card dream-card-main">
+        <div class="dream-orb"></div>
+        <div style="text-align:center;">
+          <div style="font-size:0.8rem;color:rgba(226,217,243,0.5);margin-bottom:0.3rem;">جاري تحليل حلمك...</div>
+          <div style="height:4px;background:rgba(255,255,255,0.05);border-radius:50px;width:200px;">
+            <div style="height:100%;background:linear-gradient(90deg,#7c3aed,#ec4899);border-radius:50px;width:75%;animation:load 2s ease-in-out infinite alternate;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>استكشف</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
 
-    <script>
-        // دالة لإصلاح مشكلة فتح النوافذ والتقرير
-        function openReport(event) {
-            event.preventDefault(); // منع السلوك الافتراضي للرابط
-            const url = event.target.getAttribute('href');
-            // فتح التقرير في نافذة جديدة بشكل آمن
-            window.open(url, '_blank', 'width=800,height=600');
-        }
-        // إعداد مبدئي للغات
-        document.documentElement.lang = 'ar';
-        document.documentElement.dir = 'rtl';
-    </script>
+<div class="stats-bar reveal">
+  <div class="stat"><div class="stat-num">+50K</div><div class="stat-label">حلم تم تفسيره</div></div>
+  <div class="stat"><div class="stat-num">98%</div><div class="stat-label">نسبة رضا المستخدمين</div></div>
+  <div class="stat"><div class="stat-num">2ث</div><div class="stat-label">متوسط وقت التوليد</div></div>
+  <div class="stat"><div class="stat-num">4K</div><div class="stat-label">جودة الصور</div></div>
+  <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">دعم فوري</div></div>
+</div>
+
+<section class="section" id="features">
+  <div class="section-title reveal">كل ما تحتاجه <span style="background:linear-gradient(135deg,var(--gold),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">في مكان واحد</span></div>
+  <p class="section-sub reveal">مميزات حصرية لا تجدها في أي مكان آخر</p>
+  <div class="features-grid">
+    <div class="feature-card card-purple reveal">
+      <span class="feature-icon">🧠</span><span class="feature-badge">حصري</span>
+      <h3>تفسير عميق بالذكاء الاصطناعي</h3>
+      <p>نموذج لغوي متخصص في علم النفس والرموز الثقافية يحلل أحلامك بدقة لم تشهدها من قبل، مع تقرير تفصيلي شامل.</p>
+    </div>
+    <div class="feature-card card-pink reveal">
+      <span class="feature-icon">🎨</span><span class="feature-badge">جديد</span>
+      <h3>توليد صور سينمائية 4K</h3>
+      <p>حول كل حلم إلى لوحة فنية بجودة سينمائية مذهلة. أكثر من 50 أسلوب فني للاختيار منها.</p>
+    </div>
+    <div class="feature-card card-cyan reveal">
+      <span class="feature-icon">🎬</span><span class="feature-badge">قريباً</span>
+      <h3>تحريك الأحلام</h3>
+      <p>لأول مرة عربياً — حوّل صور أحلامك إلى مقاطع فيديو متحركة بالذكاء الاصطناعي بضغطة واحدة.</p>
+    </div>
+    <div class="feature-card card-gold reveal">
+      <span class="feature-icon">📔</span><span class="feature-badge">ذكي</span>
+      <h3>يوميات الأحلام الذكية</h3>
+      <p>منصتنا تتعلم من أحلامك وتكشف أنماطاً مخفية، وتربط أحلامك المتكررة لتفهم رسائل عقلك الباطن.</p>
+    </div>
+    <div class="feature-card card-green reveal">
+      <span class="feature-icon">👥</span><span class="feature-badge">مجتمع</span>
+      <h3>معرض المجتمع التفاعلي</h3>
+      <p>شارك أحلامك مع مجتمع واسع، تفاعل مع إبداعات الآخرين، وتنافس في تحديات أسبوعية.</p>
+    </div>
+    <div class="feature-card card-orange reveal">
+      <span class="feature-icon">🔗</span><span class="feature-badge">تكامل</span>
+      <h3>تكامل شامل مع التطبيقات</h3>
+      <p>ربط مع Notion, Apple Health, Google Drive وأكثر من 30 تطبيقاً لحفظ أحلامك وتحليلها تلقائياً.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="compare" style="background:rgba(255,255,255,0.01);">
+  <div class="section-title reveal">لماذا <span style="background:linear-gradient(135deg,var(--gold),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">حالِم أفضل؟</span></div>
+  <p class="section-sub reveal">مقارنة شفافة — دعنا الأرقام تتحدث</p>
+  <div class="compare-table reveal">
+    <div class="compare-header">
+      <div>الميزة</div>
+      <div class="our-col">🌙 حالِم</div>
+      <div style="color:rgba(226,217,243,0.5);">نسّاج الأحلام</div>
+    </div>
+    <div class="compare-row"><div>تفسير الأحلام بالذكاء الاصطناعي</div><div class="our-val"><span class="check">✓</span> متقدم + تقرير PDF</div><div><span class="check">✓</span> أساسي</div></div>
+    <div class="compare-row"><div>توليد الصور</div><div class="our-val"><span class="check">✓</span> 4K جودة سينمائية</div><div><span class="partial">◐</span> جودة عادية</div></div>
+    <div class="compare-row"><div>تحريك الأحلام (فيديو)</div><div class="our-val"><span class="check">✓</span> متاح</div><div><span class="cross">✗</span> غير متاح</div></div>
+    <div class="compare-row"><div>يوميات الأحلام الذكية</div><div class="our-val"><span class="check">✓</span> مع تحليل الأنماط</div><div><span class="cross">✗</span> غير متاح</div></div>
+    <div class="compare-row"><div>أسلوب فني للصور</div><div class="our-val"><span class="check">✓</span> +50 أسلوب</div><div><span class="partial">◐</span> محدود</div></div>
+    <div class="compare-row"><div>التكامل مع التطبيقات</div><div class="our-val"><span class="check">✓</span> +30 تطبيق</div><div><span class="partial">◐</span> محدود</div></div>
+    <div class="compare-row"><div>اتساق الشخصيات</div><div class="our-val"><span class="check">✓</span> متقدم</div><div><span class="check">✓</span> متاح</div></div>
+    <div class="compare-row"><div>تحليل الأنماط الشهرية</div><div class="our-val"><span class="check">✓</span> تقرير شامل</div><div><span class="cross">✗</span> غير متاح</div></div>
+    <div class="compare-row"><div>واجهة عربية أصيلة</div><div class="our-val"><span class="check">✓</span> مصممة للعربي</div><div><span class="partial">◐</span> مترجمة</div></div>
+    <div class="compare-row"><div>دعم العملاء</div><div class="our-val"><span class="check">✓</span> 24/7 عربي</div><div><span class="partial">◐</span> محدود</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-title reveal"><span style="background:linear-gradient(135deg,var(--gold),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">10 أسباب</span> تجعل حالِم اختيارك</div>
+  <div class="why-grid">
+    <div class="why-card reveal"><div class="why-num">01</div><div><h4>تفسير يراعي ثقافتنا العربية</h4><p>خوارزميات مدربة على الموروث الثقافي والديني العربي.</p></div></div>
+    <div class="why-card reveal"><div class="why-num">02</div><div><h4>خصوصية مطلقة</h4><p>أحلامك لا تُشارك مع أحد. تشفير كامل من طرف إلى طرف.</p></div></div>
+    <div class="why-card reveal"><div class="why-num">03</div><div><h4>جودة صور لا مثيل لها</h4><p>تقنية توليد 4K تنافس الأدوات الاحترافية بسعر أقل.</p></div></div>
+    <div class="why-card reveal"><div class="why-num">04</div><div><h4>تحديثات أسبوعية مستمرة</h4><p>فريقنا يعمل باستمرار لإضافة مميزات جديدة كل أسبوع.</p></div></div>
+    <div class="why-card reveal"><div class="why-num">05</div><div><h4>بدون اشتراك إلزامي</h4><p>ابدأ مجاناً وادفع فقط عندما تحتاج مميزات إضافية.</p></div></div>
+    <div class="why-card reveal"><div class="why-num">06</div><div><h4>تطبيق موبايل كامل</h4><p>سجّل أحلامك فور الاستيقاظ قبل أن تنساها.</p></div></div>
+    <div class="why-card reveal"><div class="why-num">07</div><div><h4>ذكاء اصطناعي يتطور معك</h4><p>كلما استخدمت المنصة، كلما صارت تفسيراتها أدق.</p></div></div>
+    <div class="why-card reveal"><div class="why-num">08</div><div><h4>مجتمع نشط ومتفاعل</h4><p>انضم لآلاف العرب الذين يشاركون ويتعلمون معاً.</p></div></div>
+    <div class="why-card reveal"><div class="why-num">09</div><div><h4>تقارير نفسية دقيقة</h4><p>اكتشف ما يقوله عقلك الباطن من خلال تحليل علمي.</p></div></div>
+    <div class="why-card reveal"><div class="why-num">10</div><div><h4>دعم عربي حقيقي</h4><p>فريق دعم متحدث بالعربية متاح على مدار الساعة.</p></div></div>
+  </div>
+</section>
+
+<section class="section" id="pricing" style="background:rgba(255,255,255,0.01);">
+  <div class="section-title reveal">أسعار <span style="background:linear-gradient(135deg,var(--gold),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">واضحة وعادلة</span></div>
+  <p class="section-sub reveal">بدون رسوم مخفية. ابدأ مجاناً اليوم.</p>
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <div class="price-name">مجاني</div>
+      <div class="price-amount">$0</div>
+      <div class="price-period">للأبد</div>
+      <ul class="price-features">
+        <li>5 تفسيرات يومياً</li>
+        <li>توليد 3 صور يومياً</li>
+        <li>يوميات أساسية</li>
+        <li>معرض المجتمع</li>
+      </ul>
+      <a href="#start" class="price-btn outline">ابدأ مجاناً</a>
+    </div>
+    <div class="price-card featured reveal">
+      <div class="price-tag">⭐ الأكثر شعبية</div>
+      <div class="price-name">احترافي</div>
+      <div class="price-amount">$9</div>
+      <div class="price-period">شهرياً</div>
+      <ul class="price-features">
+        <li>تفسير غير محدود</li>
+        <li>صور 4K غير محدودة</li>
+        <li>+50 أسلوب فني</li>
+        <li>تحليل الأنماط الشهري</li>
+        <li>تكامل مع التطبيقات</li>
+        <li>أولوية في الدعم</li>
+      </ul>
+      <a href="#start" class="price-btn">ابدأ الآن</a>
+    </div>
+    <div class="price-card reveal">
+      <div class="price-name">فريق</div>
+      <div class="price-amount">$19</div>
+      <div class="price-period">شهرياً / لكل مستخدم</div>
+      <ul class="price-features">
+        <li>كل مميزات الاحترافي</li>
+        <li>تحريك الأحلام (فيديو)</li>
+        <li>تقارير PDF متقدمة</li>
+        <li>API للمطورين</li>
+        <li>مدير حساب مخصص</li>
+      </ul>
+      <a href="#start" class="price-btn outline">تواصل معنا</a>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="start">
+  <div class="cta-box reveal">
+    <h2>ابدأ رحلتك<br><span style="background:linear-gradient(135deg,var(--gold),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">الليلة</span></h2>
+    <p>انضم لآلاف المستخدمين الذين اكتشفوا عالم أحلامهم بطريقة لم يتخيلوها من قبل.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary">🌙 ابدأ مجاناً — بدون بطاقة</a>
+    </div>
+    <p style="margin-top:1.5rem;font-size:0.85rem;color:rgba(226,217,243,0.4);">✓ لا بطاقة مطلوبة &nbsp;·&nbsp; ✓ إلغاء في أي وقت &nbsp;·&nbsp; ✓ دعم عربي 24/7</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">حالِم.</div>
+  <p>© 2024 حالِم — منصة الأحلام الذكية. جميع الحقوق محفوظة.</p>
+</footer>
+
+<script>
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*3+2).toFixed(1)}s;animation-delay:${(Math.random()*3).toFixed(1)}s;`;
+    starsEl.appendChild(s);
+  }
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  revealEls.forEach(el => observer.observe(el));
+</script>
+
 </body>
-</html>
+                                                                    </html>
