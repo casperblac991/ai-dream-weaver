@@ -92,16 +92,16 @@ class DataManager:
                 data = json.load(f)
                 stats['telegram'] = len(data)
                 stats['all'] += len(data)
-        except Exception as e:
-            log(f"خطأ في قراءة إحصائيات تلغرام: {e}", "warning")
+        except:
+            pass
         
         try:
             with open(self.files['reddit'], 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 stats['reddit'] = len(data)
                 stats['all'] += len(data)
-        except Exception as e:
-            log(f"خطأ في قراءة إحصائيات ريديت: {e}", "warning")
+        except:
+            pass
         
         return stats
 
@@ -185,7 +185,7 @@ class UnsplashBot:
         log("✅ [Unsplash] انتهى", "success")
 
 
-# ========== 3. بوت ريديت (جديد) ==========
+# ========== 3. بوت ريديت ==========
 class RedditBot:
     def __init__(self, data_manager: DataManager):
         self.data = data_manager
@@ -199,7 +199,6 @@ class RedditBot:
         found = 0
         
         try:
-            # البحث في r/dreaminterpretation
             url = "https://www.reddit.com/r/dreaminterpretation/new.json?limit=15"
             headers = {'User-Agent': 'AI Dream Weaver Bot 1.0'}
             
@@ -212,7 +211,6 @@ class RedditBot:
                     post_data = post['data']
                     title = post_data['title'].lower()
                     
-                    # البحث عن الكلمات المفتاحية
                     for keyword in self.keywords:
                         if keyword in title:
                             self.data.save_lead('reddit', {
@@ -247,19 +245,15 @@ class BotMaster:
         log("🚀 بدء تشغيل جميع البوتات", "bot")
         log("=" * 50, "info")
         
-        # 1. بوت تلغرام
         log("\n📱 [1/3] بوت تلغرام...", "info")
         self.telegram.run_cycle()
         
-        # 2. بوت Unsplash
         log("\n📸 [2/3] بوت Unsplash...", "info")
         self.unsplash.run_cycle()
         
-        # 3. بوت ريديت
         log("\n📕 [3/3] بوت ريديت...", "info")
         self.reddit.run_cycle()
         
-        # الإحصائيات النهائية
         stats = self.data.get_stats()
         
         log("\n" + "=" * 50, "info")
@@ -277,8 +271,6 @@ class BotMaster:
 
 # ========== التشغيل الرئيسي ==========
 if __name__ == "__main__":
-    import sys
-    
     print("""
     ╔═══════════════════════════════════════════╗
     ║  🤖 AI DREAM WEAVER - نظام البوتات        ║
@@ -286,12 +278,10 @@ if __name__ == "__main__":
     ╚═══════════════════════════════════════════╝
     """)
     
-    # التحقق من المفاتيح
     if not TELEGRAM_TOKEN:
         print("⚠️ تحذير: مفتاح تلغرام غير موجود")
     if not UNSPLASH_ACCESS_KEY:
         print("⚠️ تحذير: مفتاح Unsplash غير موجود")
     
-    # تشغيل البوتات
     master = BotMaster()
     master.run_all()
