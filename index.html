@@ -1,3 +1,4 @@
+<!-- index.html - الملف الشامل لمتجر حالم -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -9,242 +10,178 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            font-family: 'Tajawal', system-ui, -apple-system, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
-            color: #333;
-            line-height: 1.6;
+            color: #fff;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 20px;
         }
         
-        /* header */
+        /* الهيدر */
         header {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 30px;
+            border-radius: 20px;
             padding: 20px 30px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 20px;
-            z-index: 1000;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
         .logo h1 {
             font-size: 32px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
         }
         
         .logo p {
-            color: #666;
+            color: #a0a0a0;
             font-size: 14px;
         }
         
         .telegram-badge {
             background: #0088cc;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border-radius: 50px;
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: transform 0.3s;
+            font-weight: bold;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
         }
         
         .telegram-badge:hover {
             transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,136,204,0.3);
         }
         
-        /* free trial section */
-        .free-trial {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 50px;
+        /* صندوق التجربة المجانية */
+        .trial-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             border-radius: 30px;
-            text-align: center;
+            padding: 50px;
             margin-bottom: 40px;
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
-        .free-trial h2 {
+        .trial-box h2 {
             font-size: 42px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff, #a0a0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
-        .free-trial textarea {
-            width: 80%;
+        .trial-box textarea {
+            width: 100%;
+            max-width: 600px;
             padding: 20px;
-            border-radius: 20px;
-            border: none;
-            margin: 30px 0 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            color: white;
             font-size: 16px;
-            background: rgba(255,255,255,0.9);
+            margin: 30px 0 20px;
             resize: vertical;
         }
         
-        .free-trial button {
-            background: #ffd700;
-            color: #333;
+        .trial-box textarea::placeholder {
+            color: #888;
+        }
+        
+        .trial-box button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
             padding: 15px 50px;
             border: none;
             border-radius: 50px;
             font-size: 20px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: 0.3s;
         }
         
-        .free-trial button:hover {
+        .trial-box button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
         }
         
-        /* how it works */
-        .how-it-works {
-            background: white;
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        
-        .section-title {
-            font-size: 36px;
-            text-align: center;
-            margin-bottom: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            text-align: center;
-        }
-        
-        .step {
-            padding: 30px;
-        }
-        
-        .step-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-        
-        .step h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #764ba2;
-        }
-        
-        .step p {
-            color: #666;
-        }
-        
-        /* live stats */
-        .live-stats {
-            background: linear-gradient(135deg, #141e30 0%, #243b55 100%);
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 40px;
-            color: white;
-        }
-        
+        /* الإحصائيات الحية */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            text-align: center;
+            gap: 25px;
+            margin-bottom: 40px;
         }
         
-        .stat-item {
-            padding: 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
         .stat-number {
             font-size: 48px;
             font-weight: bold;
+            color: gold;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, #ffd700, #ffa500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
         
         .stat-label {
+            color: #a0a0a0;
             font-size: 18px;
-            opacity: 0.9;
         }
         
-        .last-update {
+        /* قسم المنتجات */
+        .section-title {
+            font-size: 36px;
             text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            opacity: 0.7;
-        }
-        
-        /* products */
-        .products {
-            margin-bottom: 40px;
+            margin: 50px 0 30px;
+            background: linear-gradient(135deg, #fff, #a0a0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .products-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
+            margin-bottom: 40px;
         }
         
         .product-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             border-radius: 25px;
             padding: 30px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-            position: relative;
-            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
         }
         
         .product-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
-        }
-        
-        .product-card.featured {
-            border: 2px solid gold;
-            transform: scale(1.05);
-        }
-        
-        .featured-badge {
-            position: absolute;
-            top: 20px;
-            right: -30px;
-            background: gold;
-            color: #333;
-            padding: 10px 40px;
-            transform: rotate(45deg);
-            font-size: 14px;
-            font-weight: bold;
+            background: rgba(255,255,255,0.15);
         }
         
         .product-icon {
@@ -253,13 +190,12 @@
         }
         
         .product-title {
-            font-size: 22px;
+            font-size: 24px;
             margin-bottom: 15px;
-            color: #333;
         }
         
-        .product-description {
-            color: #666;
+        .product-desc {
+            color: #a0a0a0;
             margin-bottom: 20px;
             font-size: 14px;
             line-height: 1.8;
@@ -267,25 +203,24 @@
         
         .product-price {
             font-size: 36px;
-            color: #667eea;
+            color: gold;
             font-weight: bold;
             margin-bottom: 10px;
         }
         
-        .product-original-price {
-            color: #999;
+        .product-old-price {
+            color: #888;
             text-decoration: line-through;
             font-size: 16px;
         }
         
         .product-save {
-            color: #28a745;
-            font-size: 14px;
+            color: #4caf50;
             margin-bottom: 20px;
         }
         
-        .product-button {
-            background: #667eea;
+        .buy-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
             padding: 15px 30px;
@@ -293,90 +228,28 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
             width: 100%;
+            transition: 0.3s;
         }
         
-        .product-button:hover {
-            background: #764ba2;
+        .buy-btn:hover {
+            transform: scale(1.05);
         }
         
-        /* gallery */
-        .gallery {
-            background: white;
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-        }
-        
-        .gallery-item {
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        
-        .gallery-item:hover {
-            transform: scale(1.03);
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-        
-        .gallery-caption {
-            padding: 15px;
-            background: #f8f9fa;
-        }
-        
-        .gallery-caption p {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .gallery-caption span {
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .gallery-update {
-            text-align: left;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #667eea;
-        }
-        
-        /* monthly packages */
-        .packages {
-            margin-bottom: 40px;
-        }
-        
+        /* الباقات الشهرية */
         .packages-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
+            margin-bottom: 40px;
         }
         
         .package-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             border-radius: 25px;
             padding: 40px 30px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        
-        .package-card.popular {
-            border: 2px solid gold;
-            transform: scale(1.05);
             position: relative;
         }
         
@@ -387,27 +260,25 @@
             transform: translateX(-50%);
             background: gold;
             color: #333;
-            padding: 5px 30px;
+            padding: 8px 30px;
             border-radius: 50px;
             font-weight: bold;
-            font-size: 14px;
         }
         
         .package-name {
             font-size: 28px;
             margin-bottom: 20px;
-            color: #333;
         }
         
         .package-price {
             font-size: 48px;
-            color: #667eea;
+            color: gold;
             font-weight: bold;
             margin-bottom: 10px;
         }
         
         .package-period {
-            color: #666;
+            color: #a0a0a0;
             margin-bottom: 30px;
         }
         
@@ -419,59 +290,90 @@
         
         .package-features li {
             padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .package-features li:before {
+        .package-features li::before {
             content: "✓ ";
-            color: #28a745;
+            color: #4caf50;
             font-weight: bold;
         }
         
-        /* faq */
-        .faq {
-            background: white;
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        /* معرض الصور */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 40px 0;
         }
         
+        .gallery-item {
+            border-radius: 20px;
+            overflow: hidden;
+            height: 250px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 20px;
+            color: white;
+        }
+        
+        /* الأسئلة الشائعة */
         .faq-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
+            gap: 25px;
+            margin: 40px 0;
         }
         
         .faq-item {
-            padding: 20px;
-            border-radius: 15px;
-            background: #f8f9fa;
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 20px;
         }
         
         .faq-question {
             font-size: 18px;
             color: #667eea;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
         .faq-answer {
-            color: #666;
+            color: #a0a0a0;
             line-height: 1.8;
         }
         
-        /* trust badges */
+        /* شارات الثقة */
         .trust-badges {
-            background: white;
-            border-radius: 30px;
-            padding: 40px;
-            margin-bottom: 40px;
             display: flex;
             justify-content: space-around;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+            gap: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 40px;
+            margin: 40px 0;
         }
         
         .trust-item {
@@ -479,7 +381,7 @@
         }
         
         .trust-icon {
-            font-size: 40px;
+            font-size: 48px;
             margin-bottom: 10px;
         }
         
@@ -489,29 +391,22 @@
         }
         
         .trust-subtitle {
+            color: #a0a0a0;
             font-size: 12px;
-            color: #666;
         }
         
-        /* testimonials */
-        .testimonials {
-            background: white;
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 40px;
-        }
-        
+        /* آراء العملاء */
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
+            gap: 25px;
+            margin: 40px 0;
         }
         
         .testimonial-card {
-            background: #f8f9fa;
+            background: rgba(255,255,255,0.1);
             padding: 30px;
             border-radius: 20px;
-            position: relative;
         }
         
         .stars {
@@ -531,26 +426,21 @@
             color: #667eea;
         }
         
-        .testimonial-date {
-            font-size: 12px;
-            color: #999;
-        }
-        
-        /* contact */
-        .contact {
-            background: white;
+        /* الاتصال */
+        .contact-section {
+            background: rgba(255,255,255,0.1);
             border-radius: 30px;
             padding: 50px;
             text-align: center;
-            margin-bottom: 40px;
+            margin: 40px 0;
         }
         
         .contact-info {
             display: flex;
             justify-content: center;
             gap: 50px;
-            margin: 30px 0;
             flex-wrap: wrap;
+            margin: 30px 0;
         }
         
         .contact-item {
@@ -559,299 +449,242 @@
             gap: 10px;
         }
         
-        .contact-icon {
-            font-size: 30px;
-        }
-        
         .bot-status {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #00b09b, #96c93d);
             display: inline-block;
+            padding: 15px 30px;
+            border-radius: 50px;
+            margin-top: 20px;
         }
         
-        .bot-active {
-            color: #28a745;
-            font-weight: bold;
-        }
-        
-        /* footer */
+        /* الفوتر */
         footer {
             text-align: center;
             padding: 30px;
-            color: #666;
+            color: #a0a0a0;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
         
-        /* responsive */
+        /* التجاوب مع الجوال */
         @media (max-width: 768px) {
-            .steps, .stats-grid, .products-grid, .packages-grid, 
-            .gallery-grid, .faq-grid, .testimonials-grid {
+            .products-grid,
+            .packages-grid,
+            .gallery-grid,
+            .faq-grid,
+            .testimonials-grid,
+            .stats-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .free-trial textarea {
-                width: 100%;
             }
             
             .trust-badges {
                 flex-direction: column;
-                gap: 20px;
             }
             
-            .product-card.featured {
-                transform: scale(1);
+            .trial-box h2 {
+                font-size: 28px;
             }
         }
+        
+        /* أنيميشن التحميل */
+        .loading {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: gold;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* إشعارات */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            background: white;
+            color: #333;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 9999;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .notification.success { background: #4caf50; color: white; }
+        .notification.error { background: #f44336; color: white; }
+        .notification.info { background: #2196f3; color: white; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- header with telegram bot -->
+        <!-- ==================== الهيدر ==================== -->
         <header>
             <div class="logo">
-                <h1>حالم</h1>
+                <h1>🌙 حالم</h1>
                 <p>متجر الأحلام الذكي</p>
             </div>
-            <a href="https://t.me/halem_bot" class="telegram-badge" target="_blank">
+            <button class="telegram-badge" onclick="window.open('https://t.me/halem_dream_bot', '_blank')">
                 <span>🤖</span>
                 <span>بوت التلغرام 24/7</span>
-                <span class="bot-active">● نشط</span>
-            </a>
+            </button>
         </header>
-        
-        <!-- free trial section -->
-        <section class="free-trial" id="trial">
-            <h2>✨ جرّب تفسير حلمك مجاناً</h2>
-            <p>اكتب حلمك بالعربية أو الإنجليزية واحصل على تحليل فوري بالذكاء الاصطناعي</p>
-            <textarea placeholder="مثال: حلمت أنني أطير في السماء وفجأة تحولت إلى نسر وأنا سعيد..." rows="4"></textarea>
+
+        <!-- ==================== التجربة المجانية ==================== -->
+        <div class="trial-box" id="trial">
+            <h2>✨ جرب تفسير حلمك مجاناً</h2>
+            <p style="margin-bottom: 20px;">اكتب حلمك بالعربية أو الإنجليزية واحصل على تحليل فوري</p>
+            <textarea id="dreamInput" placeholder="مثال: حلمت أنني أطير في السماء وفجأة تحولت إلى نسر..." rows="4"></textarea>
             <div>
                 <button onclick="interpretDream()">🔮 حلل حلمي مجاناً</button>
             </div>
-            <p style="margin-top: 20px; font-size: 14px; opacity: 0.9;">3 تفسيرات مجانية • لا تحتاج لبطاقة ائتمان</p>
-        </section>
-        
-        <!-- how it works -->
-        <section class="how-it-works">
-            <h2 class="section-title">كيف تحول حلمك إلى لوحة فنية في 3 خطوات؟</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-icon">📝</div>
-                    <h3>الخطوة 1: اكتب حلمك</h3>
-                    <p>صف حلمك بأي لغة وبأي تفاصيل. كلما زادت التفاصيل، زادت دقة التفسير وجمال الصورة.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon">⚡</div>
-                    <h3>الخطوة 2: الذكاء الاصطناعي يحلله</h3>
-                    <p>خلال 30 ثانية فقط، يقرأ نظامنا الحلم ويحلله بناءً على آلاف الكتب والمصادر.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon">🎨</div>
-                    <h3>الخطوة 3: استلم التفسير أو الصورة</h3>
-                    <p>تحصل على تقرير مفصل، أو لوحة فنية 4K، أو فيديو متحرك يعيد لحلمك الحياة!</p>
-                </div>
+            <div id="interpretationResult" style="margin-top: 30px; min-height: 50px;"></div>
+        </div>
+
+        <!-- ==================== الإحصائيات الحية ==================== -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="dreamsCount">15,234,000</div>
+                <div class="stat-label">حلم تم تحليله</div>
             </div>
-        </section>
-        
-        <!-- live stats (auto-updated by bot) -->
-        <section class="live-stats" id="stats">
-            <h2 class="section-title" style="color: white; -webkit-text-fill-color: white;">📊 التقارير الحية</h2>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number" id="dreams-count">15,234,000</div>
-                    <div class="stat-label">حلم تم تحليله</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="users-count">8,932,000</div>
-                    <div class="stat-label">مستخدم نشط</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="images-count">5,678,000</div>
-                    <div class="stat-label">صورة مولدة</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="bots-count">6</div>
-                    <div class="stat-label">بوت نشط</div>
-                </div>
+            <div class="stat-card">
+                <div class="stat-number" id="usersCount">8,932,000</div>
+                <div class="stat-label">مستخدم نشط</div>
             </div>
-            <div class="last-update" id="last-update">
-                آخر تحديث: اليوم الساعة 10:00 صباحاً
+            <div class="stat-card">
+                <div class="stat-number" id="imagesCount">5,678,000</div>
+                <div class="stat-label">صورة مولدة</div>
             </div>
-        </section>
-        
-        <!-- products section -->
-        <section class="products">
-            <h2 class="section-title">🛍️ المنتجات الفردية</h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-icon">🧠</div>
-                    <h3 class="product-title">تفسير الأحلام بالذكاء الاصطناعي</h3>
-                    <p class="product-description">تحليل عميق لحلمك مع تحديد الرموز والمشاعر والتفسيرات من 5 مراجع مختلفة</p>
-                    <div class="product-price">$14.99</div>
-                    <p class="product-save">مرة واحدة • تقرير دائم</p>
-                    <button class="product-button" onclick="buyProduct('interpretation')">احصل على تفسيرك</button>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-icon">🎨</div>
-                    <h3 class="product-title">توليد الصور 4K</h3>
-                    <p class="product-description">حوّل حلمك إلى لوحة فنية سينمائية بدقة 4K قابلة للطباعة بحجم بوستر</p>
-                    <div class="product-price">$19.99</div>
-                    <p class="product-save">صورة 4K • 3 محاولات</p>
-                    <button class="product-button" onclick="buyProduct('image')">اصنع لوحتك</button>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-icon">🎬</div>
-                    <h3 class="product-title">تحريك الأحلام</h3>
-                    <p class="product-description">فيديو متحرك من حلمك بجودة سينمائية، استعد مشاهد أحلامك وكأنها فيلم</p>
-                    <div class="product-price">$29.99</div>
-                    <p class="product-save">فيديو 30 ثانية • 4K</p>
-                    <button class="product-button" onclick="buyProduct('video')">أنشئ فيلمك</button>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-icon">📔</div>
-                    <h3 class="product-title">يوميات الأحلام الذكية</h3>
-                    <p class="product-description">سجل أحلامك مع تحليل الأنماط والتكرارات والرموز المتكررة</p>
-                    <div class="product-price">$9.99</div>
-                    <p class="product-save">شهرياً • تحليل أنماط</p>
-                    <button class="product-button" onclick="buyProduct('diary')">ابدأ يومياتك</button>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-icon">🤖</div>
-                    <h3 class="product-title">بوت التليجرام</h3>
-                    <p class="product-description">بوت ذكي يعمل 24/7 لتفسير الأحلام فورياً عبر التليجرام</p>
-                    <div class="product-price">$24.99</div>
-                    <p class="product-save">مدى الحياة • تحديثات مجانية</p>
-                    <button class="product-button" onclick="buyProduct('bot')">اشترِ البوت</button>
-                </div>
-                
-                <div class="product-card featured">
-                    <div class="featured-badge">🔥 الأكثر مبيعاً</div>
-                    <div class="product-icon">🔮</div>
-                    <h3 class="product-title">الباقة الشاملة</h3>
-                    <p class="product-description">كل ما سبق + مميزات حصرية ودعم VIP واستشارات خاصة</p>
-                    <div class="product-price">$49.99</div>
-                    <div class="product-original-price">$99</div>
-                    <p class="product-save">وفر 50% • 7 منتجات في منتج واحد</p>
-                    <button class="product-button" onclick="buyProduct('bundle')">احصل على الباقة</button>
-                </div>
+            <div class="stat-card">
+                <div class="stat-number" id="botsCount">6</div>
+                <div class="stat-label">بوتات نشطة</div>
             </div>
-        </section>
-        
-        <!-- gallery section (auto-updated by bot) -->
-        <section class="gallery" id="gallery">
-            <h2 class="section-title">🖼️ أحلام حقيقية تحولت إلى لوحات فنية</h2>
-            <div class="gallery-grid" id="gallery-grid">
-                <!-- will be populated by bot -->
+        </div>
+
+        <!-- ==================== المنتجات ==================== -->
+        <h2 class="section-title">🛍️ منتجاتنا المميزة</h2>
+        <div class="products-grid" id="products">
+            <!-- المنتج 1: تفسير الأحلام -->
+            <div class="product-card">
+                <div class="product-icon">🧠</div>
+                <h3 class="product-title">تفسير الأحلام</h3>
+                <p class="product-desc">تحليل عميق لحلمك مع تحديد الرموز والمشاعر من 5 مراجع مختلفة</p>
+                <div class="product-price">$14.99</div>
+                <p class="product-save">تقرير دائم • قابل للطباعة</p>
+                <button class="buy-btn" onclick="buyProduct('interpret')">اشتري الآن</button>
             </div>
-            <div class="gallery-update" id="gallery-update">
-                <span>🤖 آخر تحديث: بواسطة البوت</span>
-                <span id="gallery-date"></span>
+
+            <!-- المنتج 2: توليد الصور -->
+            <div class="product-card">
+                <div class="product-icon">🎨</div>
+                <h3 class="product-title">صور 4K</h3>
+                <p class="product-desc">حوّل حلمك إلى لوحة فنية بدقة 4K قابلة للطباعة بحجم بوستر</p>
+                <div class="product-price">$19.99</div>
+                <p class="product-save">3 محاولات • جودة سينمائية</p>
+                <button class="buy-btn" onclick="buyProduct('image')">اشتري الآن</button>
             </div>
-        </section>
-        
-        <!-- monthly packages -->
-        <section class="packages">
-            <h2 class="section-title">💎 الباقات الشهرية</h2>
-            <div class="packages-grid">
-                <div class="package-card">
-                    <div class="package-name">أساسي</div>
-                    <div class="package-price">$4.99</div>
-                    <div class="package-period">شهرياً</div>
-                    <ul class="package-features">
-                        <li>50 تفسير شهرياً</li>
-                        <li>30 صورة شهرياً</li>
-                        <li>يوميات أساسية</li>
-                        <li>دعم البوتات</li>
-                    </ul>
-                    <button class="product-button" onclick="buyPackage('basic')">اشترك الآن</button>
-                </div>
-                
-                <div class="package-card popular">
-                    <div class="popular-badge">⭐ الأكثر شعبية</div>
-                    <div class="package-name">متقدم</div>
-                    <div class="package-price">$9.99</div>
-                    <div class="package-period">شهرياً</div>
-                    <ul class="package-features">
-                        <li>تفسير غير محدود</li>
-                        <li>صور غير محدودة</li>
-                        <li>تحليل الأنماط</li>
-                        <li>جميع البوتات</li>
-                        <li>API access</li>
-                    </ul>
-                    <button class="product-button" onclick="buyPackage('pro')">اشترك الآن</button>
-                </div>
-                
-                <div class="package-card">
-                    <div class="package-name">احترافي</div>
-                    <div class="package-price">$19.99</div>
-                    <div class="package-period">شهرياً</div>
-                    <ul class="package-features">
-                        <li>كل مميزات المتقدمة</li>
-                        <li>تحريك الفيديو</li>
-                        <li>تكامل مع API</li>
-                        <li>دعم VIP</li>
-                        <li>بوت مخصص</li>
-                    </ul>
-                    <button class="product-button" onclick="buyPackage('enterprise')">اشترك الآن</button>
-                </div>
+
+            <!-- المنتج 3: فيديوهات -->
+            <div class="product-card">
+                <div class="product-icon">🎬</div>
+                <h3 class="product-title">فيديوهات متحركة</h3>
+                <p class="product-desc">شاهد حلمك كفيلم متحرك بجودة احترافية</p>
+                <div class="product-price">$29.99</div>
+                <p class="product-save">30 ثانية • 4K • مؤثرات</p>
+                <button class="buy-btn" onclick="buyProduct('video')">اشتري الآن</button>
             </div>
-        </section>
-        
-        <!-- faq section -->
-        <section class="faq">
-            <h2 class="section-title">❓ أسئلة يجيبها حالم عنك</h2>
-            <div class="faq-grid">
-                <div class="faq-item">
-                    <div class="faq-question">🔮 كيف يفسر الذكاء الاصطناعي الأحلام؟</div>
-                    <div class="faq-answer">نظامنا مدرب على آلاف الكتب والمصادر في تفسير الأحلام من مختلف الثقافات (النابلسي، ابن سيرين، فرويد، يونغ). يحلل النص ويستخرج الرموز والمشاعر.</div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">💰 كيف أستلم المنتج بعد الشراء؟</div>
-                    <div class="faq-answer">فور إتمام الدفع، ستظهر لك النتيجة على الشاشة مباشرة! ونرسل لك نسخة على بريدك الإلكتروني. الصور والفيديوهات تحصل عليها بصيغة عالية الجودة.</div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">🤫 هل أحلامي خاصة؟</div>
-                    <div class="faq-answer">خصوصيتك خط أحمر! جميع أحلامك مشفرة ولا نشاركها مع أي طرف ثالث. يمكنك حذف يومياتك في أي وقت.</div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">💳 طرق الدفع المتاحة؟</div>
-                    <div class="faq-answer">نقبل جميع البطاقات الائتمانية (فيزا، ماستركارد، أمريكان إكسبريس) و PayPal ومدى (للسعودية). الدفع آمن 100% عبر تشفير SSL.</div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">🔄 هل يوجد ضمان استرداد الأموال؟</div>
-                    <div class="faq-answer">نعم! نوفر ضمان استرداد كامل خلال 7 أيام إذا واجهتك أي مشكلة تقنية. رضاك مضمون 100%.</div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">⚡ كم تستغرق العملية؟</div>
-                    <div class="faq-answer">التفسير الفوري يستغرق أقل من 30 ثانية. الصور والفيديوهات تستغرق 1-2 دقيقة حسب جودة الإخراج المطلوبة.</div>
-                </div>
+        </div>
+
+        <!-- ==================== الباقات الشهرية ==================== -->
+        <h2 class="section-title">💎 الباقات الشهرية</h2>
+        <div class="packages-grid">
+            <!-- الباقة الأساسية -->
+            <div class="package-card">
+                <div class="package-name">أساسي</div>
+                <div class="package-price">$4.99</div>
+                <div class="package-period">شهرياً</div>
+                <ul class="package-features">
+                    <li>50 تفسير شهرياً</li>
+                    <li>30 صورة شهرياً</li>
+                    <li>يوميات أساسية</li>
+                    <li>دعم البوتات</li>
+                </ul>
+                <button class="buy-btn" onclick="buyPackage('basic')">اشترك الآن</button>
             </div>
-        </section>
-        
-        <!-- trust badges -->
-        <section class="trust-badges">
+
+            <!-- الباقة المتقدمة (الأكثر شعبية) -->
+            <div class="package-card">
+                <div class="popular-badge">⭐ الأكثر شعبية</div>
+                <div class="package-name">متقدم</div>
+                <div class="package-price">$9.99</div>
+                <div class="package-period">شهرياً</div>
+                <ul class="package-features">
+                    <li>تفسير غير محدود</li>
+                    <li>صور غير محدودة</li>
+                    <li>تحليل الأنماط</li>
+                    <li>جميع البوتات</li>
+                    <li>API access</li>
+                </ul>
+                <button class="buy-btn" onclick="buyPackage('pro')">اشترك الآن</button>
+            </div>
+
+            <!-- الباقة الاحترافية -->
+            <div class="package-card">
+                <div class="package-name">احترافي</div>
+                <div class="package-price">$19.99</div>
+                <div class="package-period">شهرياً</div>
+                <ul class="package-features">
+                    <li>كل مميزات المتقدمة</li>
+                    <li>تحريك الفيديو</li>
+                    <li>تكامل مع API</li>
+                    <li>دعم VIP</li>
+                    <li>بوت مخصص</li>
+                </ul>
+                <button class="buy-btn" onclick="buyPackage('enterprise')">اشترك الآن</button>
+            </div>
+        </div>
+
+        <!-- ==================== معرض الصور ==================== -->
+        <h2 class="section-title">🖼️ معرض الأحلام</h2>
+        <div class="gallery-grid" id="gallery">
+            <!-- يتم تعبئتها تلقائياً بالجافاسكربت -->
+        </div>
+
+        <!-- ==================== الأسئلة الشائعة ==================== -->
+        <h2 class="section-title">❓ أسئلة شائعة</h2>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <div class="faq-question">🔮 كيف يفسر الذكاء الاصطناعي الأحلام؟</div>
+                <div class="faq-answer">نظامنا مدرب على آلاف الكتب والمصادر في تفسير الأحلام من مختلف الثقافات (النابلسي، ابن سيرين، فرويد). يحلل النص ويستخرج الرموز والمشاعر.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">💰 كيف أستلم المنتج بعد الشراء؟</div>
+                <div class="faq-answer">فور إتمام الدفع، تظهر النتيجة مباشرة! ونرسل نسخة على بريدك الإلكتروني. الصور والفيديوهات قابلة للتحميل.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">🤫 هل أحلامي خاصة؟</div>
+                <div class="faq-answer">جميع أحلامك مشفرة ولا نشاركها مع أي طرف ثالث. يمكنك حذف يومياتك في أي وقت.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">💳 طرق الدفع المتاحة؟</div>
+                <div class="faq-answer">فيزا، ماستركارد، أمريكان إكسبريس، PayPal، مدى (للسعودية). الدفع آمن 100%.</div>
+            </div>
+        </div>
+
+        <!-- ==================== شارات الثقة ==================== -->
+        <div class="trust-badges">
             <div class="trust-item">
                 <div class="trust-icon">🔒</div>
                 <div class="trust-title">دفع آمن 100%</div>
-                <div class="trust-subtitle">تشفير SSL عسكري</div>
-            </div>
-            <div class="trust-item">
-                <div class="trust-icon">💳</div>
-                <div class="trust-title">جميع البطاقات</div>
-                <div class="trust-subtitle">فيزا • ماستركارد • مدى</div>
-            </div>
-            <div class="trust-item">
-                <div class="trust-icon">🤝</div>
-                <div class="trust-title">ضمان 7 أيام</div>
-                <div class="trust-subtitle">استرداد كامل</div>
+                <div class="trust-subtitle">تشفير SSL</div>
             </div>
             <div class="trust-item">
                 <div class="trust-icon">⚡</div>
@@ -859,289 +692,266 @@
                 <div class="trust-subtitle">خلال 30 ثانية</div>
             </div>
             <div class="trust-item">
-                <div class="trust-icon">🤖</div>
-                <div class="trust-title">بوت 24/7</div>
-                <div class="trust-subtitle">دائم النشاط</div>
+                <div class="trust-icon">🤝</div>
+                <div class="trust-title">ضمان 7 أيام</div>
+                <div class="trust-subtitle">استرداد كامل</div>
             </div>
-        </section>
-        
-        <!-- testimonials -->
-        <section class="testimonials">
-            <h2 class="section-title">⭐ آراء العملاء</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"منصة رائعة! ساعدتني في فهم أحلامي بشكل أعمق. الصور المولدة مذهلة ودقيقة جداً."</p>
-                    <div class="testimonial-author">أحمد</div>
-                    <div class="testimonial-date">مستخدم منذ 3 أشهر</div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"بوت التليجرام شغال 24/7 والتفسيرات دقيقة جداً. أنصح الجميع بالتجربة."</p>
-                    <div class="testimonial-author">نورة</div>
-                    <div class="testimonial-date">مستخدمة منذ 6 أشهر</div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <div class="stars">★★★★☆</div>
-                    <p class="testimonial-text">"الباقة الاحترافية تستحق كل قرش. الدعم الفني سريع ومتفهم."</p>
-                    <div class="testimonial-author">محمد</div>
-                    <div class="testimonial-date">مستخدم منذ شهر</div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"أفضل استثمار قمت به هذا العام. أحلامي أصبحت لوحات فنية في منزلي."</p>
-                    <div class="testimonial-author">سارة</div>
-                    <div class="testimonial-date">مستخدمة منذ شهرين</div>
-                </div>
+            <div class="trust-item">
+                <div class="trust-icon">🌙</div>
+                <div class="trust-title">خصوصية تامة</div>
+                <div class="trust-subtitle">بياناتك آمنة</div>
             </div>
-        </section>
-        
-        <!-- contact section -->
-        <section class="contact">
-            <h2 class="section-title">📞 اتصل بنا</h2>
+        </div>
+
+        <!-- ==================== آراء العملاء ==================== -->
+        <h2 class="section-title">⭐ آراء العملاء</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"منصة رائعة! ساعدتني في فهم أحلامي بشكل أعمق. الصور المولدة مذهلة."</p>
+                <div class="testimonial-author">- أحمد س.</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"بوت التلغرام شغال 24/7 والتفسيرات دقيقة جداً. أنصح الجميع."</p>
+                <div class="testimonial-author">- نورة م.</div>
+            </div>
+        </div>
+
+        <!-- ==================== قسم الاتصال ==================== -->
+        <div class="contact-section">
+            <h2 class="section-title">📞 تواصل معنا</h2>
             <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">📍</div>
-                    <div>دبي، الإمارات العربية المتحدة</div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">📧</div>
-                    <div>info@halem.com</div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">📞</div>
-                    <div>+971 50 123 4567</div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">💬</div>
-                    <div>@halem_bot على تليجرام</div>
-                </div>
+                <div class="contact-item">📍 دبي، الإمارات</div>
+                <div class="contact-item">📧 info@halem.com</div>
+                <div class="contact-item">📞 +971 50 123 4567</div>
+                <div class="contact-item">💬 @halem_bot</div>
             </div>
-            
             <div class="bot-status">
-                <span>🤖 حالة البوت: </span>
-                <span class="bot-active">● نشط 24/7</span>
-                <span> | آخر تحديث: <span id="bot-last-update">منذ دقيقة</span></span>
+                🤖 البوت نشط • آخر تحديث: <span id="lastBotUpdate"></span>
             </div>
-        </section>
-        
-        <!-- footer -->
+        </div>
+
+        <!-- ==================== الفوتر ==================== -->
         <footer>
-            <p>© 2024 حالم - متجر الأحلام الذكي. جميع الحقوق محفوظة.</p>
-            <p style="margin-top: 10px; font-size: 12px;">آخر تحديث للموقع: <span id="site-last-update"></span></p>
+            <p>© 2024 حالم - جميع الحقوق محفوظة</p>
+            <p style="font-size: 12px; margin-top: 10px;">آخر تحديث: <span id="lastSiteUpdate"></span></p>
         </footer>
     </div>
-    
+
     <script>
-        // ==================== بوت تحديث المحتوى التلقائي ====================
-        
-        // دالة لجلب التحديثات من البوت
-        async function fetchBotUpdates() {
-            try {
-                // هنا سيتم الاتصال بالبوت عبر API
-                // هذه محاكاة للتحديثات
-                const response = await fetch('/api/get-bot-updates');
-                const data = await response.json();
-                
-                if (data.success) {
-                    updateStats(data.stats);
-                    updateGallery(data.gallery);
-                    updateBotStatus(data.bot);
-                }
-            } catch (error) {
-                console.log('جاري التحديث من البوت...');
-                // استخدام البيانات المحاكاة في حالة عدم وجود API
-                simulateBotUpdates();
-            }
-        }
-        
-        // تحديث الإحصائيات
-        function updateStats(stats) {
-            document.getElementById('dreams-count').textContent = formatNumber(stats?.dreams || 15234000 + Math.floor(Math.random() * 1000));
-            document.getElementById('users-count').textContent = formatNumber(stats?.users || 8932000 + Math.floor(Math.random() * 500));
-            document.getElementById('images-count').textContent = formatNumber(stats?.images || 5678000 + Math.floor(Math.random() * 300));
+        // ==================== تهيئة المتغيرات ====================
+        const GUMROAD_LINKS = {
+            'interpret': 'https://gum.co/interpret-halem',
+            'image': 'https://gum.co/image-halem',
+            'video': 'https://gum.co/video-halem',
+            'bundle': 'https://gum.co/bundle-halem',
+            'basic': 'https://gum.co/basic-halem',
+            'pro': 'https://gum.co/pro-halem',
+            'enterprise': 'https://gum.co/enterprise-halem'
+        };
+
+        // ==================== 1. نظام تفسير الأحلام المجاني ====================
+        async function interpretDream() {
+            const dreamText = document.getElementById('dreamInput').value;
+            const resultDiv = document.getElementById('interpretationResult');
             
-            const now = new Date();
-            document.getElementById('last-update').textContent = `آخر تحديث: ${now.toLocaleDateString('ar-EG')} الساعة ${now.getHours()}:${now.getMinutes()}`;
-        }
-        
-        // تحديث معرض الصور
-        function updateGallery(images) {
-            const galleryGrid = document.getElementById('gallery-grid');
-            
-            // صور افتراضية إذا لم ترد من البوت
-            const defaultImages = [
-                { url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600', title: 'الطيران فوق الجبال', user: 'أحلام سارة' },
-                { url: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600', title: 'الغابة السحرية', user: 'حلم محمد' },
-                { url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600', title: 'ضوء في الغابة', user: 'أحلام نور' },
-                { url: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=600', title: 'المحيط والنجوم', user: 'حلم ليلى' },
-                { url: 'https://images.unsplash.com/photo-1507525425510-2ae5c10d9a1f?w=600', title: 'شاطئ الأحلام', user: 'أحلام خالد' },
-                { url: 'https://images.unsplash.com/photo-1510784722466-f2aa9c52fff6?w=600', title: 'المدينة الذهبية', user: 'حلم أمل' }
-            ];
-            
-            const displayImages = images || defaultImages;
-            
-            galleryGrid.innerHTML = '';
-            displayImages.slice(0, 6).forEach(img => {
-                galleryGrid.innerHTML += `
-                    <div class="gallery-item">
-                        <img src="${img.url}" alt="${img.title}">
-                        <div class="gallery-caption">
-                            <p>${img.title}</p>
-                            <span>${img.user || 'حلم حقيقي'}</span>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            document.getElementById('gallery-date').textContent = new Date().toLocaleDateString('ar-EG');
-        }
-        
-        // تحديث حالة البوت
-        function updateBotStatus(bot) {
-            const now = new Date();
-            const timeStr = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
-            document.getElementById('bot-last-update').textContent = `آخر تحديث ${timeStr}`;
-        }
-        
-        // تحديث تاريخ الموقع
-        function updateSiteDate() {
-            const now = new Date();
-            document.getElementById('site-last-update').textContent = 
-                `${now.toLocaleDateString('ar-EG')} ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
-        }
-        
-        // تنسيق الأرقام
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-        
-        // محاكاة تحديثات البوت
-        function simulateBotUpdates() {
-            updateStats();
-            
-            // تحديث المعرض كل 30 ثانية (محاكاة)
-            const images = [
-                { url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600', title: 'الطيران فوق الجبال', user: 'أحلام سارة' },
-                { url: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600', title: 'الغابة السحرية', user: 'حلم محمد' },
-                { url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600', title: 'ضوء في الغابة', user: 'أحلام نور' },
-                { url: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=600', title: 'المحيط والنجوم', user: 'حلم ليلى' },
-                { url: 'https://images.unsplash.com/photo-1507525425510-2ae5c10d9a1f?w=600', title: 'شاطئ الأحلام', user: 'أحلام خالد' },
-                { url: 'https://images.unsplash.com/photo-1510784722466-f2aa9c52fff6?w=600', title: 'المدينة الذهبية', user: 'حلم أمل' }
-            ];
-            
-            // خلط الصور كل تحديث
-            const shuffled = [...images].sort(() => 0.5 - Math.random());
-            updateGallery(shuffled);
-            
-            updateBotStatus();
-        }
-        
-        // دالة شراء المنتج
-        function buyProduct(product) {
-            // ربط مع Gumroad
-            const gumroadLinks = {
-                'interpretation': 'https://gum.co/interpretation',
-                'image': 'https://gum.co/image-4k',
-                'video': 'https://gum.co/dream-video',
-                'diary': 'https://gum.co/dream-diary',
-                'bot': 'https://gum.co/telegram-bot',
-                'bundle': 'https://gum.co/halem-bundle'
-            };
-            
-            if (gumroadLinks[product]) {
-                window.open(gumroadLinks[product], '_blank');
-            } else {
-                alert('سيتم توجيهك إلى صفحة الدفع الآمنة');
-            }
-        }
-        
-        // دالة شراء الباقة
-        function buyPackage(pkg) {
-            const gumroadLinks = {
-                'basic': 'https://gum.co/basic-monthly',
-                'pro': 'https://gum.co/pro-monthly',
-                'enterprise': 'https://gum.co/enterprise-monthly'
-            };
-            
-            if (gumroadLinks[pkg]) {
-                window.open(gumroadLinks[pkg], '_blank');
-            } else {
-                alert('سيتم توجيهك إلى صفحة الاشتراك');
-            }
-        }
-        
-        // دالة تفسير الحلم المجاني
-        function interpretDream() {
-            const dreamText = document.querySelector('.free-trial textarea').value;
             if (!dreamText) {
-                alert('الرجاء كتابة حلمك أولاً');
+                showNotification('اكتب حلمك أولاً', 'error');
                 return;
             }
             
-            // محاكاة تفسير فوري
-            alert('جاري تحليل حلمك...');
+            resultDiv.innerHTML = '<div class="loading"></div><p>جاري التفسير...</p>';
             
+            // محاكاة تأخير الشبكة
             setTimeout(() => {
                 const interpretations = [
-                    'الطيران في الحلم يدل على الحرية والطموح والشعور بالقوة.',
-                    'رؤية الماء تدل على الرزق والخير والبركة في الحياة.',
-                    'الثعابين في الحلم قد تدل على أعداء أو تحديات تواجهك.',
+                    'الطيران في الحلم يدل على الطموح والحرية والرغبة في التحرر من القيود.',
+                    'رؤية الماء تدل على الرزق والخير والبركة في الحياة القادمة.',
+                    'الثعابين في الحلم قد تدل على أعداء أو تحديات تواجهك في العمل.',
                     'الأسنان في الحلم تدل على العمر والأهل والأقارب.'
                 ];
                 
                 const randomIndex = Math.floor(Math.random() * interpretations.length);
-                alert('🔮 تفسير حلمك:\n' + interpretations[randomIndex] + '\n\nللتفسير الكامل والصور، اشترك في الباقة المتقدمة!');
+                
+                resultDiv.innerHTML = `
+                    <div style="background: rgba(102,126,234,0.2); padding: 20px; border-radius: 15px;">
+                        <h3 style="color: gold; margin-bottom: 15px;">🔮 تفسير حلمك:</h3>
+                        <p style="font-size: 18px; line-height: 1.8;">${interpretations[randomIndex]}</p>
+                        <p style="color: #a0a0a0; margin-top: 15px; font-size: 14px;">
+                            للتفسير الكامل والصور، اشترك في الباقة المتقدمة!
+                        </p>
+                    </div>
+                `;
+                
+                // تحديث الإحصائيات
+                updateStatsAfterInterpretation();
+                showNotification('تم التفسير بنجاح!', 'success');
             }, 2000);
         }
-        
-        // تشغيل التحديثات التلقائية
-        document.addEventListener('DOMContentLoaded', function() {
-            // تحديث أولي
-            simulateBotUpdates();
-            updateSiteDate();
+
+        // ==================== 2. تحديث الإحصائيات ====================
+        function updateStatsAfterInterpretation() {
+            let dreams = parseInt(document.getElementById('dreamsCount').innerHTML.replace(/,/g, ''));
+            let users = parseInt(document.getElementById('usersCount').innerHTML.replace(/,/g, ''));
             
-            // تحديث كل 30 دقيقة
-            setInterval(simulateBotUpdates, 30 * 60 * 1000);
+            dreams += Math.floor(Math.random() * 100);
+            users += Math.floor(Math.random() * 10);
             
-            // تحديث التاريخ كل دقيقة
-            setInterval(updateSiteDate, 60 * 1000);
-        });
-        
-        // ==================== API للبوت (للتحديث الفعلي) ====================
-        
-        // هذا الكود يرسل تحديثات للبوت عند تغير المحتوى
-        async function sendToBot(type, data) {
-            try {
-                const response = await fetch('/api/bot-update', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('bot_token')
-                    },
-                    body: JSON.stringify({ type, data })
-                });
-                
-                return await response.json();
-            } catch (error) {
-                console.log('البوت غير متصل، يتم حفظ التحديث محلياً');
-                return { success: false, offline: true };
+            document.getElementById('dreamsCount').innerHTML = dreams.toLocaleString();
+            document.getElementById('usersCount').innerHTML = users.toLocaleString();
+        }
+
+        // ==================== 3. نظام الشراء ====================
+        function buyProduct(product) {
+            if (GUMROAD_LINKS[product]) {
+                window.open(GUMROAD_LINKS[product], '_blank');
+                showNotification('جاري تحويلك لصفحة الدفع الآمن...', 'info');
+            } else {
+                showNotification('رابط المنتج غير متوفر حالياً', 'error');
             }
         }
-        
-        // حفظ الإحصائيات الجديدة
-        function saveNewStats() {
-            const stats = {
-                dreams: parseInt(document.getElementById('dreams-count').textContent.replace(/,/g, '')),
-                users: parseInt(document.getElementById('users-count').textContent.replace(/,/g, '')),
-                images: parseInt(document.getElementById('images-count').textContent.replace(/,/g, ''))
-            };
-            
-            sendToBot('stats_update', stats);
+
+        function buyPackage(pkg) {
+            buyProduct(pkg);
         }
+
+        // ==================== 4. تحميل معرض الصور ====================
+        function loadGallery() {
+            const gallery = document.getElementById('gallery');
+            const images = [
+                { url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4', title: 'الطيران فوق الجبال' },
+                { url: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05', title: 'الغابة السحرية' },
+                { url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e', title: 'ضوء في الغابة' },
+                { url: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843', title: 'المحيط والنجوم' },
+                { url: 'https://images.unsplash.com/photo-1507525425510-2ae5c10d9a1f', title: 'شاطئ الأحلام' },
+                { url: 'https://images.unsplash.com/photo-1510784722466-f2aa9c52fff6', title: 'المدينة الذهبية' }
+            ];
+            
+            gallery.innerHTML = '';
+            images.forEach(img => {
+                gallery.innerHTML += `
+                    <div class="gallery-item" onclick="showNotification('${img.title}', 'info')">
+                        <img src="${img.url}?w=600&h=400&fit=crop" alt="${img.title}">
+                        <div class="gallery-caption">
+                            <p>${img.title}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // ==================== 5. نظام الإشعارات ====================
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // ==================== 6. تحديث التواريخ ====================
+        function updateDates() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('ar-EG');
+            const dateStr = now.toLocaleDateString('ar-EG');
+            
+            document.getElementById('lastBotUpdate').textContent = timeStr;
+            document.getElementById('lastSiteUpdate').textContent = `${dateStr} ${timeStr}`;
+        }
+
+        // ==================== 7. نظام API المتكامل ====================
+        const API = {
+            // OpenAI API لتفسير الأحلام
+            async callOpenAI(dreamText) {
+                // هذا الكود سيشتغل على Vercel
+                const response = await fetch('/api/interpret', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ dream: dreamText })
+                });
+                return await response.json();
+            },
+            
+            // Unsplash API للصور
+            async getUnsplashImages() {
+                const response = await fetch('https://api.unsplash.com/photos/random?count=6&query=dream', {
+                    headers: {
+                        'Authorization': 'Client-ID YOUR_UNSPLASH_KEY'
+                    }
+                });
+                return await response.json();
+            },
+            
+            // Telegram Bot API
+            async sendToTelegram(chatId, message) {
+                const response = await fetch(`https://api.telegram.org/bot${localStorage.getItem('TELEGRAM_TOKEN')}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message
+                    })
+                });
+                return await response.json();
+            }
+        };
+
+        // ==================== 8. التحديث التلقائي ====================
+        function autoUpdate() {
+            // تحديث الإحصائيات كل 30 ثانية
+            setInterval(() => {
+                let dreams = parseInt(document.getElementById('dreamsCount').innerHTML.replace(/,/g, ''));
+                dreams += Math.floor(Math.random() * 50);
+                document.getElementById('dreamsCount').innerHTML = dreams.toLocaleString();
+                
+                let users = parseInt(document.getElementById('usersCount').innerHTML.replace(/,/g, ''));
+                users += Math.floor(Math.random() * 20);
+                document.getElementById('usersCount').innerHTML = users.toLocaleString();
+                
+                let images = parseInt(document.getElementById('imagesCount').innerHTML.replace(/,/g, ''));
+                images += Math.floor(Math.random() * 30);
+                document.getElementById('imagesCount').innerHTML = images.toLocaleString();
+                
+                let bots = parseInt(document.getElementById('botsCount').innerHTML);
+                if (Math.random() > 0.9) bots++;
+                document.getElementById('botsCount').innerHTML = bots;
+                
+                updateDates();
+            }, 30000);
+            
+            // تحديث الصور كل ساعة
+            setInterval(() => {
+                loadGallery();
+                showNotification('تم تحديث معرض الصور!', 'info');
+            }, 3600000);
+        }
+
+        // ==================== 9. التهيئة عند تحميل الصفحة ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGallery();
+            updateDates();
+            autoUpdate();
+            showNotification('مرحباً بك في حالم! 👋', 'info');
+        });
+
+        // ==================== 10. حفظ المفاتيح (للاستخدام المتقدم) ====================
+        function saveApiKeys(openaiKey, telegramToken, unsplashKey) {
+            localStorage.setItem('OPENAI_API_KEY', openaiKey);
+            localStorage.setItem('TELEGRAM_TOKEN', telegramToken);
+            localStorage.setItem('UNSPLASH_KEY', unsplashKey);
+            showNotification('تم حفظ المفاتيح بنجاح!', 'success');
+        }
+
+        // ==================== تصدير الدوال للاستخدام العام ====================
+        window.interpretDream = interpretDream;
+        window.buyProduct = buyProduct;
+        window.buyPackage = buyPackage;
+        window.showNotification = showNotification;
+        window.saveApiKeys = saveApiKeys;
     </script>
 </body>
-  </html>
+</html>
