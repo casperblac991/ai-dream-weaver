@@ -1,16 +1,11 @@
 services:
   - type: web
     name: ai-dream-weaver-bot
-    runtime: python
+    runtime: image
+    repo: https://github.com/casperblac991/ai-dream-weaver
     region: singapore
     plan: free
-    pythonVersion: 3.11.0
-    buildCommand: |
-      apt-get update
-      apt-get install -y python3-dev build-essential libjpeg-dev zlib1g-dev
-      pip install --upgrade pip
-      pip install -r requirements.txt
-    startCommand: python all_bots.py
+    dockerfilePath: ./Dockerfile
     healthCheckPath: /healthcheck
     envVars:
       - key: TELEGRAM_TOKEN
@@ -21,5 +16,3 @@ services:
         sync: false
       - key: STORE_URL
         value: https://aidreamweaver.store
-      - key: PYTHONUNBUFFERED
-        value: true
