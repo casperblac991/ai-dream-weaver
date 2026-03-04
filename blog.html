@@ -1,0 +1,756 @@
+أهلاً بك، تمام! هذا أفضل حل 👍
+سأقوم بكتابة الملفات كاملة هنا، وأنت تنسخها وترفعها على GitHub.
+
+---
+
+📚 الملف الأول: صفحة المدونة الرئيسية (blog.html)
+
+انسخ هذا الكود بالكامل وأنشئ ملف جديد في GitHub باسم blog.html:
+
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدونة حالم | موسوعة تفسير الأحلام الثقافية</title>
+    <meta name="description" content="مدونة حالم: موسوعة ثقافية متكاملة عن تفسير الأحلام في الحضارات القديمة والإسلامية، مع قاموس الرموز وتحديث أسبوعي.">
+    <meta name="keywords" content="تفسير أحلام, مدونة أحلام, حضارة مصرية, ابن سيرين, رموز الأحلام, ثقافة الأحلام">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #f0c060;
+            --gold-light: #fde68a;
+            --deep: #0a0514;
+            --purple: #1e0a3c;
+            --violet: #2d1060;
+            --accent: #7c3aed;
+            --accent2: #a855f7;
+            --pink: #ec4899;
+            --cyan: #06b6d4;
+            --text: #e2d9f3;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--deep);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .bg-layer {
+            position: fixed; inset: 0; z-index: -1;
+            background: radial-gradient(ellipse at 20% 50%, #1e0a3c 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
+                        #050210;
+        }
+        
+        nav {
+            padding: 1.2rem 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(5, 2, 16, 0.8);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+        }
+        
+        .logo a {
+            font-family: 'Cairo', sans-serif; font-size: 1.8rem; font-weight: 900;
+            background: linear-gradient(135deg, var(--gold), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex; gap: 2rem; list-style: none;
+        }
+        
+        .nav-links a {
+            color: rgba(226, 217, 243, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover { color: var(--gold); }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .blog-header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .blog-header h1 {
+            font-family: 'Cairo', sans-serif;
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--gold), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .category-card {
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s;
+            text-decoration: none;
+            color: var(--text);
+            display: block;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+        }
+        
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .featured-posts {
+            margin: 4rem 0;
+        }
+        
+        .section-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .post-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
+        
+        .post-category {
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .post-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .post-title a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .post-excerpt {
+            color: rgba(226, 217, 243, 0.7);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        
+        .post-meta {
+            color: rgba(226, 217, 243, 0.4);
+            font-size: 0.85rem;
+        }
+        
+        .dictionary-section {
+            background: rgba(124, 58, 237, 0.15);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin: 4rem 0;
+            text-align: center;
+        }
+        
+        .alphabet-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .alphabet-letter {
+            width: 50px;
+            height: 50px;
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(240, 192, 96, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--gold);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .alphabet-letter:hover {
+            background: var(--gold);
+            color: var(--deep);
+        }
+        
+        footer {
+            background: rgba(5, 2, 16, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            nav { padding: 1rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-layer"></div>
+    
+    <nav>
+        <div class="logo"><a href="https://aidreamweaver.store">حالم</a></div>
+        <ul class="nav-links">
+            <li><a href="https://aidreamweaver.store">الرئيسية</a></li>
+            <li><a href="blog.html">المدونة</a></li>
+            <li><a href="https://aidreamweaver.store/#pricing">الأسعار</a></li>
+            <li><a href="https://t.me/aidreamweaver_bot">البوت</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <div class="blog-header">
+            <h1>مدونة حالم الثقافية</h1>
+            <p>موسوعة متكاملة عن الأحلام في الحضارات القديمة والإسلامية والعلم الحديث</p>
+        </div>
+        
+        <div class="categories-grid">
+            <a href="#ancient" class="category-card">
+                <div class="category-icon">🏛️</div>
+                <h3>الحضارات القديمة</h3>
+                <p>مصر، بلاد الرافدين، اليونان، روما</p>
+            </a>
+            <a href="#islamic" class="category-card">
+                <div class="category-icon">☪️</div>
+                <h3>التراث الإسلامي</h3>
+                <p>ابن سيرين، النابلسي، آداب الرؤيا</p>
+            </a>
+            <a href="#science" class="category-card">
+                <div class="category-icon">🔬</div>
+                <h3>علم الأحلام</h3>
+                <p>نظريات حديثة، مراحل النوم، REM</p>
+            </a>
+            <a href="#stories" class="category-card">
+                <div class="category-icon">🌟</div>
+                <h3>قصص وأحلام</h3>
+                <p>أحلام غيرت التاريخ</p>
+            </a>
+        </div>
+        
+        <div class="featured-posts">
+            <h2 class="section-title">📚 أحدث المقالات</h2>
+            <div class="posts-grid">
+                <!-- المقالة 1 -->
+                <article class="post-card">
+                    <div class="post-category">🏛️ الحضارة المصرية</div>
+                    <h3 class="post-title"><a href="article-egypt.html">تفسير الأحلام عند قدماء المصريين</a></h3>
+                    <p class="post-excerpt">كيف كان الفراعنة يفسرون أحلامهم؟ بردية تشيستر بيتي وأحلام الملوك...</p>
+                    <div class="post-meta">نُشر: 4 مارس 2026 • 8 دقائق قراءة</div>
+                </article>
+                
+                <!-- المقالة 2 -->
+                <article class="post-card">
+                    <div class="post-category">☪️ التراث الإسلامي</div>
+                    <h3 class="post-title"><a href="article-ibnsireen.html">الإمام ابن سيرين: إمام المفسرين</a></h3>
+                    <p class="post-excerpt">منهجه في التفسير، أصول مدرسته، وأشهر الفروق بين الرؤيا والحلم...</p>
+                    <div class="post-meta">نُشر: 1 مارس 2026 • 10 دقائق قراءة</div>
+                </article>
+                
+                <!-- المقالة 3 -->
+                <article class="post-card">
+                    <div class="post-category">🔬 علم الأحلام</div>
+                    <h3 class="post-title"><a href="article-rem.html">مرحلة REM: لماذا نحلم؟</a></h3>
+                    <p class="post-excerpt">اكتشاف مرحلة حركة العين السريعة، نظريات فرويد وهوبسون، ووظائف الأحلام...</p>
+                    <div class="post-meta">نُشر: 27 فبراير 2026 • 7 دقائق قراءة</div>
+                </article>
+            </div>
+        </div>
+        
+        <div class="dictionary-section">
+            <h2 style="color: var(--gold); margin-bottom: 1rem;">📖 قاموس الرموز الأبجدي</h2>
+            <p style="margin-bottom: 2rem;">ابحث عن تفسير أي رمز في أحلامك:</p>
+            <div class="alphabet-grid">
+                <a href="dictionary-a.html" class="alphabet-letter">أ</a>
+                <a href="dictionary-b.html" class="alphabet-letter">ب</a>
+                <a href="dictionary-t.html" class="alphabet-letter">ت</a>
+                <a href="dictionary-th.html" class="alphabet-letter">ث</a>
+                <a href="dictionary-j.html" class="alphabet-letter">ج</a>
+                <a href="dictionary-h.html" class="alphabet-letter">ح</a>
+                <a href="dictionary-kh.html" class="alphabet-letter">خ</a>
+                <a href="dictionary-d.html" class="alphabet-letter">د</a>
+                <a href="dictionary-th2.html" class="alphabet-letter">ذ</a>
+                <a href="dictionary-r.html" class="alphabet-letter">ر</a>
+                <a href="dictionary-z.html" class="alphabet-letter">ز</a>
+                <a href="dictionary-s.html" class="alphabet-letter">س</a>
+                <a href="dictionary-sh.html" class="alphabet-letter">ش</a>
+                <a href="dictionary-s2.html" class="alphabet-letter">ص</a>
+                <a href="dictionary-d2.html" class="alphabet-letter">ض</a>
+                <a href="dictionary-t2.html" class="alphabet-letter">ط</a>
+                <a href="dictionary-z2.html" class="alphabet-letter">ظ</a>
+                <a href="dictionary-a2.html" class="alphabet-letter">ع</a>
+                <a href="dictionary-gh.html" class="alphabet-letter">غ</a>
+                <a href="dictionary-f.html" class="alphabet-letter">ف</a>
+                <a href="dictionary-q.html" class="alphabet-letter">ق</a>
+                <a href="dictionary-k.html" class="alphabet-letter">ك</a>
+                <a href="dictionary-l.html" class="alphabet-letter">ل</a>
+                <a href="dictionary-m.html" class="alphabet-letter">م</a>
+                <a href="dictionary-n.html" class="alphabet-letter">ن</a>
+                <a href="dictionary-h2.html" class="alphabet-letter">هـ</a>
+                <a href="dictionary-w.html" class="alphabet-letter">و</a>
+                <a href="dictionary-y.html" class="alphabet-letter">ي</a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div style="margin-bottom: 1rem;">
+            <a href="https://aidreamweaver.store" style="color: var(--gold); text-decoration: none; margin: 0 1rem;">الرئيسية</a>
+            <a href="blog.html" style="color: var(--gold); text-decoration: none; margin: 0 1rem;">المدونة</a>
+            <a href="https://t.me/aidreamweaver_bot" style="color: var(--gold); text-decoration: none; margin: 0 1rem;">البوت</a>
+        </div>
+        <p>© 2026 حالم - منصة الأحلام الذكية. جميع الحقوق محفوظة.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(226,217,243,0.4);">تُحدث المدونة أسبوعياً بمقالات جديدة</p>
+    </footer>
+</body>
+</html>
+```
+
+---
+
+📝 الملف الثاني: أول مقالة جاهزة (article-egypt.html)
+
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفسير الأحلام عند قدماء المصريين | مدونة حالم</title>
+    <meta name="description" content="كيف كان الفراعنة يفسرون أحلامهم؟ بردية تشيستر بيتي، أحلام الملوك، وتأثير الأحلام على قراراتهم.">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* نفس التنسيقات الأساسية من blog.html */
+        :root {
+            --gold: #f0c060;
+            --gold-light: #fde68a;
+            --deep: #0a0514;
+            --purple: #1e0a3c;
+            --violet: #2d1060;
+            --accent: #7c3aed;
+            --accent2: #a855f7;
+            --pink: #ec4899;
+            --cyan: #06b6d4;
+            --text: #e2d9f3;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--deep);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        
+        .bg-layer {
+            position: fixed; inset: 0; z-index: -1;
+            background: radial-gradient(ellipse at 20% 50%, #1e0a3c 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
+                        #050210;
+        }
+        
+        nav {
+            padding: 1.2rem 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(5, 2, 16, 0.8);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+        }
+        
+        .logo a {
+            font-family: 'Cairo', sans-serif; font-size: 1.8rem; font-weight: 900;
+            background: linear-gradient(135deg, var(--gold), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex; gap: 2rem; list-style: none;
+        }
+        
+        .nav-links a {
+            color: rgba(226, 217, 243, 0.7);
+            text-decoration: none;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .article-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--gold), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta {
+            color: rgba(226, 217, 243, 0.5);
+            font-size: 0.95rem;
+        }
+        
+        .article-content {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }
+        
+        .article-content h2 {
+            color: var(--gold);
+            font-family: 'Cairo', sans-serif;
+            margin: 2rem 0 1rem;
+        }
+        
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .related-posts {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(124, 58, 237, 0.1);
+            border-radius: 15px;
+        }
+        
+        .related-posts h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .related-posts ul {
+            list-style: none;
+        }
+        
+        .related-posts li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .related-posts a {
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        .related-posts a:hover {
+            color: var(--gold);
+        }
+        
+        footer {
+            background: rgba(5, 2, 16, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-layer"></div>
+    
+    <nav>
+        <div class="logo"><a href="https://aidreamweaver.store">حالم</a></div>
+        <ul class="nav-links">
+            <li><a href="https://aidreamweaver.store">الرئيسية</a></li>
+            <li><a href="blog.html">المدونة</a></li>
+            <li><a href="https://aidreamweaver.store/#pricing">الأسعار</a></li>
+            <li><a href="https://t.me/aidreamweaver_bot">البوت</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <article>
+            <div class="article-header">
+                <h1 class="article-title">تفسير الأحلام عند قدماء المصريين</h1>
+                <div class="article-meta">📅 4 مارس 2026 • 🕒 8 دقائق قراءة • 🏛️ الحضارة المصرية</div>
+            </div>
+            
+            <div class="article-content">
+                <p>كانت الأحلام تحتل مكانة مقدسة في الحضارة المصرية القديمة. آمن المصريون أن الأحلام رسائل من الآلهة أو وسيلة للتواصل مع العالم الآخر. اكتشف علماء الآثار العديد من البرديات التي تشرح كيفية تفسير الأحلام، أشهرها "بردية تشيستر بيتي" التي تعود إلى عصر الرعامسة.</p>
+                
+                <h2>بردية تشيستر بيتي: أقدم كتاب لتفسير الأحلام</h2>
+                <p>تعتبر بردية تشيستر بيتي (المحفوظة حالياً في مكتبة بودليان بأكسفورد) أقدم دليل مكتوب على تفسير الأحلام في التاريخ. تحتوي البردية على حوالي 200 حلم مع تفسيراتها. مثلاً، حلم رؤية ثعبان كبير يرمز إلى الثروة، بينما حلم الغرق في النيل يعني التطهير.</p>
+                
+                <h2>أحلام الملوك والكهنة</h2>
+                <p>كان الفراعنة يستشيرون الكهنة لتفسير أحلامهم قبل اتخاذ قرارات مصيرية. من أشهر الأحلام الملكية: حلم تحتمس الرابع الذي ظهر فيه الإله وأمره بإزالة الرمال عن تمثال أبو الهول، مقابل أن يجعله ملكاً على مصر. عندما نفذ الملك الأمر، تحقق حلمه.</p>
+                
+                <h2>الرموز في التفسير المصري</h2>
+                <p>طور المصريون نظاماً رمزياً متطوراً لتفسير الأحلام. من الرموز الشائعة:
+                <br>- التمساح: خطر قادم أو عدو
+                <br>- القطة: الخصوبة والحماية (لارتباطها بالإلهة باستت)
+                <br>- العين التي ترى: الوعي والإدراك
+                <br>- الميزان: العدالة والحساب بعد الموت</p>
+                
+                <h2>معابد الأحلام</h2>
+                <p>كانت بعض المعابد المصرية مخصصة لـ"الاستشفاء بالأحلام". يأتي الزوار ليناموا داخل المعبد (ممارسة تعرف بـ"الرقاد في المعبد")، ويحلمون بحلم يأتيهم بالشفاء أو الإرشاد. كان الكهنة يفسرون هذه الأحلام صباحاً.</p>
+                
+                <h2>تأثير الحضارة المصرية على التفاسير اللاحقة</h2>
+                <p>امتد تأثير التفسير المصري إلى الحضارات المجاورة. عندما فتح الإسكندر الأكبر مصر، تأثر الإغريق بالطرق المصرية في تفسير الأحلام. بعض الباحثين يرون أن منهج ابن سيرين تأثر بشكل غير مباشر بالتراث المصري عبر الحضارة اليونانية والإسلامية.</p>
+            </div>
+            
+            <div class="related-posts">
+                <h3>مقالات ذات صلة</h3>
+                <ul>
+                    <li><a href="article-ibnsireen.html">📖 الإمام ابن سيرين: إمام المفسرين</a></li>
+                    <li><a href="article-mesopotamia.html">🏛️ الأحلام في حضارة بلاد الرافدين</a></li>
+                    <li><a href="dictionary-a.html">🔍 قاموس الرموز: حرف الألف</a></li>
+                </ul>
+            </div>
+        </article>
+    </div>
+    
+    <footer>
+        <div style="margin-bottom: 1rem;">
+            <a href="https://aidreamweaver.store" style="color: var(--gold); text-decoration: none; margin: 0 1rem;">الرئيسية</a>
+            <a href="blog.html" style="color: var(--gold); text-decoration: none; margin: 0 1rem;">المدونة</a>
+            <a href="https://t.me/aidreamweaver_bot" style="color: var(--gold); text-decoration: none; margin: 0 1rem;">البوت</a>
+        </div>
+        <p>© 2026 حالم - منصة الأحلام الذكية</p>
+    </footer>
+</body>
+</html>
+```
+
+---
+
+📝 الملف الثالث: مقالة الإمام ابن سيرين (article-ibnsireen.html)
+
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الإمام ابن سيرين: إمام المفسرين | مدونة حالم</title>
+    <meta name="description" content="منهج الإمام ابن سيرين في تفسير الأحلام، أصول مدرسته، والفرق بين الرؤيا والحلم.">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* نفس التنسيقات من المقالة الأولى */
+        :root {
+            --gold: #f0c060;
+            --gold-light: #fde68a;
+            --deep: #0a0514;
+            --purple: #1e0a3c;
+            --violet: #2d1060;
+            --accent: #7c3aed;
+            --accent2: #a855f7;
+            --pink: #ec4899;
+            --cyan: #06b6d4;
+            --text: #e2d9f3;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--deep);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        
+        .bg-layer {
+            position: fixed; inset: 0; z-index: -1;
+            background: radial-gradient(ellipse at 20% 50%, #1e0a3c 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
+                        #050210;
+        }
+        
+        nav {
+            padding: 1.2rem 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(5, 2, 16, 0.8);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+        }
+        
+        .logo a {
+            font-family: 'Cairo', sans-serif; font-size: 1.8rem; font-weight: 900;
+            background: linear-gradient(135deg, var(--gold), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex; gap: 2rem; list-style: none;
+        }
+        
+        .nav-links a {
+            color: rgba(226, 217, 243, 0.7);
+            text-decoration: none;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .article-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--gold), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta {
+            color: rgba(226, 217, 243, 0.5);
+            font-size: 0.95rem;
+        }
+        
+        .article-content {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }
+        
+        .article-content h2 {
+            color: var(--gold);
+            font-family: 'Cairo', sans-serif;
+            margin: 2rem 0 1rem;
+        }
+        
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .related-posts {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(124, 58, 237, 0.1);
+            border-radius: 15px;
+        }
+        
+        .related-posts h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .related-posts ul {
+            list-style: none;
+        }
+        
+        .related-posts li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .related-posts a {
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        footer {
+            background: rgba(5, 2, 16, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-layer"></div>
+    
+    <nav>
+        <div class="logo"><a href="https://aidreamweaver.store">حالم</a></div>
+        <ul class="nav-links">
+            <li><a href="https://aidreamweaver.store">الرئيسية</a></li>
+            <li><a href="blog.html">المدونة</a></li>
+            <li><a href="https://aidreamweaver.store/#pricing">الأسعار</a></li>
+            <li><a href="https://t.me/aidreamweaver_bot">البوت</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <article>
+            <div class="article-header">
+                <h1 class="article-title">الإمام ابن سيرين: إمام المفسرين</h1>
+                <div class="article-meta">📅 1 مارس 2026 • 🕒 10 دقائق قراءة • ☪️ التراث الإسلامي</div>
+            </div>
+            
+            <div class="article-content">
+                <p>يعتبر الإمام محمد بن سيرين (33-110هـ) أشهر مفسر للأحلام في التاريخ الإسلامي. اشتهر كتابه "تفسير الأحلام" الذي جمع فيه منهجاً متكاملاً لفهم الرموز ودلالاتها.</p>
+                
+                <h2>منهج ابن سيرين في التفسير</h2>
+                <p>اعتمد ابن سيرين على عدة أصول في تفسيره:
+                <br>1. القرآن الكريم: كان يستشهد بالآيات لفهم الرموز.
+                <br>2. السنة النبوية: أحاديث الرسول ﷺ عن الرؤيا.
+                <br>3. اللغة العربية: اشتقاقات الكلمات ومعانيها.
+                <br>4. أحوال الرائي: مهنته، وضعه الاجتماعي، حالته النفسية.
+                <br>5. التفسير بالمثل: ربط الرموز بأمثلة من الواقع.</p>
+                
+                <h2>الفرق بين الرؤيا والحلم وحديث النفس</h2>
+                <p>ميز ابن سيرين بين ثلاثة أنواع مما نراه أثناء النوم:
+                <br>- الرؤيا الصالحة: من الله، وتكون مبشرة أو محذرة.
+                <br>- الحلم: من الشيطان، ويكون مزعجاً أو كابوساً.
+                <br>- حديث النفس: نتيجة انشغال العقل بأمر ما قبل النوم.</p>
+                
+                <h2>من أشهر تفسيراته</h2>
+                <p>- من رأى أنه يحمل مصحفاً: دليل على الحكمة والعلم.
+                <br>- رؤية النبي ﷺ: حق، ولا يمكن للشيطان أن يتمثل به.
+                <br>- الأسد: قوة وسلطان، أو عدو ظالم.
+                <br>- البحر: الملك أو العالم أو الفتنة.
+                <br>- ركوب الفرس: عز ومنزلة.</p>
+                
+                <h2>تلاميذه وتأثيره</h2>
+                <p>تتلمذ على يد ابن سيرين كبار العلماء، ونقلوا منهجه إلى الأجيال التالية. أبرزهم: الإمام النابلسي الذي وسع في كتاب "تعطير الأنام في تعبير المنام". لا تزال كتب ابن سيرين مرجعاً أساسياً للمفسرين حتى اليوم، وقد استفاد منها الذكاء الاصطناعي في تطوير نماذج تفسير الأحلام الحديثة.</p>
+            </
