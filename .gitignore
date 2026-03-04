@@ -1,0 +1,18 @@
+# مجلدات البيانات
+bot_data/
+__pycache__/
+*.pyc
+
+# ملفات سرية
+.env
+Secrets.json
+config_local.py
+
+# بيئة التشغيل
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
