@@ -4,32 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حالم | منصة تفسير الأحلام بالذكاء الاصطناعي</title>
-    <meta name="description" content="منصة حالم: تفسير الأحلام بالذكاء الاصطناعي، مدونة ثقافية، توليد صور 4K، وتحريك فيديو. تجربة عربية أصيلة.">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- تحسين SEO -->
+    <meta name="description" content="حالم: أول منصة عربية لتفسير الأحلام باستخدام Google Gemini وتوليد الصور بـ PixVerse. تفسير دقيق، صور 4K، مدونة ثقافية عن تفسير الأحلام في الحضارات القديمة.">
+    <meta name="keywords" content="تفسير أحلام, ذكاء اصطناعي, Gemini, PixVerse, أحلام, منصة عربية, ابن سيرين, حضارة مصرية, رموز الأحلام">
+    <meta name="author" content="حالم">
+    
+    <!-- صورة OG (للمشاركة) -->
+    <meta property="og:title" content="حالم | تفسير الأحلام بالذكاء الاصطناعي">
+    <meta property="og:description" content="حوّل أحلامك إلى نصوص وصور بتقنيات Gemini و PixVerse">
+    <meta property="og:image" content="https://aidreamweaver.store/og-image.jpg">
+    <meta property="og:url" content="https://aidreamweaver.store">
+    <meta property="og:type" content="website">
+    
+    <!-- تويتر كارد -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="حالم | تفسير الأحلام بالذكاء الاصطناعي">
+    <meta name="twitter:description" content="تفسير الأحلام + توليد صور 4K">
+    <meta name="twitter:image" content="https://aidreamweaver.store/og-image.jpg">
+    
+    <!-- الخطوط -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --gold: #f0c060;
-            --gold-light: #fde68a;
-            --deep: #0a0514;
-            --purple: #1e0a3c;
-            --violet: #2d1060;
-            --accent: #7c3aed;
-            --accent2: #a855f7;
-            --pink: #ec4899;
-            --cyan: #06b6d4;
-            --text: #e2d9f3;
-        }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-
+        
         body {
             font-family: 'Tajawal', sans-serif;
-            background: var(--deep);
-            color: var(--text);
-            overflow-x: hidden;
+            background: #0a0514;
+            color: #e2d9f3;
+            line-height: 1.6;
         }
-
+        
         /* الخلفية الفلكية */
         .bg-layer {
             position: fixed; inset: 0; z-index: -1;
@@ -37,385 +44,557 @@
                         radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
                         #050210;
         }
-
+        
+        /* النجوم */
         .stars {
             position: fixed; inset: 0; z-index: -1;
             overflow: hidden;
         }
-
+        
         .star {
             position: absolute;
             background: white;
             border-radius: 50%;
             animation: twinkle var(--d, 3s) infinite alternate;
         }
-
+        
         @keyframes twinkle {
             from { opacity: 0.1; transform: scale(1); }
             to { opacity: 0.8; transform: scale(1.3); }
         }
-
-        /* القائمة العلوية (الفهرس) */
+        
+        /* القائمة العلوية */
         nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            padding: 1rem 3rem;
+            position: sticky; top: 0; z-index: 100;
             display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 3rem;
             background: rgba(5, 2, 16, 0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(124, 58, 237, 0.3);
-            flex-wrap: wrap;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #7c3aed;
         }
-
+        
         .logo {
-            font-family: 'Cairo', sans-serif; font-size: 1.8rem; font-weight: 900;
-            background: linear-gradient(135deg, var(--gold), var(--accent2));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-size: 2rem; font-weight: 900;
+            background: linear-gradient(135deg, #f0c060, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-decoration: none;
         }
-
+        
         .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: flex; gap: 2rem; list-style: none;
         }
-
+        
         .nav-links a {
-            color: rgba(226, 217, 243, 0.8);
+            color: #e2d9f3;
             text-decoration: none;
-            font-size: 1rem;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            transition: all 0.3s;
+            transition: color 0.3s;
         }
-
+        
         .nav-links a:hover {
-            color: var(--gold);
-            background: rgba(124, 58, 237, 0.2);
+            color: #f0c060;
         }
-
+        
         .nav-cta {
-            background: linear-gradient(135deg, var(--accent), var(--pink));
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
             color: white !important;
-            font-weight: 700;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
         }
-
-        /* المحتوى الرئيسي */
+        
+        /* الحاوية الرئيسية */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* قسم البطل */
         .hero {
-            min-height: 100vh;
+            min-height: 80vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 8rem 2rem 4rem;
+            padding: 2rem;
         }
-
-        .hero-content { max-width: 900px; }
-
+        
         .hero h1 {
-            font-family: 'Cairo', sans-serif;
             font-size: clamp(2.5rem, 8vw, 5rem);
             font-weight: 900;
             margin-bottom: 1.5rem;
         }
-
-        .gold { color: var(--gold); }
-        .purple { color: var(--accent2); }
-
+        
+        .hero .gold { color: #f0c060; }
+        .hero .purple { color: #a855f7; }
+        
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: rgba(226, 217, 243, 0.7);
-            max-width: 650px;
-            margin: 0 auto 2.5rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
         }
-
-        .btn-primary {
+        
+        .btn {
             display: inline-block;
-            background: linear-gradient(135deg, var(--accent), var(--pink));
-            color: white;
             padding: 1rem 2.5rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 700;
             margin: 0.5rem;
-            transition: 0.3s;
+            transition: transform 0.3s;
         }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(168, 85, 247, 0.6);
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: white;
         }
-
+        
         .btn-secondary {
-            display: inline-block;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.2);
-            color: var(--text);
-            padding: 1rem 2.5rem;
+            color: #e2d9f3;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* إحصائيات سريعة */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+            padding: 2rem;
+            background: rgba(255,255,255,0.02);
             border-radius: 50px;
-            text-decoration: none;
-            margin: 0.5rem;
+            margin: 3rem 0;
         }
-
-        /* أقسام الموقع */
-        .section {
-            padding: 5rem 2rem;
-        }
-
-        .section-title {
-            font-family: 'Cairo', sans-serif;
-            font-size: 2.5rem;
+        
+        .stat {
             text-align: center;
-            margin-bottom: 3rem;
         }
-
+        
+        .stat-num {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #f0c060;
+        }
+        
+        .stat-label {
+            color: rgba(226,217,243,0.5);
+        }
+        
         /* بطاقات المميزات */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            margin: 4rem 0;
         }
-
+        
         .feature-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(124,58,237,0.2);
+            background: rgba(30, 10, 60, 0.5);
+            border: 1px solid rgba(124, 58, 237, 0.3);
             border-radius: 20px;
             padding: 2rem;
-            transition: 0.3s;
+            text-align: center;
+            transition: transform 0.3s;
         }
-
+        
         .feature-card:hover {
-            border-color: var(--gold);
+            border-color: #f0c060;
             transform: translateY(-5px);
         }
-
-        .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-
-        /* بطاقات الأسعار */
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: white;
+            font-size: 0.8rem;
+            padding: 0.2rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+        }
+        
+        /* حقل تفسير الأحلام */
+        .dream-section {
+            background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(236,72,153,0.1));
+            border-radius: 30px;
+            padding: 3rem;
+            margin: 4rem 0;
+            text-align: center;
+        }
+        
+        .dream-input {
+            width: 100%;
+            max-width: 600px;
+            padding: 1rem;
+            background: rgba(5,2,16,0.8);
+            border: 2px solid #7c3aed;
+            border-radius: 15px;
+            color: white;
+            font-size: 1rem;
+            margin: 1rem auto;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        .dream-result {
+            background: rgba(5,2,16,0.6);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            min-height: 100px;
+        }
+        
+        /* خطط الأسعار */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
+            margin: 3rem 0;
         }
-
+        
         .price-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .price-card.featured {
-            border-color: var(--gold);
-            transform: scale(1.05);
-        }
-
-        .price-amount {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--gold);
-        }
-
-        .price-btn {
-            display: block;
-            background: linear-gradient(135deg, var(--accent), var(--pink));
-            color: white;
-            padding: 0.9rem;
-            border-radius: 50px;
-            text-decoration: none;
-            margin-top: 1.5rem;
-        }
-
-        /* روابط سريعة */
-        .quick-links {
-            background: rgba(124, 58, 237, 0.15);
+            background: rgba(30, 10, 60, 0.5);
+            border: 1px solid rgba(124, 58, 237, 0.3);
             border-radius: 20px;
             padding: 2rem;
-            margin: 3rem 0;
             text-align: center;
         }
-
-        .quick-links-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1.5rem;
+        
+        .price-card.featured {
+            border-color: #f0c060;
+            transform: scale(1.05);
         }
-
-        .quick-link {
-            background: rgba(124, 58, 237, 0.2);
-            color: var(--text);
-            padding: 0.8rem 1.5rem;
+        
+        .price-tag {
+            background: #f0c060;
+            color: #0a0514;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            display: inline-block;
+        }
+        
+        .price-amount {
+            font-size: 3rem;
+            color: #f0c060;
+            font-weight: 900;
+        }
+        
+        .price-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        
+        .price-features li {
+            margin: 0.5rem 0;
+        }
+        
+        .price-btn {
+            display: block;
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: white;
+            padding: 1rem;
             border-radius: 50px;
             text-decoration: none;
-            border: 1px solid rgba(240, 192, 96, 0.3);
-            transition: 0.3s;
         }
-
-        .quick-link:hover {
-            background: var(--gold);
-            color: var(--deep);
+        
+        /* المدونة */
+        .blog-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
         }
-
+        
+        .blog-card {
+            background: rgba(30, 10, 60, 0.5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+        }
+        
+        .blog-card h3 a {
+            color: #f0c060;
+            text-decoration: none;
+        }
+        
+        .blog-meta {
+            color: rgba(226,217,243,0.4);
+            font-size: 0.9rem;
+        }
+        
+        /* أسئلة شائعة */
+        .faq-section {
+            background: rgba(124, 58, 237, 0.05);
+            border-radius: 30px;
+            padding: 3rem;
+            margin: 4rem 0;
+        }
+        
+        .faq-item {
+            background: rgba(5,2,16,0.4);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .faq-question {
+            color: #f0c060;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* تذييل */
         footer {
-            background: rgba(5,2,16,0.8);
-            border-top: 1px solid rgba(255,255,255,0.06);
-            padding: 3rem 2rem;
             text-align: center;
+            padding: 3rem;
+            border-top: 1px solid rgba(124, 58, 237, 0.3);
+            margin-top: 4rem;
         }
-
+        
+        .footer-links a {
+            color: #f0c060;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+        
         @media (max-width: 768px) {
             nav { padding: 1rem; }
             .nav-links { display: none; }
+            .price-card.featured { transform: none; }
         }
     </style>
 </head>
 <body>
     <div class="bg-layer"></div>
     <div class="stars" id="stars"></div>
-
-    <!-- القائمة العلوية (الفهرس) -->
+    
+    <!-- القائمة العلوية -->
     <nav>
         <a href="#home" class="logo">حالم<span>.</span></a>
         <ul class="nav-links">
             <li><a href="#home">الرئيسية</a></li>
             <li><a href="blog.html">📚 المدونة</a></li>
             <li><a href="#features">المميزات</a></li>
-            <li><a href="#compare">المقارنة</a></li>
             <li><a href="#pricing">الأسعار</a></li>
-            <li><a href="https://t.me/aidreamweaver_bot" target="_blank">🤖 جرب البوت</a></li>
-            <li><a href="https://casperblac.gumroad.com/l/dtiobz" target="_blank" class="nav-cta">🌙 ابدأ مجاناً</a></li>
+            <li><a href="https://t.me/aidreamweaver_bot" target="_blank" class="nav-cta">🤖 جرب البوت</a></li>
         </ul>
     </nav>
-
-    <!-- قسم البطل -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>
-                حوّل أحلامك إلى<br>
-                <span class="gold">عوالم بصرية</span><br>
-                <span class="purple">لا حدود لها</span>
-            </h1>
-            <p>منصة حالم: تفسير الأحلام بالذكاء الاصطناعي + مدونة ثقافية + توليد صور 4K</p>
+    
+    <div class="container">
+        
+        <!-- ========== قسم البطل ========== -->
+        <section class="hero" id="home">
             <div>
-                <a href="https://casperblac.gumroad.com/l/dtiobz" target="_blank" class="btn-primary">🌙 ابدأ مجاناً</a>
-                <a href="blog.html" class="btn-secondary">📖 استكشف المدونة</a>
+                <div style="background: rgba(124,58,237,0.2); display: inline-block; padding: 0.5rem 1.5rem; border-radius: 50px; margin-bottom: 1rem;">
+                    <span style="color: #f0c060;">✨ الجيل القادم من تفسير الأحلام</span>
+                </div>
+                <h1>
+                    مرحباً بك في <span class="gold">حالم</span><br>
+                    <span class="purple">بتقنيات Gemini و PixVerse</span>
+                </h1>
+                <p>أول منصة عربية تستخدم Google Gemini لتفسير الأحلام و PixVerse لتوليد الصور. تفسير دقيق، صور 4K، مدونة ثقافية.</p>
+                <div>
+                    <a href="https://t.me/aidreamweaver_bot" target="_blank" class="btn btn-primary">🌙 جرب البوت الآن</a>
+                    <a href="#features" class="btn btn-secondary">✨ اكتشف المميزات</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ========== إحصائيات سريعة ========== -->
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-num">+50K</div>
+                <div class="stat-label">حلم تم تفسيره</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">98%</div>
+                <div class="stat-label">رضا المستخدمين</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">4K</div>
+                <div class="stat-label">جودة الصور</div>
             </div>
         </div>
-    </section>
-
-    <!-- روابط سريعة للمحتوى -->
-    <div class="section" style="padding-top: 0;">
-        <div class="quick-links">
-            <h3 style="color: var(--gold); margin-bottom: 1rem;">🔍 تصفح المحتوى الثقافي</h3>
-            <div class="quick-links-grid">
-                <a href="blog.html" class="quick-link">🏛️ المدونة الرئيسية</a>
-                <a href="article-egypt.html" class="quick-link">🇪🇬 مصر القديمة</a>
-                <a href="article-ibnsireen.html" class="quick-link">☪️ ابن سيرين</a>
-                <a href="blog.html#ancient" class="quick-link">📜 حضارات قديمة</a>
-                <a href="blog.html#islamic" class="quick-link">🕌 تراث إسلامي</a>
-                <a href="blog.html#science" class="quick-link">🔬 علم الأحلام</a>
-                <a href="blog.html#stories" class="quick-link">🌟 قصص تاريخية</a>
+        
+        <!-- ========== المميزات ========== -->
+        <section id="features">
+            <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;">كل ما تحتاجه <span style="color: #a855f7;">في مكان واحد</span></h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-badge">جديد</span>
+                    <div class="feature-icon">🧠</div>
+                    <h3>تفسير بـ Gemini</h3>
+                    <p>نموذج Google Gemini لتفسير الأحلام بدقة عالية ومراعاة الثقافة العربية</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-badge">جديد</span>
+                    <div class="feature-icon">🎨</div>
+                    <h3>توليد صور بـ PixVerse</h3>
+                    <p>حوّل حلمك إلى صورة فنية باستخدام PixVerse Ultra</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>مدونة ثقافية</h3>
+                    <p>مقالات عن تفسير الأحلام في الحضارات القديمة (مصر، بابل، اليونان) والتراث الإسلامي</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>بوت تيليجرام</h3>
+                    <p>تفاعل مباشر مع البوت @aidreamweaver_bot</p>
+                </div>
             </div>
-        </div>
+        </section>
+        
+        <!-- ========== خطط الأسعار ========== -->
+        <section id="pricing">
+            <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;">خطط الأسعار</h2>
+            
+            <div class="pricing-grid">
+                <!-- الخطة الأساسية -->
+                <div class="price-card">
+                    <h3>أساسي</h3>
+                    <div class="price-amount">$4.99</div>
+                    <div>شهرياً</div>
+                    <ul class="price-features">
+                        <li>✓ 5 تفسيرات يومياً</li>
+                        <li>✓ 3 صور يومياً</li>
+                        <li>✓ مدونة مجانية</li>
+                    </ul>
+                    <a href="https://casperblac.gumroad.com/l/dtiobz" target="_blank" class="price-btn">ابدأ الآن</a>
+                </div>
+                
+                <!-- الخطة الاحترافية -->
+                <div class="price-card featured">
+                    <div class="price-tag">⭐ الأكثر شعبية</div>
+                    <h3>احترافي</h3>
+                    <div class="price-amount">$9.99</div>
+                    <div>شهرياً</div>
+                    <ul class="price-features">
+                        <li>✓ تفسير غير محدود</li>
+                        <li>✓ صور 4K غير محدودة</li>
+                        <li>✓ +50 أسلوب فني</li>
+                        <li>✓ تحليل الأنماط الشهري</li>
+                    </ul>
+                    <a href="https://casperblac.gumroad.com/l/byqzxd" target="_blank" class="price-btn">اشتري الآن</a>
+                </div>
+                
+                <!-- خطة فريق -->
+                <div class="price-card">
+                    <h3>فريق</h3>
+                    <div class="price-amount">$19.99</div>
+                    <div>شهرياً / لكل مستخدم</div>
+                    <ul class="price-features">
+                        <li>✓ كل مميزات الاحترافي</li>
+                        <li>✓ تحريك الأحلام (فيديو)</li>
+                        <li>✓ تقارير PDF مفصلة</li>
+                        <li>✓ API للمطورين</li>
+                    </ul>
+                    <a href="https://casperblac.gumroad.com/l/hiulqi" target="_blank" class="price-btn">تواصل معنا</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ========== المدونة ========== -->
+        <section id="blog">
+            <h2 style="font-size: 2rem; color: #f0c060; text-align: center; margin: 3rem 0;">📚 أحدث المقالات</h2>
+            
+            <div class="blog-preview">
+                <div class="blog-card">
+                    <h3><a href="article-egypt.html">🇪🇬 تفسير الأحلام عند قدماء المصريين</a></h3>
+                    <p>بردية تشيستر بيتي وأحلام الفراعنة</p>
+                    <div class="blog-meta">4 مارس 2026</div>
+                </div>
+                
+                <div class="blog-card">
+                    <h3><a href="article-ibnsireen.html">☪️ الإمام ابن سيرين</a></h3>
+                    <p>منهجه في تفسير الأحلام والفرق بين الرؤيا والحلم</p>
+                    <div class="blog-meta">1 مارس 2026</div>
+                </div>
+                
+                <div class="blog-card">
+                    <h3><a href="#">🔬 علم الأحلام الحديث</a></h3>
+                    <p>مرحلة REM ونظريات فرويد (قريباً)</p>
+                    <div class="blog-meta">قيد الإعداد</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="blog.html" class="btn btn-secondary">عرض جميع المقالات</a>
+            </div>
+        </section>
+        
+        <!-- ========== أسئلة شائعة ========== -->
+        <section class="faq-section" id="faq">
+            <h2 style="font-size: 2rem; color: #f0c060; text-align: center;">❓ أسئلة شائعة</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">كيف يعمل تفسير الأحلام بـ Gemini؟</div>
+                <p>يستخدم بوت حالم نموذج Google Gemini لتحليل أحلامك وتقديم تفسير دقيق، مع مراعاة السياق الثقافي العربي.</p>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">هل يمكن توليد صور من أحلامي؟</div>
+                <p>نعم! يمكنك استخدام الأمر /image في البوت لتوليد صورة فنية لحلمك باستخدام PixVerse Ultra.</p>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">هل الخدمة مجانية؟</div>
+                <p>نعم، الخطة الأساسية توفر 5 تفسيرات و 3 صور يومياً مجاناً. يمكنك الترقية للخطط الاحترافية لمزيد من المميزات.</p>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">كيف أتواصل مع الدعم؟</div>
+                <p>عبر البوت @aidreamweaver_bot أو البريد الإلكتروني support@aidreamweaver.store</p>
+            </div>
+        </section>
+        
+        <!-- ========== دعوة للاشتراك ========== -->
+        <section style="background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(236,72,153,0.1)); border-radius: 30px; padding: 4rem; text-align: center; margin: 4rem 0;">
+            <h2 style="font-size: 2.5rem; color: #f0c060; margin-bottom: 1rem;">ابدأ رحلتك مع حالم</h2>
+            <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem;">انضم لآلاف المستخدمين الذين اكتشفوا عالم أحلامهم بتقنيات Gemini و PixVerse</p>
+            <a href="https://t.me/aidreamweaver_bot" target="_blank" class="btn btn-primary" style="font-size: 1.2rem;">🌙 جرب البوت مجاناً</a>
+        </section>
     </div>
-
-    <!-- بقية أقسام الموقع (نفس التصميم القديم) -->
-    <div class="stats-bar" style="display: flex; justify-content: center; gap: 2rem; padding: 2rem; background: rgba(255,255,255,0.02);">
-        <div class="stat"><div style="font-size: 2rem; color: var(--gold);">+50K</div><div>حلم تم تفسيره</div></div>
-        <div class="stat"><div style="font-size: 2rem; color: var(--gold);">98%</div><div>رضا المستخدمين</div></div>
-        <div class="stat"><div style="font-size: 2rem; color: var(--gold);">4K</div><div>جودة الصور</div></div>
-    </div>
-
-    <!-- المميزات -->
-    <section class="section" id="features">
-        <h2 class="section-title">كل ما تحتاجه <span style="color: var(--gold);">في مكان واحد</span></h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🧠</div>
-                <h3>تفسير عميق بالذكاء الاصطناعي</h3>
-                <p>يحلل أحلامك بدقة مع مراعاة الثقافة العربية</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎨</div>
-                <h3>توليد صور 4K</h3>
-                <p>حوّل حلمك إلى لوحة فنية بـ 50 أسلوب</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📚</div>
-                <h3>مدونة ثقافية</h3>
-                <p>موسوعة عن الأحلام في الحضارات القديمة والإسلامية</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- الأسعار -->
-    <section class="section" id="pricing" style="background: rgba(255,255,255,0.01);">
-        <h2 class="section-title">أسعار <span style="color: var(--gold);">واضحة وعادلة</span></h2>
-        <div class="pricing-grid">
-            <div class="price-card">
-                <h3>مجاني</h3>
-                <div class="price-amount">$4.99</div>
-                <div>شهرياً</div>
-                <ul style="list-style: none; margin: 1.5rem 0;">
-                    <li>✓ 5 تفسيرات يومياً</li>
-                    <li>✓ 3 صور يومياً</li>
-                </ul>
-                <a href="https://casperblac.gumroad.com/l/dtiobz" target="_blank" class="price-btn">ابدأ الآن</a>
-            </div>
-            <div class="price-card featured">
-                <h3>احترافي</h3>
-                <div class="price-amount">$9.99</div>
-                <div>شهرياً</div>
-                <ul style="list-style: none; margin: 1.5rem 0;">
-                    <li>✓ تفسير غير محدود</li>
-                    <li>✓ صور 4K غير محدودة</li>
-                    <li>✓ +50 أسلوب فني</li>
-                </ul>
-                <a href="https://casperblac.gumroad.com/l/byqzxd" target="_blank" class="price-btn">اشتري الآن</a>
-            </div>
-            <div class="price-card">
-                <h3>فريق</h3>
-                <div class="price-amount">$19.99</div>
-                <div>شهرياً</div>
-                <ul style="list-style: none; margin: 1.5rem 0;">
-                    <li>✓ كل مميزات الاحترافي</li>
-                    <li>✓ تحريك الأحلام</li>
-                    <li>✓ API للمطورين</li>
-                </ul>
-                <a href="https://casperblac.gumroad.com/l/hiulqi" target="_blank" class="price-btn">تواصل معنا</a>
-            </div>
-        </div>
-    </section>
-
+    
+    <!-- تذييل -->
     <footer>
-        <div style="margin-bottom: 1rem;">
-            <a href="#home" style="color: var(--gold); margin: 0 1rem;">الرئيسية</a>
-            <a href="blog.html" style="color: var(--gold); margin: 0 1rem;">المدونة</a>
-            <a href="https://t.me/aidreamweaver_bot" style="color: var(--gold); margin: 0 1rem;">البوت</a>
+        <div class="footer-links" style="margin-bottom: 1rem;">
+            <a href="#home">الرئيسية</a>
+            <a href="blog.html">المدونة</a>
+            <a href="https://t.me/aidreamweaver_bot">البوت</a>
+            <a href="faq.html">الأسئلة</a>
         </div>
-        <p>© 2026 حالم - منصة الأحلام الذكية</p>
+        <p>© 2026 حالم - منصة تفسير الأحلام بالذكاء الاصطناعي</p>
+        <p style="color: rgba(226,217,243,0.3); font-size: 0.9rem;">تُحدث المدونة أسبوعياً - إصدار 5 مارس 2026</p>
     </footer>
-
+    
+    <!-- سكريبت النجوم -->
     <script>
-        // توليد النجوم
         const starsEl = document.querySelector('.stars');
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 150; i++) {
             const s = document.createElement('div');
             s.className = 'star';
+            const size = Math.random() * 2.5 + 0.5;
             s.style.cssText = `
-                width: ${Math.random()*2.5}px;
-                height: ${Math.random()*2.5}px;
-                left: ${Math.random()*100}%;
-                top: ${Math.random()*100}%;
-                --d: ${Math.random()*3+2}s;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                --d: ${Math.random() * 3 + 2}s;
+                animation-delay: ${Math.random() * 3}s;
             `;
             starsEl.appendChild(s);
         }
