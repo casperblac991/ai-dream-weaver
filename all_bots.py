@@ -17,36 +17,34 @@ async def interpret_dream(update: Update, context: ContextTypes.DEFAULT_TYPE):
     dream = update.message.text
     await update.message.reply_text("🔮 جاري التفسير...")
     
-    try:
-        # الرابط الصحيح لاستدعاء Gemini API [citation:7]
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
-        
-        # هيكل الطلب الصحيح [citation:1][citation:7]
-        payload = {
-            "contents": [{
-                "parts": [{
-                    "text": f"فسر هذا الحلم باللغة العربية: {dream}"
-                }]
+    # --- بداية الكود التشخيصي ---
+    await update.message.reply_text(f"1. تم استلام الحلم. جاري الاتصال بـ Gemini...")
+    
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+    await update.message.reply_text(f"2. عنوان URL الذي سأتصل به هو: {url.replace(GEMINI_API_KEY, 'API_KEY_MASKED')}")
+    
+    payload = {
+        "contents": [{
+            "parts": [{
+                "text": f"فسر هذا الحلم باللغة العربية: {dream}"
             }]
-        }
+        }]
+    }
+    await update.message.reply_text(f"3. البيانات المرسلة: {payload}")
+    
+    try:
+        response = requests.post(url, json=payload, headers={"Content-Type": "application/json"}, timeout=30)
+        await update.message.reply_text(f"4. تم استلام رد. رمز الحالة: {response.status_code}")
         
-        headers = {
-            "Content-Type": "application/json"
-        }
-        
-        response = requests.post(url, json=payload, headers=headers, timeout=30)
-        response.raise_for_status()  # إذا كان هناك خطأ، هذا السطر سيرميه
-        
-        result = response.json()
-        interpretation = result['candidates'][0]['content']['parts'][0]['text']
-        await update.message.reply_text(f"✨ {interpretation}")
-        
-    except requests.exceptions.HTTPError as http_err:
-        logging.error(f"HTTP error: {http_err} - Response: {response.text}")
-        await update.message.reply_text(f"❌ خطأ في الاتصال: {response.status_code}")
+        if response.status_code != 200:
+            await update.message.reply_text(f"5. محتوى الخطأ: {response.text[:500]}")  # أرسل أول 500 حرف من الخطأ
+        else:
+            result = response.json()
+            interpretation = result['candidates'][0]['content']['parts'][0]['text']
+            await update.message.reply_text(f"✅ {interpretation}")
     except Exception as e:
-        logging.error(f"Error: {e}")
-        await update.message.reply_text("❌ حدث خطأ غير متوقع.")
+        await update.message.reply_text(f"❌ حدث خطأ غير متوقع: {str(e)}")
+    # --- نهاية الكود التشخيصي ---
 
 def main():
     app = Application.builder().token(TELEGRAM_TOKEN).build()
