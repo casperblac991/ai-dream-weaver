@@ -1,89 +1,76 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مدونة حالم | تفسير الأحلام عبر الحضارات</title>
+    <title>Halem Blog | Dream Interpretation Across Civilizations</title>
     
-    <!-- تحسين SEO -->
-    <meta name="description" content="مدونة حالم الثقافية: موسوعة متكاملة عن تفسير الأحلام في الحضارات القديمة (مصر، بابل، اليونان) والتراث الإسلامي وعلم الأحلام الحديث. مدعومة بـ Google Gemini.">
-    <meta name="keywords" content="تفسير أحلام, مدونة, حضارة مصرية, ابن سيرين, بابل, اليونان, رموز الأحلام, علم الأحلام, ذكاء اصطناعي, Gemini">
-    <meta name="author" content="حالم">
+    <!-- SEO -->
+    <meta name="description" content="Halem Blog: A comprehensive encyclopedia of dream interpretation in ancient civilizations (Egypt, Babylon, Greece) and Islamic heritage.">
+    <meta name="keywords" content="dream interpretation, blog, ancient Egypt, Ibn Sirin, Babylon, Greece, dream symbols, dream science">
     
-    <!-- صورة OG -->
-    <meta property="og:title" content="مدونة حالم | موسوعة تفسير الأحلام">
-    <meta property="og:description" content="استكشف تفسير الأحلام في الحضارات القديمة والتراث الإسلامي مع محتوى مدعوم بـ Google Gemini">
+    <!-- OG Image -->
+    <meta property="og:title" content="Halem Blog | Dream Interpretation">
+    <meta property="og:description" content="Explore dream interpretation in ancient civilizations and Islamic heritage">
     <meta property="og:image" content="https://aidreamweaver.store/og-image.jpg">
-    <meta property="og:url" content="https://aidreamweaver.store/blog.html">
+    <meta property="og:url" content="https://aidreamweaver.store/blog-en.html">
     
-    <!-- الخطوط -->
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Inter', 'Tajawal', sans-serif;
             background: #0a0514;
             color: #e2d9f3;
             line-height: 1.6;
         }
-        
         .bg-layer {
             position: fixed; inset: 0; z-index: -1;
             background: radial-gradient(ellipse at 20% 50%, #1e0a3c 0%, transparent 60%),
                         radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
                         #050210;
         }
-        
-        /* القائمة العلوية */
         nav {
             padding: 1rem 3rem;
             display: flex; justify-content: space-between; align-items: center;
-            background: rgba(5, 2, 16, 0.8);
+            background: rgba(5,2,16,0.8);
             border-bottom: 1px solid #7c3aed;
         }
-        
         .logo a {
             color: #f0c060;
             text-decoration: none;
             font-size: 2rem;
             font-weight: 900;
         }
-        
         .nav-links {
             display: flex; gap: 2rem; list-style: none;
         }
-        
         .nav-links a {
             color: #e2d9f3;
             text-decoration: none;
             transition: color 0.3s;
         }
-        
         .nav-links a:hover {
             color: #f0c060;
         }
-        
         .nav-cta {
             background: linear-gradient(135deg, #7c3aed, #ec4899);
             color: white !important;
             padding: 0.5rem 1.5rem;
             border-radius: 50px;
         }
-        
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
-        
-        /* رأس المدونة */
         .blog-header {
             text-align: center;
             padding: 3rem 0;
         }
-        
         .blog-header h1 {
             font-size: 2.5rem;
             background: linear-gradient(135deg, #f0c060, #a855f7);
@@ -91,24 +78,15 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 1rem;
         }
-        
-        .blog-header p {
-            color: rgba(226, 217, 243, 0.7);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        /* بطاقات التصنيفات */
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
             margin: 3rem 0;
         }
-        
         .category-card {
-            background: rgba(124, 58, 237, 0.1);
-            border: 1px solid rgba(124, 58, 237, 0.3);
+            background: rgba(124,58,237,0.1);
+            border: 1px solid rgba(124,58,237,0.3);
             border-radius: 15px;
             padding: 1.5rem;
             text-align: center;
@@ -116,18 +94,14 @@
             text-decoration: none;
             color: #e2d9f3;
         }
-        
         .category-card:hover {
             transform: translateY(-5px);
             border-color: #f0c060;
         }
-        
         .category-icon {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
         }
-        
-        /* قسم التوليد الآلي */
         .ai-section {
             background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(236,72,153,0.1));
             border-radius: 30px;
@@ -135,7 +109,6 @@
             margin: 3rem 0;
             text-align: center;
         }
-        
         .ai-badge {
             display: inline-block;
             background: #f0c060;
@@ -145,76 +118,44 @@
             font-weight: 700;
             margin-bottom: 1rem;
         }
-        
-        .ai-input {
-            width: 100%;
-            max-width: 500px;
-            padding: 1rem;
-            background: rgba(5,2,16,0.8);
-            border: 2px solid #7c3aed;
-            border-radius: 15px;
-            color: white;
-            margin: 1rem auto;
-            font-family: 'Tajawal', sans-serif;
-        }
-        
-        .ai-btn {
-            background: linear-gradient(135deg, #7c3aed, #ec4899);
-            color: white;
-            padding: 0.8rem 2rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 700;
-        }
-        
-        /* شبكة المقالات */
         .posts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
             margin: 3rem 0;
         }
-        
         .post-card {
-            background: rgba(30, 10, 60, 0.5);
-            border: 1px solid rgba(124, 58, 237, 0.3);
+            background: rgba(30,10,60,0.5);
+            border: 1px solid rgba(124,58,237,0.3);
             border-radius: 15px;
             padding: 1.5rem;
             transition: transform 0.3s;
         }
-        
         .post-card:hover {
             border-color: #f0c060;
             transform: translateY(-5px);
         }
-        
         .post-category {
             color: #f0c060;
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
         }
-        
         .post-title {
             font-size: 1.3rem;
             margin-bottom: 1rem;
         }
-        
         .post-title a {
             color: white;
             text-decoration: none;
         }
-        
         .post-excerpt {
-            color: rgba(226, 217, 243, 0.7);
+            color: rgba(226,217,243,0.7);
             margin-bottom: 1rem;
         }
-        
         .post-meta {
             color: rgba(226,217,243,0.4);
             font-size: 0.9rem;
         }
-        
         .ai-tag {
             display: inline-block;
             background: linear-gradient(135deg, #7c3aed, #ec4899);
@@ -224,57 +165,17 @@
             border-radius: 50px;
             margin-left: 0.5rem;
         }
-        
-        /* قاموس الرموز (مبسط) */
-        .dictionary-section {
-            background: rgba(124, 58, 237, 0.15);
-            border-radius: 30px;
-            padding: 2rem;
-            margin: 3rem 0;
-            text-align: center;
-        }
-        
-        .alphabet-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
-            margin: 2rem 0;
-        }
-        
-        .alphabet-letter {
-            width: 45px;
-            height: 45px;
-            background: rgba(124, 58, 237, 0.2);
-            border: 1px solid #f0c060;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #f0c060;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        
-        .alphabet-letter:hover {
-            background: #f0c060;
-            color: #0a0514;
-        }
-        
-        /* تذييل */
         footer {
             text-align: center;
             padding: 3rem;
-            border-top: 1px solid rgba(124, 58, 237, 0.3);
+            border-top: 1px solid rgba(124,58,237,0.3);
             margin-top: 3rem;
         }
-        
         .footer-links a {
             color: #f0c060;
             text-decoration: none;
             margin: 0 1rem;
         }
-        
         @media (max-width: 768px) {
             nav { padding: 1rem; }
             .nav-links { display: none; }
@@ -285,195 +186,110 @@
     <div class="bg-layer"></div>
     
     <nav>
-        <div class="logo"><a href="index.html">حالم</a></div>
+        <div class="logo"><a href="index.html">Halem</a></div>
         <ul class="nav-links">
-            <li><a href="index.html">الرئيسية</a></li>
-            <li><a href="blog.html">المدونة</a></li>
-            <li><a href="index.html#pricing">الأسعار</a></li>
-            <li><a href="https://t.me/aidreamweaver_bot" class="nav-cta">🤖 البوت</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="https://t.me/aidreamweaver_bot" class="nav-cta">🤖 Bot</a></li>
         </ul>
     </nav>
     
     <div class="container">
         
-        <!-- رأس المدونة -->
         <div class="blog-header">
-            <h1>مدونة حالم الثقافية</h1>
-            <p>موسوعة تفسير الأحلام عبر الحضارات القديمة والتراث الإسلامي وعلم الأحلام الحديث</p>
+            <h1>Halem Cultural Blog</h1>
+            <p>A complete encyclopedia of dream interpretation across ancient civilizations, Islamic heritage, and modern science</p>
             <div style="margin-top: 1rem;">
-                <span style="background: rgba(124,58,237,0.2); padding: 0.3rem 1rem; border-radius: 50px;">🇪🇬 مصر القديمة</span>
-                <span style="background: rgba(124,58,237,0.2); padding: 0.3rem 1rem; border-radius: 50px;">🇮🇶 بلاد الرافدين</span>
-                <span style="background: rgba(124,58,237,0.2); padding: 0.3rem 1rem; border-radius: 50px;">🇬🇷 اليونان</span>
-                <span style="background: rgba(124,58,237,0.2); padding: 0.3rem 1rem; border-radius: 50px;">☪️ التراث الإسلامي</span>
-                <span style="background: rgba(124,58,237,0.2); padding: 0.3rem 1rem; border-radius: 50px;">🔬 علم الأحلام</span>
+                <span style="background: rgba(124,58,237,0.2); padding: 0.3rem 1rem; border-radius: 50px;">🇪🇬 Ancient Egypt</span>
+                <span style="background: rgba(124,58,237,0.2); padding: 0.3rem 1rem; border-radius: 50px;">🇮🇶 Mesopotamia</span>
+                <span style="background: rgba(124,58,237,0.2); padding: 0.3rem 1rem; border-radius: 50px;">🇬🇷 Ancient Greece</span>
+                <span style="background: rgba(124,58,237,0.2); padding: 0.3rem 1rem; border-radius: 50px;">☪️ Islamic Heritage</span>
+                <span style="background: rgba(124,58,237,0.2); padding: 0.3rem 1rem; border-radius: 50px;">🔬 Dream Science</span>
             </div>
         </div>
         
-        <!-- قسم التوليد الآلي -->
         <div class="ai-section">
-            <div class="ai-badge">🤖 مدعوم بـ Google Gemini</div>
-            <h2 style="color: #f0c060; margin-bottom: 1rem;">توليد مقالة جديدة بالذكاء الاصطناعي</h2>
-            <p style="margin-bottom: 1rem;">اكتب موضوعاً أو كلمة مفتاحية لتوليد مقالة كاملة</p>
-            <input type="text" class="ai-input" id="aiTopic" placeholder="مثال: تفسير الأحلام في بلاد الرافدين" value="تفسير الأحلام في بلاد الرافدين">
-            <button class="ai-btn" onclick="generateArticle()">توليد المقالة</button>
-            <div id="aiResult" style="margin-top: 2rem; text-align: right; background: rgba(5,2,16,0.8); padding: 1.5rem; border-radius: 15px; display: none;"></div>
+            <div class="ai-badge">🤖 Powered by Google Gemini</div>
+            <h2 style="color: #f0c060; margin-bottom: 1rem;">Generate a New Article with AI</h2>
+            <p style="margin-bottom: 1rem;">Write a topic or keyword to generate a complete article</p>
+            <input type="text" class="ai-input" id="aiTopic" placeholder="Example: Dream interpretation in Mesopotamia" style="width: 100%; max-width: 500px; padding: 1rem; background: #0a0514; border: 2px solid #7c3aed; border-radius: 15px; color: white; margin: 1rem auto;">
+            <button class="ai-btn" onclick="alert('This is a demo. For actual generation, use the Telegram bot /article command.')" style="background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; padding: 0.8rem 2rem; border: none; border-radius: 50px; cursor: pointer; font-weight: 700;">Generate Article</button>
         </div>
         
-        <!-- بطاقات التصنيفات -->
         <div class="categories-grid">
             <a href="#egypt" class="category-card">
                 <div class="category-icon">🏛️</div>
-                <h3>الحضارة المصرية</h3>
-                <p>بردية تشيستر بيتي، أحلام الفراعنة</p>
+                <h3>Ancient Egypt</h3>
+                <p>Chester Beatty Papyrus, Pharaohs' dreams</p>
             </a>
             <a href="#mesopotamia" class="category-card">
                 <div class="category-icon">🗿</div>
-                <h3>بلاد الرافدين</h3>
-                <p>ألواح الطين البابلية، أحلام الملوك</p>
+                <h3>Mesopotamia</h3>
+                <p>Babylonian clay tablets, Kings' dreams</p>
             </a>
             <a href="#greece" class="category-card">
                 <div class="category-icon">🏺</div>
-                <h3>اليونان القديمة</h3>
-                <p>معابد أسكليبيوس، مورفيوس</p>
+                <h3>Ancient Greece</h3>
+                <p>Asklepieia temples, Morpheus</p>
             </a>
             <a href="#islamic" class="category-card">
                 <div class="category-icon">☪️</div>
-                <h3>التراث الإسلامي</h3>
-                <p>ابن سيرين، النابلسي، آداب الرؤيا</p>
+                <h3>Islamic Heritage</h3>
+                <p>Ibn Sirin, Nabulsi, Dream etiquette</p>
             </a>
             <a href="#science" class="category-card">
                 <div class="category-icon">🔬</div>
-                <h3>علم الأحلام</h3>
-                <p>مرحلة REM، نظريات حديثة</p>
+                <h3>Dream Science</h3>
+                <p>REM sleep, Modern theories</p>
             </a>
         </div>
         
-        <!-- المقالات الحالية -->
-        <h2 style="color: #f0c060; margin: 2rem 0 1rem;">📚 أحدث المقالات</h2>
+        <h2 style="color: #f0c060; margin: 2rem 0 1rem;">📚 Latest Articles</h2>
         <div class="posts-grid">
-            <!-- مقالة مصر القديمة -->
             <article class="post-card">
-                <div class="post-category">🏛️ الحضارة المصرية</div>
-                <h3 class="post-title"><a href="article-egypt.html">تفسير الأحلام عند قدماء المصريين <span class="ai-tag">Gemini</span></a></h3>
-                <p class="post-excerpt">بردية تشيستر بيتي، أحلام الفراعنة، وتأثير الأحلام على القرارات الملكية...</p>
-                <div class="post-meta">نُشر: 4 مارس 2026 • 8 دقائق قراءة</div>
+                <div class="post-category">🏛️ Ancient Egypt</div>
+                <h3 class="post-title"><a href="article-egypt.html">Dream Interpretation in Ancient Egypt <span class="ai-tag">AI</span></a></h3>
+                <p class="post-excerpt">The Chester Beatty Papyrus, Pharaohs' dreams, and their influence on royal decisions...</p>
+                <div class="post-meta">Published: Mar 4, 2026 • 8 min read</div>
             </article>
             
-            <!-- مقالة ابن سيرين -->
             <article class="post-card">
-                <div class="post-category">☪️ التراث الإسلامي</div>
-                <h3 class="post-title"><a href="article-ibnsireen.html">الإمام ابن سيرين: إمام المفسرين <span class="ai-tag">Gemini</span></a></h3>
-                <p class="post-excerpt">منهجه في التفسير، الفرق بين الرؤيا والحلم، وأشهر تفسيراته...</p>
-                <div class="post-meta">نُشر: 1 مارس 2026 • 10 دقائق قراءة</div>
+                <div class="post-category">☪️ Islamic Heritage</div>
+                <h3 class="post-title"><a href="article-ibnsireen.html">Ibn Sirin: The Master Interpreter <span class="ai-tag">AI</span></a></h3>
+                <p class="post-excerpt">His methodology, the difference between visions and dreams, and his famous interpretations...</p>
+                <div class="post-meta">Published: Mar 1, 2026 • 10 min read</div>
             </article>
             
-            <!-- مقالة بلاد الرافدين (مولدة بـ AI) -->
             <article class="post-card">
-                <div class="post-category">🗿 بلاد الرافدين</div>
-                <h3 class="post-title"><a href="#" id="mesopotamia-link">تفسير الأحلام في حضارة بلاد الرافدين <span class="ai-tag">جديد</span></a></h3>
-                <p class="post-excerpt">ألواح الطين السومرية، أحلام الملوك البابليين، وإله الأحلام...</p>
-                <div class="post-meta">نُشر: 5 مارس 2026 • 9 دقائق قراءة</div>
+                <div class="post-category">🗿 Mesopotamia</div>
+                <h3 class="post-title"><a href="#">Dreams in Mesopotamian Civilization <span class="ai-tag">New</span></a></h3>
+                <p class="post-excerpt">Sumerian clay tablets, Babylonian kings' dreams, and the dream god...</p>
+                <div class="post-meta">Coming soon</div>
             </article>
             
-            <!-- مقالة علم الأحلام (مولدة بـ AI) -->
             <article class="post-card">
-                <div class="post-category">🔬 علم الأحلام</div>
-                <h3 class="post-title"><a href="#" id="science-link">مرحلة REM: لماذا نحلم؟ <span class="ai-tag">جديد</span></a></h3>
-                <p class="post-excerpt">اكتشاف مرحلة حركة العين السريعة، نظريات فرويد وهوبسون، ووظائف الأحلام...</p>
-                <div class="post-meta">نُشر: 5 مارس 2026 • 7 دقائق قراءة</div>
+                <div class="post-category">🔬 Dream Science</div>
+                <h3 class="post-title"><a href="#">REM Sleep: Why Do We Dream? <span class="ai-tag">New</span></a></h3>
+                <p class="post-excerpt">The discovery of REM sleep, Freudian and Hobson's theories, and the functions of dreams...</p>
+                <div class="post-meta">Coming soon</div>
             </article>
         </div>
         
-        <!-- قاموس الرموز الأبجدي -->
-        <div class="dictionary-section">
-            <h2 style="color: #f0c060; margin-bottom: 1rem;">📖 قاموس الرموز الأبجدي</h2>
-            <p style="margin-bottom: 2rem;">ابحث عن تفسير أي رمز في أحلامك (قيد الإنشاء)</p>
-            <div class="alphabet-grid">
-                <a href="#" class="alphabet-letter">أ</a>
-                <a href="#" class="alphabet-letter">ب</a>
-                <a href="#" class="alphabet-letter">ت</a>
-                <a href="#" class="alphabet-letter">ث</a>
-                <a href="#" class="alphabet-letter">ج</a>
-                <a href="#" class="alphabet-letter">ح</a>
-                <a href="#" class="alphabet-letter">خ</a>
-                <a href="#" class="alphabet-letter">د</a>
-                <a href="#" class="alphabet-letter">ذ</a>
-                <a href="#" class="alphabet-letter">ر</a>
-                <a href="#" class="alphabet-letter">ز</a>
-                <a href="#" class="alphabet-letter">س</a>
-                <a href="#" class="alphabet-letter">ش</a>
-                <a href="#" class="alphabet-letter">ص</a>
-                <a href="#" class="alphabet-letter">ض</a>
-                <a href="#" class="alphabet-letter">ط</a>
-                <a href="#" class="alphabet-letter">ظ</a>
-                <a href="#" class="alphabet-letter">ع</a>
-                <a href="#" class="alphabet-letter">غ</a>
-                <a href="#" class="alphabet-letter">ف</a>
-                <a href="#" class="alphabet-letter">ق</a>
-                <a href="#" class="alphabet-letter">ك</a>
-                <a href="#" class="alphabet-letter">ل</a>
-                <a href="#" class="alphabet-letter">م</a>
-                <a href="#" class="alphabet-letter">ن</a>
-                <a href="#" class="alphabet-letter">هـ</a>
-                <a href="#" class="alphabet-letter">و</a>
-                <a href="#" class="alphabet-letter">ي</a>
-            </div>
-        </div>
-        
-        <!-- دعوة للبوت -->
         <div style="text-align: center; margin: 3rem 0;">
-            <a href="https://t.me/aidreamweaver_bot" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; padding: 1rem 3rem; border-radius: 50px; text-decoration: none; font-weight: 700;">🤖 جرب تفسير حلمك في البوت</a>
+            <a href="https://t.me/aidreamweaver_bot" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; padding: 1rem 3rem; border-radius: 50px; text-decoration: none; font-weight: 700;">🤖 Try the Bot</a>
         </div>
     </div>
     
     <footer>
         <div class="footer-links">
-            <a href="index.html">الرئيسية</a>
-            <a href="blog.html">المدونة</a>
-            <a href="https://t.me/aidreamweaver_bot">البوت</a>
-            <a href="faq.html">الأسئلة</a>
+            <a href="index.html">Home</a>
+            <a href="blog.html">Blog</a>
+            <a href="https://t.me/aidreamweaver_bot">Bot</a>
+            <a href="faq.html">FAQ</a>
         </div>
-        <p>© 2026 حالم - تُحدث المدونة أسبوعياً</p>
+        <p>© 2026 Halem - AI Dream Platform. Blog updated weekly.</p>
     </footer>
-    
-    <script>
-        // نظام توليد المقالات باستخدام Gemini (محاكاة للواجهة)
-        async function generateArticle() {
-            const topic = document.getElementById('aiTopic').value;
-            const resultDiv = document.getElementById('aiResult');
-            
-            if (!topic) {
-                alert('الرجاء كتابة موضوع للمقالة');
-                return;
-            }
-            
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '⏳ جاري توليد المقالة باستخدام Google Gemini...';
-            
-            try {
-                // في الواقع الفعلي، هذا الرابط سيتم استبداله بـ API الخاص بـ Gemini
-                // لكن بما أننا في مرحلة تطوير الواجهة، سنعرض نموذجاً توضيحياً
-                
-                // محاكاة لنتيجة Gemini
-                setTimeout(() => {
-                    resultDiv.innerHTML = `
-                        <h3 style="color: #f0c060;">✅ تم توليد المقالة: ${topic}</h3>
-                        <p style="margin: 1rem 0;">هذه مسودة أولية للمقالة. يمكنك:</p>
-                        <ul style="margin-right: 2rem;">
-                            <li>نسخ النص وتنسيقه في ملف HTML جديد</li>
-                            <li>إضافة الصور باستخدام PixVerse</li>
-                            <li>نشر المقالة في المدونة</li>
-                        </ul>
-                        <div style="background: rgba(5,2,16,0.6); padding: 1rem; border-radius: 10px; margin-top: 1rem; direction: ltr; text-align: left;">
-                            <p style="color: #e2d9f3;">هذا نموذج توضيحي. لتفعيل التوليد الفعلي، يجب ربط البوت بـ Gemini API.</p>
-                        </div>
-                    `;
-                }, 2000);
-                
-            } catch (error) {
-                resultDiv.innerHTML = '❌ حدث خطأ في توليد المقالة';
-            }
-        }
-    </script>
 </body>
 </html>
