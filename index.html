@@ -801,9 +801,10 @@
                 }
             }
             
-            // تحديث روابط المدونة
+            // تحديث روابط المدونة حسب اللغة (الأهم)
             const blogLink = document.getElementById('nav-blog');
             const quickBlogLink = document.getElementById('quick-blog');
+            const footerBlogLink = document.getElementById('footer-blog');
             
             if (blogLink) {
                 blogLink.href = (lang === 'ar') ? 'blog.html' : 'blog-en.html';
@@ -811,7 +812,11 @@
             if (quickBlogLink) {
                 quickBlogLink.href = (lang === 'ar') ? 'blog.html' : 'blog-en.html';
             }
+            if (footerBlogLink) {
+                footerBlogLink.href = (lang === 'ar') ? 'blog.html' : 'blog-en.html';
+            }
             
+            // تحديث أزرار اللغة
             document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         }
