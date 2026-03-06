@@ -2,39 +2,38 @@
 # -*- coding: utf-8 -*-
 
 """
-🤖 AI DREAM WEAVER - بوت المدير الذكي لمتجر حالم
-====================================================
-- تفسير الأحلام للمستخدمين (Gemini 2.0 Flash)
-- أوامر المسؤول لكتابة ونشر المقالات
-- توليد الصور (PixVerse)
+🤖 AI DREAM WEAVER - البوت المتكامل النهائي
+=============================================
+- تفسير الأحلام (Gemini)
+- توليد الصور (SiliconFlow)
+- ترجمة عربية ← إنجليزية (Gemini)
+- تقارير منظمة عن الأحلام
+- أوامر المسؤول
 - نظام تتبع العملاء
-- إحصائيات وتقارير
 """
 
 import os
 import json
-import time
+import base64
 import requests
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime
+from io import BytesIO
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
 
 # ========== إعدادات المسؤول ==========
-# معرف المسؤول من @userinfobot
-ADMIN_USER_ID = 6790340715
+ADMIN_USER_ID = 6790340715  # ⚠️ تأكد من صحة هذا الرقم
 
 # ========== المفاتيح من المتغيرات البيئية ==========
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
-PIXVERSE_API_KEY = os.environ.get('PIXVERSE_API_KEY')
+SILICONFLOW_KEY = os.environ.get('SILICONFLOW_API_KEY')
 
-# التحقق من وجود المفاتيح الأساسية
 if not TELEGRAM_TOKEN:
     print("❌ خطأ: توكن تيليجرام غير موجود!")
     exit(1)
 
-# ========== إعداد التسجيل ==========
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -125,23 +124,25 @@ def get_stats():
         "active_today": today_users
     }
 
-# ========== دوال البوت الأساسية (للمستخدمين) ==========
+# ========== دوال البوت الأساسية ==========
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """رسالة الترحيب للمستخدمين"""
     user = update.effective_user
     add_user(user.id, user.username, user.first_name)
     
     welcome_msg = (
         f"مرحباً {user.first_name}! 🌙\n\n"
-        "أنا بوت **حالم** المتطور.\n"
-        "أستخدم **Gemini 2.0 Flash** لتفسير الأحلام (1,500 تفسير مجاني يومياً).\n\n"
-        "📌 **الأوامر المتاحة:**\n"
-        "• أرسل لي حلمك مباشرة للتفسير\n"
-        "• /stats - إحصائيات البوت\n"
-        "• /help - مساعدة"
+        "أنا بوت **حالم** المتكامل.\n\n"
+        "✨ **الأوامر الأساسية:**\n"
+        "• أرسل حلمك مباشرة للتفسير\n"
+        "• /auto [وصف عربي] - ترجمة + توليد صورة\n"
+        "• /report [حلم] - كتابة تقرير مفصل\n"
+        "• /stats - إحصائيات\n\n"
+        "📌 **أوامر المسؤول فقط:**\n"
+        "• /genimage [وصف] - توليد صورة\n"
+        "• /article [موضوع] - كتابة مقالة\n"
+        "• /astats - إحصائيات مفصلة"
     )
     
-    # أزرار تفاعلية
     keyboard = [
         [InlineKeyboardButton("📝 تفسير حلم", callback_data="dream")],
         [InlineKeyboardButton("📚 المدونة", url="https://aidreamweaver.store/blog.html"),
@@ -152,15 +153,22 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(welcome_msg, reply_markup=reply_markup)
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """رسالة المساعدة للمستخدمين"""
     help_text = """
 🔍 **مساعدة البوت**
 
 **📝 لتفسير حلمك:**
-أرسل لي حلمك مباشرة (مثال: "حلمت أني أطير في السماء")
+أرسل حلمك مباشرة (مثال: "حلمت أني أطير في السماء")
+
+**🎨 لتوليد صورة:**
+/auto [وصف عربي] - ترجمة + صورة
+/genimage [وصف إنجليزي] - صورة مباشرة
 
 **📊 للإحصائيات:**
-/stats - عرض إحصائيات البوت
+/stats - إحصائيات البوت
+/astats - إحصائيات مفصلة (للمسؤول)
+
+**📄 للتقارير:**
+/report [حلم] - كتابة تقرير مفصل
 
 **🔗 روابط مفيدة:**
 • المتجر: https://aidreamweaver.store
@@ -169,7 +177,6 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(help_text)
 
 async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """عرض إحصائيات البوت للمستخدمين"""
     stats = get_stats()
     stats_msg = (
         f"📊 **إحصائيات حالم**\n\n"
@@ -181,32 +188,28 @@ async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(stats_msg)
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """معالجة الأزرار التفاعلية"""
     query = update.callback_query
     await query.answer()
-    
     if query.data == "dream":
         await query.edit_message_text("📝 أرسل لي حلمك الآن وسأقوم بتفسيره.")
 
-# ========== دالة تفسير الأحلام (للمستخدمين) ==========
+# ========== دالة تفسير الأحلام ==========
 async def interpret_dream(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """تفسير الأحلام باستخدام Gemini 2.0 Flash"""
     user = update.effective_user
     dream = update.message.text
     
-    # تسجيل التفاعل
     add_user(user.id, user.username, user.first_name)
     increment_dreams(user.id)
     
     if not GEMINI_API_KEY:
-        await update.message.reply_text("❌ مفتاح Gemini غير متوفر حالياً.")
+        await update.message.reply_text("❌ مفتاح Gemini غير متوفر.")
         return
     
-    await update.message.reply_text("🔮 جاري التفسير باستخدام Gemini 2.0 Flash...")
+    await update.message.reply_text("🔮 جاري التفسير...")
     
     try:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
-        payload = {"contents": [{"parts": [{"text": f"فسر هذا الحلم بالعربية بأسلوب بسيط: {dream}"}]}]}
+        payload = {"contents": [{"parts": [{"text": f"فسر هذا الحلم بالعربية: {dream}"}]}]}
         headers = {"Content-Type": "application/json"}
         
         response = requests.post(url, json=payload, headers=headers, timeout=10)
@@ -214,21 +217,174 @@ async def interpret_dream(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if response.status_code == 200:
             result = response.json()
             interpretation = result['candidates'][0]['content']['parts'][0]['text']
-            await update.message.reply_text(f"✨ **تفسير حلمك:**\n\n{interpretation}")
+            await update.message.reply_text(f"✨ {interpretation}")
         elif response.status_code == 429:
-            await update.message.reply_text(
-                "⚠️ وصلت للحد اليومي للتفسيرات (1,500). انتظر حتى الغد."
-            )
+            await update.message.reply_text("⚠️ وصلت للحد اليومي. انتظر حتى الغد.")
         else:
             await update.message.reply_text(f"❌ خطأ {response.status_code}")
             
     except Exception as e:
         logger.error(f"خطأ في التفسير: {str(e)}")
-        await update.message.reply_text("❌ حدث خطأ. حاول مرة أخرى.")
+        await update.message.reply_text("❌ حدث خطأ.")
 
-# ========== دوال المسؤول (Admin Commands) ==========
+# ========== دالة الترجمة (عربي ← إنجليزي) ==========
+async def translate_to_english(text: str) -> str:
+    """ترجمة النص العربي إلى إنجليزي باستخدام Gemini"""
+    if not GEMINI_API_KEY:
+        return text
+    
+    try:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
+        prompt = f"Translate this Arabic text to English. Return ONLY the translation, no explanations:\n\n{text}"
+        payload = {"contents": [{"parts": [{"text": prompt}]}]}
+        headers = {"Content-Type": "application/json"}
+        
+        response = requests.post(url, json=payload, headers=headers, timeout=10)
+        
+        if response.status_code == 200:
+            result = response.json()
+            translation = result['candidates'][0]['content']['parts'][0]['text']
+            return translation.strip()
+        else:
+            return text
+    except Exception as e:
+        logger.error(f"Translation error: {e}")
+        return text
+
+# ========== دالة توليد الصور ==========
+async def admin_genimage(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """توليد صورة باستخدام SiliconFlow"""
+    if not await is_admin(update):
+        return
+
+    if not context.args:
+        await update.message.reply_text("⚠️ اكتب وصف الصورة: /genimage [وصف]")
+        return
+
+    prompt = " ".join(context.args)
+    await update.message.reply_text("🎨 جاري توليد الصورة...")
+
+    if not SILICONFLOW_KEY:
+        await update.message.reply_text("❌ مفتاح SiliconFlow غير موجود.")
+        return
+
+    headers = {
+        "Authorization": f"Bearer {SILICONFLOW_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "model": "stabilityai/stable-diffusion-3-5-large",
+        "prompt": prompt,
+        "size": "1024x1024"
+    }
+
+    try:
+        response = requests.post(
+            "https://api.siliconflow.cn/v1/images/generations",
+            headers=headers,
+            json=data,
+            timeout=60
+        )
+
+        if response.status_code == 200:
+            result = response.json()
+            if 'images' in result and len(result['images']) > 0:
+                image_url = result['images'][0]['url']
+                await update.message.reply_photo(
+                    photo=image_url,
+                    caption=f"🎨 {prompt}"
+                )
+                increment_images(update.effective_user.id)
+                return
+            else:
+                await update.message.reply_text("⚠️ الاستجابة لا تحتوي على صورة")
+        else:
+            error_message = response.text[:200]
+            await update.message.reply_text(f"❌ فشل التوليد: {response.status_code}\n{error_message}")
+
+    except Exception as e:
+        await update.message.reply_text(f"❌ خطأ في الاتصال: {str(e)}")
+
+# ========== بوت الترجمة + توليد الصور ==========
+async def auto_translate_and_generate(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """يترجم الأوصاف العربية وينشئ صوراً تلقائياً"""
+    if not await is_admin(update):
+        return
+    
+    if not context.args:
+        await update.message.reply_text("⚠️ مثال: /auto قطة بيضاء صغيرة")
+        return
+    
+    arabic_prompt = " ".join(context.args)
+    await update.message.reply_text(f"🌍 تم استلام: {arabic_prompt}\n⏳ جاري الترجمة...")
+    
+    # 1. ترجمة الوصف
+    english_prompt = await translate_to_english(arabic_prompt)
+    await update.message.reply_text(f"🇬🇧 الترجمة: {english_prompt}")
+    
+    # 2. توليد الصورة
+    await update.message.reply_text("🎨 جاري توليد الصورة...")
+    
+    # استخدام دالة توليد الصور الموجودة
+    context.args = english_prompt.split()
+    await admin_genimage(update, context)
+
+# ========== بوت كتابة تقارير منظمة ==========
+async def generate_dream_report(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """يكتب تقريراً منظماً عن الحلم باستخدام Gemini"""
+    if not await is_admin(update):
+        return
+    
+    if not context.args:
+        await update.message.reply_text("⚠️ مثال: /report حلمت أني أطير في السماء")
+        return
+    
+    dream = " ".join(context.args)
+    await update.message.reply_text("📝 جاري كتابة تقرير مفصل عن الحلم...")
+    
+    try:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
+        
+        prompt = f"""
+        اكتب تقريراً منظماً عن هذا الحلم باللغة العربية:
+        
+        الحلم: {dream}
+        
+        التقرير يجب أن يتضمن:
+        1. **تحليل الحلم** - تفسير عام للحلم
+        2. **الرموز الرئيسية** - شرح الرموز المهمة في الحلم
+        3. **الدلالات النفسية** - ماذا يقول الحلم عن الحالة النفسية
+        4. **توصيات** - نصائح للحالم
+        
+        استخدم تنسيق Markdown للعناوين والقوائم.
+        """
+        
+        payload = {"contents": [{"parts": [{"text": prompt}]}]}
+        headers = {"Content-Type": "application/json"}
+        
+        response = requests.post(url, json=payload, headers=headers, timeout=30)
+        
+        if response.status_code == 200:
+            result = response.json()
+            report = result['candidates'][0]['content']['parts'][0]['text']
+            
+            # حفظ التقرير في الذاكرة للنشر لاحقاً
+            context.user_data['last_report'] = {
+                "dream": dream,
+                "report": report,
+                "date": str(datetime.now())
+            }
+            
+            await update.message.reply_text(f"✅ تم إنشاء التقرير!\n\n{report}")
+        else:
+            await update.message.reply_text(f"❌ خطأ {response.status_code}")
+            
+    except Exception as e:
+        await update.message.reply_text(f"❌ خطأ: {str(e)}")
+
+# ========== دوال المسؤول ==========
 async def is_admin(update: Update) -> bool:
-    """التحقق من أن المستخدم هو المسؤول"""
     user = update.effective_user
     if user.id != ADMIN_USER_ID:
         await update.message.reply_text("⛔ هذا الأمر للمشرف فقط.")
@@ -236,32 +392,21 @@ async def is_admin(update: Update) -> bool:
     return True
 
 async def admin_article(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """أمر المسؤول: كتابة مقالة جديدة (للمشرف فقط)"""
     if not await is_admin(update):
         return
     
     if not context.args:
-        await update.message.reply_text(
-            "⚠️ الرجاء كتابة موضوع المقالة.\n"
-            "مثال: `/article تفسير الأحلام في بلاد الرافدين`"
-        )
+        await update.message.reply_text("⚠️ الرجاء كتابة موضوع المقالة.")
         return
     
     topic = " ".join(context.args)
     await update.message.reply_text(f"📝 جاري كتابة مقالة عن '{topic}'...")
     
     try:
-        # طلب المقالة من Gemini
         url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
         prompt = f"""
-        اكتب مقالة شاملة باللغة العربية عن '{topic}'.
-        يجب أن تتضمن المقالة:
-        - مقدمة شيقة
-        - 3-5 عناوين فرعية (مقسمة بـ <h3>)
-        - فقرات تحت كل عنوان
-        - خاتمة مفيدة
-        
-        استخدم تنسيق HTML مناسب للنشر في مدونة.
+        اكتب مقالة شاملة بالعربية عن '{topic}'.
+        استخدم HTML للتنسيق: <h3> للعناوين، <p> للفقرات.
         """
         
         payload = {"contents": [{"parts": [{"text": prompt}]}]}
@@ -272,131 +417,8 @@ async def admin_article(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if response.status_code == 200:
             result = response.json()
             article_content = result['candidates'][0]['content']['parts'][0]['text']
-            
-            # حفظ المقالة في context للاستخدام لاحقاً
-            context.user_data['last_article'] = {
-                "title": topic,
-                "content": article_content
-            }
-            
-            # إرسال المقالة للمراجعة
-            preview = article_content[:500] + "..." if len(article_content) > 500 else article_content
-            await update.message.reply_text(
-                f"✅ تمت كتابة المقالة!\n\n"
-                f"**معاينة:**\n{preview}\n\n"
-                f"لاستكمال النشر، استخدم:\n"
-                f"`/publish` - لنشر المقالة في المدونة\n"
-                f"`/genimage [وصف]` - لتوليد صورة للمقالة"
-            )
-        else:
-            await update.message.reply_text(f"❌ خطأ في كتابة المقالة: {response.status_code}")
-            
-    except Exception as e:
-        await update.message.reply_text(f"❌ خطأ: {str(e)}")
-
-async def admin_publish(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """أمر المسؤول: نشر المقالة في المدونة"""
-    if not await is_admin(update):
-        return
-    
-    if 'last_article' not in context.user_data:
-        await update.message.reply_text("⚠️ لا توجد مقالة في الذاكرة. استخدم `/article` أولاً.")
-        return
-    
-    article = context.user_data['last_article']
-    
-    await update.message.reply_text("📤 جاري نشر المقالة في المدونة...")
-    
-    # هنا يمكن إضافة كود نشر المقالة في GitHub
-    # للتبسيط، سنقوم بإنشاء ملف HTML جديد للمقالة
-    
-    try:
-        # توليد اسم ملف آمن من عنوان المقالة
-        safe_title = article['title'].replace(' ', '-').replace('/', '-')[:30]
-        filename = f"article-{safe_title}.html"
-        
-        # إنشاء محتوى HTML كامل للمقالة
-        html_content = f"""<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{article['title']} - حالم</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        body {{ font-family: 'Tajawal', sans-serif; background: #0a0514; color: #e2d9f3; padding: 2rem; line-height: 1.8; }}
-        .container {{ max-width: 800px; margin: 0 auto; }}
-        h1 {{ color: #f0c060; text-align: center; margin-bottom: 2rem; }}
-        h3 {{ color: #a855f7; margin-top: 2rem; }}
-        .back-link {{ display: block; text-align: center; margin-top: 3rem; color: #f0c060; }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>{article['title']}</h1>
-        {article['content']}
-        <hr>
-        <p style="text-align: center; color: rgba(226,217,243,0.5);">📅 {datetime.now().strftime('%Y-%m-%d')} | منصة حالم - تفسير الأحلام بالذكاء الاصطناعي</p>
-        <a href="blog.html" class="back-link">← العودة للمدونة</a>
-    </div>
-</body>
-</html>"""
-        
-        # إرسال المحتوى للمراجعة
-        await update.message.reply_text(
-            f"✅ **تم تجهيز المقالة للنشر!**\n\n"
-            f"**الملف:** `{filename}`\n\n"
-            f"**لنشرها فعلياً، تحتاج إلى:**\n"
-            f"1. إنشاء هذا الملف في مستودع GitHub (`casperblac991/ai-dream-weaver`)\n"
-            f"2. تحديث صفحة `blog.html` برابط المقالة الجديدة\n\n"
-            f"يمكنك نسخ محتوى المقالة من الأسفل:\n\n"
-            f"```html\n{html_content[:1000]}...```"
-        )
-        
-    except Exception as e:
-        await update.message.reply_text(f"❌ خطأ في النشر: {str(e)}")
-
-async def admin_genimage(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """أمر المسؤول: توليد صورة باستخدام PixVerse"""
-    if not await is_admin(update):
-        return
-    
-    if not PIXVERSE_API_KEY:
-        await update.message.reply_text("❌ مفتاح PixVerse غير متوفر.")
-        return
-    
-    if not context.args:
-        await update.message.reply_text(
-            "⚠️ الرجاء كتابة وصف الصورة.\n"
-            "مثال: `/genimage شخص يطير في السماء، ألوان بنفسجية`"
-        )
-        return
-    
-    prompt = " ".join(context.args)
-    await update.message.reply_text("🎨 جاري توليد الصورة...")
-    
-    try:
-        # الاتصال بـ PixVerse API
-        url = "https://api.pixverse.ai/v1/images/generations"
-        headers = {
-            "Authorization": f"Bearer {PIXVERSE_API_KEY}",
-            "Content-Type": "application/json"
-        }
-        payload = {
-            "prompt": prompt,
-            "aspect_ratio": "1:1",
-            "style": "fantasy"
-        }
-        
-        response = requests.post(url, json=payload, headers=headers, timeout=30)
-        
-        if response.status_code == 200:
-            result = response.json()
-            image_url = result.get('data', [{}])[0].get('url')
-            if image_url:
-                await update.message.reply_photo(photo=image_url, caption=f"🎨 {prompt}")
-            else:
-                await update.message.reply_text("❌ لم يتم العثور على رابط الصورة")
+            context.user_data['last_article'] = {"title": topic, "content": article_content}
+            await update.message.reply_text(f"✅ تمت كتابة المقالة!\n\n{article_content[:500]}...")
         else:
             await update.message.reply_text(f"❌ خطأ {response.status_code}")
             
@@ -404,70 +426,47 @@ async def admin_genimage(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"❌ خطأ: {str(e)}")
 
 async def admin_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """إحصائيات مفصلة للمسؤول"""
     if not await is_admin(update):
         return
     
     stats = get_stats()
-    leads = load_leads()
-    
-    # إحصائيات المستخدمين النشطين
-    active_users = []
-    now = datetime.now()
-    for user in leads['users']:
-        last = datetime.fromisoformat(user['last_seen'])
-        days = (now - last).days
-        if days <= 7:
-            active_users.append(user)
-    
     msg = (
         f"📊 **تقرير المسؤول**\n\n"
         f"👥 إجمالي المستخدمين: {stats['total_users']}\n"
-        f"👤 نشط آخر 7 أيام: {len(active_users)}\n"
         f"💭 إجمالي الأحلام: {stats['total_dreams']}\n"
         f"🎨 إجمالي الصور: {stats['total_images']}\n"
-        f"📝 المقالات المنشورة: {stats['total_articles']}\n"
+        f"📝 المقالات: {stats['total_articles']}\n"
         f"📅 نشط اليوم: {stats['active_today']}\n\n"
-        f"**المفاتيح:**\n"
         f"• Gemini: {'✅' if GEMINI_API_KEY else '❌'}\n"
-        f"• PixVerse: {'✅' if PIXVERSE_API_KEY else '❌'}\n"
+        f"• SiliconFlow: {'✅' if SILICONFLOW_KEY else '❌'}"
     )
-    
     await update.message.reply_text(msg)
 
 async def admin_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """مساعدة المسؤول"""
     if not await is_admin(update):
         return
     
     help_msg = """
 👑 **أوامر المسؤول**
 
-**المحتوى:**
-• `/article [موضوع]` - كتابة مقالة جديدة
-• `/publish` - نشر المقالة الأخيرة في المدونة
 • `/genimage [وصف]` - توليد صورة
-
-**الإحصائيات:**
+• `/auto [وصف عربي]` - ترجمة + توليد صورة
+• `/report [حلم]` - كتابة تقرير مفصل
+• `/article [موضوع]` - كتابة مقالة
 • `/astats` - إحصائيات مفصلة
-
-**المستخدمين:**
-• كل أوامر المستخدم العادي تعمل أيضاً
     """
     await update.message.reply_text(help_msg)
 
 # ========== الدالة الرئيسية ==========
 def main():
-    """تشغيل البوت"""
-    print("🚀 بدء تشغيل بوت المدير الذكي...")
+    print("🚀 بدء تشغيل بوت حالم المتكامل...")
     print(f"   - Gemini: {'✅' if GEMINI_API_KEY else '❌'}")
-    print(f"   - PixVerse: {'✅' if PIXVERSE_API_KEY else '❌'}")
-    print(f"   - معرف المسؤول: {ADMIN_USER_ID}")
+    print(f"   - SiliconFlow: {'✅' if SILICONFLOW_KEY else '❌'}")
+    print(f"   - المسؤول: {ADMIN_USER_ID}")
     
-    # إنشاء التطبيق
     app = Application.builder().token(TELEGRAM_TOKEN).build()
     
-    # أوامر المستخدمين العادية
+    # أوامر المستخدمين
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(CommandHandler("stats", stats_command))
@@ -475,15 +474,14 @@ def main():
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, interpret_dream))
     
     # أوامر المسؤول
-    app.add_handler(CommandHandler("article", admin_article))
-    app.add_handler(CommandHandler("publish", admin_publish))
     app.add_handler(CommandHandler("genimage", admin_genimage))
+    app.add_handler(CommandHandler("auto", auto_translate_and_generate))
+    app.add_handler(CommandHandler("report", generate_dream_report))
+    app.add_handler(CommandHandler("article", admin_article))
     app.add_handler(CommandHandler("astats", admin_stats))
     app.add_handler(CommandHandler("ahelp", admin_help))
     
-    print("✅ البوت شغال وجاهز!")
-    
-    # تشغيل البوت
+    print("✅ البوت شغال!")
     app.run_polling()
 
 if __name__ == '__main__':
