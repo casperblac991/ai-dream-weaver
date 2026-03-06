@@ -3,38 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حالم | منصة تفسير الأحلام بالذكاء الاصطناعي</title>
+    <title id="page-title">حالم | منصة تفسير الأحلام بالذكاء الاصطناعي</title>
     
     <!-- تحسين SEO -->
-    <meta name="description" content="حالم: أول منصة عربية لتفسير الأحلام باستخدام Google Gemini وتوليد الصور بـ PixVerse. تفسير دقيق، صور 4K، مدونة ثقافية عن تفسير الأحلام في الحضارات القديمة.">
-    <meta name="keywords" content="تفسير أحلام, ذكاء اصطناعي, Gemini, PixVerse, أحلام, منصة عربية, ابن سيرين, حضارة مصرية, رموز الأحلام">
-    <meta name="author" content="حالم">
+    <meta name="description" content="حالم: أول منصة عربية لتفسير الأحلام بالذكاء الاصطناعي. توليد صور 4K، مدونة ثقافية.">
+    <meta name="keywords" content="تفسير أحلام, ذكاء اصطناعي, Gemini, أحلام, منصة عربية">
     
-    <!-- صورة OG (للمشاركة) -->
+    <!-- صورة OG -->
     <meta property="og:title" content="حالم | تفسير الأحلام بالذكاء الاصطناعي">
-    <meta property="og:description" content="حوّل أحلامك إلى نصوص وصور بتقنيات Gemini و PixVerse">
+    <meta property="og:description" content="حوّل أحلامك إلى نصوص وصور بتقنيات Gemini">
     <meta property="og:image" content="https://aidreamweaver.store/og-image.jpg">
     <meta property="og:url" content="https://aidreamweaver.store">
-    <meta property="og:type" content="website">
-    
-    <!-- تويتر كارد -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="حالم | تفسير الأحلام بالذكاء الاصطناعي">
-    <meta name="twitter:description" content="تفسير الأحلام + توليد صور 4K">
-    <meta name="twitter:image" content="https://aidreamweaver.store/og-image.jpg">
     
     <!-- الخطوط -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        
         body {
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Tajawal', 'Inter', sans-serif;
             background: #0a0514;
             color: #e2d9f3;
             line-height: 1.6;
+        }
+        body.en-mode {
+            font-family: 'Inter', 'Tajawal', sans-serif;
         }
         
         /* الخلفية الفلكية */
@@ -44,20 +38,16 @@
                         radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
                         #050210;
         }
-        
-        /* النجوم */
         .stars {
             position: fixed; inset: 0; z-index: -1;
             overflow: hidden;
         }
-        
         .star {
             position: absolute;
             background: white;
             border-radius: 50%;
             animation: twinkle var(--d, 3s) infinite alternate;
         }
-        
         @keyframes twinkle {
             from { opacity: 0.1; transform: scale(1); }
             to { opacity: 0.8; transform: scale(1.3); }
@@ -71,28 +61,51 @@
             background: rgba(5, 2, 16, 0.9);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid #7c3aed;
+            flex-wrap: wrap;
         }
-        
         .logo {
             font-size: 2rem; font-weight: 900;
             background: linear-gradient(135deg, #f0c060, #7c3aed);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-decoration: none;
         }
-        
         .nav-links {
             display: flex; gap: 2rem; list-style: none;
+            align-items: center;
         }
-        
         .nav-links a {
             color: #e2d9f3;
             text-decoration: none;
             transition: color 0.3s;
         }
-        
         .nav-links a:hover {
             color: #f0c060;
+        }
+        
+        /* أزرار اللغة */
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+            margin: 0 1rem;
+        }
+        .lang-btn {
+            background: #1e0a3c;
+            color: #f0c060;
+            border: 1px solid #7c3aed;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+        .lang-btn:hover {
+            background: #7c3aed;
+            color: white;
+        }
+        .lang-btn.active {
+            background: #7c3aed;
+            color: white;
+            border-color: #f0c060;
         }
         
         .nav-cta {
@@ -102,7 +115,6 @@
             border-radius: 50px;
         }
         
-        /* الحاوية الرئيسية */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -116,25 +128,20 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 2rem;
         }
-        
         .hero h1 {
             font-size: clamp(2.5rem, 8vw, 5rem);
             font-weight: 900;
             margin-bottom: 1.5rem;
         }
-        
-        .hero .gold { color: #f0c060; }
-        .hero .purple { color: #a855f7; }
-        
+        .gold { color: #f0c060; }
+        .purple { color: #a855f7; }
         .hero p {
             font-size: 1.3rem;
             color: rgba(226, 217, 243, 0.7);
             max-width: 700px;
             margin: 0 auto 2rem;
         }
-        
         .btn {
             display: inline-block;
             padding: 1rem 2.5rem;
@@ -144,23 +151,20 @@
             margin: 0.5rem;
             transition: transform 0.3s;
         }
-        
         .btn-primary {
             background: linear-gradient(135deg, #7c3aed, #ec4899);
             color: white;
         }
-        
         .btn-secondary {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.2);
             color: #e2d9f3;
         }
-        
         .btn:hover {
             transform: translateY(-3px);
         }
         
-        /* إحصائيات سريعة */
+        /* إحصائيات */
         .stats-bar {
             display: flex;
             justify-content: center;
@@ -171,29 +175,25 @@
             border-radius: 50px;
             margin: 3rem 0;
         }
-        
         .stat {
             text-align: center;
         }
-        
         .stat-num {
             font-size: 2.5rem;
             font-weight: 900;
             color: #f0c060;
         }
-        
         .stat-label {
             color: rgba(226,217,243,0.5);
         }
         
-        /* بطاقات المميزات */
+        /* المميزات */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin: 4rem 0;
         }
-        
         .feature-card {
             background: rgba(30, 10, 60, 0.5);
             border: 1px solid rgba(124, 58, 237, 0.3);
@@ -202,55 +202,13 @@
             text-align: center;
             transition: transform 0.3s;
         }
-        
         .feature-card:hover {
             border-color: #f0c060;
             transform: translateY(-5px);
         }
-        
         .feature-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
-        }
-        
-        .feature-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #7c3aed, #ec4899);
-            color: white;
-            font-size: 0.8rem;
-            padding: 0.2rem 1rem;
-            border-radius: 50px;
-            margin-bottom: 1rem;
-        }
-        
-        /* حقل تفسير الأحلام */
-        .dream-section {
-            background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(236,72,153,0.1));
-            border-radius: 30px;
-            padding: 3rem;
-            margin: 4rem 0;
-            text-align: center;
-        }
-        
-        .dream-input {
-            width: 100%;
-            max-width: 600px;
-            padding: 1rem;
-            background: rgba(5,2,16,0.8);
-            border: 2px solid #7c3aed;
-            border-radius: 15px;
-            color: white;
-            font-size: 1rem;
-            margin: 1rem auto;
-            font-family: 'Tajawal', sans-serif;
-        }
-        
-        .dream-result {
-            background: rgba(5,2,16,0.6);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            min-height: 100px;
         }
         
         /* خطط الأسعار */
@@ -260,7 +218,6 @@
             gap: 2rem;
             margin: 3rem 0;
         }
-        
         .price-card {
             background: rgba(30, 10, 60, 0.5);
             border: 1px solid rgba(124, 58, 237, 0.3);
@@ -268,35 +225,15 @@
             padding: 2rem;
             text-align: center;
         }
-        
         .price-card.featured {
             border-color: #f0c060;
             transform: scale(1.05);
         }
-        
-        .price-tag {
-            background: #f0c060;
-            color: #0a0514;
-            padding: 0.3rem 1rem;
-            border-radius: 50px;
-            display: inline-block;
-        }
-        
         .price-amount {
             font-size: 3rem;
             color: #f0c060;
             font-weight: 900;
         }
-        
-        .price-features {
-            list-style: none;
-            margin: 1.5rem 0;
-        }
-        
-        .price-features li {
-            margin: 0.5rem 0;
-        }
-        
         .price-btn {
             display: block;
             background: linear-gradient(135deg, #7c3aed, #ec4899);
@@ -313,43 +250,15 @@
             gap: 2rem;
             margin: 2rem 0;
         }
-        
         .blog-card {
             background: rgba(30, 10, 60, 0.5);
             border-radius: 15px;
             padding: 1.5rem;
             border: 1px solid rgba(124, 58, 237, 0.3);
         }
-        
         .blog-card h3 a {
             color: #f0c060;
             text-decoration: none;
-        }
-        
-        .blog-meta {
-            color: rgba(226,217,243,0.4);
-            font-size: 0.9rem;
-        }
-        
-        /* أسئلة شائعة */
-        .faq-section {
-            background: rgba(124, 58, 237, 0.05);
-            border-radius: 30px;
-            padding: 3rem;
-            margin: 4rem 0;
-        }
-        
-        .faq-item {
-            background: rgba(5,2,16,0.4);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-        }
-        
-        .faq-question {
-            color: #f0c060;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
         }
         
         /* تذييل */
@@ -359,7 +268,6 @@
             border-top: 1px solid rgba(124, 58, 237, 0.3);
             margin-top: 4rem;
         }
-        
         .footer-links a {
             color: #f0c060;
             text-decoration: none;
@@ -368,8 +276,8 @@
         
         @media (max-width: 768px) {
             nav { padding: 1rem; }
-            .nav-links { display: none; }
-            .price-card.featured { transform: none; }
+            .nav-links { gap: 1rem; }
+            .lang-switcher { margin: 0.5rem 0; }
         }
     </style>
 </head>
@@ -377,212 +285,164 @@
     <div class="bg-layer"></div>
     <div class="stars" id="stars"></div>
     
-    <!-- القائمة العلوية -->
+    <!-- القائمة العلوية مع أزرار اللغة -->
     <nav>
-        <a href="#home" class="logo">حالم<span>.</span></a>
+        <div class="logo" id="logo">حالم</div>
         <ul class="nav-links">
-            <li><a href="#home">الرئيسية</a></li>
-            <li><a href="blog.html">📚 المدونة</a></li>
-            <li><a href="#features">المميزات</a></li>
-            <li><a href="#pricing">الأسعار</a></li>
-            <li><a href="https://t.me/aidreamweaver_bot" target="_blank" class="nav-cta">🤖 جرب البوت</a></li>
+            <li><a href="#" id="nav-home">الرئيسية</a></li>
+            <li><a href="blog.html" id="nav-blog">المدونة</a></li>
+            <li><a href="#" id="nav-features">المميزات</a></li>
+            <li><a href="#" id="nav-pricing">الأسعار</a></li>
+            <li><a href="faq.html" id="nav-faq">الأسئلة</a></li>
+            <li class="lang-switcher">
+                <button class="lang-btn active" onclick="setLanguage('ar')" id="btn-ar">🇸🇦 عربي</button>
+                <button class="lang-btn" onclick="setLanguage('en')" id="btn-en">🇬🇧 English</button>
+            </li>
+            <li><a href="https://t.me/aidreamweaver_bot" class="nav-cta" id="nav-cta">🤖 البوت</a></li>
         </ul>
     </nav>
     
     <div class="container">
         
-        <!-- ========== قسم البطل ========== -->
+        <!-- قسم البطل -->
         <section class="hero" id="home">
             <div>
                 <div style="background: rgba(124,58,237,0.2); display: inline-block; padding: 0.5rem 1.5rem; border-radius: 50px; margin-bottom: 1rem;">
-                    <span style="color: #f0c060;">✨ الجيل القادم من تفسير الأحلام</span>
+                    <span style="color: #f0c060;" id="hero-badge">✨ الجيل القادم من تفسير الأحلام</span>
                 </div>
-                <h1>
-                    مرحباً بك في <span class="gold">حالم</span><br>
-                    <span class="purple">بتقنيات Gemini و PixVerse</span>
+                <h1 id="hero-title">
+                    حوّل أحلامك إلى<br>
+                    <span class="gold">عوالم بصرية</span><br>
+                    <span class="purple">لا حدود لها</span>
                 </h1>
-                <p>أول منصة عربية تستخدم Google Gemini لتفسير الأحلام و PixVerse لتوليد الصور. تفسير دقيق، صور 4K، مدونة ثقافية.</p>
+                <p id="hero-text">منصة حالم: تفسير الأحلام بالذكاء الاصطناعي، توليد صور 4K، مدونة ثقافية.</p>
                 <div>
-                    <a href="https://t.me/aidreamweaver_bot" target="_blank" class="btn btn-primary">🌙 جرب البوت الآن</a>
-                    <a href="#features" class="btn btn-secondary">✨ اكتشف المميزات</a>
+                    <a href="https://t.me/aidreamweaver_bot" class="btn btn-primary" id="hero-btn-primary">🌙 جرب البوت الآن</a>
+                    <a href="#features" class="btn btn-secondary" id="hero-btn-secondary">✨ اكتشف المميزات</a>
                 </div>
             </div>
         </section>
         
-        <!-- ========== إحصائيات سريعة ========== -->
+        <!-- إحصائيات -->
         <div class="stats-bar">
             <div class="stat">
                 <div class="stat-num">+50K</div>
-                <div class="stat-label">حلم تم تفسيره</div>
+                <div class="stat-label" id="stat-dreams">حلم تم تفسيره</div>
             </div>
             <div class="stat">
                 <div class="stat-num">98%</div>
-                <div class="stat-label">رضا المستخدمين</div>
+                <div class="stat-label" id="stat-satisfaction">رضا المستخدمين</div>
             </div>
             <div class="stat">
                 <div class="stat-num">4K</div>
-                <div class="stat-label">جودة الصور</div>
+                <div class="stat-label" id="stat-quality">جودة الصور</div>
             </div>
         </div>
         
-        <!-- ========== المميزات ========== -->
+        <!-- المميزات -->
         <section id="features">
-            <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;">كل ما تحتاجه <span style="color: #a855f7;">في مكان واحد</span></h2>
+            <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;" id="features-title">كل ما تحتاجه في مكان واحد</h2>
             
             <div class="features-grid">
                 <div class="feature-card">
-                    <span class="feature-badge">جديد</span>
                     <div class="feature-icon">🧠</div>
-                    <h3>تفسير بـ Gemini</h3>
-                    <p>نموذج Google Gemini لتفسير الأحلام بدقة عالية ومراعاة الثقافة العربية</p>
+                    <h3 id="feature1-title">تفسير عميق</h3>
+                    <p id="feature1-text">نموذج Gemini لتفسير الأحلام بدقة عالية</p>
                 </div>
-                
                 <div class="feature-card">
-                    <span class="feature-badge">جديد</span>
                     <div class="feature-icon">🎨</div>
-                    <h3>توليد صور بـ PixVerse</h3>
-                    <p>حوّل حلمك إلى صورة فنية باستخدام PixVerse Ultra</p>
+                    <h3 id="feature2-title">توليد صور 4K</h3>
+                    <p id="feature2-text">حوّل حلمك إلى صورة فنية (للأوصاف الإنجليزية)</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">📚</div>
-                    <h3>مدونة ثقافية</h3>
-                    <p>مقالات عن تفسير الأحلام في الحضارات القديمة (مصر، بابل، اليونان) والتراث الإسلامي</p>
+                    <h3 id="feature3-title">مدونة ثقافية</h3>
+                    <p id="feature3-text">مقالات عن تفسير الأحلام في الحضارات</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">🤖</div>
-                    <h3>بوت تيليجرام</h3>
-                    <p>تفاعل مباشر مع البوت @aidreamweaver_bot</p>
+                    <h3 id="feature4-title">بوت تيليجرام</h3>
+                    <p id="feature4-text">تفاعل مباشر مع @aidreamweaver_bot</p>
                 </div>
             </div>
         </section>
         
-        <!-- ========== خطط الأسعار ========== -->
+        <!-- خطط الأسعار -->
         <section id="pricing">
-            <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;">خطط الأسعار</h2>
+            <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;" id="pricing-title">خطط الأسعار</h2>
             
             <div class="pricing-grid">
-                <!-- الخطة الأساسية -->
                 <div class="price-card">
-                    <h3>أساسي</h3>
+                    <h3 id="plan1-name">أساسي</h3>
                     <div class="price-amount">$4.99</div>
-                    <div>شهرياً</div>
-                    <ul class="price-features">
-                        <li>✓ 5 تفسيرات يومياً</li>
-                        <li>✓ 3 صور يومياً</li>
-                        <li>✓ مدونة مجانية</li>
+                    <div id="plan1-period">شهرياً</div>
+                    <ul style="list-style: none; margin: 1.5rem 0;">
+                        <li id="plan1-feat1">✓ 5 تفسيرات يومياً</li>
+                        <li id="plan1-feat2">✓ 3 صور يومياً</li>
                     </ul>
-                    <a href="https://casperblac.gumroad.com/l/dtiobz" target="_blank" class="price-btn">ابدأ الآن</a>
+                    <a href="https://casperblac.gumroad.com/l/dtiobz" class="price-btn" id="plan1-btn">ابدأ الآن</a>
                 </div>
-                
-                <!-- الخطة الاحترافية -->
                 <div class="price-card featured">
-                    <div class="price-tag">⭐ الأكثر شعبية</div>
-                    <h3>احترافي</h3>
+                    <h3 id="plan2-name">احترافي</h3>
                     <div class="price-amount">$9.99</div>
-                    <div>شهرياً</div>
-                    <ul class="price-features">
-                        <li>✓ تفسير غير محدود</li>
-                        <li>✓ صور 4K غير محدودة</li>
-                        <li>✓ +50 أسلوب فني</li>
-                        <li>✓ تحليل الأنماط الشهري</li>
+                    <div id="plan2-period">شهرياً</div>
+                    <ul style="list-style: none; margin: 1.5rem 0;">
+                        <li id="plan2-feat1">✓ تفسير غير محدود</li>
+                        <li id="plan2-feat2">✓ صور 4K غير محدودة</li>
+                        <li id="plan2-feat3">✓ +50 أسلوب فني</li>
                     </ul>
-                    <a href="https://casperblac.gumroad.com/l/byqzxd" target="_blank" class="price-btn">اشتري الآن</a>
+                    <a href="https://casperblac.gumroad.com/l/byqzxd" class="price-btn" id="plan2-btn">اشتري الآن</a>
                 </div>
-                
-                <!-- خطة فريق -->
                 <div class="price-card">
-                    <h3>فريق</h3>
+                    <h3 id="plan3-name">فريق</h3>
                     <div class="price-amount">$19.99</div>
-                    <div>شهرياً / لكل مستخدم</div>
-                    <ul class="price-features">
-                        <li>✓ كل مميزات الاحترافي</li>
-                        <li>✓ تحريك الأحلام (فيديو)</li>
-                        <li>✓ تقارير PDF مفصلة</li>
-                        <li>✓ API للمطورين</li>
+                    <div id="plan3-period">شهرياً / لكل مستخدم</div>
+                    <ul style="list-style: none; margin: 1.5rem 0;">
+                        <li id="plan3-feat1">✓ كل مميزات الاحترافي</li>
+                        <li id="plan3-feat2">✓ تحريك الأحلام</li>
+                        <li id="plan3-feat3">✓ تقارير PDF</li>
                     </ul>
-                    <a href="https://casperblac.gumroad.com/l/hiulqi" target="_blank" class="price-btn">تواصل معنا</a>
+                    <a href="https://casperblac.gumroad.com/l/hiulqi" class="price-btn" id="plan3-btn">تواصل معنا</a>
                 </div>
             </div>
         </section>
         
-        <!-- ========== المدونة ========== -->
+        <!-- معاينة المدونة -->
         <section id="blog">
-            <h2 style="font-size: 2rem; color: #f0c060; text-align: center; margin: 3rem 0;">📚 أحدث المقالات</h2>
-            
+            <h2 style="font-size: 2rem; color: #f0c060; text-align: center; margin: 3rem 0;" id="blog-title">📚 أحدث المقالات</h2>
             <div class="blog-preview">
                 <div class="blog-card">
-                    <h3><a href="article-egypt.html">🇪🇬 تفسير الأحلام عند قدماء المصريين</a></h3>
-                    <p>بردية تشيستر بيتي وأحلام الفراعنة</p>
-                    <div class="blog-meta">4 مارس 2026</div>
+                    <h3><a href="article-egypt.html" id="blog1-title">🇪🇬 تفسير الأحلام عند قدماء المصريين</a></h3>
+                    <p id="blog1-desc">بردية تشيستر بيتي وأحلام الفراعنة</p>
                 </div>
-                
                 <div class="blog-card">
-                    <h3><a href="article-ibnsireen.html">☪️ الإمام ابن سيرين</a></h3>
-                    <p>منهجه في تفسير الأحلام والفرق بين الرؤيا والحلم</p>
-                    <div class="blog-meta">1 مارس 2026</div>
+                    <h3><a href="article-ibnsireen.html" id="blog2-title">☪️ الإمام ابن سيرين</a></h3>
+                    <p id="blog2-desc">منهجه في تفسير الأحلام</p>
                 </div>
-                
                 <div class="blog-card">
-                    <h3><a href="#">🔬 علم الأحلام الحديث</a></h3>
-                    <p>مرحلة REM ونظريات فرويد (قريباً)</p>
-                    <div class="blog-meta">قيد الإعداد</div>
+                    <h3><a href="#" id="blog3-title">🔬 علم الأحلام الحديث</a></h3>
+                    <p id="blog3-desc">مرحلة REM ونظريات فرويد (قريباً)</p>
                 </div>
             </div>
-            
-            <div style="text-align: center; margin-top: 2rem;">
-                <a href="blog.html" class="btn btn-secondary">عرض جميع المقالات</a>
-            </div>
-        </section>
-        
-        <!-- ========== أسئلة شائعة ========== -->
-        <section class="faq-section" id="faq">
-            <h2 style="font-size: 2rem; color: #f0c060; text-align: center;">❓ أسئلة شائعة</h2>
-            
-            <div class="faq-item">
-                <div class="faq-question">كيف يعمل تفسير الأحلام بـ Gemini؟</div>
-                <p>يستخدم بوت حالم نموذج Google Gemini لتحليل أحلامك وتقديم تفسير دقيق، مع مراعاة السياق الثقافي العربي.</p>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">هل يمكن توليد صور من أحلامي؟</div>
-                <p>نعم! يمكنك استخدام الأمر /image في البوت لتوليد صورة فنية لحلمك باستخدام PixVerse Ultra.</p>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">هل الخدمة مجانية؟</div>
-                <p>نعم، الخطة الأساسية توفر 5 تفسيرات و 3 صور يومياً مجاناً. يمكنك الترقية للخطط الاحترافية لمزيد من المميزات.</p>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">كيف أتواصل مع الدعم؟</div>
-                <p>عبر البوت @aidreamweaver_bot أو البريد الإلكتروني support@aidreamweaver.store</p>
-            </div>
-        </section>
-        
-        <!-- ========== دعوة للاشتراك ========== -->
-        <section style="background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(236,72,153,0.1)); border-radius: 30px; padding: 4rem; text-align: center; margin: 4rem 0;">
-            <h2 style="font-size: 2.5rem; color: #f0c060; margin-bottom: 1rem;">ابدأ رحلتك مع حالم</h2>
-            <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem;">انضم لآلاف المستخدمين الذين اكتشفوا عالم أحلامهم بتقنيات Gemini و PixVerse</p>
-            <a href="https://t.me/aidreamweaver_bot" target="_blank" class="btn btn-primary" style="font-size: 1.2rem;">🌙 جرب البوت مجاناً</a>
         </section>
     </div>
     
     <!-- تذييل -->
     <footer>
-        <div class="footer-links" style="margin-bottom: 1rem;">
-            <a href="#home">الرئيسية</a>
-            <a href="blog.html">المدونة</a>
-            <a href="https://t.me/aidreamweaver_bot">البوت</a>
-            <a href="faq.html">الأسئلة</a>
+        <div class="footer-links">
+            <a href="#home" id="footer-home">الرئيسية</a>
+            <a href="blog.html" id="footer-blog">المدونة</a>
+            <a href="https://t.me/aidreamweaver_bot" id="footer-bot">البوت</a>
+            <a href="faq.html" id="footer-faq">الأسئلة</a>
+            <a href="privacy.html" id="footer-privacy">الخصوصية</a>
+            <a href="terms.html" id="footer-terms">الشروط</a>
         </div>
-        <p>© 2026 حالم - منصة تفسير الأحلام بالذكاء الاصطناعي</p>
-        <p style="color: rgba(226,217,243,0.3); font-size: 0.9rem;">تُحدث المدونة أسبوعياً - إصدار 5 مارس 2026</p>
+        <p id="footer-copyright">© 2026 حالم - منصة الأحلام الذكية</p>
     </footer>
     
-    <!-- سكريبت النجوم -->
+    <!-- سكريبت النجوم واللغة -->
     <script>
+        // توليد النجوم
         const starsEl = document.querySelector('.stars');
         for (let i = 0; i < 150; i++) {
             const s = document.createElement('div');
@@ -598,6 +458,192 @@
             `;
             starsEl.appendChild(s);
         }
+        
+        // نظام تبديل اللغة
+        const translations = {
+            ar: {
+                // القائمة
+                'nav-home': 'الرئيسية',
+                'nav-blog': 'المدونة',
+                'nav-features': 'المميزات',
+                'nav-pricing': 'الأسعار',
+                'nav-faq': 'الأسئلة',
+                'nav-cta': '🤖 البوت',
+                'btn-ar': '🇸🇦 عربي',
+                'btn-en': '🇬🇧 English',
+                
+                // البطل
+                'hero-badge': '✨ الجيل القادم من تفسير الأحلام',
+                'hero-title': 'حوّل أحلامك إلى<br><span class="gold">عوالم بصرية</span><br><span class="purple">لا حدود لها</span>',
+                'hero-text': 'منصة حالم: تفسير الأحلام بالذكاء الاصطناعي، توليد صور 4K، مدونة ثقافية.',
+                'hero-btn-primary': '🌙 جرب البوت الآن',
+                'hero-btn-secondary': '✨ اكتشف المميزات',
+                
+                // إحصائيات
+                'stat-dreams': 'حلم تم تفسيره',
+                'stat-satisfaction': 'رضا المستخدمين',
+                'stat-quality': 'جودة الصور',
+                
+                // المميزات
+                'features-title': 'كل ما تحتاجه في مكان واحد',
+                'feature1-title': 'تفسير عميق',
+                'feature1-text': 'نموذج Gemini لتفسير الأحلام بدقة عالية',
+                'feature2-title': 'توليد صور 4K',
+                'feature2-text': 'حوّل حلمك إلى صورة فنية (للأوصاف الإنجليزية)',
+                'feature3-title': 'مدونة ثقافية',
+                'feature3-text': 'مقالات عن تفسير الأحلام في الحضارات',
+                'feature4-title': 'بوت تيليجرام',
+                'feature4-text': 'تفاعل مباشر مع @aidreamweaver_bot',
+                
+                // الأسعار
+                'pricing-title': 'خطط الأسعار',
+                'plan1-name': 'أساسي',
+                'plan1-period': 'شهرياً',
+                'plan1-feat1': '✓ 5 تفسيرات يومياً',
+                'plan1-feat2': '✓ 3 صور يومياً',
+                'plan1-btn': 'ابدأ الآن',
+                'plan2-name': 'احترافي',
+                'plan2-period': 'شهرياً',
+                'plan2-feat1': '✓ تفسير غير محدود',
+                'plan2-feat2': '✓ صور 4K غير محدودة',
+                'plan2-feat3': '✓ +50 أسلوب فني',
+                'plan2-btn': 'اشتري الآن',
+                'plan3-name': 'فريق',
+                'plan3-period': 'شهرياً / لكل مستخدم',
+                'plan3-feat1': '✓ كل مميزات الاحترافي',
+                'plan3-feat2': '✓ تحريك الأحلام',
+                'plan3-feat3': '✓ تقارير PDF',
+                'plan3-btn': 'تواصل معنا',
+                
+                // المدونة
+                'blog-title': '📚 أحدث المقالات',
+                'blog1-title': '🇪🇬 تفسير الأحلام عند قدماء المصريين',
+                'blog1-desc': 'بردية تشيستر بيتي وأحلام الفراعنة',
+                'blog2-title': '☪️ الإمام ابن سيرين',
+                'blog2-desc': 'منهجه في تفسير الأحلام',
+                'blog3-title': '🔬 علم الأحلام الحديث',
+                'blog3-desc': 'مرحلة REM ونظريات فرويد (قريباً)',
+                
+                // التذييل
+                'footer-home': 'الرئيسية',
+                'footer-blog': 'المدونة',
+                'footer-bot': 'البوت',
+                'footer-faq': 'الأسئلة',
+                'footer-privacy': 'الخصوصية',
+                'footer-terms': 'الشروط',
+                'footer-copyright': '© 2026 حالم - منصة الأحلام الذكية'
+            },
+            en: {
+                // القائمة
+                'nav-home': 'Home',
+                'nav-blog': 'Blog',
+                'nav-features': 'Features',
+                'nav-pricing': 'Pricing',
+                'nav-faq': 'FAQ',
+                'nav-cta': '🤖 Bot',
+                'btn-ar': '🇸🇦 عربي',
+                'btn-en': '🇬🇧 English',
+                
+                // البطل
+                'hero-badge': '✨ The Next Generation of Dream Interpretation',
+                'hero-title': 'Turn Your Dreams Into<br><span class="gold">Visual Worlds</span><br><span class="purple">Without Limits</span>',
+                'hero-text': 'Halem: AI dream interpretation, 4K image generation, cultural blog.',
+                'hero-btn-primary': '🌙 Try the Bot Now',
+                'hero-btn-secondary': '✨ Explore Features',
+                
+                // إحصائيات
+                'stat-dreams': 'Dreams Interpreted',
+                'stat-satisfaction': 'User Satisfaction',
+                'stat-quality': 'Image Quality',
+                
+                // المميزات
+                'features-title': 'Everything You Need in One Place',
+                'feature1-title': 'Deep Interpretation',
+                'feature1-text': 'Gemini model for accurate dream analysis',
+                'feature2-title': '4K Image Generation',
+                'feature2-text': 'Turn your dream into art (use English prompts)',
+                'feature3-title': 'Cultural Blog',
+                'feature3-text': 'Articles about dreams in ancient civilizations',
+                'feature4-title': 'Telegram Bot',
+                'feature4-text': 'Chat with @aidreamweaver_bot',
+                
+                // الأسعار
+                'pricing-title': 'Pricing Plans',
+                'plan1-name': 'Basic',
+                'plan1-period': 'per month',
+                'plan1-feat1': '✓ 5 interpretations/day',
+                'plan1-feat2': '✓ 3 images/day',
+                'plan1-btn': 'Start Now',
+                'plan2-name': 'Pro',
+                'plan2-period': 'per month',
+                'plan2-feat1': '✓ Unlimited interpretations',
+                'plan2-feat2': '✓ Unlimited 4K images',
+                'plan2-feat3': '✓ +50 artistic styles',
+                'plan2-btn': 'Buy Now',
+                'plan3-name': 'Team',
+                'plan3-period': 'per month / per user',
+                'plan3-feat1': '✓ All Pro features',
+                'plan3-feat2': '✓ Dream animation',
+                'plan3-feat3': '✓ PDF reports',
+                'plan3-btn': 'Contact Us',
+                
+                // المدونة
+                'blog-title': '📚 Latest Articles',
+                'blog1-title': '🇪🇬 Dreams in Ancient Egypt',
+                'blog1-desc': 'Chester Beatty Papyrus and Pharaohs\' dreams',
+                'blog2-title': '☪️ Ibn Sirin',
+                'blog2-desc': 'The master of dream interpretation',
+                'blog3-title': '🔬 Modern Dream Science',
+                'blog3-desc': 'REM sleep, Freud, and theories (coming soon)',
+                
+                // التذييل
+                'footer-home': 'Home',
+                'footer-blog': 'Blog',
+                'footer-bot': 'Bot',
+                'footer-faq': 'FAQ',
+                'footer-privacy': 'Privacy',
+                'footer-terms': 'Terms',
+                'footer-copyright': '© 2026 Halem - AI Dream Platform'
+            }
+        };
+        
+        function setLanguage(lang) {
+            // حفظ اللغة المختارة
+            localStorage.setItem('halem_lang', lang);
+            
+            // تحديث اتجاه الصفحة
+            if (lang === 'ar') {
+                document.documentElement.lang = 'ar';
+                document.documentElement.dir = 'rtl';
+                document.body.classList.remove('en-mode');
+            } else {
+                document.documentElement.lang = 'en';
+                document.documentElement.dir = 'ltr';
+                document.body.classList.add('en-mode');
+            }
+            
+            // تحديث كل العناصر
+            for (let id in translations[lang]) {
+                const element = document.getElementById(id);
+                if (element) {
+                    if (element.tagName === 'BUTTON' || element.tagName === 'A') {
+                        element.innerHTML = translations[lang][id];
+                    } else {
+                        element.innerHTML = translations[lang][id];
+                    }
+                }
+            }
+            
+            // تحديث أزرار اللغة
+            document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        }
+        
+        // تحميل اللغة المحفوظة عند فتح الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('halem_lang') || 'ar';
+            setLanguage(savedLang);
+        });
     </script>
 </body>
 </html>
