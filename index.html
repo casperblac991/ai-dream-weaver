@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">حالم | منصة تفسير الأحلام بالذكاء الاصطناعي</title>
+    <title>حالم | منصة تفسير الأحلام بالذكاء الاصطناعي</title>
     
     <!-- تحسين SEO -->
     <meta name="description" content="حالم: أول منصة عربية لتفسير الأحلام بالذكاء الاصطناعي. توليد صور 4K، مدونة ثقافية.">
@@ -440,7 +440,14 @@
         <p id="footer-copyright">© 2026 حالم - منصة الأحلام الذكية</p>
     </footer>
     
-    <!-- سكريبت النجوم واللغة -->
+    <!-- ترجمة الموقع بالكامل باستخدام SiliconFlow -->
+    <script src="https://cdn.staticfile.net/translate.js/3.15.6/translate.min.js"></script>
+    <script>
+        translate.service.use('siliconflow');
+        translate.execute();
+    </script>
+    
+    <!-- سكريبت النجوم واللغة اليدوية (اختياري) -->
     <script>
         // توليد النجوم
         const starsEl = document.querySelector('.stars');
@@ -459,7 +466,7 @@
             starsEl.appendChild(s);
         }
         
-        // نظام تبديل اللغة
+        // نظام تبديل اللغة اليدوي (كخيار إضافي)
         const translations = {
             ar: {
                 // القائمة
