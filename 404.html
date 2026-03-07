@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Weaver | نَسَّاج</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Performance: preload critical font -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Cinzel+Decorative:wght@700&family=DM+Sans:wght@400;700&display=swap" as="style">
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//t.me">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Cinzel+Decorative:wght@400;700&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#04010e;--purple:#7c3aed;--purple2:#a855f7;--purple3:#c084fc;
+      --gold:#f0c060;--gold2:#fde68a;--pink:#ec4899;
+      --text:#ede9f8;--muted:rgba(237,233,248,.55);
+      --border:rgba(124,58,237,.25);--rp:50px;--ease:.3s cubic-bezier(.4,0,.2,1);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px}
+    body{font-family:'Tajawal','DM Sans',sans-serif;background:var(--bg);color:var(--text);
+      min-height:100vh;display:flex;flex-direction:column;align-items:center;
+      justify-content:center;text-align:center;padding:2rem;overflow:hidden;position:relative}
+    body[lang="en"]{font-family:'DM Sans','Tajawal',sans-serif;direction:ltr}
+
+    /* BG */
+    .bg-canvas{position:fixed;inset:0;z-index:-2;
+      background:radial-gradient(ellipse 70% 55% at 20% 40%,rgba(60,10,120,.6),transparent 65%),
+                 radial-gradient(ellipse 55% 50% at 80% 20%,rgba(15,8,70,.6),transparent 60%),
+                 radial-gradient(ellipse 50% 50% at 50% 90%,rgba(100,20,60,.4),transparent 55%),
+                 var(--bg)}
+    .stars-layer{position:fixed;inset:0;z-index:-1;pointer-events:none}
+    .star{position:absolute;border-radius:50%;background:#fff;
+      animation:twinkle var(--d,4s) var(--delay,0s) infinite alternate ease-in-out}
+    @keyframes twinkle{from{opacity:.05;transform:scale(.8)}to{opacity:.85;transform:scale(1.4)}}
+
+    /* Content */
+    .card{max-width:580px;width:100%;animation:fadeUp .9s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+
+    /* Big 404 */
+    .num{
+      font-family:'Cinzel Decorative',serif;
+      font-size:clamp(6rem,20vw,10rem);
+      font-weight:700;line-height:1;
+      background:linear-gradient(135deg,var(--gold),var(--purple2),var(--pink));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      margin-bottom:.5rem;
+      filter:drop-shadow(0 0 40px rgba(240,192,96,.3));
+      animation:pulse 4s ease-in-out infinite alternate;
+    }
+    @keyframes pulse{
+      from{filter:drop-shadow(0 0 30px rgba(240,192,96,.2))}
+      to  {filter:drop-shadow(0 0 60px rgba(124,58,237,.5))}
+    }
+
+    /* Moon icon */
+    .moon{font-size:4rem;margin-bottom:1rem;
+      animation:float 5s ease-in-out infinite alternate;display:block}
+    @keyframes float{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-16px) rotate(5deg)}}
+
+    .title{font-size:clamp(1.3rem,4vw,2rem);font-weight:900;margin-bottom:.75rem;color:var(--gold)}
+    body[lang="en"] .title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.1rem,3vw,1.6rem)}
+
+    .subtitle{color:var(--muted);font-size:1rem;max-width:420px;margin:0 auto 2.5rem;line-height:1.8}
+
+    /* Buttons */
+    .actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:.82rem 2rem;
+      border-radius:var(--rp);font-weight:700;font-size:.95rem;font-family:inherit;
+      transition:all var(--ease);white-space:nowrap;text-decoration:none}
+    .btn-primary{background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;
+      box-shadow:0 0 22px rgba(124,58,237,.4)}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 36px rgba(124,58,237,.6);color:#fff}
+    .btn-secondary{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.18);color:var(--text)}
+    .btn-secondary:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
+
+    /* Quick links */
+    .quick{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+    .ql{background:rgba(124,58,237,.12);color:var(--gold2);font-size:.82rem;font-weight:600;
+      padding:.35rem .9rem;border-radius:var(--rp);border:1px solid var(--border);
+      text-decoration:none;transition:all var(--ease)}
+    .ql:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+
+    /* Lang buttons */
+    .lang-row{display:flex;gap:.5rem;justify-content:center;margin-bottom:2rem}
+    .lang-btn{font-family:inherit;font-size:.78rem;font-weight:700;color:var(--gold);
+      background:rgba(124,58,237,.15);border:1px solid var(--border);
+      border-radius:var(--rp);padding:.3rem .8rem;cursor:pointer;transition:all var(--ease)}
+    .lang-btn:hover{background:var(--purple);color:#fff;border-color:var(--purple)}
+    .lang-btn.active{background:var(--purple);color:#fff;border-color:var(--gold)}
+
+    /* Divider */
+    .divider{height:1px;background:var(--border);margin:2rem auto;max-width:200px}
+
+    /* Countdown back */
+    .auto-back{font-size:.82rem;color:var(--muted);margin-top:1.5rem}
+    .auto-back span{color:var(--gold);font-weight:700}
+
+    @media(max-width:480px){
+      .num{font-size:8rem}
+      .actions .btn{width:100%;justify-content:center}
+      .actions{flex-direction:column}
+    }
+  </style>
+  <!-- Google Analytics GA4 - replace G-XXXXXXXXXX with your Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-XXXXXXXXXX");
+  </script>
+</head>
+<body lang="ar">
+<div class="bg-canvas"></div>
+<div class="stars-layer" id="stars"></div>
+
+<div class="card">
+  <!-- Lang toggle -->
+  <div class="lang-row">
+    <button class="lang-btn active" id="btn-ar" onclick="setLang('ar')">🇸🇦 عربي</button>
+    <button class="lang-btn"        id="btn-en" onclick="setLang('en')">🇬🇧 English</button>
+  </div>
+
+  <span class="moon">🌙</span>
+  <div class="num">404</div>
+
+  <h1 class="title" id="title">هذا الحلم لم يُنسج بعد</h1>
+  <p class="subtitle" id="subtitle">الصفحة التي تبحث عنها غير موجودة — ربما تبخّرت كحلم في الصباح. عد للرئيسية وابدأ نسيجك من جديد.</p>
+
+  <div class="actions">
+    <a href="index.html" class="btn btn-primary" id="btn-home">🏠 العودة للرئيسية</a>
+    <a href="https://t.me/aidreamweaver_bot" class="btn btn-secondary" target="_blank" rel="noopener" id="btn-bot">🤖 جرب البوت</a>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="quick">
+    <a href="blog.html"    class="ql" id="ql-blog">📚 المدونة</a>
+    <a href="faq.html"     class="ql" id="ql-faq">❓ الأسئلة</a>
+    <a href="index.html#pricing" class="ql" id="ql-pricing">💎 الأسعار</a>
+    <a href="privacy.html" class="ql" id="ql-privacy">🔐 الخصوصية</a>
+  </div>
+
+  <p class="auto-back" id="auto-back">سيتم توجيهك للرئيسية خلال <span id="countdown">10</span> ثوانٍ</p>
+</div>
+
+<script>
+/* Stars */
+(function(){
+  const layer=document.getElementById('stars'),frag=document.createDocumentFragment();
+  for(let i=0;i<150;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*2+0.3;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+2).toFixed(1)}s;--delay:${(Math.random()*5).toFixed(1)}s;`;
+    frag.appendChild(s);
+  }
+  layer.appendChild(frag);
+})();
+
+/* Countdown */
+let sec=10;
+const cd=document.getElementById('countdown');
+const timer=setInterval(()=>{
+  sec--;
+  if(cd)cd.textContent=sec;
+  if(sec<=0){clearInterval(timer);window.location.href='index.html';}
+},1000);
+
+/* Language */
+const T={
+  ar:{
+    _dir:'rtl',_lang:'ar',
+    'title':'هذا الحلم لم يُنسج بعد',
+    'subtitle':'الصفحة التي تبحث عنها غير موجودة — ربما تبخّرت كحلم في الصباح. عد للرئيسية وابدأ نسيجك من جديد.',
+    'btn-home':'🏠 العودة للرئيسية',
+    'btn-bot':'🤖 جرب البوت',
+    'ql-blog':'📚 المدونة',
+    'ql-faq':'❓ الأسئلة',
+    'ql-pricing':'💎 الأسعار',
+    'ql-privacy':'🔐 الخصوصية',
+    'auto-back':'سيتم توجيهك للرئيسية خلال <span id="countdown">'+sec+'</span> ثوانٍ',
+  },
+  en:{
+    _dir:'ltr',_lang:'en',
+    'title':'This Dream Was Never Woven',
+    'subtitle':'The page you\'re looking for doesn\'t exist — perhaps it dissolved like a dream at dawn. Return home and start weaving again.',
+    'btn-home':'🏠 Back to Home',
+    'btn-bot':'🤖 Try the Bot',
+    'ql-blog':'📚 Blog',
+    'ql-faq':'❓ FAQ',
+    'ql-pricing':'💎 Pricing',
+    'ql-privacy':'🔐 Privacy',
+    'auto-back':'Redirecting to home in <span id="countdown">'+sec+'</span> seconds',
+  }
+};
+
+function setLang(lang){
+  const t=T[lang];if(!t)return;
+  try{localStorage.setItem('weaver_lang',lang);}catch(e){}
+  document.documentElement.lang=t._lang;
+  document.documentElement.dir=t._dir;
+  document.body.setAttribute('lang',t._lang);
+  Object.keys(t).forEach(id=>{
+    if(id.startsWith('_'))return;
+    const el=document.getElementById(id);
+    if(el)el.innerHTML=t[id];
+  });
+  ['btn-ar','btn-en'].forEach(id=>{
+    const b=document.getElementById(id);
+    if(!b)return;
+    b.classList.toggle('active',(lang==='ar'&&id==='btn-ar')||(lang==='en'&&id==='btn-en'));
+  });
+}
+
+(function(){
+  let s='ar';
+  try{s=localStorage.getItem('weaver_lang')||'ar';}catch(e){}
+  setLang(s==='en'?'en':'ar');
+})();
+</script>
+</body>
+</html>
