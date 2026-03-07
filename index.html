@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weaver | نَسَّاج - تفسير الأحلام بالذكاء الاصطناعي</title>
     
-    <!-- Google Analytics (مع مفتاحك) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0KEHTRWRYB"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -16,13 +16,13 @@
     
     <!-- تحسين SEO -->
     <meta name="description" content="Weaver (نَسَّاج): أول منصة عربية لتفسير الأحلام بالذكاء الاصطناعي. تفسير دقيق، توليد صور 4K، مدونة ثقافية.">
-    <meta name="keywords" content="تفسير الأحلام, تفسير حلم, تفسير الأحلام بالذكاء الاصطناعي, تفسير الأحلام أونلاين, dream interpretation AI, تفسير الأحلام مجاناً, Weaver, نساج">
+    <meta name="keywords" content="تفسير الأحلام, تفسير حلم, تفسير الأحلام بالذكاء الاصطناعي, Weaver, نساج">
     <meta name="author" content="Weaver">
     
-    <!-- صورة OG (مؤقتة - استبدلها لاحقاً) -->
+    <!-- صورة OG -->
     <meta property="og:title" content="Weaver | نَسَّاج - تفسير الأحلام بالذكاء الاصطناعي">
     <meta property="og:description" content="حوّل أحلامك إلى نصوص وصور 4K بالذكاء الاصطناعي">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/0a0514/f0c060?text=Weaver">
+    <meta property="og:image" content="https://aidreamweaver.store/og-image.jpg">
     <meta property="og:url" content="https://aidreamweaver.store">
     <meta property="og:type" content="website">
     
@@ -30,7 +30,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Weaver | نَسَّاج - تفسير الأحلام بالذكاء الاصطناعي">
     <meta name="twitter:description" content="تفسير الأحلام + توليد صور 4K">
-    <meta name="twitter:image" content="https://via.placeholder.com/1200x630/0a0514/f0c060?text=Weaver">
+    <meta name="twitter:image" content="https://aidreamweaver.store/og-image.jpg">
     
     <!-- الخطوط -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -45,6 +45,10 @@
             background: #0a0514;
             color: #e2d9f3;
             line-height: 1.6;
+        }
+        
+        body[lang="en"] {
+            font-family: 'Inter', 'Tajawal', sans-serif;
         }
         
         /* الخلفية الفلكية */
@@ -185,7 +189,6 @@
             margin: 0 auto 2rem;
         }
         
-        /* زر محسن */
         .btn-super {
             display: inline-block;
             background: #f97316;
@@ -242,69 +245,6 @@
             margin-bottom: 1rem;
         }
         
-        /* حفظ التفسيرات */
-        .save-section {
-            background: #1e0a3c;
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin: 1.5rem 0;
-        }
-        
-        .save-btn {
-            background: #7c3aed;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-        
-        .save-btn:hover {
-            background: #a855f7;
-            transform: translateY(-2px);
-        }
-        
-        /* النشرة البريدية (مع رابط Formspree الخاص بك) */
-        .newsletter {
-            background: #1e0a3c;
-            padding: 2rem;
-            border-radius: 20px;
-            margin-top: 3rem;
-            text-align: center;
-        }
-        
-        .newsletter input {
-            width: 100%;
-            max-width: 400px;
-            padding: 1rem;
-            background: #0a0514;
-            border: 1px solid #7c3aed;
-            border-radius: 10px;
-            color: white;
-            margin: 1rem auto;
-        }
-        
-        .newsletter button {
-            background: linear-gradient(135deg, #7c3aed, #ec4899);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        /* التفسيرات المحفوظة */
-        .saved-dreams {
-            background: #0a0514;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-            display: none;
-        }
-        
         /* إحصائيات */
         .stats-bar {
             display: flex;
@@ -358,6 +298,59 @@
             margin-bottom: 1rem;
         }
         
+        /* خطط الأسعار */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .price-card {
+            background: rgba(30, 10, 60, 0.5);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .price-card.featured {
+            border-color: #f0c060;
+            transform: scale(1.05);
+        }
+        
+        .price-tag {
+            background: #f0c060;
+            color: #0a0514;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            display: inline-block;
+        }
+        
+        .price-amount {
+            font-size: 3rem;
+            color: #f0c060;
+            font-weight: 900;
+        }
+        
+        .price-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        
+        .price-features li {
+            margin: 0.5rem 0;
+        }
+        
+        .price-btn {
+            display: block;
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: white;
+            padding: 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+        }
+        
         /* روابط سريعة */
         .quick-links {
             display: flex;
@@ -408,17 +401,18 @@
             nav { padding: 1rem; }
             .nav-links { gap: 1rem; }
             .lang-switcher { margin: 0.5rem 0; }
+            .price-card.featured { transform: none; }
             .stats-bar { gap: 2rem; }
         }
     </style>
 </head>
-<body>
+<body lang="ar">
     <div class="bg-layer"></div>
     <div class="stars" id="stars"></div>
     
     <!-- القائمة العلوية -->
     <nav>
-        <div class="logo" id="logo">
+        <div class="logo">
             <span class="logo-english">Weaver</span>
             <span class="logo-separator">|</span>
             <span class="logo-arabic">نَسَّاج</span>
@@ -439,7 +433,7 @@
     
     <div class="container">
         
-        <!-- ========== قسم البطل ========== -->
+        <!-- قسم البطل -->
         <section class="hero" id="home">
             <div>
                 <div style="background: rgba(124,58,237,0.2); display: inline-block; padding: 0.5rem 1.5rem; border-radius: 50px; margin-bottom: 1rem;">
@@ -450,15 +444,15 @@
                     <span class="gold">عوالم بصرية</span><br>
                     <span class="purple">منسوجة بخيوط الذكاء</span>
                 </h1>
-                <p id="hero-text">منصة Weaver (نَسَّاج): تفسير الأحلام بالذكاء الاصطناعي، توليد صور 4K، مدونة ثقافية عن تفسير الأحلام في الحضارات القديمة.</p>
-                <div class="hero-actions">
-                    <a href="https://t.me/aidreamweaver_bot" class="btn-super" target="_blank" rel="noopener" onclick="gtag('event', 'click_on_interpret_button');">🌙 فسر حلمك الآن</a>
-                    <a href="#features" class="btn-primary" id="hero-btn2">✨ اكتشف المميزات</a>
+                <p id="hero-text">منصة Weaver (نَسَّاج): تفسير الأحلام بالذكاء الاصطناعي، توليد صور 4K، مدونة ثقافية.</p>
+                <div>
+                    <a href="https://t.me/aidreamweaver_bot" class="btn-super" id="hero-btn">🌙 جرب البوت الآن</a>
+                    <a href="#features" class="btn-secondary" id="hero-btn2">✨ اكتشف المميزات</a>
                 </div>
             </div>
         </section>
         
-        <!-- ========== إحصائيات سريعة ========== -->
+        <!-- إحصائيات -->
         <div class="stats-bar">
             <div class="stat">
                 <div class="stat-num">+50K</div>
@@ -474,7 +468,7 @@
             </div>
         </div>
         
-        <!-- ========== روابط سريعة ========== -->
+        <!-- روابط سريعة -->
         <div class="quick-links">
             <a href="blog.html" class="quick-link" id="quick-blog">📚 المدونة</a>
             <a href="faq.html" class="quick-link" id="quick-faq">❓ الأسئلة الشائعة</a>
@@ -483,14 +477,14 @@
             <a href="https://t.me/aidreamweaver_bot" class="quick-link" id="quick-bot">🤖 بوت Weaver</a>
         </div>
         
-        <!-- ========== تفسير الأسبوع ========== -->
+        <!-- تفسير الأسبوع -->
         <div class="weekly-interpretation">
-            <h3>🌟 تفسير الأسبوع</h3>
-            <p style="color: #e2d9f3; margin-bottom: 1rem;">حلم رؤية البحر في المنام – ما معناه؟</p>
-            <a href="article-sea.html" style="background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; padding: 0.8rem 2rem; border-radius: 50px; text-decoration: none; display: inline-block;">اقرأ التفسير الكامل →</a>
+            <h3 id="weekly-title">🌟 تفسير الأسبوع</h3>
+            <p id="weekly-desc" style="color: #e2d9f3; margin-bottom: 1rem;">حلم رؤية البحر في المنام – ما معناه؟</p>
+            <a href="article-sea.html" id="weekly-link" style="background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; padding: 0.8rem 2rem; border-radius: 50px; text-decoration: none; display: inline-block;">اقرأ التفسير الكامل →</a>
         </div>
         
-        <!-- ========== المميزات ========== -->
+        <!-- المميزات -->
         <section id="features">
             <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;" id="features-title">كل ما تحتاجه في نول واحد</h2>
             
@@ -518,42 +512,8 @@
             </div>
         </section>
         
-        <!-- ========== قسم التفسير ========== -->
-        <section id="dream-interpreter" style="margin: 3rem 0;">
-            <h2 style="color: #f0c060;">🌙 جرب تفسير حلمك</h2>
-            
-            <!-- منطقة عرض التفسير -->
-            <div id="dream-interpretation" style="background: #1e0a3c; padding: 2rem; border-radius: 20px; margin: 1rem 0;">
-                <p id="dream-text">اكتب حلمك في بوت تيليجرام للحصول على تفسير فوري</p>
-                <div id="interpretation" style="margin-top: 1rem; color: #a855f7;"></div>
-            </div>
-            
-            <!-- حفظ التفسير -->
-            <div class="save-section">
-                <button class="save-btn" onclick="saveDream()" id="saveBtn">💾 احفظ تفسيري</button>
-                <div id="saveMessage" style="color: #4ade80; margin-top: 0.5rem;"></div>
-            </div>
-            
-            <!-- عرض التفسيرات المحفوظة -->
-            <div class="saved-dreams" id="savedDreams">
-                <h3 style="color: #f0c060;">📚 تفسيراتك المحفوظة</h3>
-                <div id="dreamsList"></div>
-            </div>
-        </section>
-        
-        <!-- ========== النشرة البريدية (مع رابط Formspree الخاص بك) ========== -->
-        <div class="newsletter">
-            <h3 style="color: #f0c060;">📧 اشترك في النشرة البريدية</h3>
-            <p style="color: #e2d9f3; margin-bottom: 1rem;">احصل على تفسير أسبوعي مجاني + كتاب إلكتروني عن رموز الأحلام</p>
-            
-            <form action="https://formspree.io/f/xyknyrdl" method="POST" onsubmit="gtag('event', 'newsletter_signup');">
-                <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
-                <button type="submit">اشترك الآن</button>
-            </form>
-        </div>
-        
-        <!-- ========== خطط الأسعار ========== -->
-        <section id="pricing" style="margin: 4rem 0;">
+        <!-- خطط الأسعار -->
+        <section id="pricing">
             <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;" id="pricing-title">خطط النسيج</h2>
             
             <div class="pricing-grid">
@@ -631,72 +591,199 @@
             starsEl.appendChild(s);
         }
         
-        // نظام الترجمة
-        function setLanguage(lang) {
-            localStorage.setItem('weaver_lang', lang);
-            if (lang === 'ar') {
-                document.documentElement.lang = 'ar';
-                document.documentElement.dir = 'rtl';
-            } else {
-                document.documentElement.lang = 'en';
-                document.documentElement.dir = 'ltr';
+        // نظام الترجمة الكامل
+        const translations = {
+            ar: {
+                // القائمة
+                'nav-home': 'الرئيسية',
+                'nav-blog': 'المدونة',
+                'nav-features': 'المميزات',
+                'nav-pricing': 'الأسعار',
+                'nav-faq': 'الأسئلة',
+                'nav-cta': '🤖 البوت',
+                'btn-ar': '🇸🇦 عربي',
+                'btn-en': '🇬🇧 English',
+                
+                // البطل
+                'hero-badge': '✨ نَسَّاج الأحلام بالذكاء الاصطناعي',
+                'hero-title': 'حوّل أحلامك إلى<br><span class="gold">عوالم بصرية</span><br><span class="purple">منسوجة بخيوط الذكاء</span>',
+                'hero-text': 'منصة Weaver (نَسَّاج): تفسير الأحلام بالذكاء الاصطناعي، توليد صور 4K، مدونة ثقافية.',
+                'hero-btn': '🌙 جرب البوت الآن',
+                'hero-btn2': '✨ اكتشف المميزات',
+                
+                // إحصائيات
+                'stat-dreams': 'حلم منسوج',
+                'stat-satisfaction': 'رضا النسّاجين',
+                'stat-quality': 'جودة النسيج',
+                
+                // روابط سريعة
+                'quick-blog': '📚 المدونة',
+                'quick-faq': '❓ الأسئلة الشائعة',
+                'quick-privacy': '🔐 الخصوصية',
+                'quick-terms': '📜 الشروط',
+                'quick-bot': '🤖 بوت Weaver',
+                
+                // تفسير الأسبوع
+                'weekly-title': '🌟 تفسير الأسبوع',
+                'weekly-desc': 'حلم رؤية البحر في المنام – ما معناه؟',
+                'weekly-link': 'اقرأ التفسير الكامل →',
+                
+                // المميزات
+                'features-title': 'كل ما تحتاجه في نول واحد',
+                'feature1-title': 'تفسير عميق بالذكاء الاصطناعي',
+                'feature1-text': 'نموذج Gemini ينسج خيوط أحلامك بتفسير دقيق ومراعاة للثقافة العربية والإسلامية',
+                'feature2-title': 'توليد صور 4K',
+                'feature2-text': 'حوّل حلمك إلى لوحة فنية منسوجة بخيوط الضوء باستخدام تقنيات SiliconFlow',
+                'feature3-title': 'مدونة ثقافية',
+                'feature3-text': 'موسوعة متكاملة عن نسيج الأحلام في الحضارات المصرية، البابلية، اليونانية والإسلامية',
+                'feature4-title': 'بوت تيليجرام',
+                'feature4-text': 'تفاعل مباشر مع @aidreamweaver_bot لتفسير أحلامك وتوليد الصور بلمسة واحدة',
+                
+                // الأسعار
+                'pricing-title': 'خطط النسيج',
+                'plan1-name': 'نَسَّاج أساسي',
+                'plan1-period': 'شهرياً',
+                'plan1-feat1': '5 تفسيرات يومياً',
+                'plan1-feat2': '3 صور يومياً',
+                'plan1-btn': 'ابدأ النسيج',
+                'plan2-tag': '⭐ الأكثر شعبية',
+                'plan2-name': 'نَسَّاج محترف',
+                'plan2-period': 'شهرياً',
+                'plan2-feat1': 'تفسيرات غير محدودة',
+                'plan2-feat2': 'صور 4K غير محدودة',
+                'plan2-feat3': '+50 أسلوب فني',
+                'plan2-btn': 'اشترك الآن',
+                'plan3-name': 'نسّاجون',
+                'plan3-period': 'شهرياً / لكل نَسَّاج',
+                'plan3-feat1': 'كل مميزات المحترف',
+                'plan3-feat2': 'توليد فيديو',
+                'plan3-feat3': 'تقارير PDF',
+                'plan3-btn': 'ابدأ معاً',
+                
+                // التذييل
+                'footer-home': 'الرئيسية',
+                'footer-blog': 'المدونة',
+                'footer-faq': 'الأسئلة الشائعة',
+                'footer-privacy': 'سياسة الخصوصية',
+                'footer-terms': 'شروط الاستخدام',
+                'footer-bot': 'بوت تيليجرام',
+                'footer-copyright': '© 2026 Weaver | نَسَّاج - منصة نسيج الأحلام بالذكاء الاصطناعي'
+            },
+            en: {
+                // القائمة
+                'nav-home': 'Home',
+                'nav-blog': 'Blog',
+                'nav-features': 'Features',
+                'nav-pricing': 'Pricing',
+                'nav-faq': 'FAQ',
+                'nav-cta': '🤖 Bot',
+                'btn-ar': '🇸🇦 عربي',
+                'btn-en': '🇬🇧 English',
+                
+                // البطل
+                'hero-badge': '✨ AI Dream Weaver',
+                'hero-title': 'Turn Your Dreams Into<br><span class="gold">Visual Worlds</span><br><span class="purple">Woven with Intelligence</span>',
+                'hero-text': 'Weaver: AI dream interpretation, 4K image generation, cultural blog.',
+                'hero-btn': '🌙 Try the Bot Now',
+                'hero-btn2': '✨ Explore Features',
+                
+                // إحصائيات
+                'stat-dreams': 'Dreams Woven',
+                'stat-satisfaction': 'User Satisfaction',
+                'stat-quality': 'Weave Quality',
+                
+                // روابط سريعة
+                'quick-blog': '📚 Blog',
+                'quick-faq': '❓ FAQ',
+                'quick-privacy': '🔐 Privacy',
+                'quick-terms': '📜 Terms',
+                'quick-bot': '🤖 Weaver Bot',
+                
+                // تفسير الأسبوع
+                'weekly-title': '🌟 Interpretation of the Week',
+                'weekly-desc': 'Dreaming of the sea – what does it mean?',
+                'weekly-link': 'Read full interpretation →',
+                
+                // المميزات
+                'features-title': 'Everything You Need in One Loom',
+                'feature1-title': 'Deep AI Interpretation',
+                'feature1-text': 'Gemini model weaves your dreams with accurate interpretation, respecting Arab culture.',
+                'feature2-title': '4K Image Generation',
+                'feature2-text': 'Turn your dream into a stunning artistic image woven with light using SiliconFlow technology.',
+                'feature3-title': 'Cultural Blog',
+                'feature3-text': 'A comprehensive encyclopedia about dream weaving in Egyptian, Babylonian, Greek, and Islamic civilizations.',
+                'feature4-title': 'Telegram Bot',
+                'feature4-text': 'Chat with @aidreamweaver_bot to weave your dreams and generate images.',
+                
+                // الأسعار
+                'pricing-title': 'Weaving Plans',
+                'plan1-name': 'Basic Weaver',
+                'plan1-period': 'per month',
+                'plan1-feat1': '5 interpretations/day',
+                'plan1-feat2': '3 images/day',
+                'plan1-btn': 'Start Weaving',
+                'plan2-tag': '⭐ Most Popular',
+                'plan2-name': 'Pro Weaver',
+                'plan2-period': 'per month',
+                'plan2-feat1': 'Unlimited interpretations',
+                'plan2-feat2': 'Unlimited 4K images',
+                'plan2-feat3': '+50 artistic styles',
+                'plan2-btn': 'Subscribe Now',
+                'plan3-name': 'Weavers Team',
+                'plan3-period': 'per month / per user',
+                'plan3-feat1': 'All Pro features',
+                'plan3-feat2': 'Video generation',
+                'plan3-feat3': 'PDF reports',
+                'plan3-btn': 'Start Together',
+                
+                // التذييل
+                'footer-home': 'Home',
+                'footer-blog': 'Blog',
+                'footer-faq': 'FAQ',
+                'footer-privacy': 'Privacy',
+                'footer-terms': 'Terms',
+                'footer-bot': 'Weaver Bot',
+                'footer-copyright': '© 2026 Weaver — AI Dream Weaving Platform'
             }
+        };
+        
+        function setLanguage(lang) {
+            // حفظ اللغة
+            localStorage.setItem('weaver_lang', lang);
+            
+            // تحديث اتجاه الصفحة واللغة
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.body.setAttribute('lang', lang);
+            
+            // تحديث جميع النصوص
+            for (let id in translations[lang]) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.innerHTML = translations[lang][id];
+                }
+            }
+            
+            // تحديث روابط المدونة حسب اللغة
+            const blogLink = document.getElementById('nav-blog');
+            const quickBlogLink = document.getElementById('quick-blog');
+            const footerBlogLink = document.getElementById('footer-blog');
+            const blogHref = lang === 'ar' ? 'blog.html' : 'blog-eng.html';
+            
+            if (blogLink) blogLink.href = blogHref;
+            if (quickBlogLink) quickBlogLink.href = blogHref;
+            if (footerBlogLink) footerBlogLink.href = blogHref;
+            
+            // تحديث أزرار اللغة
             document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         }
         
+        // تحميل اللغة المحفوظة
         document.addEventListener('DOMContentLoaded', function() {
             const savedLang = localStorage.getItem('weaver_lang') || 'ar';
             setLanguage(savedLang);
         });
-        
-        // نظام حفظ التفسيرات
-        function saveDream() {
-            const dreamText = document.getElementById('dream-text').innerText;
-            const interpretationText = document.getElementById('interpretation').innerText || 'لا يوجد تفسير بعد';
-            
-            let dreams = JSON.parse(localStorage.getItem('savedDreams')) || [];
-            dreams.push({
-                dream: dreamText,
-                interpretation: interpretationText,
-                date: new Date().toLocaleDateString('ar-EG')
-            });
-            
-            localStorage.setItem('savedDreams', JSON.stringify(dreams));
-            
-            document.getElementById('saveMessage').innerText = '✅ تم حفظ التفسير في جهازك';
-            setTimeout(() => {
-                document.getElementById('saveMessage').innerText = '';
-            }, 3000);
-            
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'save_dream');
-            }
-            
-            displaySavedDreams();
-        }
-        
-        function displaySavedDreams() {
-            const dreams = JSON.parse(localStorage.getItem('savedDreams')) || [];
-            if (dreams.length > 0) {
-                const container = document.getElementById('savedDreams');
-                const list = document.getElementById('dreamsList');
-                container.style.display = 'block';
-                
-                let html = '';
-                dreams.slice(-5).reverse().forEach((item, index) => {
-                    html += `
-                        <div style="background: #0a0514; padding: 1rem; border-radius: 10px; margin: 0.5rem 0;">
-                            <p style="color: #f0c060;">📅 ${item.date}</p>
-                            <p style="color: #e2d9f3;">${item.dream.substring(0, 100)}...</p>
-                        </div>
-                    `;
-                });
-                list.innerHTML = html;
-            }
-        }
-        
-        displaySavedDreams();
     </script>
 </body>
 </html>
