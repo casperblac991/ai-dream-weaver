@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-🤖 AI DREAM WEAVER - بوت المدير الذكي (نسخة مستقرة)
+🤖 AI DREAM WEAVER - بوت المدير الذكي (مع Hugging Face للصور)
 ==============================================================
 - تفسير الأحلام (Gemini 2.0 Flash)
-- توليد الصور (SiliconFlow)
+- توليد الصور (Hugging Face FLUX.1-schnell)
 - أوامر المسؤول
 - نظام تتبع العملاء
+- إحصائيات وتقارير
 """
 
 import os
@@ -19,6 +20,7 @@ from datetime import datetime
 from io import BytesIO
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
+from huggingface_hub import InferenceClient
 
 # ========== إعدادات المسؤول ==========
 ADMIN_USER_ID = 6790340715  # ⚠️ تأكد من صحة هذا الرقم
@@ -26,7 +28,7 @@ ADMIN_USER_ID = 6790340715  # ⚠️ تأكد من صحة هذا الرقم
 # ========== المفاتيح من المتغيرات البيئية ==========
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
-SILICONFLOW_KEY = os.environ.get('SILICONFLOW_API_KEY')
+HF_TOKEN = os.environ.get('HF_TOKEN')
 
 # التحقق من وجود المفاتيح الأساسية
 if not TELEGRAM_TOKEN:
@@ -134,7 +136,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"مرحباً {user.first_name}! 🌙\n\n"
         "أنا بوت **حالم** المتطور.\n"
         "أستخدم **Gemini 2.0 Flash** لتفسير الأحلام.\n"
-        "أستخدم **SiliconFlow** لتوليد الصور.\n\n"
+        "أستخدم **Hugging Face** لتوليد الصور.\n\n"
         "📌 **الأوامر المتاحة:**\n"
         "• أرسل لي حلمك مباشرة للتفسير\n"
         "• /stats - إحصائيات البوت\n"
@@ -234,7 +236,7 @@ async def is_admin(update: Update) -> bool:
     return True
 
 async def admin_genimage(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """توليد صورة باستخدام SiliconFlow (للمسؤول فقط)"""
+    """توليد صورة باستخدام Hugging Face"""
     if not await is_admin(update):
         return
 
@@ -243,52 +245,43 @@ async def admin_genimage(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     prompt = " ".join(context.args)
-    await update.message.reply_text("🎨 جاري توليد الصورة...")
+    await update.message.reply_text("🎨 جاري توليد الصورة باستخدام Hugging Face...")
 
-    if not SILICONFLOW_KEY:
-        await update.message.reply_text("❌ مفتاح SiliconFlow غير موجود.")
+    if not HF_TOKEN:
+        await update.message.reply_text("❌ مفتاح Hugging Face غير موجود.")
         return
 
-    # استخدام نموذج واحد فقط (الأكثر استقراراً)
     try:
-        headers = {
-            "Authorization": f"Bearer {SILICONFLOW_KEY}",
-            "Content-Type": "application/json"
-        }
-        
-        data = {
-            "model": "stabilityai/stable-diffusion-3-5-large",
-            "prompt": prompt,
-            "width": 1024,
-            "height": 1024
-        }
-        
-        response = requests.post(
-            "https://api.siliconflow.cn/v1/images/generations",
-            headers=headers,
-            json=data,
-            timeout=30
+        # استخدام FLUX.1-schnell (أفضل نموذج حالي)
+        client = InferenceClient(
+            model="black-forest-labs/FLUX.1-schnell",
+            token=HF_TOKEN
         )
         
-        if response.status_code == 200:
-            result = response.json()
-            if 'images' in result and len(result['images']) > 0:
-                image_url = result['images'][0]['url']
-                await update.message.reply_photo(
-                    photo=image_url,
-                    caption=f"🎨 {prompt}"
-                )
-                increment_images(update.effective_user.id)
-                return
-            else:
-                await update.message.reply_text("⚠️ الاستجابة لا تحتوي على صورة")
+        # توليد الصورة
+        image = client.text_to_image(
+            prompt,
+            width=1024,
+            height=1024
+        )
+        
+        if image:
+            # حفظ الصورة في BytesIO
+            img_bytes = BytesIO()
+            image.save(img_bytes, format='PNG')
+            img_bytes.seek(0)
+            
+            await update.message.reply_photo(
+                photo=img_bytes,
+                caption=f"🎨 {prompt}"
+            )
+            increment_images(update.effective_user.id)
         else:
-            error_message = response.text[:200]
-            await update.message.reply_text(f"❌ فشل التوليد: {response.status_code}")
+            await update.message.reply_text("❌ فشل توليد الصورة")
             
     except Exception as e:
-        logger.error(f"خطأ في SiliconFlow: {str(e)}")
-        await update.message.reply_text(f"❌ خطأ في الاتصال")
+        logger.error(f"خطأ في توليد الصورة: {str(e)}")
+        await update.message.reply_text(f"❌ خطأ: {str(e)}")
 
 async def admin_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """إحصائيات مفصلة للمسؤول"""
@@ -304,7 +297,7 @@ async def admin_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"📝 المقالات: {stats['total_articles']}\n"
         f"📅 نشط اليوم: {stats['active_today']}\n\n"
         f"• Gemini: {'✅' if GEMINI_API_KEY else '❌'}\n"
-        f"• SiliconFlow: {'✅' if SILICONFLOW_KEY else '❌'}"
+        f"• Hugging Face: {'✅' if HF_TOKEN else '❌'}"
     )
     await update.message.reply_text(msg)
 
@@ -316,7 +309,7 @@ async def admin_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     help_msg = """
 👑 **أوامر المسؤول**
 
-• `/genimage [وصف]` - توليد صورة
+• `/genimage [وصف]` - توليد صورة باستخدام Hugging Face
 • `/astats` - إحصائيات مفصلة
     """
     await update.message.reply_text(help_msg)
@@ -324,9 +317,9 @@ async def admin_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # ========== الدالة الرئيسية ==========
 def main():
     """تشغيل البوت"""
-    print("🚀 بدء تشغيل بوت حالم (نسخة مستقرة)...")
+    print("🚀 بدء تشغيل بوت حالم (مع Hugging Face)...")
     print(f"   - Gemini: {'✅' if GEMINI_API_KEY else '❌'}")
-    print(f"   - SiliconFlow: {'✅' if SILICONFLOW_KEY else '❌'}")
+    print(f"   - Hugging Face: {'✅' if HF_TOKEN else '❌'}")
     print(f"   - المسؤول: {ADMIN_USER_ID}")
     
     app = Application.builder().token(TELEGRAM_TOKEN).build()
