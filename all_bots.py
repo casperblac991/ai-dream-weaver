@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-🤖 AI DREAM WEAVER - بوت المدير الذكي (مع Hugging Face للصور)
+🤖 AI DREAM WEAVER - بوت المدير الذكي (مع Pollinations.ai للصور)
 ==============================================================
 - تفسير الأحلام (Gemini 2.0 Flash)
-- توليد الصور (Hugging Face FLUX.1-schnell)
+- توليد الصور (Pollinations.ai - مجاني 100%)
 - أوامر المسؤول
 - نظام تتبع العملاء
 - إحصائيات وتقارير
@@ -20,7 +20,6 @@ from datetime import datetime
 from io import BytesIO
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
-from huggingface_hub import InferenceClient
 
 # ========== إعدادات المسؤول ==========
 ADMIN_USER_ID = 6790340715  # ⚠️ تأكد من صحة هذا الرقم
@@ -28,7 +27,6 @@ ADMIN_USER_ID = 6790340715  # ⚠️ تأكد من صحة هذا الرقم
 # ========== المفاتيح من المتغيرات البيئية ==========
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
-HF_TOKEN = os.environ.get('HF_TOKEN')
 
 # التحقق من وجود المفاتيح الأساسية
 if not TELEGRAM_TOKEN:
@@ -136,7 +134,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"مرحباً {user.first_name}! 🌙\n\n"
         "أنا بوت **حالم** المتطور.\n"
         "أستخدم **Gemini 2.0 Flash** لتفسير الأحلام.\n"
-        "أستخدم **Hugging Face** لتوليد الصور.\n\n"
+        "أستخدم **Pollinations.ai** لتوليد الصور (مجاني).\n\n"
         "📌 **الأوامر المتاحة:**\n"
         "• أرسل لي حلمك مباشرة للتفسير\n"
         "• /stats - إحصائيات البوت\n"
@@ -236,7 +234,7 @@ async def is_admin(update: Update) -> bool:
     return True
 
 async def admin_genimage(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """توليد صورة باستخدام Hugging Face"""
+    """توليد صورة باستخدام Pollinations.ai (مجاني ولا يحتاج مفتاح)"""
     if not await is_admin(update):
         return
 
@@ -245,42 +243,25 @@ async def admin_genimage(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     prompt = " ".join(context.args)
-    await update.message.reply_text("🎨 جاري توليد الصورة باستخدام Hugging Face...")
-
-    if not HF_TOKEN:
-        await update.message.reply_text("❌ مفتاح Hugging Face غير موجود.")
-        return
+    await update.message.reply_text("🎨 جاري توليد الصورة باستخدام Pollinations.ai...")
 
     try:
-        # استخدام FLUX.1-schnell (أفضل نموذج حالي)
-        client = InferenceClient(
-            model="black-forest-labs/FLUX.1-schnell",
-            token=HF_TOKEN
-        )
+        # Pollinations.ai - لا يحتاج أي مفتاح
+        url = f"https://image.pollinations.ai/prompt/{prompt.replace(' ', '%20')}?width=1024&height=1024&nologo=true"
         
-        # توليد الصورة
-        image = client.text_to_image(
-            prompt,
-            width=1024,
-            height=1024
-        )
+        response = requests.get(url, timeout=60)
         
-        if image:
-            # حفظ الصورة في BytesIO
-            img_bytes = BytesIO()
-            image.save(img_bytes, format='PNG')
-            img_bytes.seek(0)
-            
+        if response.status_code == 200:
             await update.message.reply_photo(
-                photo=img_bytes,
+                photo=response.content,
                 caption=f"🎨 {prompt}"
             )
             increment_images(update.effective_user.id)
         else:
-            await update.message.reply_text("❌ فشل توليد الصورة")
+            await update.message.reply_text(f"❌ خطأ {response.status_code}")
             
     except Exception as e:
-        logger.error(f"خطأ في توليد الصورة: {str(e)}")
+        logger.error(f"خطأ في Pollinations: {str(e)}")
         await update.message.reply_text(f"❌ خطأ: {str(e)}")
 
 async def admin_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -292,12 +273,13 @@ async def admin_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = (
         f"📊 **تقرير المسؤول**\n\n"
         f"👥 إجمالي المستخدمين: {stats['total_users']}\n"
+        f"👤 نشط آخر 7 أيام: {stats['active_today']}\n"
         f"💭 إجمالي الأحلام: {stats['total_dreams']}\n"
         f"🎨 إجمالي الصور: {stats['total_images']}\n"
         f"📝 المقالات: {stats['total_articles']}\n"
         f"📅 نشط اليوم: {stats['active_today']}\n\n"
         f"• Gemini: {'✅' if GEMINI_API_KEY else '❌'}\n"
-        f"• Hugging Face: {'✅' if HF_TOKEN else '❌'}"
+        f"• Pollinations: ✅ (مجاني)"
     )
     await update.message.reply_text(msg)
 
@@ -309,7 +291,7 @@ async def admin_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     help_msg = """
 👑 **أوامر المسؤول**
 
-• `/genimage [وصف]` - توليد صورة باستخدام Hugging Face
+• `/genimage [وصف]` - توليد صورة (Pollinations.ai - مجاني)
 • `/astats` - إحصائيات مفصلة
     """
     await update.message.reply_text(help_msg)
@@ -317,9 +299,9 @@ async def admin_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # ========== الدالة الرئيسية ==========
 def main():
     """تشغيل البوت"""
-    print("🚀 بدء تشغيل بوت حالم (مع Hugging Face)...")
+    print("🚀 بدء تشغيل بوت حالم (مع Pollinations.ai)...")
     print(f"   - Gemini: {'✅' if GEMINI_API_KEY else '❌'}")
-    print(f"   - Hugging Face: {'✅' if HF_TOKEN else '❌'}")
+    print(f"   - Pollinations: ✅ (مجاني)")
     print(f"   - المسؤول: {ADMIN_USER_ID}")
     
     app = Application.builder().token(TELEGRAM_TOKEN).build()
