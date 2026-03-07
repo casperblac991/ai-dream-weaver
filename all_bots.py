@@ -2,18 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-🤖 AI DREAM WEAVER - بوت المدير الذكي (مع Pollinations.ai للصور)
+🤖 AI DREAM WEAVER - بوت المدير الذكي (مع إعادة المحاولة)
 ==============================================================
 - تفسير الأحلام (Gemini 2.0 Flash)
-- توليد الصور (Pollinations.ai - مجاني 100%)
+- توليد الصور (Pollinations.ai - مع إعادة المحاولة)
 - أوامر المسؤول
 - نظام تتبع العملاء
-- إحصائيات وتقارير
 """
 
 import os
 import json
-import base64
+import asyncio
 import requests
 import logging
 from datetime import datetime
@@ -28,7 +27,6 @@ ADMIN_USER_ID = 6790340715  # ⚠️ تأكد من صحة هذا الرقم
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
 
-# التحقق من وجود المفاتيح الأساسية
 if not TELEGRAM_TOKEN:
     print("❌ خطأ: توكن تيليجرام غير موجود!")
     exit(1)
@@ -48,13 +46,7 @@ def load_leads():
         with open(LEADS_FILE, 'r', encoding='utf-8') as f:
             return json.load(f)
     except:
-        return {
-            "total_users": 0,
-            "users": [],
-            "dreams": 0,
-            "images": 0,
-            "articles": 0
-        }
+        return {"total_users": 0, "users": [], "dreams": 0, "images": 0, "articles": 0}
 
 def save_leads(leads):
     with open(LEADS_FILE, 'w', encoding='utf-8') as f:
@@ -110,12 +102,9 @@ def get_stats():
     leads = load_leads()
     today = datetime.now().date()
     today_users = 0
-    
     for user in leads['users']:
-        last_seen = datetime.fromisoformat(user['last_seen']).date()
-        if last_seen == today:
+        if datetime.fromisoformat(user['last_seen']).date() == today:
             today_users += 1
-    
     return {
         "total_users": leads['total_users'],
         "total_dreams": leads['dreams'],
@@ -124,9 +113,8 @@ def get_stats():
         "active_today": today_users
     }
 
-# ========== دوال البوت الأساسية (للمستخدمين) ==========
+# ========== دوال البوت الأساسية ==========
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """رسالة الترحيب للمستخدمين"""
     user = update.effective_user
     add_user(user.id, user.username, user.first_name)
     
@@ -134,25 +122,21 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"مرحباً {user.first_name}! 🌙\n\n"
         "أنا بوت **حالم** المتطور.\n"
         "أستخدم **Gemini 2.0 Flash** لتفسير الأحلام.\n"
-        "أستخدم **Pollinations.ai** لتوليد الصور (مجاني).\n\n"
+        "أستخدم **Pollinations.ai** لتوليد الصور.\n\n"
         "📌 **الأوامر المتاحة:**\n"
         "• أرسل لي حلمك مباشرة للتفسير\n"
         "• /stats - إحصائيات البوت\n"
         "• /help - مساعدة"
     )
     
-    # أزرار تفاعلية
     keyboard = [
         [InlineKeyboardButton("📝 تفسير حلم", callback_data="dream")],
         [InlineKeyboardButton("📚 المدونة", url="https://aidreamweaver.store/blog.html"),
          InlineKeyboardButton("🛒 المتجر", url="https://aidreamweaver.store")]
     ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    
-    await update.message.reply_text(welcome_msg, reply_markup=reply_markup)
+    await update.message.reply_text(welcome_msg, reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """رسالة المساعدة للمستخدمين"""
     help_text = """
 🔍 **مساعدة البوت**
 
@@ -169,32 +153,26 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(help_text)
 
 async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """عرض إحصائيات البوت للمستخدمين"""
     stats = get_stats()
-    stats_msg = (
+    await update.message.reply_text(
         f"📊 **إحصائيات حالم**\n\n"
         f"👥 إجمالي المستخدمين: {stats['total_users']}\n"
         f"💭 إجمالي الأحلام: {stats['total_dreams']}\n"
         f"🎨 إجمالي الصور: {stats['total_images']}\n"
-        f"📅 نشط اليوم: {stats['active_today']}"
+        f"📅 نشط اليوم: {stats['active_today']}",
+        parse_mode='Markdown'
     )
-    await update.message.reply_text(stats_msg)
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """معالجة الأزرار التفاعلية"""
     query = update.callback_query
     await query.answer()
-    
     if query.data == "dream":
         await query.edit_message_text("📝 أرسل لي حلمك الآن وسأقوم بتفسيره.")
 
-# ========== دالة تفسير الأحلام (Gemini) ==========
 async def interpret_dream(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """تفسير الأحلام باستخدام Gemini 2.0 Flash"""
     user = update.effective_user
     dream = update.message.text
     
-    # تسجيل التفاعل
     add_user(user.id, user.username, user.first_name)
     increment_dreams(user.id)
     
@@ -207,9 +185,7 @@ async def interpret_dream(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
         payload = {"contents": [{"parts": [{"text": f"فسر هذا الحلم بالعربية: {dream}"}]}]}
-        headers = {"Content-Type": "application/json"}
-        
-        response = requests.post(url, json=payload, headers=headers, timeout=10)
+        response = requests.post(url, json=payload, headers={"Content-Type": "application/json"}, timeout=10)
         
         if response.status_code == 200:
             result = response.json()
@@ -219,14 +195,12 @@ async def interpret_dream(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("⚠️ وصلت للحد اليومي. انتظر حتى الغد.")
         else:
             await update.message.reply_text(f"❌ خطأ {response.status_code}")
-            
     except Exception as e:
-        logger.error(f"خطأ في التفسير: {str(e)}")
+        logger.error(f"خطأ: {e}")
         await update.message.reply_text("❌ حدث خطأ.")
 
-# ========== دوال المسؤول (Admin Commands) ==========
+# ========== دوال المسؤول ==========
 async def is_admin(update: Update) -> bool:
-    """التحقق من أن المستخدم هو المسؤول"""
     user = update.effective_user
     if user.id != ADMIN_USER_ID:
         await update.message.reply_text("⛔ هذا الأمر للمشرف فقط.")
@@ -234,7 +208,7 @@ async def is_admin(update: Update) -> bool:
     return True
 
 async def admin_genimage(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """توليد صورة باستخدام Pollinations.ai (مجاني ولا يحتاج مفتاح)"""
+    """توليد صورة مع إعادة المحاولة التلقائية"""
     if not await is_admin(update):
         return
 
@@ -245,75 +219,77 @@ async def admin_genimage(update: Update, context: ContextTypes.DEFAULT_TYPE):
     prompt = " ".join(context.args)
     await update.message.reply_text("🎨 جاري توليد الصورة باستخدام Pollinations.ai...")
 
-    try:
-        # Pollinations.ai - لا يحتاج أي مفتاح
-        url = f"https://image.pollinations.ai/prompt/{prompt.replace(' ', '%20')}?width=1024&height=1024&nologo=true"
-        
-        response = requests.get(url, timeout=60)
-        
-        if response.status_code == 200:
-            await update.message.reply_photo(
-                photo=response.content,
-                caption=f"🎨 {prompt}"
-            )
-            increment_images(update.effective_user.id)
-        else:
-            await update.message.reply_text(f"❌ خطأ {response.status_code}")
+    # تجربة حتى 3 مرات
+    for attempt in range(3):
+        try:
+            url = f"https://image.pollinations.ai/prompt/{prompt.replace(' ', '%20')}?width=1024&height=1024&nologo=true"
             
-    except Exception as e:
-        logger.error(f"خطأ في Pollinations: {str(e)}")
-        await update.message.reply_text(f"❌ خطأ: {str(e)}")
+            response = requests.get(url, timeout=90)
+            
+            if response.status_code == 200:
+                await update.message.reply_photo(
+                    photo=response.content,
+                    caption=f"🎨 {prompt}"
+                )
+                increment_images(update.effective_user.id)
+                return
+            elif response.status_code == 502 and attempt < 2:
+                # انتظر ثانيتين ثم حاول مجدداً
+                await update.message.reply_text(f"⚠️ المحاولة {attempt+1} فشلت، جاري إعادة المحاولة...")
+                await asyncio.sleep(2)
+                continue
+            else:
+                await update.message.reply_text(f"❌ خطأ {response.status_code}")
+                return
+                
+        except Exception as e:
+            if attempt < 2:
+                await asyncio.sleep(2)
+                continue
+            logger.error(f"خطأ: {e}")
+            await update.message.reply_text(f"❌ خطأ: {str(e)}")
+            return
 
 async def admin_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """إحصائيات مفصلة للمسؤول"""
     if not await is_admin(update):
         return
-    
     stats = get_stats()
-    msg = (
+    await update.message.reply_text(
         f"📊 **تقرير المسؤول**\n\n"
         f"👥 إجمالي المستخدمين: {stats['total_users']}\n"
-        f"👤 نشط آخر 7 أيام: {stats['active_today']}\n"
         f"💭 إجمالي الأحلام: {stats['total_dreams']}\n"
         f"🎨 إجمالي الصور: {stats['total_images']}\n"
-        f"📝 المقالات: {stats['total_articles']}\n"
         f"📅 نشط اليوم: {stats['active_today']}\n\n"
         f"• Gemini: {'✅' if GEMINI_API_KEY else '❌'}\n"
-        f"• Pollinations: ✅ (مجاني)"
+        f"• Pollinations: ✅ (مجاني)",
+        parse_mode='Markdown'
     )
-    await update.message.reply_text(msg)
 
 async def admin_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """مساعدة المسؤول"""
     if not await is_admin(update):
         return
-    
-    help_msg = """
-👑 **أوامر المسؤول**
-
-• `/genimage [وصف]` - توليد صورة (Pollinations.ai - مجاني)
-• `/astats` - إحصائيات مفصلة
-    """
-    await update.message.reply_text(help_msg)
+    await update.message.reply_text(
+        "👑 **أوامر المسؤول**\n\n"
+        "• `/genimage [وصف]` - توليد صورة\n"
+        "• `/astats` - إحصائيات مفصلة",
+        parse_mode='Markdown'
+    )
 
 # ========== الدالة الرئيسية ==========
 def main():
-    """تشغيل البوت"""
-    print("🚀 بدء تشغيل بوت حالم (مع Pollinations.ai)...")
+    print("🚀 بدء تشغيل بوت حالم (مع إعادة المحاولة)...")
     print(f"   - Gemini: {'✅' if GEMINI_API_KEY else '❌'}")
     print(f"   - Pollinations: ✅ (مجاني)")
     print(f"   - المسؤول: {ADMIN_USER_ID}")
     
     app = Application.builder().token(TELEGRAM_TOKEN).build()
     
-    # أوامر المستخدمين العادية
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(CommandHandler("stats", stats_command))
     app.add_handler(CallbackQueryHandler(button_callback))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, interpret_dream))
     
-    # أوامر المسؤول
     app.add_handler(CommandHandler("genimage", admin_genimage))
     app.add_handler(CommandHandler("astats", admin_stats))
     app.add_handler(CommandHandler("ahelp", admin_help))
