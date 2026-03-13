@@ -1,0 +1,21 @@
+name: تحديث المدونة اليومي
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - run: pip install requests
+      - run: python weaver_complete.py
+      - run: |
+          git config user.name "Weaver Bot"
+          git config user.email "bot@aidreamweaver.store"
+          git add articles/ *.html
+          git commit -m "تحديث المدونة" || exit 0
+          git push
