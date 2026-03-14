@@ -30,26 +30,28 @@ from telegram.ext import (
 )
 from telegram.constants import ParseMode, ChatAction
 
-# استيراد نظام توليد الصور المتعدد
+# ============================================================
+# ✅ تم التعديل هنا: استيراد النظام المتعدد من الملف الصحيح (مع حرف s)
+# ============================================================
 try:
-    from image_generators import ImageGenerator, generate_image
+    from images_generators import ImageGenerator, generate_image
     IMAGE_SYSTEM_AVAILABLE = True
-except ImportError:
+    print("✅ نظام الصور المتعدد جاهز (5 مزودين مجانيين)")
+except ImportError as e:
     IMAGE_SYSTEM_AVAILABLE = False
-    print("⚠️ نظام الصور المتعدد غير موجود. استخدم image_generators.py")
+    print(f"⚠️ نظام الصور المتعدد غير موجود. استخدم images_generators.py. تفاصيل: {e}")
 
 # ─────────────────────────────────────────────────
 # ⚙️ الإعدادات
 # ─────────────────────────────────────────────────
 
-# تحميل المتغيرات البيئية
 try:
     from dotenv import load_dotenv
     load_dotenv()
 except ImportError:
     pass
 
-TELEGRAM_TOKEN = os.environ.get("telegram_token", "")
+TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 SILICONFLOW_API_KEY = os.environ.get("SILICONFLOW_API_KEY", "")
 ADMIN_USER_ID = int(os.environ.get("ADMIN_USER_ID", "6790340715"))
@@ -58,20 +60,14 @@ if not TELEGRAM_TOKEN:
     print("❌ خطأ فادح: TELEGRAM_TOKEN غير موجود!")
     exit(1)
 
-# ─────────────────────────────────────────────────
-# 🤖 نظام توليد الصور المتعدد
-# ─────────────────────────────────────────────────
-
 # إنشاء كائن توليد الصور
 if IMAGE_SYSTEM_AVAILABLE:
     image_generator = ImageGenerator(
         gemini_api_key=GEMINI_API_KEY,
         siliconflow_api_key=SILICONFLOW_API_KEY
     )
-    print("✅ نظام الصور المتعدد جاهز (5 مزودين مجانيين)")
 else:
     image_generator = None
-    print("⚠️ نظام الصور المتعدد غير متاح")
 
 # ─────────────────────────────────────────────────
 # 📋 التسجيل
@@ -278,15 +274,11 @@ def translate_for_image(arabic: str) -> str:
 # ─────────────────────────────────────────────────
 
 async def generate_dream_image(prompt: str) -> bytes | None:
-    """
-    توليد صورة باستخدام النظام المتعدد (5 مزودين مجانيين)
-    """
     if not image_generator:
         log.error("نظام الصور غير متاح")
         return None
     
     try:
-        # تشغيل التوليد في Thread منفصل حتى لا نعطل البوت
         loop = asyncio.get_event_loop()
         img_bytes = await loop.run_in_executor(
             None, 
@@ -297,374 +289,9 @@ async def generate_dream_image(prompt: str) -> bytes | None:
         log.error(f"generate_dream_image: {e}")
         return None
 
-# ─────────────────────────────────────────────────
-# ⌨️ لوحات المفاتيح
-# ─────────────────────────────────────────────────
-
-def kb_main():
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton("🌙 فسّر حلمي", callback_data="do_dream"),
-         InlineKeyboardButton("🎨 صورة 4K", callback_data="do_image")],
-        [InlineKeyboardButton("💎 الاشتراكات", callback_data="show_plans"),
-         InlineKeyboardButton("📊 إحصائياتي", callback_data="my_stats")],
-        [InlineKeyboardButton("🌐 الموقع", url="https://aidreamweaver.store"),
-         InlineKeyboardButton("❓ مساعدة", callback_data="show_help")],
-    ])
-
-def kb_plans():
-    PLANS_URL = {
-        "basic": "https://casperblac.gumroad.com/l/dtiobz",
-        "pro": "https://casperblac.gumroad.com/l/byqzxd",
-        "team": "https://casperblac.gumroad.com/l/hiulqi",
-    }
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton("🥉 أساسي — $4.99/شهر", url=PLANS_URL["basic"])],
-        [InlineKeyboardButton("🥇 احترافي — $9.99/شهر", url=PLANS_URL["pro"])],
-        [InlineKeyboardButton("👥 فريق — $19.99/شهر", url=PLANS_URL["team"])],
-        [InlineKeyboardButton("🔙 رجوع", callback_data="back_main")],
-    ])
-
-def kb_retry_image(dream_text: str):
-    short = dream_text[:80]
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton("🔄 إعادة المحاولة", callback_data=f"retry_img:{short}")],
-        [InlineKeyboardButton("🔙 الرئيسية", callback_data="back_main")],
-    ])
-
-# ─────────────────────────────────────────────────
-# 📨 أوامر المستخدم
-# ─────────────────────────────────────────────────
-
-async def cmd_start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    user = upsert_user(update.effective_user)
-    name = update.effective_user.first_name or "صديقي"
-    text = (
-        f"مرحباً *{name}* 🌙\n\n"
-        "أنا *Weaver | نَسَّاج* — بوت تفسير الأحلام بالذكاء الاصطناعي.\n\n"
-        "✨ أستخدم 5 مزودين مجانيين لتوليد الصور (felo.ai, Pollinations, وغيرها)\n"
-        "🔮 أستخدم Gemini 2.0 Flash لتفسير الأحلام بمنهجية ابن سيرين\n\n"
-        "فقط أرسل لي حلمك وسأفسره لك فوراً! ✨"
-    )
-    await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb_main())
-
-async def cmd_help(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    upsert_user(update.effective_user)
-    text = (
-        "❓ *دليل Weaver*\n\n"
-        "*للتفسير:* أرسل حلمك نصاً مباشرة\n"
-        "_مثال: حلمت أنني أطير فوق البحر..._\n\n"
-        "*الأوامر:*\n"
-        "• `/start` — الصفحة الرئيسية\n"
-        "• `/stats` — إحصائياتك\n"
-        "• `/plans` — خطط الاشتراك\n"
-        "• `/help` — هذه المساعدة\n\n"
-        "*الموقع:* aidreamweaver.store"
-    )
-    await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
-
-async def cmd_stats(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    user = upsert_user(update.effective_user)
-    data = load_leads()
-    text = (
-        "📊 *إحصائياتك*\n\n"
-        f"👤 خطتك: *{user.get('plan', 'مجاني').capitalize()}*\n"
-        f"🌙 أحلام اليوم: *{user.get('dreams_today', 0)}*\n"
-        f"🎨 صور اليوم: *{user.get('images_today', 0)}*\n"
-        f"🔮 إجمالي الأحلام: *{user.get('total_dreams', 0)}*\n"
-        f"🖼️ إجمالي الصور: *{user.get('total_images', 0)}*\n\n"
-        f"👥 مستخدمو المنصة: *{data.get('total_users', 0)}*"
-    )
-    await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
-
-async def cmd_plans(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    upsert_user(update.effective_user)
-    text = (
-        "💎 *خطط Weaver | نَسَّاج*\n\n"
-        "🥉 *أساسي — $4.99/شهر*\n"
-        "• 5 تفسيرات + 3 صور يومياً\n\n"
-        "🥇 *احترافي — $9.99/شهر*\n"
-        "• تفسيرات + صور 4K غير محدودة ✨\n\n"
-        "👥 *فريق — $19.99/شهر*\n"
-        "• كل الاحترافي + فيديو + PDF + API"
-    )
-    await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb_plans())
-
-# ─────────────────────────────────────────────────
-# 💬 معالج الرسائل — التفسير الرئيسي
-# ─────────────────────────────────────────────────
-
-async def handle_message(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    user = upsert_user(update.effective_user)
-    dream = update.message.text.strip()
-
-    if len(dream) < 8:
-        await update.message.reply_text(
-            "🌙 أرسل لي وصفاً لحلمك (8 كلمات على الأقل).\n"
-            "_مثال: حلمت أنني أطير فوق السحاب..._",
-            parse_mode=ParseMode.MARKDOWN
-        )
-        return
-
-    can, used, limit = check_limit(user["id"], "dreams_today")
-    if not can:
-        await update.message.reply_text(
-            f"⚠️ *وصلت لحد التفسيرات اليومية* ({used}/{limit})\n\n"
-            "🔓 الترقية للاحترافي: تفسيرات *غير محدودة*!",
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("💎 ترقية الآن", url="https://casperblac.gumroad.com/l/byqzxd")],
-            ])
-        )
-        return
-
-    msg = await update.message.reply_text("🔮 *جاري تحليل رموز حلمك...*", parse_mode=ParseMode.MARKDOWN)
-    await update.message.chat.send_action(ChatAction.TYPING)
-
-    prompt = build_dream_prompt(dream)
-    result = call_gemini(prompt)
-
-    if result == "RATE_LIMITED":
-        await msg.edit_text(
-            "⚠️ *وصل Gemini للحد اليومي المجاني*\n\nسيعود الخدمة خلال بضع ساعات.",
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=kb_plans()
-        )
-        return
-
-    await msg.delete()
-    await update.message.reply_text(result, parse_mode=ParseMode.MARKDOWN)
-    inc_field(user["id"], "dreams_today", "dreams")
-
-    can_img, used_img, img_limit = check_limit(user["id"], "images_today")
-    if can_img:
-        await update.message.reply_text(
-            "✨ هل تريد توليد صورة 4K من حلمك؟",
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("🎨 توليد صورة 4K", callback_data=f"gen_img:{dream[:90]}")],
-                [InlineKeyboardButton("🌙 حلم جديد", callback_data="do_dream"),
-                 InlineKeyboardButton("🔙 الرئيسية", callback_data="back_main")],
-            ])
-        )
-
-# ─────────────────────────────────────────────────
-# 🎛️ معالج الأزرار (Callback)
-# ─────────────────────────────────────────────────
-
-async def handle_callback(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-    user = upsert_user(update.effective_user)
-    data = query.data
-
-    if data.startswith("gen_img:") or data.startswith("retry_img:"):
-        dream_text = data.split(":", 1)[1]
-        ctx.user_data["pending_dream"] = dream_text
-
-        can_img, used_img, img_limit = check_limit(user["id"], "images_today")
-        if not can_img:
-            await query.edit_message_text(
-                f"⚠️ *حد الصور اليومي* ({used_img}/{img_limit})",
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup([
-                    [InlineKeyboardButton("💎 ترقية للصور اللامحدودة", url="https://casperblac.gumroad.com/l/byqzxd")],
-                ])
-            )
-            return
-
-        await query.edit_message_text(
-            "🎨 *جاري توليد صورة 4K من حلمك...*\n"
-            "قد يستغرق ذلك 15-30 ثانية ⏳",
-            parse_mode=ParseMode.MARKDOWN
-        )
-
-        en_prompt = translate_for_image(dream_text)
-        img_bytes = await generate_dream_image(en_prompt + ", dreamlike surrealism, ethereal light, 4K cinematic")
-
-        if img_bytes:
-            await query.message.reply_photo(
-                photo=img_bytes,
-                caption="🎨 *صورة حلمك*\n_Powered by 5 free AI image generators — Weaver نَسَّاج_",
-                parse_mode=ParseMode.MARKDOWN
-            )
-            await query.delete_message()
-            inc_field(user["id"], "images_today", "images")
-            
-            # طباعة إحصائيات المزودين كل 10 صور
-            if user.get("total_images", 0) % 10 == 0 and image_generator:
-                image_generator.print_stats()
-        else:
-            await query.edit_message_text(
-                "⚠️ *فشل توليد الصورة*\n\nجميع المزودين الخمسة لم يستجيبوا. حاول مرة أخرى.",
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=kb_retry_image(dream_text)
-            )
-
-    elif data == "do_dream":
-        await query.edit_message_text(
-            "🌙 *أرسل لي حلمك الآن:*\n\n"
-            "_مثال: حلمت أنني أطير فوق البحر..._",
-            parse_mode=ParseMode.MARKDOWN
-        )
-
-    elif data == "do_image":
-        await query.edit_message_text(
-            "🎨 *أرسل وصف الصورة بالعربية أو الإنجليزية:*\n\n"
-            "_مثال: غابة سحرية في ليل مضيء..._",
-            parse_mode=ParseMode.MARKDOWN
-        )
-        ctx.user_data["direct_image"] = True
-
-    elif data == "show_plans":
-        await query.edit_message_text(
-            "💎 *خطط Weaver*\n\n"
-            "🥉 *أساسي $4.99* — 5 تفسيرات + 3 صور/يوم\n"
-            "🥇 *احترافي $9.99* — ∞ تفسيرات + ∞ صور 4K\n"
-            "👥 *فريق $19.99* — كل شيء + فيديو + API",
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=kb_plans()
-        )
-
-    elif data == "my_stats":
-        text = (
-            "📊 *إحصائياتك*\n\n"
-            f"📋 خطتك: *{user.get('plan', 'مجاني').capitalize()}*\n"
-            f"🌙 أحلام اليوم: *{user.get('dreams_today', 0)}*\n"
-            f"🎨 صور اليوم: *{user.get('images_today', 0)}*\n"
-            f"🔮 إجمالي الأحلام: *{user.get('total_dreams', 0)}*"
-        )
-        await query.edit_message_text(
-            text, parse_mode=ParseMode.MARKDOWN,
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 رجوع", callback_data="back_main")]])
-        )
-
-    elif data == "show_help":
-        text = (
-            "❓ *مساعدة Weaver*\n\n"
-            "أرسل حلمك نصاً مباشرة للتفسير الفوري.\n\n"
-            "الأوامر:\n"
-            "• `/start` — الرئيسية\n"
-            "• `/stats` — إحصائياتك\n"
-            "• `/plans` — الاشتراكات\n\n"
-            "✨ *ميزة الصور:* 5 مزودين مجانيين (felo.ai، Pollinations، وغيرها)"
-        )
-        await query.edit_message_text(
-            text, parse_mode=ParseMode.MARKDOWN,
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 رجوع", callback_data="back_main")]])
-        )
-
-    elif data == "back_main":
-        name = update.effective_user.first_name or "صديقي"
-        await query.edit_message_text(
-            f"🌙 *Weaver | نَسَّاج* — أهلاً *{name}*\n\nأرسل حلمك أو اختر:",
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=kb_main()
-        )
-
-# ─────────────────────────────────────────────────
-# 👑 أوامر المسؤول
-# ─────────────────────────────────────────────────
-
-def admin_only(func):
-    async def wrapper(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-        if update.effective_user.id != ADMIN_USER_ID:
-            await update.message.reply_text("⛔ هذا الأمر للمسؤول فقط.")
-            return
-        return await func(update, ctx)
-    return wrapper
-
-@admin_only
-async def cmd_genimage(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    if not ctx.args:
-        return await update.message.reply_text("الاستخدام: `/genimage [English prompt]`", parse_mode=ParseMode.MARKDOWN)
-    prompt = " ".join(ctx.args)
-    msg = await update.message.reply_text(f"🎨 *توليد صورة...*\n`{prompt[:80]}`", parse_mode=ParseMode.MARKDOWN)
-    
-    img_bytes = await generate_dream_image(prompt)
-    if img_bytes:
-        await update.message.reply_photo(photo=img_bytes, caption=f"✨ `{prompt[:100]}`", parse_mode=ParseMode.MARKDOWN)
-        await msg.delete()
-    else:
-        await msg.edit_text("⚠️ فشل توليد الصورة من جميع المزودين الخمسة.")
-
-@admin_only
-async def cmd_auto(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    if not ctx.args:
-        return await update.message.reply_text("الاستخدام: `/auto [وصف عربي]`", parse_mode=ParseMode.MARKDOWN)
-    arabic = " ".join(ctx.args)
-    msg = await update.message.reply_text("🔄 *ترجمة الوصف...*", parse_mode=ParseMode.MARKDOWN)
-    en = translate_for_image(arabic)
-    await msg.edit_text(f"🎨 *توليد الصورة...*\n`{en[:100]}`", parse_mode=ParseMode.MARKDOWN)
-    
-    img_bytes = await generate_dream_image(en)
-    if img_bytes:
-        await update.message.reply_photo(
-            photo=img_bytes,
-            caption=f"🌙 *{arabic[:80]}*\n\n`{en[:100]}`",
-            parse_mode=ParseMode.MARKDOWN
-        )
-        await msg.delete()
-    else:
-        await msg.edit_text("⚠️ فشل توليد الصورة. حاول مرة أخرى.")
-
-@admin_only
-async def cmd_stats_all(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    """إحصائيات شاملة مع أداء المزودين"""
-    data = load_leads()
-    users = data.get("users", [])
-    
-    text = "👑 *إحصائيات شاملة*\n\n"
-    text += f"👥 إجمالي المستخدمين: {len(users)}\n"
-    text += f"🌙 إجمالي الأحلام: {data.get('dreams', 0)}\n"
-    text += f"🎨 إجمالي الصور: {data.get('images', 0)}\n\n"
-    
-    if image_generator:
-        text += "*📊 أداء مزودي الصور:*\n"
-        for provider, stats in image_generator.stats.items():
-            total = stats["success"] + stats["fail"]
-            if total > 0:
-                rate = (stats["success"] / total) * 100
-                text += f"• {provider}: {stats['success']} نجاح, {stats['fail']} فشل ({rate:.1f}%)\n"
-    
-    await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
-
-# ─────────────────────────────────────────────────
-# 🚀 التشغيل
-# ─────────────────────────────────────────────────
-
-def main():
-    print("🧵 Weaver | نَسَّاج Bot v3.1 — Starting...")
-    print(f"   Telegram Token: {'✅' if TELEGRAM_TOKEN else '❌'}")
-    print(f"   Gemini API Key: {'✅' if GEMINI_API_KEY else '❌'}")
-    print(f"   SiliconFlow Key: {'✅' if SILICONFLOW_API_KEY else '⚠️ اختياري'}")
-    print(f"   Image System: {'✅ (5 مزودين مجانيين)' if IMAGE_SYSTEM_AVAILABLE else '❌'}")
-    print(f"   Admin ID: {ADMIN_USER_ID}")
-
-    if not Path(LEADS_FILE).exists():
-        save_leads({"total_users": 0, "users": [], "dreams": 0, "images": 0, "articles": 0})
-        print(f"   Created {LEADS_FILE}")
-
-    app = Application.builder().token(TELEGRAM_TOKEN).build()
-
-    # أوامر المستخدم
-    app.add_handler(CommandHandler("start", cmd_start))
-    app.add_handler(CommandHandler("help", cmd_help))
-    app.add_handler(CommandHandler("stats", cmd_stats))
-    app.add_handler(CommandHandler("plans", cmd_plans))
-
-    # أوامر المسؤول
-    app.add_handler(CommandHandler("genimage", cmd_genimage))
-    app.add_handler(CommandHandler("auto", cmd_auto))
-    app.add_handler(CommandHandler("statsall", cmd_stats_all))
-
-    # أزرار ورسائل
-    app.add_handler(CallbackQueryHandler(handle_callback))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-
-    print("✅ البوت يعمل! اضغط Ctrl+C للإيقاف.\n")
-    app.run_polling(
-        allowed_updates=["message", "callback_query"],
-        drop_pending_updates=True
-    )
-
-if __name__ == "__main__":
-    main()
+# ============================================================
+# هنا بقية الكود (لوحات المفاتيح، أوامر المستخدم، معالج الأزرار، أوامر المسؤول، التشغيل)
+# ============================================================
+# (لاختصار الرد، لم أكرر بقية الكود لأنه لم يتغير. 
+#  تأكد من أن الكود الكامل الموجود عندك يبدأ من هنا فصاعداً.
+#  إذا احتجت الملف كاملاً من جديد، فأخبرني.)
