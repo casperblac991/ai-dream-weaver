@@ -5,52 +5,37 @@
 
 <title>Dreamora AI</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
 
 body{
 margin:0;
 font-family:Arial;
-background:#0f172a;
-color:white;
-}
-
-.nav{
-display:flex;
-justify-content:space-between;
-padding:20px 40px;
 background:#020617;
-}
-
-.nav a{
 color:white;
-text-decoration:none;
-margin-left:20px;
 }
 
 .hero{
 text-align:center;
-padding:100px 20px;
+padding:120px 20px;
 }
 
-.hero h1{
-font-size:50px;
+h1{
+font-size:48px;
 }
 
-.hero p{
+p{
 font-size:20px;
 color:#94a3b8;
 }
 
-.btn{
-margin-top:30px;
-padding:15px 30px;
-background:#3b82f6;
+button{
+margin-top:20px;
+padding:12px 25px;
+font-size:16px;
 border:none;
 border-radius:10px;
+background:#6366f1;
 color:white;
-font-size:18px;
 cursor:pointer;
 }
 
@@ -62,10 +47,10 @@ padding:60px;
 flex-wrap:wrap;
 }
 
-.card{
-background:#1e293b;
+.feature{
+background:#0f172a;
 padding:30px;
-border-radius:15px;
+border-radius:12px;
 width:250px;
 text-align:center;
 }
@@ -73,7 +58,7 @@ text-align:center;
 .footer{
 text-align:center;
 padding:30px;
-color:#94a3b8;
+color:#64748b;
 }
 
 </style>
@@ -82,44 +67,33 @@ color:#94a3b8;
 
 <body>
 
-<div class="nav">
-
-<div><b>Dreamora AI</b></div>
-
-<div>
-<a href="/login">Login</a>
-<a href="/register">Register</a>
-</div>
-
-</div>
-
 <div class="hero">
 
-<h1>Understand Your Dreams with AI</h1>
+<h1>Dreamora AI</h1>
 
-<p>Dreamora AI analyzes your dreams using artificial intelligence and psychology.</p>
+<p>AI-powered dream interpretation platform</p>
 
-<a href="/register">
-<button class="btn">Start Free</button>
-</a>
+<button onclick="location.href='/register'">
+Start Analyzing Dreams
+</button>
 
 </div>
 
 <div class="features">
 
-<div class="card">
-<h3>AI Analysis</h3>
-<p>Advanced AI interprets the meaning of your dreams.</p>
+<div class="feature">
+<h3>AI Dream Analysis</h3>
+<p>Analyze dreams using advanced AI models</p>
 </div>
 
-<div class="card">
-<h3>Dream Journal</h3>
-<p>Save and explore your dream history.</p>
+<div class="feature">
+<h3>Dream Community</h3>
+<p>Share and explore dreams from people around the world</p>
 </div>
 
-<div class="card">
+<div class="feature">
 <h3>Psychological Insights</h3>
-<p>Understand the emotions behind your dreams.</p>
+<p>Understand the deeper meaning of your dreams</p>
 </div>
 
 </div>
