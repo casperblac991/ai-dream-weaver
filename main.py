@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.responses import FileResponse
 from services.dream_ai import analyze_dream_with_ai
 
 app = FastAPI()
+
 
 class DreamRequest(BaseModel):
     dream: str
@@ -10,16 +12,12 @@ class DreamRequest(BaseModel):
 
 @app.get("/")
 def home():
-    return {
-        "message": "AI Dream Weaver platform running"
-    }
+    return FileResponse("dream.html")
 
 
 @app.get("/api/status")
 def status():
-    return {
-        "status": "server working"
-    }
+    return {"status": "server working"}
 
 
 @app.post("/api/analyze-dream")
