@@ -38,6 +38,11 @@ border-radius:8px;
 cursor:pointer;
 }
 
+.logout{
+background:#ef4444;
+margin-left:10px;
+}
+
 .dream{
 margin-top:20px;
 padding:15px;
@@ -55,6 +60,8 @@ border-radius:10px;
 
 <h1>Your Dream Dashboard</h1>
 
+<button onclick="logout()" class="logout">Logout</button>
+
 <textarea id="dream" placeholder="Write your dream..."></textarea>
 
 <button onclick="analyze()">Analyze Dream</button>
@@ -68,6 +75,12 @@ border-radius:10px;
 <script>
 
 let user_id = localStorage.getItem("user_id")
+
+if(!user_id){
+
+window.location.href="/login"
+
+}
 
 async function analyze(){
 
@@ -112,6 +125,14 @@ dreamsDiv.innerHTML+=`
 `
 
 })
+
+}
+
+function logout(){
+
+localStorage.removeItem("user_id")
+
+window.location.href="/login"
 
 }
 
