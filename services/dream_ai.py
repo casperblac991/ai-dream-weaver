@@ -1,37 +1,36 @@
-import os
 import requests
 
+API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-large"
+
+headers = {
+    "Content-Type": "application/json"
+}
 
 def analyze_dream_with_ai(dream_text):
 
-    api_key = os.getenv("GEMINI_API_KEY")
-
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={api_key}"
-
     prompt = f"""
-Interpret this dream psychologically and symbolically.
+You are an expert dream interpreter.
+
+Analyze the following dream and explain its psychological meaning
+and possible symbolic interpretation.
 
 Dream:
 {dream_text}
 
-Explain the possible meaning and emotions behind it.
+Interpretation:
 """
 
     payload = {
-        "contents": [
-            {
-                "parts": [
-                    {"text": prompt}
-                ]
-            }
-        ]
+        "inputs": prompt
     }
 
-    response = requests.post(url, json=payload)
+    response = requests.post(API_URL, headers=headers, json=payload)
+
+    result = response.json()
 
     try:
-        result = response.json()
-        text = result["candidates"][0]["content"]["parts"][0]["text"]
-        return text
+        interpretation = result[0]["generated_text"]
     except:
-        return "Dream interpretation unavailable."
+        interpretation = "AI could not analyze the dream right now."
+
+    return interpretation
