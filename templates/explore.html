@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Explore Dreams - Dreamora AI</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#020617;
+color:white;
+padding:40px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+}
+
+.dream{
+background:#0f172a;
+padding:20px;
+border-radius:12px;
+margin-top:20px;
+}
+
+.likes{
+color:#94a3b8;
+margin-top:10px;
+}
+
+button{
+margin-top:10px;
+padding:8px 15px;
+border:none;
+border-radius:8px;
+background:#6366f1;
+color:white;
+cursor:pointer;
+}
+
+h1{
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌍 Explore Dreams</h1>
+
+<div id="dreams"></div>
+
+</div>
+
+<script>
+
+async function loadDreams(){
+
+let response = await fetch("/api/public-dreams")
+
+let data = await response.json()
+
+let dreamsDiv = document.getElementById("dreams")
+
+dreamsDiv.innerHTML = ""
+
+data.dreams.forEach(d => {
+
+dreamsDiv.innerHTML += `
+<div class="dream">
+
+<b>Dream</b><br>
+${d.dream}
+
+<br><br>
+
+<b>AI Interpretation</b><br>
+${d.interpretation}
+
+<div class="likes">
+❤️ Likes: ${d.likes}
+</div>
+
+</div>
+`
+
+})
+
+}
+
+loadDreams()
+
+</script>
+
+</body>
+</html>
