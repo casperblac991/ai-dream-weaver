@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Dream Feed - Dreamora AI</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+padding:40px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+}
+
+.dream{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+margin-top:20px;
+}
+
+h1{
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌙 Dream Feed</h1>
+
+<div id="dreams"></div>
+
+</div>
+
+<script>
+
+async function loadDreams(){
+
+let response=await fetch("/api/public-dreams")
+
+let data=await response.json()
+
+let dreamsDiv=document.getElementById("dreams")
+
+dreamsDiv.innerHTML=""
+
+data.dreams.forEach(d=>{
+
+dreamsDiv.innerHTML+=`
+<div class="dream">
+<b>Dream:</b><br>
+${d.dream}
+<br><br>
+<b>AI Interpretation:</b><br>
+${d.interpretation}
+</div>
+`
+
+})
+
+}
+
+loadDreams()
+
+</script>
+
+</body>
+</html>
