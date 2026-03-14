@@ -20,7 +20,8 @@ def init_db():
         user_id INTEGER,
         dream TEXT,
         interpretation TEXT,
-        public INTEGER DEFAULT 0
+        public INTEGER DEFAULT 0,
+        likes INTEGER DEFAULT 0
     )
     """)
 
@@ -35,7 +36,7 @@ def create_user(username, password):
 
     cursor.execute(
         "INSERT INTO users (username,password) VALUES (?,?)",
-        (username,password)
+        (username, password)
     )
 
     conn.commit()
@@ -49,7 +50,7 @@ def save_dream(user_id, dream, interpretation, public=0):
 
     cursor.execute(
         "INSERT INTO dreams (user_id,dream,interpretation,public) VALUES (?,?,?,?)",
-        (user_id,dream,interpretation,public)
+        (user_id, dream, interpretation, public)
     )
 
     conn.commit()
@@ -62,7 +63,7 @@ def get_user_dreams(user_id):
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT dream,interpretation FROM dreams WHERE user_id=? ORDER BY id DESC",
+        "SELECT dream, interpretation FROM dreams WHERE user_id=? ORDER BY id DESC",
         (user_id,)
     )
 
@@ -79,7 +80,7 @@ def get_public_dreams():
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT dream,interpretation FROM dreams WHERE public=1 ORDER BY id DESC"
+        "SELECT id, dream, interpretation, likes FROM dreams WHERE public=1 ORDER BY likes DESC"
     )
 
     dreams = cursor.fetchall()
@@ -87,3 +88,17 @@ def get_public_dreams():
     conn.close()
 
     return dreams
+
+
+def like_dream(dream_id):
+
+    conn = sqlite3.connect("dreams.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "UPDATE dreams SET likes = likes + 1 WHERE id=?",
+        (dream_id,)
+    )
+
+    conn.commit()
+    conn.close()
