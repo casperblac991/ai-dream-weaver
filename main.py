@@ -89,7 +89,9 @@ def trending_page():
 def explore_page():
     return FileResponse("templates/explore.html")
 
-
+@app.get("/search")
+def search_page():
+    return FileResponse("templates/search.html")
 # فحص السيرفر
 @app.get("/api/status")
 def status():
