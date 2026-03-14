@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from fastapi.responses import FileResponse
 
 from services.dream_ai import analyze_dream_with_ai
-from database import init_db, save_dream, get_all_dreams
+from database import init_db, save_dream, get_all_dreams, create_user
 
 app = FastAPI()
 
@@ -13,6 +13,11 @@ init_db()
 
 class DreamRequest(BaseModel):
     dream: str
+
+
+class UserRequest(BaseModel):
+    username: str
+    password: str
 
 
 # الصفحة الرئيسية
@@ -65,3 +70,14 @@ def list_dreams():
 @app.get("/history")
 def history_page():
     return FileResponse("templates/history.html")
+
+
+# تسجيل مستخدم جديد
+@app.post("/api/register")
+def register(user: UserRequest):
+
+    create_user(user.username, user.password)
+
+    return {
+        "message": "User registered successfully"
+    }
