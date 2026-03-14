@@ -7,7 +7,6 @@ from database import init_db, save_dream, get_all_dreams, create_user
 
 app = FastAPI()
 
-# تشغيل قاعدة البيانات
 init_db()
 
 
@@ -26,7 +25,13 @@ def home():
     return FileResponse("templates/dream.html")
 
 
-# فحص حالة السيرفر
+# صفحة التسجيل
+@app.get("/register")
+def register_page():
+    return FileResponse("templates/register.html")
+
+
+# فحص السيرفر
 @app.get("/api/status")
 def status():
     return {"status": "server working"}
@@ -48,7 +53,7 @@ def analyze_dream(data: DreamRequest):
     }
 
 
-# عرض جميع الأحلام
+# عرض الأحلام
 @app.get("/api/dreams")
 def list_dreams():
 
@@ -72,7 +77,7 @@ def history_page():
     return FileResponse("templates/history.html")
 
 
-# تسجيل مستخدم جديد
+# تسجيل مستخدم
 @app.post("/api/register")
 def register(user: UserRequest):
 
