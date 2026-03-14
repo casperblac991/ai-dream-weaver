@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Register - AI Dream Weaver</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+padding:40px;
+}
+
+.container{
+max-width:400px;
+margin:auto;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
+border:none;
+}
+
+button{
+margin-top:15px;
+padding:12px 20px;
+background:#3b82f6;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#2563eb;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Create Account</h1>
+
+<input id="username" placeholder="Username">
+
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="register()">Register</button>
+
+<p id="message"></p>
+
+</div>
+
+<script>
+
+async function register(){
+
+let username=document.getElementById("username").value
+let password=document.getElementById("password").value
+
+let response=await fetch("/api/register",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+username:username,
+password:password
+})
+})
+
+let data=await response.json()
+
+document.getElementById("message").innerText=data.message
+
+}
+
+</script>
+
+</body>
+</html>
