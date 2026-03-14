@@ -54,3 +54,17 @@ def get_all_dreams():
     conn.close()
 
     return dreams
+
+
+def create_user(username, password):
+
+    conn = sqlite3.connect("dreams.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "INSERT INTO users (username, password) VALUES (?, ?)",
+        (username, password)
+    )
+
+    conn.commit()
+    conn.close()
