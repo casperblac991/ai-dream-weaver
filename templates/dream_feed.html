@@ -15,7 +15,7 @@ padding:40px;
 }
 
 .container{
-max-width:800px;
+max-width:900px;
 margin:auto;
 }
 
@@ -26,23 +26,34 @@ border-radius:12px;
 margin-top:20px;
 }
 
-button{
+.likes{
+color:#94a3b8;
 margin-top:10px;
-padding:8px 15px;
+}
+
+.comment-box{
+margin-top:15px;
+}
+
+input{
+padding:8px;
+border-radius:6px;
 border:none;
-border-radius:8px;
+width:70%;
+}
+
+button{
+padding:8px 12px;
+border:none;
+border-radius:6px;
 background:#6366f1;
 color:white;
 cursor:pointer;
 }
 
-button:hover{
-background:#4f46e5;
-}
-
-.likes{
-margin-top:10px;
-color:#94a3b8;
+.comment{
+margin-top:5px;
+color:#cbd5f5;
 }
 
 h1{
@@ -73,11 +84,12 @@ let data = await response.json()
 
 let dreamsDiv = document.getElementById("dreams")
 
-dreamsDiv.innerHTML = ""
+dreamsDiv.innerHTML=""
 
-data.dreams.forEach(d => {
+for(let d of data.dreams){
 
 dreamsDiv.innerHTML += `
+
 <div class="dream">
 
 <b>Dream</b><br>
@@ -92,24 +104,83 @@ ${d.interpretation}
 ❤️ Likes: ${d.likes}
 </div>
 
-<button onclick="likeDream(${d.id})">
-👍 Like
-</button>
+<button onclick="likeDream(${d.id})">👍 Like</button>
+
+<div id="comments-${d.id}"></div>
+
+<div class="comment-box">
+
+<input id="comment-input-${d.id}" placeholder="Write a comment">
+
+<button onclick="addComment(${d.id})">Send</button>
 
 </div>
+
+</div>
+
 `
 
-})
+loadComments(d.id)
+
+}
 
 }
 
 async function likeDream(id){
 
-await fetch("/api/like-dream/" + id, {
+await fetch("/api/like-dream/"+id,{
 method:"POST"
 })
 
 loadDreams()
+
+}
+
+async function loadComments(dreamId){
+
+let response = await fetch("/api/comments/"+dreamId)
+
+let data = await response.json()
+
+let div = document.getElementById("comments-"+dreamId)
+
+let html=""
+
+data.comments.forEach(c=>{
+
+html += `<div class="comment"><b>${c.username}</b>: ${c.comment}</div>`
+
+})
+
+div.innerHTML = html
+
+}
+
+async function addComment(dreamId){
+
+let input = document.getElementById("comment-input-"+dreamId)
+
+let comment = input.value
+
+await fetch("/api/add-comment",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+dream_id:dreamId,
+username:"user",
+comment:comment
+})
+
+})
+
+input.value=""
+
+loadComments(dreamId)
 
 }
 
