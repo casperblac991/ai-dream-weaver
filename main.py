@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from fastapi.responses import FileResponse
 
 from services.dream_ai import analyze_dream_with_ai
-from database import init_db, save_dream
+from database import init_db, save_dream, get_all_dreams
 
 
 app = FastAPI()
@@ -28,7 +28,7 @@ def status():
     return {"status": "server working"}
 
 
-# تحليل الأحلام
+# تحليل حلم جديد
 @app.post("/api/analyze-dream")
 def analyze_dream(data: DreamRequest):
 
@@ -44,3 +44,21 @@ def analyze_dream(data: DreamRequest):
         "dream": dream_text,
         "interpretation": interpretation
     }
+
+
+# عرض الأحلام السابقة
+@app.get("/api/dreams")
+def list_dreams():
+
+    dreams = get_all_dreams()
+
+    result = []
+
+    for d in dreams:
+        result.append({
+            "id": d[0],
+            "dream": d[1],
+            "interpretation": d[2]
+        })
+
+    return {"dreams": result}
