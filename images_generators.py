@@ -455,3 +455,10 @@ if __name__ == "__main__":
         print("❌ فشل توليد الصورة")
     
     generator.print_stats()
+    
+# منع التشغيل المباشر على Render
+if __name__ == "__main__" and os.environ.get('RENDER'):
+    print("⚠️ هذا الملف غير مخصص للتشغيل المباشر على Render")
+    print("✅ يتم استيراده بواسطة all_bots.py فقط")
+    # لا تفعل شيئاً
+    pass
