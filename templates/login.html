@@ -84,6 +84,14 @@ let data=await response.json()
 
 document.getElementById("message").innerText=data.message
 
+if(data.user_id){
+
+localStorage.setItem("user_id",data.user_id)
+
+window.location.href="/dashboard"
+
+}
+
 }
 
 </script>
