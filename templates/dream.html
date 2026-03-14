@@ -1,41 +1,96 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>AI Dream Analyzer</title>
+
+<title>AI Dream Weaver</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+padding:40px;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+}
+
+textarea{
+width:100%;
+height:120px;
+padding:10px;
+font-size:16px;
+border-radius:8px;
+border:none;
+}
+
+button{
+margin-top:10px;
+padding:12px 20px;
+font-size:16px;
+background:#3b82f6;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#2563eb;
+}
+
+.result{
+margin-top:30px;
+background:#1e293b;
+padding:20px;
+border-radius:10px;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<h2>AI Dream Weaver</h2>
+<div class="container">
 
-<textarea id="dream" placeholder="Write your dream here..." rows="6" cols="50"></textarea>
+<h1>AI Dream Weaver</h1>
 
-<br><br>
+<p>Describe your dream and get an AI interpretation</p>
+
+<textarea id="dreamInput" placeholder="Write your dream here..."></textarea>
+
+<br>
 
 <button onclick="analyzeDream()">Analyze Dream</button>
 
-<h3>Interpretation:</h3>
+<div class="result" id="resultBox"></div>
 
-<div id="result"></div>
+</div>
 
 <script>
 
 async function analyzeDream(){
 
-let dreamText = document.getElementById("dream").value;
+let dream = document.getElementById("dreamInput").value
 
 let response = await fetch("/api/analyze-dream",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
 },
-body:JSON.stringify({dream:dreamText})
-});
+body:JSON.stringify({dream:dream})
+})
 
-let data = await response.json();
+let data = await response.json()
 
-document.getElementById("result").innerText = data.interpretation;
+document.getElementById("resultBox").innerHTML =
+"<b>Interpretation:</b><br>"+data.interpretation
 
 }
 
