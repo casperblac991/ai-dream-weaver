@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Trending Dreams - Dreamora AI</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#020617;
+color:white;
+padding:40px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+}
+
+.dream{
+background:#0f172a;
+padding:20px;
+border-radius:12px;
+margin-top:20px;
+}
+
+h1{
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🔥 Trending Dreams</h1>
+
+<div id="dreams"></div>
+
+</div>
+
+<script>
+
+async function loadDreams(){
+
+let response=await fetch("/api/public-dreams")
+
+let data=await response.json()
+
+let dreamsDiv=document.getElementById("dreams")
+
+dreamsDiv.innerHTML=""
+
+data.dreams.slice(0,10).forEach(d=>{
+
+dreamsDiv.innerHTML+=`
+<div class="dream">
+
+<b>Dream</b><br>
+${d.dream}
+
+<br><br>
+
+<b>AI Interpretation</b><br>
+${d.interpretation}
+
+</div>
+`
+
+})
+
+}
+
+loadDreams()
+
+</script>
+
+</body>
+</html>
