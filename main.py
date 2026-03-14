@@ -11,6 +11,16 @@ from database import (
     get_public_dreams,
     like_dream,
     add_comment,
+    get_comments,
+    search_dreams
+)
+    init_db,
+    create_user,
+    save_dream,
+    get_user_dreams,
+    get_public_dreams,
+    like_dream,
+    add_comment,
     get_comments
 )
 
