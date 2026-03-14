@@ -157,3 +157,23 @@ def get_comments(dream_id):
     conn.close()
 
     return results
+    def get_user_profile(username):
+
+    conn = sqlite3.connect("dreams.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT dream, interpretation
+        FROM dreams
+        JOIN users ON dreams.user_id = users.id
+        WHERE users.username = ?
+        """,
+        (username,)
+    )
+
+    dreams = cursor.fetchall()
+
+    conn.close()
+
+    return dreams
