@@ -25,6 +25,15 @@ def init_db():
     )
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS comments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        dream_id INTEGER,
+        username TEXT,
+        comment TEXT
+    )
+    """)
+
     conn.commit()
     conn.close()
 
@@ -102,3 +111,34 @@ def like_dream(dream_id):
 
     conn.commit()
     conn.close()
+
+
+def add_comment(dream_id, username, comment):
+
+    conn = sqlite3.connect("dreams.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "INSERT INTO comments (dream_id,username,comment) VALUES (?,?,?)",
+        (dream_id, username, comment)
+    )
+
+    conn.commit()
+    conn.close()
+
+
+def get_comments(dream_id):
+
+    conn = sqlite3.connect("dreams.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT username, comment FROM comments WHERE dream_id=?",
+        (dream_id,)
+    )
+
+    comments = cursor.fetchall()
+
+    conn.close()
+
+    return comments
