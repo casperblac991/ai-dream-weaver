@@ -40,6 +40,12 @@ def login_page():
     return FileResponse("templates/login.html")
 
 
+# لوحة التحكم
+@app.get("/dashboard")
+def dashboard_page():
+    return FileResponse("templates/dashboard.html")
+
+
 # فحص السيرفر
 @app.get("/api/status")
 def status():
