@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://aidreamweaver.store/</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://aidreamweaver.store/blog.html</loc>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://aidreamweaver.store/contact.html</loc>
-    <changefreq>monthly</changefreq>
-  </url>
-</urlset>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>إحصائيات Weaver</title>
+</head>
+<body>
+    <h1>📊 إحصائيات الموقع</h1>
+    <ul>
+        <li>عدد المقالات: 45</li>
+        <li>التفسيرات: +50,000</li>
+        <li>المستخدمين النشطين: 5</li>
+    </ul>
+</body>
+</html>
