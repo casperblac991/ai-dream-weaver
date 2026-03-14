@@ -62,3 +62,6 @@ def list_dreams():
         })
 
     return {"dreams": result}
+@app.get("/history")
+def history_page():
+    return FileResponse("history.html")
