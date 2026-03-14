@@ -1,117 +1,134 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-from fastapi.responses import FileResponse
+<!DOCTYPE html>
+<html>
 
-from services.dream_ai import analyze_dream_with_ai
-from database import init_db, create_user, save_dream, get_user_dreams
+<head>
 
-import sqlite3
+<title>Dreamora AI</title>
 
-app = FastAPI()
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-init_db()
+<style>
 
+body{
+margin:0;
+font-family:Arial;
+background:#0f172a;
+color:white;
+}
 
-class DreamRequest(BaseModel):
-    user_id: int
-    dream: str
+.nav{
+display:flex;
+justify-content:space-between;
+padding:20px 40px;
+background:#020617;
+}
 
+.nav a{
+color:white;
+text-decoration:none;
+margin-left:20px;
+}
 
-class UserRequest(BaseModel):
-    username: str
-    password: str
+.hero{
+text-align:center;
+padding:100px 20px;
+}
 
+.hero h1{
+font-size:50px;
+}
 
-# الصفحة الرئيسية
-@app.get("/")
-def home():
-    return FileResponse("templates/dream.html")
+.hero p{
+font-size:20px;
+color:#94a3b8;
+}
 
+.btn{
+margin-top:30px;
+padding:15px 30px;
+background:#3b82f6;
+border:none;
+border-radius:10px;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
 
-# صفحة التسجيل
-@app.get("/register")
-def register_page():
-    return FileResponse("templates/register.html")
+.features{
+display:flex;
+justify-content:center;
+gap:40px;
+padding:60px;
+flex-wrap:wrap;
+}
 
+.card{
+background:#1e293b;
+padding:30px;
+border-radius:15px;
+width:250px;
+text-align:center;
+}
 
-# صفحة تسجيل الدخول
-@app.get("/login")
-def login_page():
-    return FileResponse("templates/login.html")
+.footer{
+text-align:center;
+padding:30px;
+color:#94a3b8;
+}
 
+</style>
 
-# لوحة التحكم
-@app.get("/dashboard")
-def dashboard_page():
-    return FileResponse("templates/dashboard.html")
+</head>
 
+<body>
 
-# فحص السيرفر
-@app.get("/api/status")
-def status():
-    return {"status": "server working"}
+<div class="nav">
 
+<div><b>Dreamora AI</b></div>
 
-# تسجيل مستخدم
-@app.post("/api/register")
-def register(user: UserRequest):
+<div>
+<a href="/login">Login</a>
+<a href="/register">Register</a>
+</div>
 
-    create_user(user.username, user.password)
+</div>
 
-    return {"message": "User registered successfully"}
+<div class="hero">
 
+<h1>Understand Your Dreams with AI</h1>
 
-# تسجيل الدخول
-@app.post("/api/login")
-def login(user: UserRequest):
+<p>Dreamora AI analyzes your dreams using artificial intelligence and psychology.</p>
 
-    conn = sqlite3.connect("dreams.db")
-    cursor = conn.cursor()
+<a href="/register">
+<button class="btn">Start Free</button>
+</a>
 
-    cursor.execute(
-        "SELECT id FROM users WHERE username=? AND password=?",
-        (user.username, user.password)
-    )
+</div>
 
-    result = cursor.fetchone()
+<div class="features">
 
-    conn.close()
+<div class="card">
+<h3>AI Analysis</h3>
+<p>Advanced AI interprets the meaning of your dreams.</p>
+</div>
 
-    if result:
-        return {
-            "message": "Login successful",
-            "user_id": result[0]
-        }
-    else:
-        return {"message": "Invalid username or password"}
+<div class="card">
+<h3>Dream Journal</h3>
+<p>Save and explore your dream history.</p>
+</div>
 
+<div class="card">
+<h3>Psychological Insights</h3>
+<p>Understand the emotions behind your dreams.</p>
+</div>
 
-# تحليل حلم
-@app.post("/api/analyze-dream")
-def analyze_dream(data: DreamRequest):
+</div>
 
-    interpretation = analyze_dream_with_ai(data.dream)
+<div class="footer">
 
-    save_dream(data.user_id, data.dream, interpretation)
+Dreamora AI © 2026
 
-    return {
-        "dream": data.dream,
-        "interpretation": interpretation
-    }
+</div>
 
-
-# عرض أحلام المستخدم
-@app.get("/api/dreams/{user_id}")
-def user_dreams(user_id: int):
-
-    dreams = get_user_dreams(user_id)
-
-    result = []
-
-    for d in dreams:
-        result.append({
-            "dream": d[0],
-            "interpretation": d[1]
-        })
-
-    return {"dreams": result}
+</body>
+</html>
