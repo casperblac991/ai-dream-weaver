@@ -3,7 +3,16 @@ from pydantic import BaseModel
 from fastapi.responses import FileResponse
 
 from services.dream_ai import analyze_dream_with_ai
-from database import init_db, create_user, save_dream, get_user_dreams, get_public_dreams, like_dream
+from database import (
+    init_db,
+    create_user,
+    save_dream,
+    get_user_dreams,
+    get_public_dreams,
+    like_dream,
+    add_comment,
+    get_comments
+)
 
 import sqlite3
 
@@ -23,19 +32,25 @@ class UserRequest(BaseModel):
     password: str
 
 
+class CommentRequest(BaseModel):
+    dream_id: int
+    username: str
+    comment: str
+
+
 # الصفحة الرئيسية
 @app.get("/")
 def home():
     return FileResponse("templates/home.html")
 
 
-# صفحة التسجيل
+# التسجيل
 @app.get("/register")
 def register_page():
     return FileResponse("templates/register.html")
 
 
-# صفحة تسجيل الدخول
+# تسجيل الدخول
 @app.get("/login")
 def login_page():
     return FileResponse("templates/login.html")
@@ -47,19 +62,19 @@ def dashboard_page():
     return FileResponse("templates/dashboard.html")
 
 
-# صفحة Dream Feed
+# Dream Feed
 @app.get("/dream-feed")
 def dream_feed():
     return FileResponse("templates/dream_feed.html")
 
 
-# صفحة Trending
+# Trending
 @app.get("/trending")
 def trending_page():
     return FileResponse("templates/trending.html")
 
 
-# صفحة Explore
+# Explore
 @app.get("/explore")
 def explore_page():
     return FileResponse("templates/explore.html")
@@ -119,7 +134,7 @@ def analyze_dream(data: DreamRequest):
     }
 
 
-# عرض أحلام المستخدم
+# أحلام المستخدم
 @app.get("/api/dreams/{user_id}")
 def user_dreams(user_id: int):
 
@@ -136,7 +151,7 @@ def user_dreams(user_id: int):
     return {"dreams": result}
 
 
-# عرض الأحلام العامة
+# الأحلام العامة
 @app.get("/api/public-dreams")
 def public_dreams():
 
@@ -162,3 +177,29 @@ def like_dream_api(dream_id: int):
     like_dream(dream_id)
 
     return {"message": "Dream liked"}
+
+
+# إضافة تعليق
+@app.post("/api/add-comment")
+def add_comment_api(data: CommentRequest):
+
+    add_comment(data.dream_id, data.username, data.comment)
+
+    return {"message": "Comment added"}
+
+
+# جلب التعليقات
+@app.get("/api/comments/{dream_id}")
+def get_comments_api(dream_id: int):
+
+    comments = get_comments(dream_id)
+
+    result = []
+
+    for c in comments:
+        result.append({
+            "username": c[0],
+            "comment": c[1]
+        })
+
+    return {"comments": result}
