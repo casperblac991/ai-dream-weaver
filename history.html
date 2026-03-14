@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Dream History</title>
+</head>
+
+<body>
+
+<h2>Dream History</h2>
+
+<button onclick="loadDreams()">Load Dreams</button>
+
+<ul id="dreamList"></ul>
+
+<script>
+
+async function loadDreams(){
+
+let response = await fetch("/api/dreams")
+
+let data = await response.json()
+
+let list = document.getElementById("dreamList")
+
+list.innerHTML = ""
+
+data.dreams.forEach(dream => {
+
+let item = document.createElement("li")
+
+item.innerText = dream.dream + " → " + dream.interpretation
+
+list.appendChild(item)
+
+})
+
+}
+
+</script>
+
+</body>
+
+</html>
