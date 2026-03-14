@@ -15,6 +15,7 @@ init_db()
 class DreamRequest(BaseModel):
     user_id: int
     dream: str
+    public: int = 0
 
 
 class UserRequest(BaseModel):
@@ -50,6 +51,12 @@ def dashboard_page():
 @app.get("/dream-feed")
 def dream_feed():
     return FileResponse("templates/dream_feed.html")
+
+
+# صفحة Trending
+@app.get("/trending")
+def trending_page():
+    return FileResponse("templates/trending.html")
 
 
 # فحص السيرفر
@@ -98,7 +105,7 @@ def analyze_dream(data: DreamRequest):
 
     interpretation = analyze_dream_with_ai(data.dream)
 
-    save_dream(data.user_id, data.dream, interpretation)
+    save_dream(data.user_id, data.dream, interpretation, data.public)
 
     return {
         "dream": data.dream,
