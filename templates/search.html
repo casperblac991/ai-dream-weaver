@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Search Dreams - Dreamora AI</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#020617;
+color:white;
+padding:40px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+}
+
+input{
+padding:10px;
+width:70%;
+border-radius:8px;
+border:none;
+}
+
+button{
+padding:10px 15px;
+background:#6366f1;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+.result{
+background:#0f172a;
+padding:20px;
+border-radius:10px;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🔎 Search Dreams</h1>
+
+<input id="keyword" placeholder="Search dream...">
+
+<button onclick="searchDreams()">Search</button>
+
+<div id="results"></div>
+
+</div>
+
+<script>
+
+async function searchDreams(){
+
+let keyword = document.getElementById("keyword").value
+
+let response = await fetch("/api/search?keyword="+keyword)
+
+let data = await response.json()
+
+let resultsDiv = document.getElementById("results")
+
+resultsDiv.innerHTML=""
+
+data.results.forEach(d=>{
+
+resultsDiv.innerHTML += `
+<div class="result">
+
+<b>Dream</b><br>
+${d.dream}
+
+<br><br>
+
+<b>Interpretation</b><br>
+${d.interpretation}
+
+</div>
+`
+
+})
+
+}
+
+</script>
+
+</body>
+
+</html>
