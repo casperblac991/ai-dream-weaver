@@ -2,14 +2,25 @@ import sqlite3
 
 
 def init_db():
+
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
+    # جدول الأحلام
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS dreams (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         dream TEXT,
         interpretation TEXT
+    )
+    """)
+
+    # جدول المستخدمين
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT,
+        password TEXT
     )
     """)
 
@@ -29,7 +40,9 @@ def save_dream(dream, interpretation):
 
     conn.commit()
     conn.close()
-    def get_all_dreams():
+
+
+def get_all_dreams():
 
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
