@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from fastapi.responses import FileResponse
 
 from services.dream_ai import analyze_dream_with_ai
-from database import init_db, create_user, save_dream, get_user_dreams, get_public_dreams
+from database import init_db, create_user, save_dream, get_user_dreams, get_public_dreams, like_dream
 
 import sqlite3
 
@@ -57,6 +57,12 @@ def dream_feed():
 @app.get("/trending")
 def trending_page():
     return FileResponse("templates/trending.html")
+
+
+# صفحة Explore
+@app.get("/explore")
+def explore_page():
+    return FileResponse("templates/explore.html")
 
 
 # فحص السيرفر
@@ -140,8 +146,19 @@ def public_dreams():
 
     for d in dreams:
         result.append({
-            "dream": d[0],
-            "interpretation": d[1]
+            "id": d[0],
+            "dream": d[1],
+            "interpretation": d[2],
+            "likes": d[3]
         })
 
     return {"dreams": result}
+
+
+# الإعجاب بالحلم
+@app.post("/api/like-dream/{dream_id}")
+def like_dream_api(dream_id: int):
+
+    like_dream(dream_id)
+
+    return {"message": "Dream liked"}
