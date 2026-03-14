@@ -1,134 +1,140 @@
-<!DOCTYPE html>
-<html>
+from fastapi import FastAPI
+from pydantic import BaseModel
+from fastapi.responses import FileResponse
 
-<head>
+from services.dream_ai import analyze_dream_with_ai
+from database import init_db, create_user, save_dream, get_user_dreams, get_public_dreams
 
-<title>Dreamora AI</title>
+import sqlite3
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+app = FastAPI()
 
-<style>
+init_db()
 
-body{
-margin:0;
-font-family:Arial;
-background:#0f172a;
-color:white;
-}
 
-.nav{
-display:flex;
-justify-content:space-between;
-padding:20px 40px;
-background:#020617;
-}
+class DreamRequest(BaseModel):
+    user_id: int
+    dream: str
 
-.nav a{
-color:white;
-text-decoration:none;
-margin-left:20px;
-}
 
-.hero{
-text-align:center;
-padding:100px 20px;
-}
+class UserRequest(BaseModel):
+    username: str
+    password: str
 
-.hero h1{
-font-size:50px;
-}
 
-.hero p{
-font-size:20px;
-color:#94a3b8;
-}
+# الصفحة الرئيسية
+@app.get("/")
+def home():
+    return FileResponse("templates/home.html")
 
-.btn{
-margin-top:30px;
-padding:15px 30px;
-background:#3b82f6;
-border:none;
-border-radius:10px;
-color:white;
-font-size:18px;
-cursor:pointer;
-}
 
-.features{
-display:flex;
-justify-content:center;
-gap:40px;
-padding:60px;
-flex-wrap:wrap;
-}
+# صفحة التسجيل
+@app.get("/register")
+def register_page():
+    return FileResponse("templates/register.html")
 
-.card{
-background:#1e293b;
-padding:30px;
-border-radius:15px;
-width:250px;
-text-align:center;
-}
 
-.footer{
-text-align:center;
-padding:30px;
-color:#94a3b8;
-}
+# صفحة تسجيل الدخول
+@app.get("/login")
+def login_page():
+    return FileResponse("templates/login.html")
 
-</style>
 
-</head>
+# لوحة التحكم
+@app.get("/dashboard")
+def dashboard_page():
+    return FileResponse("templates/dashboard.html")
 
-<body>
 
-<div class="nav">
+# صفحة Dream Feed
+@app.get("/dream-feed")
+def dream_feed():
+    return FileResponse("templates/dream_feed.html")
 
-<div><b>Dreamora AI</b></div>
 
-<div>
-<a href="/login">Login</a>
-<a href="/register">Register</a>
-</div>
+# فحص السيرفر
+@app.get("/api/status")
+def status():
+    return {"status": "server working"}
 
-</div>
 
-<div class="hero">
+# تسجيل مستخدم
+@app.post("/api/register")
+def register(user: UserRequest):
 
-<h1>Understand Your Dreams with AI</h1>
+    create_user(user.username, user.password)
 
-<p>Dreamora AI analyzes your dreams using artificial intelligence and psychology.</p>
+    return {"message": "User registered successfully"}
 
-<a href="/register">
-<button class="btn">Start Free</button>
-</a>
 
-</div>
+# تسجيل الدخول
+@app.post("/api/login")
+def login(user: UserRequest):
 
-<div class="features">
+    conn = sqlite3.connect("dreams.db")
+    cursor = conn.cursor()
 
-<div class="card">
-<h3>AI Analysis</h3>
-<p>Advanced AI interprets the meaning of your dreams.</p>
-</div>
+    cursor.execute(
+        "SELECT id FROM users WHERE username=? AND password=?",
+        (user.username, user.password)
+    )
 
-<div class="card">
-<h3>Dream Journal</h3>
-<p>Save and explore your dream history.</p>
-</div>
+    result = cursor.fetchone()
 
-<div class="card">
-<h3>Psychological Insights</h3>
-<p>Understand the emotions behind your dreams.</p>
-</div>
+    conn.close()
 
-</div>
+    if result:
+        return {
+            "message": "Login successful",
+            "user_id": result[0]
+        }
+    else:
+        return {"message": "Invalid username or password"}
 
-<div class="footer">
 
-Dreamora AI © 2026
+# تحليل حلم
+@app.post("/api/analyze-dream")
+def analyze_dream(data: DreamRequest):
 
-</div>
+    interpretation = analyze_dream_with_ai(data.dream)
 
-</body>
-</html>
+    save_dream(data.user_id, data.dream, interpretation)
+
+    return {
+        "dream": data.dream,
+        "interpretation": interpretation
+    }
+
+
+# عرض أحلام المستخدم
+@app.get("/api/dreams/{user_id}")
+def user_dreams(user_id: int):
+
+    dreams = get_user_dreams(user_id)
+
+    result = []
+
+    for d in dreams:
+        result.append({
+            "dream": d[0],
+            "interpretation": d[1]
+        })
+
+    return {"dreams": result}
+
+
+# عرض الأحلام العامة
+@app.get("/api/public-dreams")
+def public_dreams():
+
+    dreams = get_public_dreams()
+
+    result = []
+
+    for d in dreams:
+        result.append({
+            "dream": d[0],
+            "interpretation": d[1]
+        })
+
+    return {"dreams": result}
