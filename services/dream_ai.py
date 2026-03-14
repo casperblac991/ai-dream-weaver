@@ -9,15 +9,19 @@ headers = {
 def analyze_dream_with_ai(dream_text):
 
     prompt = f"""
-You are an expert dream interpreter.
+You are a professional dream psychologist.
 
-Analyze the following dream and explain its psychological meaning
-and possible symbolic interpretation.
+Analyze the dream below and provide:
+
+1. Dream Meaning
+2. Dream Symbols
+3. Psychological Insight
+4. Advice
 
 Dream:
 {dream_text}
 
-Interpretation:
+Response:
 """
 
     payload = {
@@ -31,6 +35,6 @@ Interpretation:
     try:
         interpretation = result[0]["generated_text"]
     except:
-        interpretation = "AI could not analyze the dream right now."
+        interpretation = "Dream analysis is currently unavailable."
 
     return interpretation
