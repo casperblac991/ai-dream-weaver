@@ -142,3 +142,18 @@ def get_comments(dream_id):
     conn.close()
 
     return comments
+    def search_dreams(keyword):
+
+    conn = sqlite3.connect("dreams.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT dream, interpretation FROM dreams WHERE dream LIKE ? AND public=1",
+        ('%' + keyword + '%',)
+    )
+
+    results = cursor.fetchall()
+
+    conn.close()
+
+    return results
