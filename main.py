@@ -4,6 +4,7 @@ from fastapi.responses import FileResponse
 
 from services.dream_ai import analyze_dream_with_ai
 from database import init_db, save_dream, get_all_dreams, create_user
+import sqlite3
 
 app = FastAPI()
 
@@ -29,6 +30,12 @@ def home():
 @app.get("/register")
 def register_page():
     return FileResponse("templates/register.html")
+
+
+# صفحة تسجيل الدخول
+@app.get("/login")
+def login_page():
+    return FileResponse("templates/login.html")
 
 
 # فحص السيرفر
@@ -71,7 +78,7 @@ def list_dreams():
     return {"dreams": result}
 
 
-# صفحة تاريخ الأحلام
+# صفحة التاريخ
 @app.get("/history")
 def history_page():
     return FileResponse("templates/history.html")
@@ -86,3 +93,25 @@ def register(user: UserRequest):
     return {
         "message": "User registered successfully"
     }
+
+
+# تسجيل الدخول
+@app.post("/api/login")
+def login(user: UserRequest):
+
+    conn = sqlite3.connect("dreams.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM users WHERE username=? AND password=?",
+        (user.username, user.password)
+    )
+
+    result = cursor.fetchone()
+
+    conn.close()
+
+    if result:
+        return {"message": "Login successful"}
+    else:
+        return {"message": "Invalid username or password"}
