@@ -213,3 +213,17 @@ def get_comments_api(dream_id: int):
         })
 
     return {"comments": result}
+    @app.get("/api/search")
+def search(keyword: str):
+
+    dreams = search_dreams(keyword)
+
+    result = []
+
+    for d in dreams:
+        result.append({
+            "dream": d[0],
+            "interpretation": d[1]
+        })
+
+    return {"results": result}
