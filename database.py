@@ -29,3 +29,15 @@ def save_dream(dream, interpretation):
 
     conn.commit()
     conn.close()
+    def get_all_dreams():
+
+    conn = sqlite3.connect("dreams.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id, dream, interpretation FROM dreams ORDER BY id DESC")
+
+    dreams = cursor.fetchall()
+
+    conn.close()
+
+    return dreams
