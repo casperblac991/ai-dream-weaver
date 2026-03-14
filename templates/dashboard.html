@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Dashboard - AI Dream Weaver</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+padding:40px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+}
+
+textarea{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
+border:none;
+}
+
+button{
+margin-top:15px;
+padding:12px 20px;
+background:#3b82f6;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+.dream{
+margin-top:20px;
+padding:15px;
+background:#1e293b;
+border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Your Dream Dashboard</h1>
+
+<textarea id="dream" placeholder="Write your dream..."></textarea>
+
+<button onclick="analyze()">Analyze Dream</button>
+
+<h2>Your Dreams</h2>
+
+<div id="dreams"></div>
+
+</div>
+
+<script>
+
+let user_id = localStorage.getItem("user_id")
+
+async function analyze(){
+
+let dream=document.getElementById("dream").value
+
+let response=await fetch("/api/analyze-dream",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+user_id:user_id,
+dream:dream
+})
+})
+
+let data=await response.json()
+
+alert(data.interpretation)
+
+loadDreams()
+
+}
+
+async function loadDreams(){
+
+let response=await fetch("/api/dreams/"+user_id)
+
+let data=await response.json()
+
+let dreamsDiv=document.getElementById("dreams")
+
+dreamsDiv.innerHTML=""
+
+data.dreams.forEach(d=>{
+
+dreamsDiv.innerHTML+=`
+<div class="dream">
+<b>Dream:</b> ${d.dream}<br><br>
+<b>Interpretation:</b> ${d.interpretation}
+</div>
+`
+
+})
+
+}
+
+loadDreams()
+
+</script>
+
+</body>
+</html>
