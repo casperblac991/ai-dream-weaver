@@ -230,3 +230,17 @@ def search(keyword: str):
         })
 
     return {"results": result}
+    @app.get("/api/profile/{username}")
+def profile_api(username: str):
+
+    dreams = get_user_profile(username)
+
+    result = []
+
+    for d in dreams:
+        result.append({
+            "dream": d[0],
+            "interpretation": d[1]
+        })
+
+    return {"dreams": result}
