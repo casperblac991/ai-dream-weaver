@@ -13,6 +13,7 @@ from database import (
     add_comment,
     get_comments,
     search_dreams
+    get_user_profile
 )
     init_db,
     create_user,
