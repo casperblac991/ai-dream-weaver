@@ -266,3 +266,19 @@ def get_dream(dream_id: int):
         "dream": dream[0],
         "interpretation": dream[1]
         }
+    @app.get("/api/trending")
+def trending():
+
+    dreams = get_trending_dreams()
+
+    result = []
+
+    for d in dreams:
+        result.append({
+            "id": d[0],
+            "dream": d[1],
+            "interpretation": d[2],
+            "likes": d[3]
+        })
+
+    return {"dreams": result}
