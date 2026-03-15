@@ -3,52 +3,31 @@
 
 <head>
 
-<title>AI Dream Weaver</title>
+<title>Dream - Dreamora AI</title>
 
 <style>
 
 body{
-font-family: Arial;
-background:#0f172a;
+font-family:Arial;
+background:#020617;
 color:white;
-text-align:center;
 padding:40px;
 }
 
 .container{
-max-width:600px;
+max-width:800px;
 margin:auto;
 }
 
-textarea{
-width:100%;
-height:120px;
-padding:10px;
-font-size:16px;
-border-radius:8px;
-border:none;
+.card{
+background:#0f172a;
+padding:25px;
+border-radius:12px;
+margin-top:20px;
 }
 
-button{
-margin-top:10px;
-padding:12px 20px;
-font-size:16px;
-background:#3b82f6;
-color:white;
-border:none;
-border-radius:8px;
-cursor:pointer;
-}
-
-button:hover{
-background:#2563eb;
-}
-
-.result{
-margin-top:30px;
-background:#1e293b;
-padding:20px;
-border-radius:10px;
+h1{
+text-align:center;
 }
 
 </style>
@@ -59,48 +38,42 @@ border-radius:10px;
 
 <div class="container">
 
-<h1>AI Dream Weaver</h1>
+<h1>🌙 Dream</h1>
 
-<p>Describe your dream and get an AI interpretation</p>
-
-<textarea id="dreamInput" placeholder="Write your dream here..."></textarea>
-
-<br>
-
-<button onclick="analyzeDream()">Analyze Dream</button>
-
-<br><br>
-
-<a href="/history">
-<button>View Dream History</button>
-</a>
-
-<div class="result" id="resultBox"></div>
+<div id="dream-card" class="card"></div>
 
 </div>
 
 <script>
 
-async function analyzeDream(){
+const path = window.location.pathname
+const parts = path.split("/")
+const dreamId = parts[2]
 
-let dream = document.getElementById("dreamInput").value
+async function loadDream(){
 
-let response = await fetch("/api/analyze-dream",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({dream:dream})
-})
+let response = await fetch("/api/dream/"+dreamId)
 
 let data = await response.json()
 
-document.getElementById("resultBox").innerHTML =
-"<b>Interpretation:</b><br>"+data.interpretation
+let div = document.getElementById("dream-card")
+
+div.innerHTML = `
+<b>Dream</b><br>
+${data.dream}
+
+<br><br>
+
+<b>Interpretation</b><br>
+${data.interpretation}
+`
 
 }
+
+loadDream()
 
 </script>
 
 </body>
+
 </html>
