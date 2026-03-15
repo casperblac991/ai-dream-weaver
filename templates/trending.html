@@ -15,19 +15,24 @@ padding:40px;
 }
 
 .container{
-max-width:800px;
+max-width:900px;
 margin:auto;
 }
 
-.dream{
+.card{
 background:#0f172a;
 padding:20px;
-border-radius:12px;
+border-radius:10px;
 margin-top:20px;
 }
 
 h1{
 text-align:center;
+}
+
+a{
+color:#38bdf8;
+text-decoration:none;
 }
 
 </style>
@@ -46,28 +51,29 @@ text-align:center;
 
 <script>
 
-async function loadDreams(){
+async function loadTrending(){
 
-let response=await fetch("/api/public-dreams")
+let response = await fetch("/api/trending")
 
-let data=await response.json()
+let data = await response.json()
 
-let dreamsDiv=document.getElementById("dreams")
+let dreamsDiv = document.getElementById("dreams")
 
 dreamsDiv.innerHTML=""
 
-data.dreams.slice(0,10).forEach(d=>{
+data.dreams.forEach(d=>{
 
-dreamsDiv.innerHTML+=`
-<div class="dream">
+dreamsDiv.innerHTML += `
+<div class="card">
 
+<a href="/dream/${d.id}">
 <b>Dream</b><br>
 ${d.dream}
+</a>
 
 <br><br>
 
-<b>AI Interpretation</b><br>
-${d.interpretation}
+❤️ ${d.likes} Likes
 
 </div>
 `
@@ -76,9 +82,10 @@ ${d.interpretation}
 
 }
 
-loadDreams()
+loadTrending()
 
 </script>
 
 </body>
+
 </html>
