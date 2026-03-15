@@ -6,6 +6,7 @@ headers = {
     "Content-Type": "application/json"
 }
 
+
 def analyze_dream_with_ai(dream_text):
 
     prompt = f"""
@@ -28,13 +29,24 @@ Response:
         "inputs": prompt
     }
 
-    response = requests.post(API_URL, headers=headers, json=payload)
-
-    result = response.json()
-
     try:
-        interpretation = result[0]["generated_text"]
-    except:
-        interpretation = "Dream analysis is currently unavailable."
+        response = requests.post(
+            API_URL,
+            headers=headers,
+            json=payload,
+            timeout=30
+        )
 
-    return interpretation
+        if response.status_code != 200:
+            return "AI service is temporarily unavailable."
+
+        result = response.json()
+
+        if isinstance(result, list) and "generated_text" in result[0]:
+            return result[0]["generated_text"]
+
+        return "Dream analysis is currently unavailable."
+
+    except Exception as e:
+        print("AI Error:", e)
+        return "AI service error. Please try again later."
