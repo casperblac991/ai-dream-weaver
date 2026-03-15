@@ -3,131 +3,67 @@
 
 <head>
 <meta charset="UTF-8">
-<title>AI Dream Weaver</title>
+<title>AI Dream Interpreter</title>
 
 <style>
 
 body{
-font-family: Arial;
+font-family:Arial;
 background:#0f172a;
 color:white;
 text-align:center;
-margin:0;
-}
-
-header{
-background:#020617;
-padding:20px;
-}
-
-.logo{
-width:140px;
-}
-
-h1{
-margin-top:10px;
-font-size:34px;
-}
-
-.container{
-max-width:900px;
-margin:auto;
 padding:40px;
 }
 
-.btn{
-display:inline-block;
-background:#22c55e;
-color:white;
-padding:14px 25px;
-margin-top:20px;
-text-decoration:none;
-border-radius:8px;
+h1{
+font-size:40px;
+}
+
+p{
 font-size:18px;
 }
 
-.btn:hover{
-background:#16a34a;
-}
-
-.cards{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-margin-top:40px;
-}
-
-.card{
-background:#1e293b;
-padding:20px;
-border-radius:10px;
+button{
+padding:12px 25px;
+font-size:18px;
+background:#6366f1;
+color:white;
+border:none;
+cursor:pointer;
+margin:10px;
 }
 
 a{
-color:#38bdf8;
 text-decoration:none;
+color:white;
+}
+
+.container{
+margin-top:40px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<header>
+<h1>AI Dream Interpreter</h1>
 
-<img src="/static/logo.png" class="logo">
-
-<h1>AI Dream Weaver</h1>
-
-<p>Discover the hidden meanings of dreams from ancient civilizations.</p>
-
-</header>
+<p>Discover the meaning of your dreams using AI</p>
 
 <div class="container">
 
-<a class="btn" href="/blog">Explore Dream Interpretations</a>
+<a href="/analyze-dream">
+<button>Analyze Your Dream</button>
+</a>
 
-<div class="cards">
-
-<div class="card">
-<h3>Ancient Egypt</h3>
-<p>Dream meanings from Egyptian temples and priests.</p>
-<a href="/blog/ancient-egypt-dreams">Read article</a>
-</div>
-
-<div class="card">
-<h3>Babylon</h3>
-<p>Dream symbols from Babylonian clay tablets.</p>
-<a href="/blog/babylonian-dreams">Read article</a>
-</div>
-
-<div class="card">
-<h3>Greek Dreams</h3>
-<p>Interpretations from Greek philosophers.</p>
-<a href="/blog/greek-dream-interpretation">Read article</a>
-</div>
-
-<div class="card">
-<h3>Islamic Dreams</h3>
-<p>Dream meanings from classical Islamic scholars.</p>
-<a href="/blog/islamic-dream-interpretation">Read article</a>
-</div>
-
-<div class="card">
-<h3>Snake Dream</h3>
-<p>What it means when you dream about snakes.</p>
-<a href="/blog/snake-dream-meaning">Read article</a>
-</div>
-
-<div class="card">
-<h3>Flying Dream</h3>
-<p>The symbolism behind flying dreams.</p>
-<a href="/blog/flying-dream-meaning">Read article</a>
-</div>
-
-</div>
+<a href="/blog">
+<button>Read Dream Blog</button>
+</a>
 
 </div>
 
 </body>
+
 </html>
