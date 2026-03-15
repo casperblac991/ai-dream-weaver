@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weaver | نَسَّاج - تفسير الأحلام بالذكاء الاصطناعي</title>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0KEHTRWRYB"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-0KEHTRWRYB');
+    </script>
+    
+    <!-- تحسين SEO -->
+    <meta name="description" content="Weaver (نَسَّاج): أول منصة عربية لتفسير الأحلام بالذكاء الاصطناعي. تفسير دقيق، توليد صور 4K، مدونة ثقافية.">
+    <meta name="keywords" content="تفسير الأحلام, تفسير حلم, تفسير الأحلام بالذكاء الاصطناعي, Weaver, نساج">
+    <meta name="author" content="Weaver">
+    
+    <!-- صورة OG -->
+    <meta property="og:title" content="Weaver | نَسَّاج - تفسير الأحلام بالذكاء الاصطناعي">
+    <meta property="og:description" content="حوّل أحلامك إلى نصوص وصور 4K بالذكاء الاصطناعي">
+    <meta property="og:image" content="https://aidreamweaver.store/og-image.jpg">
+    <meta property="og:url" content="https://aidreamweaver.store">
+    <meta property="og:type" content="website">
+    
+    <!-- تويتر كارد -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Weaver | نَسَّاج - تفسير الأحلام بالذكاء الاصطناعي">
+    <meta name="twitter:description" content="تفسير الأحلام + توليد صور 4K">
+    <meta name="twitter:image" content="https://aidreamweaver.store/og-image.jpg">
+    
+    <!-- الخطوط -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Tajawal', 'Inter', sans-serif;
+            background: #0a0514;
+            color: #e2d9f3;
+            line-height: 1.6;
+        }
+        
+        body[lang="en"] {
+            font-family: 'Inter', 'Tajawal', sans-serif;
+        }
+        
+        /* الخلفية الفلكية */
+        .bg-layer {
+            position: fixed; inset: 0; z-index: -1;
+            background: radial-gradient(ellipse at 20% 50%, #1e0a3c 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
+                        #050210;
+        }
+        
+        /* النجوم */
+        .stars {
+            position: fixed; inset: 0; z-index: -1;
+            overflow: hidden;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--d, 3s) infinite alternate;
+        }
+        @keyframes twinkle {
+            from { opacity: 0.1; transform: scale(1); }
+            to { opacity: 0.8; transform: scale(1.3); }
+        }
+        
+        /* القائمة العلوية */
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 3rem;
+            background: rgba(5, 2, 16, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #7c3aed;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+        }
+        
+        .logo-english {
+            background: linear-gradient(135deg, #f0c060, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo-arabic {
+            color: #a855f7;
+        }
+        
+        .logo-separator {
+            color: #f0c060;
+            margin: 0 5px;
+            font-size: 1.5rem;
+        }
+        
+        .nav-links {
+            display: flex; gap: 2rem; list-style: none;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: #e2d9f3;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #f0c060;
+        }
+        
+        /* أزرار اللغة */
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+            margin: 0 1rem;
+        }
+        
+        .lang-btn {
+            background: #1e0a3c;
+            color: #f0c060;
+            border: 1px solid #7c3aed;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn:hover {
+            background: #7c3aed;
+            color: white;
+        }
+        
+        .lang-btn.active {
+            background: #7c3aed;
+            color: white;
+            border-color: #f0c060;
+        }
+        
+        .nav-cta {
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: white !important;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* قسم البطل */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+        }
+        
+        .gold { color: #f0c060; }
+        .purple { color: #a855f7; }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(226, 217, 243, 0.7);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn-super {
+            display: inline-block;
+            background: #f97316;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(249,115,22,0.4);
+            transition: all 0.3s;
+        }
+        
+        .btn-super:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(249,115,22,0.6);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            margin: 0.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e2d9f3;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+        }
+        
+        /* تفسير الأسبوع */
+        .weekly-interpretation {
+            background: #2d1060;
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .weekly-interpretation h3 {
+            color: #f0c060;
+            margin-bottom: 1rem;
+        }
+        
+        /* إحصائيات */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+            padding: 2rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 50px;
+            margin: 3rem 0;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-num {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #f0c060;
+        }
+        
+        .stat-label {
+            color: rgba(226,217,243,0.5);
+        }
+        
+        /* المميزات */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .feature-card {
+            background: rgba(30, 10, 60, 0.5);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            border-color: #f0c060;
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* خطط الأسعار */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .price-card {
+            background: rgba(30, 10, 60, 0.5);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .price-card.featured {
+            border-color: #f0c060;
+            transform: scale(1.05);
+        }
+        
+        .price-tag {
+            background: #f0c060;
+            color: #0a0514;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            display: inline-block;
+        }
+        
+        .price-amount {
+            font-size: 3rem;
+            color: #f0c060;
+            font-weight: 900;
+        }
+        
+        .price-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        
+        .price-features li {
+            margin: 0.5rem 0;
+        }
+        
+        .price-btn {
+            display: block;
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: white;
+            padding: 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+        }
+        
+        /* روابط سريعة */
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .quick-link {
+            background: rgba(124,58,237,0.2);
+            color: #f0c060;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            border: 1px solid #7c3aed;
+            transition: 0.3s;
+        }
+        
+        .quick-link:hover {
+            background: #f0c060;
+            color: #0a0514;
+        }
+        
+        /* تذييل */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            border-top: 1px solid rgba(124, 58, 237, 0.3);
+            margin-top: 4rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links a {
+            color: #f0c060;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav { padding: 1rem; }
+            .nav-links { gap: 1rem; }
+            .lang-switcher { margin: 0.5rem 0; }
+            .price-card.featured { transform: none; }
+            .stats-bar { gap: 2rem; }
+        }
+    </style>
+</head>
+<body lang="ar">
+    <div class="bg-layer"></div>
+    <div class="stars" id="stars"></div>
+    
+    <!-- القائمة العلوية -->
+    <nav>
+        <div class="logo">
+            <span class="logo-english">Weaver</span>
+            <span class="logo-separator">|</span>
+            <span class="logo-arabic">نَسَّاج</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home" id="nav-home">الرئيسية</a></li>
+            <li><a href="blog.html" id="nav-blog">المدونة</a></li>
+            <li><a href="#features" id="nav-features">المميزات</a></li>
+            <li><a href="#pricing" id="nav-pricing">الأسعار</a></li>
+            <li><a href="faq.html" id="nav-faq">الأسئلة</a></li>
+            <li class="lang-switcher">
+                <button class="lang-btn active" onclick="setLanguage('ar')" id="btn-ar">🇸🇦 عربي</button>
+                <button class="lang-btn" onclick="setLanguage('en')" id="btn-en">🇬🇧 English</button>
+            </li>
+            <li><a href="https://t.me/aidreamweaver_bot" class="nav-cta" id="nav-cta">🤖 البوت</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        
+        <!-- قسم البطل -->
+        <section class="hero" id="home">
+            <div>
+                <div style="background: rgba(124,58,237,0.2); display: inline-block; padding: 0.5rem 1.5rem; border-radius: 50px; margin-bottom: 1rem;">
+                    <span style="color: #f0c060;" id="hero-badge">✨ نَسَّاج الأحلام بالذكاء الاصطناعي</span>
+                </div>
+                <h1 id="hero-title">
+                    حوّل أحلامك إلى<br>
+                    <span class="gold">عوالم بصرية</span><br>
+                    <span class="purple">منسوجة بخيوط الذكاء</span>
+                </h1>
+                <p id="hero-text">منصة Weaver (نَسَّاج): تفسير الأحلام بالذكاء الاصطناعي، توليد صور 4K، مدونة ثقافية.</p>
+                <div>
+                    <a href="https://t.me/aidreamweaver_bot" class="btn-super" id="hero-btn">🌙 جرب البوت الآن</a>
+                    <a href="#features" class="btn-secondary" id="hero-btn2">✨ اكتشف المميزات</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- إحصائيات -->
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-num">+50K</div>
+                <div class="stat-label" id="stat-dreams">حلم منسوج</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">98%</div>
+                <div class="stat-label" id="stat-satisfaction">رضا النسّاجين</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">4K</div>
+                <div class="stat-label" id="stat-quality">جودة النسيج</div>
+            </div>
+        </div>
+        
+        <!-- روابط سريعة -->
+        <div class="quick-links">
+            <a href="blog.html" class="quick-link" id="quick-blog">📚 المدونة</a>
+            <a href="faq.html" class="quick-link" id="quick-faq">❓ الأسئلة الشائعة</a>
+            <a href="privacy.html" class="quick-link" id="quick-privacy">🔐 الخصوصية</a>
+            <a href="terms.html" class="quick-link" id="quick-terms">📜 الشروط</a>
+            <a href="https://t.me/aidreamweaver_bot" class="quick-link" id="quick-bot">🤖 بوت Weaver</a>
+        </div>
+        
+        <!-- تفسير الأسبوع -->
+        <div class="weekly-interpretation">
+            <h3 id="weekly-title">🌟 تفسير الأسبوع</h3>
+            <p id="weekly-desc" style="color: #e2d9f3; margin-bottom: 1rem;">حلم رؤية البحر في المنام – ما معناه؟</p>
+            <a href="article-sea.html" id="weekly-link" style="background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; padding: 0.8rem 2rem; border-radius: 50px; text-decoration: none; display: inline-block;">اقرأ التفسير الكامل →</a>
+        </div>
+        
+        <!-- المميزات -->
+        <section id="features">
+            <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;" id="features-title">كل ما تحتاجه في نول واحد</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3 id="feature1-title">تفسير عميق بالذكاء الاصطناعي</h3>
+                    <p id="feature1-text">نموذج Gemini ينسج خيوط أحلامك بتفسير دقيق ومراعاة للثقافة العربية والإسلامية</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 id="feature2-title">توليد صور 4K</h3>
+                    <p id="feature2-text">حوّل حلمك إلى لوحة فنية منسوجة بخيوط الضوء باستخدام تقنيات SiliconFlow</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3 id="feature3-title">مدونة ثقافية</h3>
+                    <p id="feature3-text">موسوعة متكاملة عن نسيج الأحلام في الحضارات المصرية، البابلية، اليونانية والإسلامية</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 id="feature4-title">بوت تيليجرام</h3>
+                    <p id="feature4-text">تفاعل مباشر مع @aidreamweaver_bot لتفسير أحلامك وتوليد الصور بلمسة واحدة</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- خطط الأسعار -->
+        <section id="pricing">
+            <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;" id="pricing-title">خطط النسيج</h2>
+            
+            <div class="pricing-grid">
+                <!-- الخطة الأساسية -->
+                <div class="price-card">
+                    <h3 id="plan1-name">نَسَّاج أساسي</h3>
+                    <div class="price-amount">$4.99</div>
+                    <div id="plan1-period">شهرياً</div>
+                    <ul class="price-features">
+                        <li id="plan1-feat1">5 تفسيرات يومياً</li>
+                        <li id="plan1-feat2">3 صور يومياً</li>
+                    </ul>
+                    <a href="https://casperblac.gumroad.com/l/dtiobz" class="price-btn" id="plan1-btn">ابدأ النسيج</a>
+                </div>
+                
+                <!-- الخطة الاحترافية -->
+                <div class="price-card featured">
+                    <div class="price-tag" id="plan2-tag">⭐ الأكثر شعبية</div>
+                    <h3 id="plan2-name">نَسَّاج محترف</h3>
+                    <div class="price-amount">$9.99</div>
+                    <div id="plan2-period">شهرياً</div>
+                    <ul class="price-features">
+                        <li id="plan2-feat1">تفسيرات غير محدودة</li>
+                        <li id="plan2-feat2">صور 4K غير محدودة</li>
+                        <li id="plan2-feat3">+50 أسلوب فني</li>
+                    </ul>
+                    <a href="https://casperblac.gumroad.com/l/byqzxd" class="price-btn" id="plan2-btn">اشترك الآن</a>
+                </div>
+                
+                <!-- خطة فريق -->
+                <div class="price-card">
+                    <h3 id="plan3-name">نسّاجون</h3>
+                    <div class="price-amount">$19.99</div>
+                    <div id="plan3-period">شهرياً / لكل نَسَّاج</div>
+                    <ul class="price-features">
+                        <li id="plan3-feat1">كل مميزات المحترف</li>
+                        <li id="plan3-feat2">توليد فيديو</li>
+                        <li id="plan3-feat3">تقارير PDF</li>
+                    </ul>
+                    <a href="https://casperblac.gumroad.com/l/hiulqi" class="price-btn" id="plan3-btn">ابدأ معاً</a>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- تذييل -->
+    <footer>
+        <div class="footer-links">
+            <a href="#home" id="footer-home">الرئيسية</a>
+            <a href="blog.html" id="footer-blog">المدونة</a>
+            <a href="faq.html" id="footer-faq">الأسئلة الشائعة</a>
+            <a href="privacy.html" id="footer-privacy">سياسة الخصوصية</a>
+            <a href="terms.html" id="footer-terms">شروط الاستخدام</a>
+            <a href="https://t.me/aidreamweaver_bot" id="footer-bot">بوت تيليجرام</a>
+        </div>
+        <p id="footer-copyright">© 2026 Weaver | نَسَّاج - منصة نسيج الأحلام بالذكاء الاصطناعي</p>
+    </footer>
+    
+    <!-- سكريبت النجوم واللغة -->
+    <script>
+        // توليد النجوم
+        const starsEl = document.querySelector('.stars');
+        for (let i = 0; i < 150; i++) {
+            const s = document.createElement('div');
+            s.className = 'star';
+            const size = Math.random() * 2.5 + 0.5;
+            s.style.cssText = `
+                width: ${size}px;
+                height: ${size}px;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                --d: ${Math.random() * 3 + 2}s;
+                animation-delay: ${Math.random() * 3}s;
+            `;
+            starsEl.appendChild(s);
+        }
+        
+        // نظام الترجمة الكامل
+        const translations = {
+            ar: {
+                // القائمة
+                'nav-home': 'الرئيسية',
+                'nav-blog': 'المدونة',
+                'nav-features': 'المميزات',
+                'nav-pricing': 'الأسعار',
+                'nav-faq': 'الأسئلة',
+                'nav-cta': '🤖 البوت',
+                'btn-ar': '🇸🇦 عربي',
+                'btn-en': '🇬🇧 English',
+                
+                // البطل
+                'hero-badge': '✨ نَسَّاج الأحلام بالذكاء الاصطناعي',
+                'hero-title': 'حوّل أحلامك إلى<br><span class="gold">عوالم بصرية</span><br><span class="purple">منسوجة بخيوط الذكاء</span>',
+                'hero-text': 'منصة Weaver (نَسَّاج): تفسير الأحلام بالذكاء الاصطناعي، توليد صور 4K، مدونة ثقافية.',
+                'hero-btn': '🌙 جرب البوت الآن',
+                'hero-btn2': '✨ اكتشف المميزات',
+                
+                // إحصائيات
+                'stat-dreams': 'حلم منسوج',
+                'stat-satisfaction': 'رضا النسّاجين',
+                'stat-quality': 'جودة النسيج',
+                
+                // روابط سريعة
+                'quick-blog': '📚 المدونة',
+                'quick-faq': '❓ الأسئلة الشائعة',
+                'quick-privacy': '🔐 الخصوصية',
+                'quick-terms': '📜 الشروط',
+                'quick-bot': '🤖 بوت Weaver',
+                
+                // تفسير الأسبوع
+                'weekly-title': '🌟 تفسير الأسبوع',
+                'weekly-desc': 'حلم رؤية البحر في المنام – ما معناه؟',
+                'weekly-link': 'اقرأ التفسير الكامل →',
+                
+                // المميزات
+                'features-title': 'كل ما تحتاجه في نول واحد',
+                'feature1-title': 'تفسير عميق بالذكاء الاصطناعي',
+                'feature1-text': 'نموذج Gemini ينسج خيوط أحلامك بتفسير دقيق ومراعاة للثقافة العربية والإسلامية',
+                'feature2-title': 'توليد صور 4K',
+                'feature2-text': 'حوّل حلمك إلى لوحة فنية منسوجة بخيوط الضوء باستخدام تقنيات SiliconFlow',
+                'feature3-title': 'مدونة ثقافية',
+                'feature3-text': 'موسوعة متكاملة عن نسيج الأحلام في الحضارات المصرية، البابلية، اليونانية والإسلامية',
+                'feature4-title': 'بوت تيليجرام',
+                'feature4-text': 'تفاعل مباشر مع @aidreamweaver_bot لتفسير أحلامك وتوليد الصور بلمسة واحدة',
+                
+                // الأسعار
+                'pricing-title': 'خطط النسيج',
+                'plan1-name': 'نَسَّاج أساسي',
+                'plan1-period': 'شهرياً',
+                'plan1-feat1': '5 تفسيرات يومياً',
+                'plan1-feat2': '3 صور يومياً',
+                'plan1-btn': 'ابدأ النسيج',
+                'plan2-tag': '⭐ الأكثر شعبية',
+                'plan2-name': 'نَسَّاج محترف',
+                'plan2-period': 'شهرياً',
+                'plan2-feat1': 'تفسيرات غير محدودة',
+                'plan2-feat2': 'صور 4K غير محدودة',
+                'plan2-feat3': '+50 أسلوب فني',
+                'plan2-btn': 'اشترك الآن',
+                'plan3-name': 'نسّاجون',
+                'plan3-period': 'شهرياً / لكل نَسَّاج',
+                'plan3-feat1': 'كل مميزات المحترف',
+                'plan3-feat2': 'توليد فيديو',
+                'plan3-feat3': 'تقارير PDF',
+                'plan3-btn': 'ابدأ معاً',
+                
+                // التذييل
+                'footer-home': 'الرئيسية',
+                'footer-blog': 'المدونة',
+                'footer-faq': 'الأسئلة الشائعة',
+                'footer-privacy': 'سياسة الخصوصية',
+                'footer-terms': 'شروط الاستخدام',
+                'footer-bot': 'بوت تيليجرام',
+                'footer-copyright': '© 2026 Weaver | نَسَّاج - منصة نسيج الأحلام بالذكاء الاصطناعي'
+            },
+            en: {
+                // القائمة
+                'nav-home': 'Home',
+                'nav-blog': 'Blog',
+                'nav-features': 'Features',
+                'nav-pricing': 'Pricing',
+                'nav-faq': 'FAQ',
+                'nav-cta': '🤖 Bot',
+                'btn-ar': '🇸🇦 عربي',
+                'btn-en': '🇬🇧 English',
+                
+                // البطل
+                'hero-badge': '✨ AI Dream Weaver',
+                'hero-title': 'Turn Your Dreams Into<br><span class="gold">Visual Worlds</span><br><span class="purple">Woven with Intelligence</span>',
+                'hero-text': 'Weaver: AI dream interpretation, 4K image generation, cultural blog.',
+                'hero-btn': '🌙 Try the Bot Now',
+                'hero-btn2': '✨ Explore Features',
+                
+                // إحصائيات
+                'stat-dreams': 'Dreams Woven',
+                'stat-satisfaction': 'User Satisfaction',
+                'stat-quality': 'Weave Quality',
+                
+                // روابط سريعة
+                'quick-blog': '📚 Blog',
+                'quick-faq': '❓ FAQ',
+                'quick-privacy': '🔐 Privacy',
+                'quick-terms': '📜 Terms',
+                'quick-bot': '🤖 Weaver Bot',
+                
+                // تفسير الأسبوع
+                'weekly-title': '🌟 Interpretation of the Week',
+                'weekly-desc': 'Dreaming of the sea – what does it mean?',
+                'weekly-link': 'Read full interpretation →',
+                
+                // المميزات
+                'features-title': 'Everything You Need in One Loom',
+                'feature1-title': 'Deep AI Interpretation',
+                'feature1-text': 'Gemini model weaves your dreams with accurate interpretation, respecting Arab culture.',
+                'feature2-title': '4K Image Generation',
+                'feature2-text': 'Turn your dream into a stunning artistic image woven with light using SiliconFlow technology.',
+                'feature3-title': 'Cultural Blog',
+                'feature3-text': 'A comprehensive encyclopedia about dream weaving in Egyptian, Babylonian, Greek, and Islamic civilizations.',
+                'feature4-title': 'Telegram Bot',
+                'feature4-text': 'Chat with @aidreamweaver_bot to weave your dreams and generate images.',
+                
+                // الأسعار
+                'pricing-title': 'Weaving Plans',
+                'plan1-name': 'Basic Weaver',
+                'plan1-period': 'per month',
+                'plan1-feat1': '5 interpretations/day',
+                'plan1-feat2': '3 images/day',
+                'plan1-btn': 'Start Weaving',
+                'plan2-tag': '⭐ Most Popular',
+                'plan2-name': 'Pro Weaver',
+                'plan2-period': 'per month',
+                'plan2-feat1': 'Unlimited interpretations',
+                'plan2-feat2': 'Unlimited 4K images',
+                'plan2-feat3': '+50 artistic styles',
+                'plan2-btn': 'Subscribe Now',
+                'plan3-name': 'Weavers Team',
+                'plan3-period': 'per month / per user',
+                'plan3-feat1': 'All Pro features',
+                'plan3-feat2': 'Video generation',
+                'plan3-feat3': 'PDF reports',
+                'plan3-btn': 'Start Together',
+                
+                // التذييل
+                'footer-home': 'Home',
+                'footer-blog': 'Blog',
+                'footer-faq': 'FAQ',
+                'footer-privacy': 'Privacy',
+                'footer-terms': 'Terms',
+                'footer-bot': 'Weaver Bot',
+                'footer-copyright': '© 2026 Weaver — AI Dream Weaving Platform'
+            }
+        };
+        
+        function setLanguage(lang) {
+            // حفظ اللغة
+            localStorage.setItem('weaver_lang', lang);
+            
+            // تحديث اتجاه الصفحة واللغة
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.body.setAttribute('lang', lang);
+            
+            // تحديث جميع النصوص
+            for (let id in translations[lang]) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.innerHTML = translations[lang][id];
+                }
+            }
+            
+            // تحديث روابط المدونة حسب اللغة
+            const blogLink = document.getElementById('nav-blog');
+            const quickBlogLink = document.getElementById('quick-blog');
+            const footerBlogLink = document.getElementById('footer-blog');
+            const blogHref = lang === 'ar' ? 'blog.html' : 'blog-eng.html';
+            
+            if (blogLink) blogLink.href = blogHref;
+            if (quickBlogLink) quickBlogLink.href = blogHref;
+            if (footerBlogLink) footerBlogLink.href = blogHref;
+            
+            // تحديث أزرار اللغة
+            document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        }
+        
+        // تحميل اللغة المحفوظة
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('weaver_lang') || 'ar';
+            setLanguage(savedLang);
+        });
+    </script>
+</body>
+  </html>
