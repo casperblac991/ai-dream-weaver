@@ -42,10 +42,10 @@ class CommentRequest(BaseModel):
     comment: str
 
 
-# الصفحة الرئيسية
+# الصفحة الرئيسية (تم التعديل هنا)
 @app.get("/")
 def home():
-    return FileResponse("templates/home.html")
+    return FileResponse("templates/index.html")
 
 
 # التسجيل
