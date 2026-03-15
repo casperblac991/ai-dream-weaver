@@ -1,15 +1,21 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <title>إحصائيات Weaver</title>
-</head>
-<body>
-    <h1>📊 إحصائيات الموقع</h1>
-    <ul>
-        <li>عدد المقالات: 45</li>
-        <li>التفسيرات: +50,000</li>
-        <li>المستخدمين النشطين: 5</li>
-    </ul>
-</body>
-</html>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+<url>
+<loc>https://aidreamweaver.store/</loc>
+</url>
+
+<url>
+<loc>https://aidreamweaver.store/explore</loc>
+</url>
+
+<url>
+<loc>https://aidreamweaver.store/search</loc>
+</url>
+
+<url>
+<loc>https://aidreamweaver.store/trending</loc>
+</url>
+
+</urlset>
