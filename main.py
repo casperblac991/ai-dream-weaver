@@ -14,6 +14,7 @@ from database import (
     get_comments,
     search_dreams
     get_user_profile
+    get_dream_by_id
 )
     init_db,
     create_user,
