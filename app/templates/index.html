@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weaver App</title>
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background: #0a0715; color: #fff; text-align: center; padding: 2rem; }
+        a { color: #fbbf24; text-decoration: none; margin: 0 1rem; }
+    </style>
+</head>
+<body>
+    <h1>🌙 منصة Weaver</h1>
+    {% if user %}
+        <p>مرحباً {{ user.username }}</p>
+        <a href="/app/dashboard">لوحة التحكم</a>
+        <a href="/app/analyze">تحليل حلم جديد</a>
+    {% else %}
+        <a href="/app/register">تسجيل</a>
+        <a href="/app/login">دخول</a>
+    {% endif %}
+</body>
+</html>
