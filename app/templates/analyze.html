@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>تحليل حلم</title>
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background: #0a0715; color: #fff; padding: 2rem; }
+        textarea, button { padding: 0.5rem; margin: 0.5rem; border-radius: 8px; }
+        button { background: #8b5cf6; color: #fff; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>تحليل حلم جديد</h1>
+    <form method="post">
+        <textarea name="dream" placeholder="اكتب حلمك هنا..." rows="5" cols="50" required></textarea><br>
+        <button type="submit">🔮 تحليل</button>
+    </form>
+    {% if error %} <p style="color:red">{{ error }}</p> {% endif %}
+    {% if interpretation %}
+        <h2>التفسير</h2>
+        <p>{{ interpretation }}</p>
+    {% endif %}
+    <a href="/app/dashboard">🔙 الرجوع</a>
+</body>
+</html>
