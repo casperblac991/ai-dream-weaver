@@ -11,7 +11,7 @@ from ai import interpret_dream
 
 init_db()
 app = FastAPI()
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="templates")
 
 sessions = {}
 
