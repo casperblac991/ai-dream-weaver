@@ -177,3 +177,18 @@ def get_comments(dream_id):
     conn.close()
 
     return dreams
+    def get_dream_by_id(dream_id):
+
+    conn = sqlite3.connect("dreams.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT dream, interpretation FROM dreams WHERE id=?",
+        (dream_id,)
+    )
+
+    result = cursor.fetchone()
+
+    conn.close()
+
+    return result
