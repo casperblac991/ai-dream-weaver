@@ -89,6 +89,10 @@ def trending_page():
 @app.get("/explore")
 def explore_page():
     return FileResponse("templates/explore.html")
+    
+    @app.get("/profile")
+def profile_page():
+    return FileResponse("templates/profile.html")
 
 @app.get("/search")
 def search_page():
