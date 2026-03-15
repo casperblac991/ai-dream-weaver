@@ -94,7 +94,11 @@ def explore_page():
     @app.get("/profile")
 def profile_page():
     return FileResponse("templates/profile.html")
-
+    
+@app.get("/dream/{dream_id}")
+def dream_page(dream_id: int):
+    return FileResponse("templates/dream.html")
+    
 @app.get("/search")
 def search_page():
     return FileResponse("templates/search.html")
