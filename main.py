@@ -249,3 +249,15 @@ def profile_api(username: str):
         })
 
     return {"dreams": result}
+    @app.get("/api/dream/{dream_id}")
+def get_dream(dream_id: int):
+
+    dream = get_dream_by_id(dream_id)
+
+    if not dream:
+        return {"error": "Dream not found"}
+
+    return {
+        "dream": dream[0],
+        "interpretation": dream[1]
+        }
