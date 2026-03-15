@@ -2,7 +2,6 @@ import sqlite3
 
 
 def init_db():
-
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
@@ -39,12 +38,11 @@ def init_db():
 
 
 def create_user(username, password):
-
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO users (username,password) VALUES (?,?)",
+        "INSERT INTO users (username, password) VALUES (?, ?)",
         (username, password)
     )
 
@@ -53,12 +51,11 @@ def create_user(username, password):
 
 
 def save_dream(user_id, dream, interpretation, public=0):
-
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO dreams (user_id,dream,interpretation,public) VALUES (?,?,?,?)",
+        "INSERT INTO dreams (user_id, dream, interpretation, public) VALUES (?, ?, ?, ?)",
         (user_id, dream, interpretation, public)
     )
 
@@ -67,7 +64,6 @@ def save_dream(user_id, dream, interpretation, public=0):
 
 
 def get_user_dreams(user_id):
-
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
@@ -79,12 +75,10 @@ def get_user_dreams(user_id):
     dreams = cursor.fetchall()
 
     conn.close()
-
     return dreams
 
 
 def get_public_dreams():
-
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
@@ -95,12 +89,10 @@ def get_public_dreams():
     dreams = cursor.fetchall()
 
     conn.close()
-
     return dreams
 
 
 def like_dream(dream_id):
-
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
@@ -114,12 +106,11 @@ def like_dream(dream_id):
 
 
 def add_comment(dream_id, username, comment):
-
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO comments (dream_id,username,comment) VALUES (?,?,?)",
+        "INSERT INTO comments (dream_id, username, comment) VALUES (?, ?, ?)",
         (dream_id, username, comment)
     )
 
@@ -128,7 +119,6 @@ def add_comment(dream_id, username, comment):
 
 
 def get_comments(dream_id):
-
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
@@ -140,10 +130,10 @@ def get_comments(dream_id):
     comments = cursor.fetchall()
 
     conn.close()
-
     return comments
-    def search_dreams(keyword):
 
+
+def search_dreams(keyword):
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
@@ -155,10 +145,10 @@ def get_comments(dream_id):
     results = cursor.fetchall()
 
     conn.close()
-
     return results
-    def get_user_profile(username):
 
+
+def get_user_profile(username):
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
@@ -175,10 +165,10 @@ def get_comments(dream_id):
     dreams = cursor.fetchall()
 
     conn.close()
-
     return dreams
-    def get_dream_by_id(dream_id):
 
+
+def get_dream_by_id(dream_id):
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
@@ -190,26 +180,18 @@ def get_comments(dream_id):
     result = cursor.fetchone()
 
     conn.close()
-
     return result
-    def get_trending_dreams():
 
+
+def get_trending_dreams():
     conn = sqlite3.connect("dreams.db")
     cursor = conn.cursor()
 
     cursor.execute(
-        """
-        SELECT dreams.id, dream, interpretation, COUNT(likes.id) as like_count
-        FROM dreams
-        LEFT JOIN likes ON dreams.id = likes.dream_id
-        GROUP BY dreams.id
-        ORDER BY like_count DESC
-        LIMIT 20
-        """
+        "SELECT id, dream, interpretation, likes FROM dreams ORDER BY likes DESC LIMIT 20"
     )
 
     results = cursor.fetchall()
 
     conn.close()
-
     return results
