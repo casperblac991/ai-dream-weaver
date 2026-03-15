@@ -192,3 +192,24 @@ def get_comments(dream_id):
     conn.close()
 
     return result
+    def get_trending_dreams():
+
+    conn = sqlite3.connect("dreams.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT dreams.id, dream, interpretation, COUNT(likes.id) as like_count
+        FROM dreams
+        LEFT JOIN likes ON dreams.id = likes.dream_id
+        GROUP BY dreams.id
+        ORDER BY like_count DESC
+        LIMIT 20
+        """
+    )
+
+    results = cursor.fetchall()
+
+    conn.close()
+
+    return results
