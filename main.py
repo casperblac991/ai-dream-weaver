@@ -104,6 +104,10 @@ def dream_page(dream_id: int):
 def trending_page():
     return FileResponse("templates/trending.html")
     
+    @app.get("/blog/ancient-egypt-dreams")
+def egypt_blog():
+    return FileResponse("templates/blog/ancient-egypt-dreams.html")
+    
 @app.get("/search")
 def search_page():
     return FileResponse("templates/search.html")
