@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Dream Analyzer</title>
+<style>
+body{
+font-family: Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+padding:40px;
+}
+
+textarea{
+width:80%;
+height:120px;
+padding:10px;
+font-size:16px;
+}
+
+button{
+padding:10px 20px;
+font-size:18px;
+background:#6366f1;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+#result{
+margin-top:30px;
+font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>AI Dream Analyzer</h1>
+
+<p>Write your dream and get interpretation</p>
+
+<textarea id="dream"></textarea><br><br>
+
+<button onclick="analyze()">Analyze Dream</button>
+
+<div id="result"></div>
+
+<script>
+async function analyze(){
+
+let dream=document.getElementById("dream").value
+
+let response=await fetch("/analyze",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({dream:dream})
+})
+
+let data=await response.json()
+
+document.getElementById("result").innerText=data.result
+
+}
+</script>
+
+</body>
+</html>
