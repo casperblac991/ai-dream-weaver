@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>لوحة التحكم</title>
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background: #0a0715; color: #fff; padding: 2rem; }
+        .dream-card { background: #1a1035; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>مرحباً {{ user.username }}</h1>
+    <p>خطتك: {{ user.plan }}</p>
+    <p>التفسيرات المستخدمة: {{ user.dreams_used }} / 5 (للمجاني)</p>
+    
+    <h2>أحلامك السابقة</h2>
+    {% for dream in dreams %}
+        <div class="dream-card">
+            <p><strong>{{ dream.dream_text[:100] }}...</strong></p>
+            <p>{{ dream.interpretation[:150] }}...</p>
+            <small>{{ dream.created_at }}</small>
+        </div>
+    {% endfor %}
+    
+    <a href="/app/analyze">➕ تحليل حلم جديد</a>
+</body>
+</html>
