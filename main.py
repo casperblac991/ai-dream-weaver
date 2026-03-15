@@ -103,6 +103,10 @@ def dream_page(dream_id: int):
     @app.get("/trending")
 def trending_page():
     return FileResponse("templates/trending.html")
+    @app.get("/blog")
+    
+def blog_page():
+    return FileResponse("templates/blog/index.html")
     
     @app.get("/blog/ancient-egypt-dreams")
 def egypt_blog():
