@@ -9,11 +9,22 @@ from app.auth import register_user, login_user
 from app.models import get_user_by_id, save_dream, get_user_dreams, get_dreams_used, increment_dreams_used
 from app.ai import interpret_dream
 
+# تهيئة قاعدة البيانات
 init_db()
+
+# إنشاء تطبيق FastAPI
 app = FastAPI()
+
+# إعداد مجلد القوالب (templates)
 templates = Jinja2Templates(directory="app/templates")
 
+# تخزين مؤقت للجلسات (في الإنتاج استخدم JWT أو Redis)
 sessions = {}
+
+# ✅ إضافة هذا السطر - يحول الزائر من / إلى /app
+@app.get("/")
+async def root():
+    return RedirectResponse(url="/app")
 
 @app.get("/app", response_class=HTMLResponse)
 async def app_home(request: Request):
@@ -77,6 +88,7 @@ async def analyze(request: Request, dream: str = Form(...)):
     
     return templates.TemplateResponse("analyze.html", {"request": request, "dream": dream, "interpretation": interpretation})
 
+# ✅ تشغيل السيرفر
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
+    port = int(os.environ.get("PORT", 10000))
     uvicorn.run(app, host="0.0.0.0", port=port)
