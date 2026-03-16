@@ -1,285 +1,166 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تفسير الأحلام في التراث الإسلامي | ابن سيرين | Weaver</title>
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0KEHTRWRYB"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-0KEHTRWRYB');
-    </script>
-    
-    <!-- الخطوط -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        
-        body {
-            font-family: 'Tajawal', 'Inter', sans-serif;
-            background: #0a0514;
-            color: #e2d9f3;
-            line-height: 1.8;
-        }
-        
-        /* الخلفية الفلكية */
-        .bg-layer {
-            position: fixed; inset: 0; z-index: -1;
-            background: radial-gradient(ellipse at 20% 50%, #1e0a3c 0%, transparent 60%),
-                        radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
-                        #050210;
-        }
-        
-        /* النجوم */
-        .stars {
-            position: fixed; inset: 0; z-index: -1;
-            overflow: hidden;
-        }
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle var(--d, 3s) infinite alternate;
-        }
-        @keyframes twinkle {
-            from { opacity: 0.1; transform: scale(1); }
-            to { opacity: 0.8; transform: scale(1.3); }
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 3rem 1.5rem;
-        }
-        
-        /* القائمة العلوية */
-        .mini-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(124,58,237,0.3);
-            margin-bottom: 3rem;
-        }
-        
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 900;
-        }
-        
-        .logo-english {
-            background: linear-gradient(135deg, #f0c060, #7c3aed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .logo-arabic {
-            color: #a855f7;
-        }
-        
-        .logo-separator {
-            color: #f0c060;
-            margin: 0 5px;
-            font-size: 1.3rem;
-        }
-        
-        .nav-link {
-            color: #f0c060;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border: 1px solid #7c3aed;
-            border-radius: 50px;
-            transition: 0.3s;
-        }
-        
-        .nav-link:hover {
-            background: #7c3aed;
-            color: white;
-        }
-        
-        h1 {
-            color: #f0c060;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            border-bottom: 1px solid #7c3aed;
-            padding-bottom: 1rem;
-        }
-        
-        h2 {
-            color: #a855f7;
-            font-size: 1.8rem;
-            margin: 2rem 0 1rem;
-        }
-        
-        p {
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-            background: rgba(30,10,60,0.3);
-            padding: 1rem;
-            border-radius: 10px;
-            border-left: 3px solid #7c3aed;
-        }
-        
-        .lang-switcher {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin: 2rem 0;
-        }
-        
-        .lang-btn {
-            background: #1e0a3c;
-            color: #f0c060;
-            border: 1px solid #7c3aed;
-            padding: 0.5rem 2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.3s;
-        }
-        
-        .lang-btn:hover {
-            background: #7c3aed;
-            color: white;
-        }
-        
-        .lang-btn.active {
-            background: #7c3aed;
-            color: white;
-            border-color: #f0c060;
-        }
-        
-        .arabic, .english {
-            transition: opacity 0.3s;
-        }
-        
-        .english {
-            direction: ltr;
-            text-align: left;
-        }
-        
-        .english p {
-            border-left: none;
-            border-right: 3px solid #7c3aed;
-        }
-        
-        .back-link {
-            display: inline-block;
-            margin-top: 2rem;
-            color: #f0c060;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        
-        .back-link:hover {
-            color: #a855f7;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid rgba(124,58,237,0.3);
-            margin-top: 4rem;
-            color: rgba(255,255,255,0.3);
-        }
-    </style>
-</head>
-<body>
-    <div class="bg-layer"></div>
-    <div class="stars" id="stars"></div>
-    
-    <div class="container">
-        <!-- قائمة بسيطة -->
-        <div class="mini-nav">
-            <div class="logo">
-                <span class="logo-english">Weaver</span>
-                <span class="logo-separator">|</span>
-                <span class="logo-arabic">نَسَّاج</span>
-            </div>
-            <a href="/" class="nav-link">الرئيسية</a>
-        </div>
-        
-        <h1>☪️ التراث الإسلامي · Islamic Heritage</h1>
-        
-        <!-- أزرار تبديل اللغة -->
-        <div class="lang-switcher">
-            <button class="lang-btn active" onclick="switchLang('ar')">🇸🇦 عربي</button>
-            <button class="lang-btn" onclick="switchLang('en')">🇬🇧 English</button>
-        </div>
-        
-        <!-- المحتوى العربي -->
-        <div id="content-ar">
-            <h2>📜 تفسير الأحلام في الإسلام</h2>
-            <p>في التقاليد الإسلامية، تعتبر الأحلام شكلاً مهماً من أشكال البصيرة الروحية. درس العديد من العلماء الأحلام ومعانيها.</p>
-            <p>كان ابن سيرين من أشهر مفسري الأحلام، ولا تزال كتاباته عن الأحلام تُدرس حتى اليوم.</p>
-            <p>وفقاً للتعاليم الإسلامية، يمكن تقسيم الأحلام إلى ثلاثة أنواع: الرؤيا الصالحة من الله، والحلم من الشيطان، وأضغاث الأحلام (حديث النفس).</p>
-            <p>غالباً ما يتم تفسير الرموز في الأحلام مثل الماء والنور والحيوانات أو الرحلات بناءً على المعاني الدينية والأخلاقية.</p>
-            <p>اعتمد ابن سيرين في تفسيره على القرآن الكريم والحديث النبوي واللغة العربية والقياس.</p>
-        </div>
-        
-        <!-- المحتوى الإنجليزي -->
-        <div id="content-en" style="display: none;">
-            <h2>📜 Islamic Dream Interpretation</h2>
-            <p>In Islamic tradition, dreams are considered an important form of spiritual insight. Many scholars studied dreams and their meanings.</p>
-            <p>One of the most famous dream interpreters was Ibn Sirin, whose writings about dreams are still studied today.</p>
-            <p>According to Islamic teachings, dreams can be divided into three types: true dreams from God, disturbing dreams from negative influences, and ordinary dreams from daily thoughts.</p>
-            <p>Symbols in dreams such as water, light, animals, or journeys are often interpreted based on religious and moral meanings.</p>
-            <p>Ibn Sirin based his interpretations on the Quran, Hadith, Arabic linguistics, and analogy.</p>
-        </div>
-        
-        <!-- العودة للرئيسية -->
-        <a href="/" class="back-link">← العودة للصفحة الرئيسية</a>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تفسير الأحلام في الإسلام — ابن سيرين ومنهجية الرؤيا | Weaver نَسَّاج</title>
+<meta name="description" content="📅 مارس 2026 · ⏱️ 8 دقائق قراءة · ☪️ التراث الإسلامي">
+<meta property="og:title" content="تفسير الأحلام في الإسلام — ابن سيرين ومنهجية الرؤيا | Weaver">
+<meta property="og:url" content="https://aidreamweaver.store/islamic-dream-interpretation.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"تفسير الأحلام في الإسلام — ابن سيرين ومنهجية الرؤيا","description":"📅 مارس 2026 · ⏱️ 8 دقائق قراءة · ☪️ التراث الإسلامي","url":"https://aidreamweaver.store/islamic-dream-interpretation.html","datePublished":"2026-03-17","author":{"@type":"Organization","name":"Weaver"},"publisher":{"@type":"Organization","name":"Weaver","url":"https://aidreamweaver.store"},"inLanguage":["ar","en"]}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;800;900&family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Tajawal',sans-serif;background:#050210;color:#e2d9f3;min-height:100vh;line-height:1.85;}
+body.en{font-family:'Inter',sans-serif;direction:ltr;text-align:left;}body.ar{direction:rtl;text-align:right;}
+.bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 20% 50%,#1e0a3c 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,#0c0a3e 0%,transparent 50%),#050210;}
+canvas{position:fixed;inset:0;z-index:-1;pointer-events:none;}
+nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:.75rem 2rem;background:rgba(5,2,16,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(124,58,237,.4);flex-wrap:wrap;gap:.5rem;}
+.logo{font-size:1.35rem;font-weight:900;display:flex;align-items:center;gap:5px;text-decoration:none;}
+.logo-en{background:linear-gradient(135deg,#f0c060,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.logo-ar{color:#a855f7;}.logo-sep{color:#f0c060;}
+.nav-r{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+.nav-r a{color:#e2d9f3;text-decoration:none;font-size:.85rem;transition:color .2s;}
+.nav-r a:hover{color:#f0c060;}
+.nav-cta{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white!important;padding:.4rem 1.1rem;border-radius:50px;font-size:.82rem;font-weight:700;}
+.lb{background:rgba(30,10,60,.8);color:#f0c060;border:1px solid rgba(124,58,237,.5);padding:.3rem .7rem;border-radius:50px;cursor:pointer;font-size:.78rem;font-weight:700;transition:all .2s;font-family:inherit;}
+.lb.on,.lb:hover{background:#7c3aed;color:white;}
+.lang-btns{display:flex;gap:5px;}
+.wrap{max-width:860px;margin:0 auto;padding:2.5rem 1.5rem;}
+.art-head{text-align:center;margin-bottom:2.5rem;padding-bottom:2rem;border-bottom:1px solid rgba(124,58,237,.3);}
+.badge{display:inline-block;background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.4);color:#f0c060;padding:.35rem 1.2rem;border-radius:50px;font-size:.88rem;margin-bottom:1rem;}
+.art-head h1{color:#f0c060;font-size:clamp(1.6rem,5vw,2.4rem);font-weight:900;line-height:1.3;margin-bottom:.75rem;}
+.art-meta{color:rgba(226,217,243,.45);font-size:.85rem;}
+.lsw{display:flex;gap:.75rem;justify-content:center;margin:1.5rem 0 2rem;}
+.lba{background:rgba(30,10,60,.8);color:#f0c060;border:1px solid rgba(124,58,237,.5);padding:.45rem 1.6rem;border-radius:50px;cursor:pointer;font-size:.88rem;font-weight:700;transition:all .2s;font-family:inherit;}
+.lba.on,.lba:hover{background:#7c3aed;color:white;}
+.cb{display:none;}.cb.on{display:block;}
+.car{direction:rtl;text-align:right;}.cen{direction:ltr;text-align:left;font-family:'Inter',sans-serif;}
+h2{color:#a855f7;font-size:1.45rem;font-weight:700;margin:2rem 0 1rem;}
+h3{color:#f0c060;font-size:1.1rem;font-weight:700;margin:1.5rem 0 .5rem;}
+.car p{margin-bottom:1.25rem;font-size:1.05rem;background:rgba(30,10,60,.38);padding:.9rem 1rem .9rem 1rem;border-radius:10px;border-right:3px solid #7c3aed;border-left:none;}
+.cen p{margin-bottom:1.25rem;font-size:1.02rem;background:rgba(30,10,60,.38);padding:.9rem 1rem;border-radius:10px;border-left:3px solid #7c3aed;border-right:none;}
+.car p.g{border-right-color:#f0c060;}.cen p.g{border-left-color:#f0c060;}
+.car p.v{border-right-color:#a855f7;}.cen p.v{border-left-color:#a855f7;}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.sc{background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:1rem;text-align:center;}
+.si{font-size:1.8rem;margin-bottom:.35rem;display:block;}.sn{color:#f0c060;font-weight:700;font-size:.92rem;margin-bottom:.25rem;}.sm{color:rgba(226,217,243,.65);font-size:.8rem;line-height:1.5;}
+.qbox{background:linear-gradient(135deg,rgba(240,192,96,.07),rgba(124,58,237,.07));border:1px solid rgba(240,192,96,.3);border-radius:14px;padding:1.5rem;margin:1.5rem 0;text-align:center;}
+.qt{color:#f0c060;font-size:1.05rem;font-weight:500;line-height:1.7;margin-bottom:.5rem;}.qs{color:rgba(226,217,243,.45);font-size:.8rem;}
+.ctabox{background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(236,72,153,.08));border:1px solid rgba(124,58,237,.4);border-radius:18px;padding:2rem;text-align:center;margin:2.5rem 0;}
+.ctabox h3{color:#f0c060;margin-bottom:.5rem;}
+.ctabox p{color:rgba(226,217,243,.65);font-size:.9rem;margin-bottom:1.25rem;background:none;border:none;padding:0;}
+.ctabtn{display:inline-block;background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;padding:.85rem 2rem;border-radius:50px;text-decoration:none;font-weight:700;font-size:.95rem;}
+.ctabtn:hover{opacity:.85;}
+.navarts{display:flex;justify-content:space-between;gap:1rem;margin:2.5rem 0;flex-wrap:wrap;}
+.nabtn{background:rgba(30,10,60,.6);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:.7rem 1.1rem;text-decoration:none;color:#e2d9f3;font-size:.85rem;transition:all .2s;}
+.nabtn:hover{border-color:#a855f7;color:#f0c060;}
+.nabtn span{color:rgba(226,217,243,.4);font-size:.75rem;display:block;margin-bottom:3px;}
+footer{text-align:center;padding:2.5rem 1.5rem;border-top:1px solid rgba(124,58,237,.25);margin-top:2rem;}
+.fl{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin-bottom:1rem;}
+.fl a{color:#f0c060;text-decoration:none;font-size:.85rem;}.fl a:hover{text-decoration:underline;}
+.fc2{color:rgba(226,217,243,.4);font-size:.8rem;}
+@media(max-width:600px){nav{padding:.75rem 1rem;}.wrap{padding:2rem 1rem;}}
+</style></head>
+<body class="ar">
+<div class="bg"></div><canvas id="cv"></canvas>
+<nav>
+  <a href="/" class="logo"><span class="logo-en">Weaver</span><span class="logo-sep">|</span><span class="logo-ar">نَسَّاج</span></a>
+  <div class="nav-r">
+    <a href="/" id="n1">الرئيسية</a><a href="/blog.html" id="n2">المدونة</a>
+    <div class="lang-btns">
+      <button class="lb on" id="bar" onclick="setL('ar')">🇸🇦 عربي</button>
+      <button class="lb" id="ben" onclick="setL('en')">🇬🇧 English</button>
     </div>
-    
-    <footer>
-        <p>© 2026 Weaver | نَسَّاج - منصة نسيج الأحلام بالذكاء الاصطناعي</p>
-    </footer>
-    
-    <script>
-        // توليد النجوم
-        const starsEl = document.querySelector('.stars');
-        for (let i = 0; i < 100; i++) {
-            const s = document.createElement('div');
-            s.className = 'star';
-            const size = Math.random() * 2.5 + 0.5;
-            s.style.cssText = `
-                width: ${size}px;
-                height: ${size}px;
-                left: ${Math.random() * 100}%;
-                top: ${Math.random() * 100}%;
-                --d: ${Math.random() * 3 + 2}s;
-                animation-delay: ${Math.random() * 3}s;
-            `;
-            starsEl.appendChild(s);
-        }
-        
-        // تبديل اللغة
-        function switchLang(lang) {
-            const arContent = document.getElementById('content-ar');
-            const enContent = document.getElementById('content-en');
-            const btns = document.querySelectorAll('.lang-btn');
-            
-            if (lang === 'ar') {
-                arContent.style.display = 'block';
-                enContent.style.display = 'none';
-                btns[0].classList.add('active');
-                btns[1].classList.remove('active');
-            } else {
-                arContent.style.display = 'none';
-                enContent.style.display = 'block';
-                btns[0].classList.remove('active');
-                btns[1].classList.add('active');
-            }
-        }
-    </script>
-</body>
-</html>
+    <a href="https://ai-dream-weaver.onrender.com/app/analyze" class="nav-cta">🔮 جرب المنصة</a>
+  </div>
+</nav>
+<div class="wrap">
+  <header class="art-head">
+    <div class="badge" id="abadge">☪️ التراث الإسلامي</div>
+    <h1 id="atitle">تفسير الأحلام في الإسلام — ابن سيرين ومنهجية الرؤيا</h1>
+    <div class="art-meta" id="ameta">📅 مارس 2026 · ⏱️ 8 دقائق قراءة · ☪️ التراث الإسلامي</div>
+  </header>
+  <div class="lsw">
+    <button class="lba on" id="lbar" onclick="setL('ar')">🇸🇦 عربي</button>
+    <button class="lba" id="lben" onclick="setL('en')">🇬🇧 English</button>
+  </div>
+  <div id="car" class="cb car on">
+<h2>☪️ الرؤيا في الإسلام — مكانة رفيعة</h2>
+<p>في الإسلام، تحتل الرؤيا الصالحة مكانة روحية رفيعة لا نظير لها في أي دين آخر. جاء في صحيح البخاري عن النبي ﷺ: "الرؤيا الصالحة من الله والحلم من الشيطان." وفي رواية أخرى: "الرؤيا الصالحة جزء من ستة وأربعين جزءاً من النبوة."</p>
+<p>هذا التقدير الرفيع جعل علم تفسير الأحلام من أشرف العلوم الإسلامية — وأفرد له كبار العلماء مؤلفات مستقلة، وتنافست المدارس الفقهية في وضع منهجيات دقيقة للتفسير.</p>
+<div class="qbox"><div class="qt">«الرؤيا الصالحة جزء من ستة وأربعين جزءاً من النبوة»</div><div class="qs">— صحيح البخاري، كتاب التعبير</div></div>
+<h2>🌙 تقسيم الأحلام في الإسلام</h2>
+<div class="sgrid">
+<div class="sc"><span class="si">✨</span><div class="sn">الرؤيا الصالحة</div><div class="sm">من الله — تكون حسنة وصادقة، ومن أخذها رؤيا لنبي أو شخص صالح فهي بشارة</div></div>
+<div class="sc"><span class="si">😨</span><div class="sn">الحلم المزعج</div><div class="sm">من الشيطان — يُستعاذ منه ولا يُخبَر به أحد، ويتحول صاحبه لجهته الأخرى</div></div>
+<div class="sc"><span class="si">🧠</span><div class="sn">أضغاث الأحلام</div><div class="sm">حديث النفس — ما يشغل الإنسان في يقظته ينعكس على نومه بلا دلالة</div></div>
+</div>
+<h2>📚 الإمام ابن سيرين — إمام المفسرين</h2>
+<p>محمد بن سيرين البصري (654–728م) هو أعظم مفسر أحلام في تاريخ الإسلام بلا منازع. تتلمذ على يد أكابر الصحابة والتابعين، وعُرف بورعه وتقواه قبل أن يُعرف بعلم التعبير.</p>
+<p>منهجية ابن سيرين تقوم على أربعة أسس: القرآن الكريم (الرمز يُفسَّر بما له نظير في القرآن)، والحديث النبوي الشريف، وكلام العرب ولغتهم وأمثالهم، وأخيراً القياس والاستدلال العقلي.</p>
+<p>من أهم مبادئه: أن التفسير يختلف باختلاف الشخص — فالثعبان في حلم رجل تاجر يختلف تفسيره عن ثعبان في حلم رجل حاكم. والحلم الواحد لشخصين مختلفين قد يحمل معنيين متضادين.</p>
+<div class="sgrid">
+<div class="sc"><span class="si">🌊</span><div class="sn">الماء الصافي</div><div class="sm">يدل على الرزق الحلال والعلم النافع والصحة الجيدة</div></div>
+<div class="sc"><span class="si">🌳</span><div class="sn">الشجرة المثمرة</div><div class="sm">تدل على الذرية الصالحة والعمل الطيب الذي يبقى بعد صاحبه</div></div>
+<div class="sc"><span class="si">🗝️</span><div class="sn">المفتاح</div><div class="sm">يدل على الفتح والرزق الجديد وتيسير الأمور المعقدة</div></div>
+<div class="sc"><span class="si">🐍</span><div class="sn">الثعبان الكبير</div><div class="sm">يدل على عدو قوي، وقتله يعني التغلب عليه وزوال ضرره</div></div>
+<div class="sc"><span class="si">🕊️</span><div class="sn">الحمامة</div><div class="sm">تدل على الصلح والمصالحة والمرأة الطيبة المباركة</div></div>
+<div class="sc"><span class="si">🌙</span><div class="sn">القمر المنير</div><div class="sm">يدل على العالم الجليل أو الحاكم العادل في تفسير ابن سيرين</div></div>
+</div>
+<h2>📖 القاعدة الذهبية في تفسير الرؤيا</h2>
+<p>من أشهر قواعد ابن سيرين: "لا تقص رؤياك إلا على من تحب" — لأن الرؤيا تتفسر على يد المعبّر، فإن كان محباً أوّلها خيراً، وإن كان حاقداً أوّلها شراً. وهذه القاعدة أثبتتها الدراسات النفسية الحديثة تحت مسمى "Self-fulfilling prophecy".</p>
+<p class="g">التراث الإسلامي في تفسير الأحلام هو الأشمل والأدق في التاريخ الإنساني — يجمع بين الوحي الإلهي واللغة العربية والتجربة الإنسانية المتراكمة عبر قرون، مما يجعله مرجعاً لا غنى عنه حتى اليوم.</p>
+<div class="ctabox"><h3>🔮 فسّر رؤياك وفق منهج ابن سيرين</h3><p>منصة Weaver تُطبّق منهجية ابن سيرين بدقة الذكاء الاصطناعي الحديث</p><a href="https://ai-dream-weaver.onrender.com/app/analyze" class="ctabtn">ابدأ التفسير الآن</a></div>
+</div>
+  <div id="cen" class="cb cen">
+<h2>☪️ Dreams in Islam — An Elevated Status</h2>
+<p>In Islam, the righteous dream holds a spiritual status unmatched in any other religion. In Sahih Bukhari, the Prophet ﷺ said: "A righteous dream is from Allah and a nightmare is from Satan." In another narration: "A righteous dream is one part of forty-six parts of prophethood."</p>
+<p>This high regard made dream interpretation one of the most noble Islamic sciences — major scholars dedicated independent works to it, and jurisprudential schools competed to develop precise methodologies for interpretation.</p>
+<div class="qbox"><div class="qt">"A righteous dream is one part of forty-six parts of prophethood."</div><div class="qs">— Sahih Bukhari, Book of Dream Interpretation</div></div>
+<h2>🌙 Classification of Dreams in Islam</h2>
+<div class="sgrid">
+<div class="sc"><span class="si">✨</span><div class="sn">Righteous Vision</div><div class="sm">From Allah — good and truthful. If one sees a prophet or righteous person, it is glad tidings</div></div>
+<div class="sc"><span class="si">😨</span><div class="sn">Disturbing Dream</div><div class="sm">From Satan — one seeks refuge from it, tells no one, and turns to the other side</div></div>
+<div class="sc"><span class="si">🧠</span><div class="sn">Confused Dreams</div><div class="sm">From the self — what occupies the mind in waking life reflects in sleep with no significance</div></div>
+</div>
+<h2>📚 Imam Ibn Sirin — Master of Interpreters</h2>
+<p>Muhammad ibn Sirin of Basra (654–728 CE) is the greatest dream interpreter in Islamic history without dispute. He studied under the greatest Companions and Followers, and was known for his piety and righteousness before his knowledge of interpretation.</p>
+<p>Ibn Sirin's methodology rests on four foundations: the Holy Quran (symbols interpreted by Quranic parallels), the Prophetic Hadith, Arabic language and proverbs, and finally analogical reasoning and rational inference.</p>
+<p>One of his key principles: interpretation varies by person — a serpent in a merchant's dream differs from a serpent in a ruler's dream. The same dream for two different people may carry opposite meanings.</p>
+<div class="sgrid">
+<div class="sc"><span class="si">🌊</span><div class="sn">Clear Water</div><div class="sm">Indicates lawful provision, beneficial knowledge, and good health</div></div>
+<div class="sc"><span class="si">🌳</span><div class="sn">Fruit-bearing Tree</div><div class="sm">Indicates righteous offspring and good deeds that outlast their doer</div></div>
+<div class="sc"><span class="si">🗝️</span><div class="sn">Key</div><div class="sm">Indicates opening, new provision, and easing of complex matters</div></div>
+<div class="sc"><span class="si">🐍</span><div class="sn">Large Serpent</div><div class="sm">Indicates a powerful enemy; killing it means overcoming and removing his harm</div></div>
+<div class="sc"><span class="si">🕊️</span><div class="sn">Dove</div><div class="sm">Indicates peace, reconciliation, and a righteous blessed woman</div></div>
+<div class="sc"><span class="si">🌙</span><div class="sn">Bright Moon</div><div class="sm">Indicates a great scholar or just ruler in Ibn Sirin's interpretation</div></div>
+</div>
+<h2>📖 The Golden Rule in Dream Interpretation</h2>
+<p>One of Ibn Sirin's most famous principles: "Only tell your dream to one you love" — because the dream takes on the meaning by which it is interpreted. If the interpreter is loving, they interpret it for good; if harboring malice, for ill. Modern psychology has validated this under "self-fulfilling prophecy."</p>
+<p class="g">The Islamic heritage in dream interpretation is the most comprehensive and precise in human history — combining divine revelation, the Arabic language, and accumulated human experience across centuries.</p>
+<div class="ctabox"><h3>🔮 Interpret Your Vision with Ibn Sirin's Method</h3><p>Weaver applies Ibn Sirin's methodology with the precision of modern AI</p><a href="https://ai-dream-weaver.onrender.com/app/analyze" class="ctabtn">Start Interpreting Now</a></div>
+</div>
+  <div class="navarts">
+    <a href="/blog.html" class="nabtn"><span id="backlbl">← العودة للمدونة</span>📚 الموسوعة</a>
+    <a href="https://ai-dream-weaver.onrender.com/app/analyze" class="nabtn"><span id="trylbl">جرّب الآن</span>🔮 فسّر حلمك</a>
+  </div>
+</div>
+<footer>
+  <div class="fl">
+    <a href="/">الرئيسية</a><a href="/blog.html">المدونة</a>
+    <a href="/faq.html">الأسئلة</a><a href="https://t.me/aidreamweaver_bot">بوت تيليجرام</a>
+  </div>
+  <p class="fc2">© 2026 Weaver | نَسَّاج — موسوعة تفسير الأحلام بالذكاء الاصطناعي</p>
+</footer>
+<script>
+(function(){const cv=document.getElementById('cv');const cx=cv.getContext('2d');let s=[];
+function rsz(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+function spawn(){s=[];for(let i=0;i<150;i++)s.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.5+.3,o:Math.random(),d:(Math.random()*.018+.004)*(Math.random()<.5?1:-1)});}
+function draw(){cx.clearRect(0,0,cv.width,cv.height);s.forEach(p=>{p.o+=p.d;if(p.o>1||p.o<0)p.d*=-1;cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle=`rgba(255,255,255,${p.o.toFixed(2)})`;cx.fill();});requestAnimationFrame(draw);}
+window.addEventListener('resize',()=>{rsz();spawn();});rsz();spawn();draw();})();
+const D={ar:{abadge:"☪️ التراث الإسلامي",atitle:"تفسير الأحلام في الإسلام — ابن سيرين ومنهجية الرؤيا",ameta:"📅 مارس 2026 · ⏱️ 8 دقائق قراءة · ☪️ التراث الإسلامي",n1:"الرئيسية",n2:"المدونة",backlbl:"← العودة للمدونة",trylbl:"جرّب الآن"},en:{abadge:"☪️ Islamic Heritage",atitle:"Islamic Dream Interpretation — Ibn Sirin's Methodology",ameta:"📅 March 2026 · ⏱️ 8 min read · ☪️ Islamic Heritage",n1:"Home",n2:"Blog",backlbl:"← Back to Blog",trylbl:"Try Now"}};
+function setL(l){document.body.className=l;document.documentElement.setAttribute('lang',l);document.documentElement.setAttribute('dir',l==='ar'?'rtl':'ltr');document.getElementById('bar').classList.toggle('on',l==='ar');document.getElementById('ben').classList.toggle('on',l==='en');document.getElementById('lbar').classList.toggle('on',l==='ar');document.getElementById('lben').classList.toggle('on',l==='en');document.getElementById('car').classList.toggle('on',l==='ar');document.getElementById('cen').classList.toggle('on',l==='en');Object.keys(D[l]).forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=D[l][id];});try{localStorage.setItem('weaver_lang',l);}catch(e){}}
+document.addEventListener('DOMContentLoaded',()=>{let lang='ar';try{lang=localStorage.getItem('weaver_lang')||'ar';}catch(e){}setL(lang);});
+</script></body></html>
