@@ -1,307 +1,256 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <script>
-  (function(){
-    var s='ar';try{s=localStorage.getItem('weaver_lang')||'ar';}catch(e){}
-    if(s!=='ar'&&s!=='en')s='ar';
-    document.documentElement.lang=s;
-    document.documentElement.dir=(s==='en')?'ltr':'rtl';
-  })();
-  </script>
-  <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="shortcut icon" href="favicon.ico">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الأسئلة الشائعة | Weaver نَسَّاج</title>
-  <meta name="description" content="الأسئلة الشائعة حول منصة Weaver لتفسير الأحلام بالذكاء الاصطناعي — تفسير، صور 4K، اشتراكات، بوت تيليجرام.">
-  <meta property="og:title" content="FAQ | Weaver نَسَّاج">
-  <meta property="og:image" content="https://aidreamweaver.store/og-image.png">
-  <meta property="og:url" content="https://aidreamweaver.store/faq.html">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://aidreamweaver.store/faq.html">
-  <!-- Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cinzel+Decorative:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-:root{--bg:#04010e;--surface:rgba(18,6,46,.7);--surface2:rgba(30,10,60,.85);--purple:#7c3aed;--purple2:#a855f7;--purple3:#c084fc;--gold:#f0c060;--gold2:#fde68a;--pink:#ec4899;--text:#ede9f8;--muted:rgba(237,233,248,.55);--border:rgba(124,58,237,.25);--border2:rgba(240,192,96,.35);--r:16px;--r2:24px;--rp:50px;--ease:.3s cubic-bezier(.4,0,.2,1)}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Tajawal','DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden}
-body[lang="en"]{font-family:'DM Sans','Tajawal',sans-serif}
-a{color:inherit;text-decoration:none}button{cursor:pointer;border:none;background:none;font-family:inherit}
-.bg-canvas{position:fixed;inset:0;z-index:-2;background:var(--bg)}
-.bg-canvas::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 15% 35%,rgba(60,10,120,.5),transparent 65%),radial-gradient(ellipse 55% 50% at 85% 15%,rgba(15,8,70,.55),transparent 60%)}
-.stars-layer{position:fixed;inset:0;z-index:-1;pointer-events:none}
-.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,4s) var(--delay,0s) infinite alternate ease-in-out}
-@keyframes twinkle{from{opacity:.05;transform:scale(.8)}to{opacity:.85;transform:scale(1.4)}}
-nav{position:sticky;top:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:.85rem 2.5rem;background:rgba(4,1,14,.9);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);gap:1rem}
-.logo{display:flex;align-items:center;gap:6px;font-weight:900;white-space:nowrap;flex-shrink:0}
-.logo-en{font-family:'Cinzel Decorative',serif;font-size:1.3rem;background:linear-gradient(135deg,var(--gold),var(--purple2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.logo-sep{color:var(--gold);opacity:.6}.logo-ar{color:var(--purple3);font-size:1rem;font-family:'Tajawal',sans-serif}
-.nav-menu{display:flex;align-items:center;gap:.2rem;list-style:none}
-.nav-menu a{color:var(--muted);font-size:.88rem;font-weight:500;padding:.38rem .75rem;border-radius:var(--rp);transition:color var(--ease),background var(--ease)}
-.nav-menu a:hover{color:var(--gold);background:rgba(240,192,96,.08)}
-.lang-group{display:flex;gap:4px}
-.lang-btn{font-size:.78rem;font-weight:700;color:var(--gold);background:rgba(124,58,237,.15);border:1px solid var(--border);border-radius:var(--rp);padding:.32rem .8rem;transition:all var(--ease)}
-.lang-btn:hover{background:var(--purple);color:#fff;border-color:var(--purple)}
-.lang-btn.active{background:var(--purple);color:#fff;border-color:var(--gold)}
-.nav-cta{background:linear-gradient(135deg,var(--purple),var(--pink))!important;color:#fff!important;font-weight:700!important;padding:.45rem 1.25rem!important;border-radius:var(--rp)!important;box-shadow:0 0 16px rgba(124,58,237,.4)}
-.nav-cta:hover{box-shadow:0 0 28px rgba(124,58,237,.65)!important;transform:translateY(-2px)!important;color:#fff!important}
-.hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;padding:6px;border-radius:8px;background:var(--surface);border:1px solid var(--border)}
-.hamburger span{display:block;width:22px;height:2px;background:var(--gold);border-radius:2px;transition:all var(--ease)}
-.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}.hamburger.open span:nth-child(2){opacity:0}.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.mobile-drawer{display:none;position:fixed;top:61px;left:0;right:0;bottom:0;z-index:199;background:rgba(4,1,14,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;padding:2rem;opacity:0;pointer-events:none;transition:opacity var(--ease)}
-.mobile-drawer.open{display:flex!important;opacity:1;pointer-events:all}
-.mobile-drawer a{font-size:1.3rem;font-weight:700;color:var(--text);transition:color var(--ease)}
-.mobile-drawer a:hover{color:var(--gold)}
-.mobile-cta-d{background:linear-gradient(135deg,var(--purple),var(--pink))!important;color:#fff!important;padding:.85rem 2.5rem!important;border-radius:var(--rp)!important;font-weight:700!important}
-.container{max-width:860px;margin:0 auto;padding:4rem 1.75rem 5rem}
-.page-hero{text-align:center;padding:3rem 0 2.5rem;animation:fadeUp .9s ease both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.18);border:1px solid rgba(124,58,237,.4);color:var(--gold);font-size:.85rem;font-weight:700;padding:.4rem 1.2rem;border-radius:var(--rp);margin-bottom:1.5rem}
-.page-hero h1{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:700;margin-bottom:1rem;background:linear-gradient(135deg,var(--gold),var(--purple2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
-.page-hero p{color:var(--muted);font-size:1rem;max-width:520px;margin:0 auto}
-.faq-section{margin:2.5rem 0}
-.faq-section-title{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--purple3);border:1px solid rgba(168,85,247,.3);background:rgba(124,58,237,.1);padding:.28rem .9rem;border-radius:var(--rp);display:inline-block;margin-bottom:1.2rem}
-.faq-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:.75rem;overflow:hidden;transition:border-color var(--ease)}
-.faq-item.open{border-color:var(--border2)}
-.faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;cursor:pointer;gap:1rem;user-select:none}
-.faq-q:hover{background:rgba(124,58,237,.06)}
-.faq-q-text{font-weight:700;font-size:1rem;color:var(--text);line-height:1.4;flex:1}
-.faq-item.open .faq-q-text{color:var(--gold)}
-.faq-icon{color:var(--gold);font-size:1.2rem;transition:transform var(--ease);flex-shrink:0}
-.faq-item.open .faq-icon{transform:rotate(45deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .45s ease,padding var(--ease)}
-.faq-item.open .faq-a{max-height:600px;padding:0 1.5rem 1.5rem}
-.faq-a p{color:var(--muted);font-size:.95rem;line-height:1.85}
-.faq-a ul{color:var(--muted);font-size:.93rem;line-height:1.85;padding-right:1.2rem}
-body[lang="en"] .faq-a ul{padding-right:0;padding-left:1.2rem}
-.faq-a li{margin-bottom:.3rem}
-.faq-a a{color:var(--gold);text-decoration:underline;text-underline-offset:3px}
-.faq-a .highlight{color:var(--gold2);font-weight:600}
-/* CTA */
-.cta-strip{background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(236,72,153,.1));border:1px solid rgba(124,58,237,.3);border-radius:var(--r2);padding:3.5rem 2rem;text-align:center;margin:3rem 0;position:relative;overflow:hidden}
-.cta-strip::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(124,58,237,.1),transparent);pointer-events:none}
-.cta-strip h2{font-family:'Cinzel Decorative',serif;font-size:clamp(1.1rem,2.5vw,1.6rem);color:var(--gold);margin-bottom:.8rem}
-.cta-strip p{color:var(--muted);max-width:460px;margin:0 auto 2rem;font-size:.93rem}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:.85rem 2rem;border-radius:var(--rp);font-weight:700;font-size:.95rem;font-family:inherit;transition:all var(--ease);white-space:nowrap}
-.btn-primary{background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;box-shadow:0 0 22px rgba(124,58,237,.4)}
-.btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 36px rgba(124,58,237,.6);color:#fff}
-footer{border-top:1px solid var(--border);padding:2.5rem 0 2rem;text-align:center}
-.footer-links{display:flex;flex-wrap:wrap;gap:.4rem 1.3rem;justify-content:center;margin-bottom:1.2rem}
-.footer-links a{color:var(--gold2);font-size:.85rem;transition:color var(--ease)}
-.footer-links a:hover{color:var(--gold)}
-.footer-copy{color:rgba(237,233,248,.28);font-size:.78rem;margin-top:4px}
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-@media(max-width:900px){nav{padding:.85rem 1.2rem}.nav-menu{display:none}.hamburger{display:flex}}
-@media(max-width:600px){.container{padding:3rem 1rem 4rem}.faq-q{padding:1rem 1.1rem}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الأسئلة الشائعة | FAQ | Weaver نَسَّاج</title>
+<meta name="description" content="كل ما تريد معرفته عن منصة Weaver — التفسير، الصور، الاشتراكات، والبوت">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"ما هي منصة Weaver نَسَّاج؟","acceptedAnswer":{"@type":"Answer","text":"Weaver هي منصة متكاملة لتفسير الأحلام بالذكاء الاصطناعي تجمع بين تقنية Groq + Llama 4 والتراث الإسلامي والحضارات القديمة."}},
+{"@type":"Question","name":"كيف يعمل التفسير؟","acceptedAnswer":{"@type":"Answer","text":"يستخدم النظام نموذج Llama 4 عبر Groq API المُدرَّب على تفسيرات ابن سيرين والنابلسي والموروث الإسلامي والحضارات القديمة."}}
+]}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Tajawal',sans-serif;background:#050210;color:#e2d9f3;min-height:100vh;line-height:1.7;}
+body.en{font-family:'Inter',sans-serif;direction:ltr;text-align:left;}
+body.ar{direction:rtl;text-align:right;}
+.bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 20% 50%,#1e0a3c 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,#0c0a3e 0%,transparent 50%),#050210;}
+canvas{position:fixed;inset:0;z-index:-1;pointer-events:none;}
+nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:.75rem 2rem;background:rgba(5,2,16,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(124,58,237,.4);flex-wrap:wrap;gap:.5rem;}
+.logo{font-size:1.4rem;font-weight:900;display:flex;align-items:center;gap:5px;text-decoration:none;}
+.logo-en{background:linear-gradient(135deg,#f0c060,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.logo-ar{color:#a855f7;}.logo-sep{color:#f0c060;}
+.nav-r{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+.nav-r a{color:#e2d9f3;text-decoration:none;font-size:.85rem;transition:color .2s;}
+.nav-r a:hover{color:#f0c060;}
+.nav-cta{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white!important;padding:.4rem 1.1rem;border-radius:50px;font-size:.82rem;font-weight:700;}
+.lb{background:rgba(30,10,60,.8);color:#f0c060;border:1px solid rgba(124,58,237,.5);padding:.3rem .7rem;border-radius:50px;cursor:pointer;font-size:.78rem;font-weight:700;transition:all .2s;font-family:inherit;}
+.lb.on,.lb:hover{background:#7c3aed;color:white;}
+.lang-btns{display:flex;gap:5px;}
+.container{max-width:800px;margin:0 auto;padding:3rem 1.5rem;}
+.page-title{text-align:center;margin-bottom:3rem;}
+.page-title h1{font-size:clamp(1.8rem,5vw,2.5rem);font-weight:900;color:#f0c060;margin-bottom:.5rem;}
+.page-title p{color:rgba(226,217,243,.65);font-size:1rem;}
+.faq-section{margin-bottom:2.5rem;}
+.faq-section-title{font-size:1.1rem;font-weight:700;color:#a855f7;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(124,58,237,.3);display:flex;align-items:center;gap:.5rem;}
+.faq-item{background:rgba(20,8,45,.7);border:1px solid rgba(124,58,237,.25);border-radius:14px;margin-bottom:.75rem;overflow:hidden;transition:border-color .2s;}
+.faq-item:hover{border-color:rgba(124,58,237,.5);}
+.faq-q{padding:1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;font-weight:700;font-size:.95rem;}
+.faq-q:hover{color:#f0c060;}
+.faq-icon{color:#a855f7;font-size:1.2rem;flex-shrink:0;transition:transform .3s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s;}
+.faq-item.open .faq-a{max-height:400px;padding:0 1.25rem 1.25rem;}
+.faq-a p{color:rgba(226,217,243,.8);font-size:.92rem;line-height:1.75;}
+.faq-a a{color:#a855f7;text-decoration:none;}
+.faq-a a:hover{text-decoration:underline;}
+.tech-badge{display:inline-block;background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.4);color:#a855f7;padding:.15rem .6rem;border-radius:50px;font-size:.78rem;font-weight:700;margin:0 2px;}
+footer{text-align:center;padding:2.5rem 1.5rem;border-top:1px solid rgba(124,58,237,.25);margin-top:2rem;}
+.fl{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin-bottom:1rem;}
+.fl a{color:#f0c060;text-decoration:none;font-size:.85rem;}
+.fl a:hover{text-decoration:underline;}
+.fc2{color:rgba(226,217,243,.4);font-size:.8rem;}
+</style>
 </head>
-<body lang="ar">
-<div class="bg-canvas"></div>
-<div class="stars-layer" id="stars"></div>
+<body class="ar">
+<div class="bg"></div>
+<canvas id="cv"></canvas>
 <nav>
-  <div class="logo"><span class="logo-en">Weaver</span><span class="logo-sep">|</span><span class="logo-ar">نَسَّاج</span></div>
-  <ul class="nav-menu">
-    <li><a href="index.html" id="nav-home">الرئيسية</a></li>
-    <li><a href="blog.html" id="nav-blog">المدونة</a></li>
-    <li><a href="index.html#pricing" id="nav-pricing">الأسعار</a></li>
-    <li><a href="faq.html" id="nav-faq" style="color:var(--gold)">الأسئلة</a></li>
-    <li><div class="lang-group"><button class="lang-btn active" id="btn-ar" onclick="setLang('ar')">🇸🇦 عربي</button><button class="lang-btn" id="btn-en" onclick="setLang('en')">🇬🇧 English</button></div></li>
-    <li><a href="https://t.me/aidreamweaver_bot" class="nav-cta" id="nav-cta" target="_blank" rel="noopener">🤖 البوت</a></li>
-  </ul>
-  <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  <a href="/" class="logo"><span class="logo-en">Weaver</span><span class="logo-sep">|</span><span class="logo-ar">نَسَّاج</span></a>
+  <div class="nav-r">
+    <a href="/" id="n1">الرئيسية</a>
+    <a href="/blog.html" id="n2">المدونة</a>
+    <a href="/#pricing" id="n3">الأسعار</a>
+    <div class="lang-btns">
+      <button class="lb on" id="bar" onclick="setL('ar')">🇸🇦 عربي</button>
+      <button class="lb" id="ben" onclick="setL('en')">🇬🇧 English</button>
+    </div>
+    <a href="https://ai-dream-weaver.onrender.com/app/analyze" class="nav-cta" id="ncta">🔮 جرب المنصة</a>
+  </div>
 </nav>
-<div class="mobile-drawer" id="mobileDrawer">
-  <a href="index.html" onclick="closeMenu()" id="m-home">الرئيسية</a>
-  <a href="blog.html" onclick="closeMenu()" id="m-blog">المدونة</a>
-  <a href="index.html#pricing" onclick="closeMenu()" id="m-pricing">الأسعار</a>
-  <a href="faq.html" onclick="closeMenu()" id="m-faq">الأسئلة</a>
-  <div class="lang-group"><button class="lang-btn active" id="m-btn-ar" onclick="setLang('ar');closeMenu()">🇸🇦 عربي</button><button class="lang-btn" id="m-btn-en" onclick="setLang('en');closeMenu()">🇬🇧 English</button></div>
-  <a href="https://t.me/aidreamweaver_bot" class="mobile-cta-d" target="_blank" rel="noopener" id="m-cta">🤖 جرب البوت الآن</a>
-</div>
 
 <div class="container">
-  <div class="page-hero">
-    <div class="hero-badge" id="hero-badge">❓ الأسئلة الشائعة</div>
-    <h1 id="hero-title">كل ما تريد معرفته</h1>
-    <p id="hero-sub">إجابات شاملة على أسئلتك حول Weaver — التفسير، الصور، الاشتراكات، والبوت</p>
+  <div class="page-title">
+    <h1 id="pt">❓ الأسئلة الشائعة</h1>
+    <p id="pp">كل ما تريد معرفته عن Weaver — التفسير، الصور، الاشتراكات، والبوت</p>
   </div>
 
-  <!-- Section 1 -->
-  <div class="faq-section reveal">
-    <div class="faq-section-title" id="sec1-label">عن المنصة</div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text" id="q1">ما هي منصة Weaver نَسَّاج؟</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><p id="a1">Weaver (نَسَّاج) هي منصة متكاملة لتفسير الأحلام بالذكاء الاصطناعي. تجمع بين تفسيرات ابن سيرين والتراث الإسلامي العريق مع تقنيات الذكاء الاصطناعي الحديثة (Google Gemini) لتقديم تفسيرات دقيقة وعميقة. كما تتيح توليد صور فنية 4K مستوحاة من حلمك عبر نموذج Stable Diffusion.</p></div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text" id="q2">كيف يعمل التفسير بالذكاء الاصطناعي؟</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><p id="a2">عندما ترسل وصف حلمك عبر بوت تيليجرام، يقوم نظامنا بتحليله باستخدام نموذج Google Gemini المُدرَّب على تفسيرات ابن سيرين والنابلسي والموروث الإسلامي. يراعي النظام السياق، المشاعر، رموز الحلم، وظروف الشخص للوصول إلى تفسير متكامل — لا مجرد إجابة واحدة.</p></div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text" id="q3">هل التفسير يعتمد على منهجية إسلامية؟</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><p id="a3">نعم. يستند نظامنا إلى منهجية ابن سيرين (654-728م) الذي وضع فروقاً دقيقة بين الرؤيا والحلم، ويعتمد على رمزية القرآن الكريم واللغة العربية في التفسير. مع ذلك، فإن التفسير الذي يقدمه البوت هو للاستئناس والتأمل وليس فتوى دينية.</p></div>
-    </div>
-  </div>
+  <!-- عن المنصة -->
+  <div class="faq-section">
+    <div class="faq-section-title" id="sec1">🔮 عن المنصة</div>
 
-  <!-- Section 2 -->
-  <div class="faq-section reveal">
-    <div class="faq-section-title" id="sec2-label">الاشتراكات والأسعار</div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text" id="q4">ما الفرق بين الخطط الثلاث؟</span><span class="faq-icon">+</span></div>
-      <div class="faq-a">
-        <ul id="a4">
-          <li><span class="highlight">أساسي ($4.99/شهر):</span> 5 تفسيرات + 3 صور يومياً — مثالي للاستخدام العادي</li>
-          <li><span class="highlight">احترافي ($9.99/شهر):</span> تفسير غير محدود + صور 4K غير محدودة + 50 أسلوب فني — للمهتمين الجادين</li>
-          <li><span class="highlight">فريق ($19.99/شهر):</span> كل مميزات الاحترافي + توليد فيديو + تقارير PDF + وصول API — للمؤسسات والمطورين</li>
-        </ul>
-      </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)"><span id="q1">ما هي منصة Weaver نَسَّاج؟</span><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p id="a1">Weaver (نَسَّاج) منصة متكاملة لتفسير الأحلام بالذكاء الاصطناعي تجمع بين تراث الحضارات القديمة (مصر، بابل، يونان، الإسلام) وأحدث تقنيات الذكاء الاصطناعي <span class="tech-badge">Groq + Llama 4</span> لتقديم تفسيرات دقيقة وعميقة، مع توليد صور فنية 4K مستوحاة من حلمك.</p></div>
     </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text" id="q5">كيف يتم الدفع؟</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><p id="a5">الدفع يتم عبر منصة <span class="highlight">Gumroad</span> الآمنة التي تقبل بطاقات الائتمان (Visa, Mastercard) وPayPal. بعد إتمام الاشتراك، ستصلك رسالة تأكيد على البريد الإلكتروني مع تعليمات تفعيل الوصول على البوت.</p></div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)"><span id="q2">كيف يعمل التفسير بالذكاء الاصطناعي؟</span><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p id="a2">عند إرسال وصف حلمك، يقوم نظامنا بتحليله باستخدام نموذج <span class="tech-badge">Llama 4</span> عبر <span class="tech-badge">Groq API</span> — وهو نموذج مُدرَّب على تفسيرات ابن سيرين والنابلسي والموروث الإسلامي والحضارات القديمة. يراعي النظام السياق والمشاعر ورموز الحلم للوصول إلى تفسير متكامل.</p></div>
     </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text" id="q6">هل يمكن إلغاء الاشتراك في أي وقت؟</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><p id="a6">نعم، يمكنك إلغاء اشتراكك في أي وقت عبر لوحة تحكم Gumroad دون أي رسوم إضافية. يبقى وصولك فعالاً حتى نهاية الفترة المدفوعة.</p></div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)"><span id="q3">هل التفسير يعتمد على منهجية إسلامية؟</span><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p id="a3">نعم. يستند النظام إلى منهجية ابن سيرين (654–728م) ويعتمد على رمزية القرآن الكريم واللغة العربية في التفسير. مع ذلك، التفسير للاستئناس والتأمل وليس فتوى دينية.</p></div>
     </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text" id="q7">هل هناك نسخة مجانية؟</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><p id="a7">يمكنك تجربة البوت مجاناً عبر تيليجرام للحصول على فكرة عامة. للحصول على تفسيرات تفصيلية، صور 4K، وخدمة متكاملة، تحتاج إلى أحد خطط الاشتراك.</p></div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)"><span id="q4">ما الفرق بين Weaver والمواقع الأخرى؟</span><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p id="a4">Weaver هو الوحيد الذي يجمع: تفسير بالذكاء الاصطناعي + توليد صور 4K + موسوعة الحضارات القديمة + دعم كامل للعربية والإنجليزية. لا يوجد منافس عربي يملك هذه المزيج.</p></div>
     </div>
   </div>
 
-  <!-- Section 3 -->
-  <div class="faq-section reveal">
-    <div class="faq-section-title" id="sec3-label">البوت والميزات</div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text" id="q8">كيف أستخدم بوت تيليجرام؟</span><span class="faq-icon">+</span></div>
-      <div class="faq-a">
-        <ul id="a8">
-          <li>افتح <a href="https://t.me/aidreamweaver_bot" target="_blank">@aidreamweaver_bot</a> على تيليجرام</li>
-          <li>اضغط Start أو أرسل <code>/start</code></li>
-          <li>اكتب وصف حلمك بالعربية أو الإنجليزية</li>
-          <li>انتظر بضع ثوانٍ لتصلك التفسير والصورة</li>
-        </ul>
-      </div>
+  <!-- الاشتراكات -->
+  <div class="faq-section">
+    <div class="faq-section-title" id="sec2">💰 الاشتراكات والأسعار</div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)"><span id="q5">ما الفرق بين الخطط الثلاث؟</span><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p id="a5">• <strong>أساسي ($4.99/شهر)</strong>: 5 تفسيرات + 3 صور يومياً<br>• <strong>محترف ($9.99/شهر)</strong>: تفسير غير محدود + صور 4K غير محدودة + 50 أسلوب فني<br>• <strong>فريق ($19.99/شهر)</strong>: كل مميزات المحترف + توليد فيديو + تقارير PDF + وصول API</p></div>
     </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text" id="q9">ما جودة الصور المولَّدة؟</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><p id="a9">تُولَّد الصور بدقة <span class="highlight">1024×1024</span> في الخطة الأساسية و<span class="highlight">4K فنية</span> في الخطة الاحترافية. تستخدم المنصة نموذج <em>Stable Diffusion 3.5 Large</em> من SiliconFlow للحصول على صور ذات جودة سينمائية ومستوحاة من رموز حلمك.</p></div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)"><span id="q6">كيف يتم الدفع؟</span><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p id="a6">الدفع عبر منصة <strong>Gumroad</strong> الآمنة (Visa, Mastercard, PayPal). بعد الاشتراك تصلك رسالة تأكيد بتعليمات التفعيل.</p></div>
     </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text" id="q10">هل يدعم البوت اللغة العربية كاملاً؟</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><p id="a10">نعم، البوت يفهم العربية الفصحى والعامية ويرد بالعربية. كما يدعم الإنجليزية بشكل كامل. عند إرسال وصف بالعربية، يترجم البوت تلقائياً لتوليد الصورة ثم يرسل لك التفسير بالعربية.</p></div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)"><span id="q7">هل يمكن إلغاء الاشتراك؟</span><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p id="a7">نعم، يمكن الإلغاء في أي وقت عبر لوحة تحكم Gumroad بدون رسوم. يبقى وصولك فعالاً حتى نهاية الفترة المدفوعة.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)"><span id="q8">هل هناك نسخة مجانية؟</span><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p id="a8">يمكنك تجربة البوت مجاناً عبر تيليجرام للحصول على فكرة عامة. للتفسيرات التفصيلية والصور 4K تحتاج لأحد خطط الاشتراك.</p></div>
     </div>
   </div>
 
-  <!-- Section 4 -->
-  <div class="faq-section reveal">
-    <div class="faq-section-title" id="sec4-label">الخصوصية والأمان</div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text" id="q11">هل أحلامي خاصة وسرية؟</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><p id="a11">نأخذ خصوصيتك بجدية تامة. لا نشارك أحلامك أو بياناتك مع أطراف ثالثة. تُستخدم البيانات فقط لتحسين جودة التفسير. راجع <a href="privacy.html">سياسة الخصوصية</a> لمزيد من التفاصيل.</p></div>
+  <!-- البوت والميزات -->
+  <div class="faq-section">
+    <div class="faq-section-title" id="sec3">🤖 البوت والميزات</div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)"><span id="q9">كيف أستخدم بوت تيليجرام؟</span><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p id="a9">1. افتح <a href="https://t.me/aidreamweaver_bot" target="_blank">@aidreamweaver_bot</a> على تيليجرام<br>2. اضغط Start أو أرسل /start<br>3. اكتب وصف حلمك بالعربية أو الإنجليزية<br>4. انتظر بضع ثوانٍ — ستصلك التفسير والصورة</p></div>
     </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text" id="q12">هل الدفع آمن؟</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><p id="a12">جميع معاملات الدفع تتم عبر <span class="highlight">Gumroad</span> وهي محمية بتشفير SSL وتتوافق مع معايير PCI DSS. لا نحتفظ بأي بيانات بطاقتك الائتمانية على خوادمنا.</p></div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)"><span id="q10">ما جودة الصور المولَّدة؟</span><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p id="a10">الصور تُولَّد باستخدام نماذج SiliconFlow المتقدمة بدقة 1024×1024 (أساسي) و4K فنية (محترف). جودة سينمائية مستوحاة من رموز حلمك.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)"><span id="q11">هل البوت يدعم العربية كاملاً؟</span><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p id="a11">نعم، البوت يفهم العربية الفصحى والعامية ويرد بالعربية، كما يدعم الإنجليزية بشكل كامل. يترجم البوت تلقائياً لتوليد الصورة ثم يرسل التفسير بلغتك.</p></div>
     </div>
   </div>
 
-  <div class="cta-strip reveal">
-    <h2 id="cta-title">جاهز لتفسير حلمك؟</h2>
-    <p id="cta-text">انضم الآن وجرب أول تفسير مجاني على بوت تيليجرام</p>
-    <a href="https://t.me/aidreamweaver_bot" class="btn btn-primary" target="_blank" rel="noopener" id="cta-btn">🌙 جرب البوت مجاناً</a>
+  <!-- الخصوصية -->
+  <div class="faq-section">
+    <div class="faq-section-title" id="sec4">🔒 الخصوصية والأمان</div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)"><span id="q12">هل أحلامي خاصة وسرية؟</span><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p id="a12">نعم. لا نشارك أحلامك أو بياناتك مع أطراف ثالثة. تُستخدم البيانات فقط لتحسين جودة التفسير. راجع <a href="/privacy.html">سياسة الخصوصية</a> لمزيد من التفاصيل.</p></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:3rem;padding:2rem;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);border-radius:18px;">
+    <p id="cta-text" style="color:rgba(226,217,243,.7);margin-bottom:1rem;">لم تجد إجابتك؟ جرّب المنصة مباشرة</p>
+    <a href="https://ai-dream-weaver.onrender.com/app/analyze" style="background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;padding:.85rem 2rem;border-radius:50px;text-decoration:none;font-weight:700;" id="cta-btn">🔮 جرب المنصة الآن</a>
   </div>
 </div>
 
 <footer>
-  <div class="container" style="padding-top:0;padding-bottom:0">
-    <div class="footer-links">
-      <a href="index.html" id="f-home">الرئيسية</a>
-      <a href="blog.html" id="f-blog">المدونة</a>
-      <a href="index.html#pricing" id="f-pricing">الأسعار</a>
-      <a href="faq.html" id="f-faq">الأسئلة</a>
-      <a href="privacy.html" id="f-privacy">الخصوصية</a>
-      <a href="terms.html" id="f-terms">الشروط</a>
-      <a href="https://t.me/aidreamweaver_bot" target="_blank" rel="noopener" id="f-bot">بوت Weaver</a>
-    </div>
-    <p class="footer-copy" id="f-copy">© 2026 Weaver | نَسَّاج — منصة تفسير الأحلام بالذكاء الاصطناعي</p>
-    <p class="footer-copy">aidreamweaver.store</p>
+  <div class="fl">
+    <a href="/" id="fl1">الرئيسية</a>
+    <a href="/blog.html" id="fl2">المدونة</a>
+    <a href="/privacy.html" id="fl3">سياسة الخصوصية</a>
+    <a href="/terms.html" id="fl4">شروط الاستخدام</a>
+    <a href="https://t.me/aidreamweaver_bot" id="fl5">بوت تيليجرام</a>
   </div>
+  <p class="fc2" id="fcp">© 2026 Weaver | نَسَّاج — منصة نسيج الأحلام بالذكاء الاصطناعي</p>
 </footer>
 
 <script>
-(function(){const l=document.getElementById('stars'),f=document.createDocumentFragment();for(let i=0;i<150;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*2.2+0.4;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+2).toFixed(1)}s;--delay:${(Math.random()*5).toFixed(1)}s;`;f.appendChild(s);}l.appendChild(f);})();
-function toggleMenu(){const h=document.getElementById('hamburger'),d=document.getElementById('mobileDrawer');h.classList.toggle('open');d.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
-function closeMenu(){document.getElementById('hamburger').classList.remove('open');document.getElementById('mobileDrawer').classList.remove('open');document.body.style.overflow='';}
-document.addEventListener('click',function(e){const d=document.getElementById('mobileDrawer'),h=document.getElementById('hamburger');if(d.classList.contains('open')&&!d.contains(e.target)&&!h.contains(e.target))closeMenu();});
-function toggleFaq(item){const isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(i=>{if(i!==item)i.classList.remove('open');});item.classList.toggle('open',!isOpen);}
-(function(){const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');o.unobserve(x.target);}});},{threshold:.08,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.reveal').forEach(el=>o.observe(el));})();
-// ══ LANGUAGE SYSTEM ══
-const T={
-  ar:{_dir:'rtl',_lang:'ar',_title:'الأسئلة الشائعة | Weaver نَسَّاج',
-    'nav-home':'الرئيسية','nav-blog':'المدونة','nav-pricing':'الأسعار','nav-faq':'الأسئلة','nav-cta':'🤖 البوت',
-    'm-home':'الرئيسية','m-blog':'المدونة','m-pricing':'الأسعار','m-faq':'الأسئلة','m-cta':'🤖 جرب البوت الآن',
-    'hero-badge':'❓ الأسئلة الشائعة','hero-title':'كل ما تريد معرفته',
-    'hero-sub':'إجابات شاملة على أسئلتك حول Weaver — التفسير، الصور، الاشتراكات، والبوت',
-    'sec1-label':'عن المنصة','sec2-label':'الاشتراكات والأسعار','sec3-label':'البوت والميزات','sec4-label':'الخصوصية والأمان',
-    'q1':'ما هي منصة Weaver نَسَّاج؟','a1':'Weaver (نَسَّاج) هي منصة متكاملة لتفسير الأحلام بالذكاء الاصطناعي. تجمع بين تفسيرات ابن سيرين والتراث الإسلامي مع Google Gemini لتقديم تفسيرات دقيقة وعميقة. كما تتيح توليد صور فنية 4K مستوحاة من حلمك.',
-    'q2':'كيف يعمل التفسير بالذكاء الاصطناعي؟','a2':'عند إرسال وصف حلمك، يحلله نموذج Google Gemini المُدرَّب على تفسيرات ابن سيرين والنابلسي. يراعي النظام السياق والمشاعر ورموز الحلم للوصول إلى تفسير متكامل.',
-    'q3':'هل التفسير يعتمد على منهجية إسلامية؟','a3':'نعم، يستند نظامنا إلى منهجية ابن سيرين وتفريقه بين الرؤيا والحلم، ويعتمد رمزية القرآن واللغة العربية. التفسير للاستئناس وليس فتوى دينية.',
-    'q4':'ما الفرق بين الخطط الثلاث؟','a4':'<ul><li><span class="highlight">أساسي ($4.99):</span> 5 تفسيرات + 3 صور يومياً</li><li><span class="highlight">احترافي ($9.99):</span> غير محدود + 4K + 50 أسلوب فني</li><li><span class="highlight">فريق ($19.99):</span> كل شيء + فيديو + PDF + API</li></ul>',
-    'q5':'كيف يتم الدفع؟','a5':'الدفع عبر <span class="highlight">Gumroad</span> الآمنة (Visa، Mastercard، PayPal). ستصلك رسالة تأكيد مع تعليمات التفعيل.',
-    'q6':'هل يمكن إلغاء الاشتراك؟','a6':'نعم، في أي وقت عبر لوحة Gumroad بدون رسوم. يبقى وصولك فعالاً حتى نهاية الفترة المدفوعة.',
-    'q7':'هل هناك نسخة مجانية؟','a7':'يمكن تجربة البوت مجاناً على تيليجرام. للتفسيرات التفصيلية والصور 4K، تحتاج اشتراكاً.',
-    'q8':'كيف أستخدم بوت تيليجرام؟','a8':'<ul><li>افتح <a href="https://t.me/aidreamweaver_bot" target="_blank">@aidreamweaver_bot</a> على تيليجرام</li><li>اضغط Start أو أرسل /start</li><li>اكتب وصف حلمك</li><li>انتظر التفسير والصورة</li></ul>',
-    'q9':'ما جودة الصور؟','a9':'تُولَّد بدقة <span class="highlight">1024×1024</span> في الأساسي و<span class="highlight">4K</span> في الاحترافي. نستخدم Stable Diffusion 3.5 Large للصور السينمائية.',
-    'q10':'هل يدعم العربية كاملاً؟','a10':'نعم، البوت يفهم الفصحى والعامية ويرد بالعربية. عند الوصف العربي، يترجم تلقائياً لتوليد الصورة ثم يرسل التفسير بالعربية.',
-    'q11':'هل أحلامي سرية؟','a11':'نعم. لا نشارك بياناتك مع أي طرف ثالث. راجع <a href="privacy.html">سياسة الخصوصية</a> للتفاصيل.',
-    'q12':'هل الدفع آمن؟','a12':'جميع المعاملات عبر <span class="highlight">Gumroad</span> المشفرة SSL وتوافق PCI DSS. لا نحتفظ ببيانات بطاقتك.',
-    'cta-title':'جاهز لتفسير حلمك؟','cta-text':'انضم الآن وجرب أول تفسير مجاني على بوت تيليجرام','cta-btn':'🌙 جرب البوت مجاناً',
-    'f-home':'الرئيسية','f-blog':'المدونة','f-pricing':'الأسعار','f-faq':'الأسئلة','f-privacy':'الخصوصية','f-terms':'الشروط','f-bot':'بوت Weaver',
-    'f-copy':'© 2026 Weaver | نَسَّاج — منصة تفسير الأحلام بالذكاء الاصطناعي'},
-  en:{_dir:'ltr',_lang:'en',_title:'FAQ | Weaver نَسَّاج — AI Dream Interpretation',
-    'nav-home':'Home','nav-blog':'Blog','nav-pricing':'Pricing','nav-faq':'FAQ','nav-cta':'🤖 Bot',
-    'm-home':'Home','m-blog':'Blog','m-pricing':'Pricing','m-faq':'FAQ','m-cta':'🤖 Try the Bot',
-    'hero-badge':'❓ Frequently Asked Questions','hero-title':'Everything You Need to Know',
-    'hero-sub':'Comprehensive answers about Weaver — interpretation, images, subscriptions, and the bot',
-    'sec1-label':'About the Platform','sec2-label':'Subscriptions & Pricing','sec3-label':'Bot & Features','sec4-label':'Privacy & Security',
-    'q1':'What is Weaver (نَسَّاج)?','a1':'Weaver is a complete AI-powered dream interpretation platform. It combines Ibn Sirin\'s classical Islamic methodology with Google Gemini AI to deliver deep, contextual interpretations. It also generates stunning 4K art inspired by your dream.',
-    'q2':'How does AI interpretation work?','a2':'When you send your dream description, our system analyzes it using Google Gemini trained on Ibn Sirin and Al-Nabulsi\'s interpretations. It considers context, emotions, dream symbols, and personal circumstances for a layered interpretation.',
-    'q3':'Is the interpretation based on Islamic methodology?','a3':'Yes. Our system follows Ibn Sirin\'s methodology (654-728 CE), distinguishing between divine visions (ru\'ya) and ordinary dreams (hulm), using Quranic symbolism and Arabic linguistics. Interpretations are for reflection, not religious rulings.',
-    'q4':'What are the differences between plans?','a4':'<ul><li><span class="highlight">Basic ($4.99/mo):</span> 5 interpretations + 3 images/day</li><li><span class="highlight">Pro ($9.99/mo):</span> Unlimited + 4K images + 50 art styles</li><li><span class="highlight">Team ($19.99/mo):</span> Everything + video + PDF reports + API</li></ul>',
-    'q5':'How do I pay?','a5':'Payment is via <span class="highlight">Gumroad</span> (Visa, Mastercard, PayPal). After subscribing, you\'ll receive a confirmation email with activation instructions.',
-    'q6':'Can I cancel anytime?','a6':'Yes, cancel anytime via your Gumroad dashboard with no extra charges. Your access remains active until the end of the paid period.',
-    'q7':'Is there a free version?','a7':'You can try the bot free on Telegram for a basic experience. For detailed interpretations, 4K images, and full service, a subscription is needed.',
-    'q8':'How do I use the Telegram bot?','a8':'<ul><li>Open <a href="https://t.me/aidreamweaver_bot" target="_blank">@aidreamweaver_bot</a> on Telegram</li><li>Press Start or send /start</li><li>Describe your dream in Arabic or English</li><li>Receive your interpretation and image in seconds</li></ul>',
-    'q9':'What image quality can I expect?','a9':'Images are generated at <span class="highlight">1024×1024</span> on the Basic plan and <span class="highlight">4K cinematic quality</span> on Pro. We use Stable Diffusion 3.5 Large via SiliconFlow.',
-    'q10':'Does the bot fully support Arabic?','a10':'Yes, the bot understands both Modern Standard Arabic and dialects, responding in Arabic. When given an Arabic description, it automatically translates for image generation then returns the interpretation in Arabic.',
-    'q11':'Are my dreams private?','a11':'Absolutely. We never share your dreams or data with third parties. Data is used only to improve interpretation quality. See our <a href="privacy.html">Privacy Policy</a> for full details.',
-    'q12':'Is payment secure?','a12':'All transactions go through <span class="highlight">Gumroad</span>, protected by SSL encryption and PCI DSS compliance. We never store your card details.',
-    'cta-title':'Ready to Interpret Your Dream?','cta-text':'Join now and try your first interpretation free on Telegram','cta-btn':'🌙 Try Bot Free',
-    'f-home':'Home','f-blog':'Blog','f-pricing':'Pricing','f-faq':'FAQ','f-privacy':'Privacy','f-terms':'Terms','f-bot':'Weaver Bot',
-    'f-copy':'© 2026 Weaver | نَسَّاج — AI Dream Interpretation Platform'}
-};
-function setLang(lang){
-  const t=T[lang];if(!t)return;
-  try{localStorage.setItem('weaver_lang',lang);}catch(e){}
-  document.documentElement.lang=t._lang;document.documentElement.dir=t._dir;
-  document.body.setAttribute('lang',t._lang);document.title=t._title;
-  Object.keys(t).forEach(id=>{if(id.startsWith('_'))return;const el=document.getElementById(id);if(el)el.innerHTML=t[id];});
-  ['btn-ar','btn-en','m-btn-ar','m-btn-en'].forEach(id=>{const b=document.getElementById(id);if(!b)return;b.classList.toggle('active',(lang==='ar'&&id.includes('ar'))||(lang==='en'&&id.includes('en')));});
-  // Fix blog href
-  const blogLinks=['nav-blog','m-blog','f-blog'];
-  blogLinks.forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('href',lang==='en'?'blog-en.html':'blog.html');});
+(function(){
+  const cv=document.getElementById('cv');const cx=cv.getContext('2d');let s=[];
+  function rsz(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+  function spawn(){s=[];for(let i=0;i<140;i++)s.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.5+.3,o:Math.random(),d:(Math.random()*.018+.004)*(Math.random()<.5?1:-1)});}
+  function draw(){cx.clearRect(0,0,cv.width,cv.height);s.forEach(p=>{p.o+=p.d;if(p.o>1||p.o<0)p.d*=-1;cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle=`rgba(255,255,255,${p.o.toFixed(2)})`;cx.fill();});requestAnimationFrame(draw);}
+  window.addEventListener('resize',()=>{rsz();spawn();});rsz();spawn();draw();
+})();
+
+function toggle(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
 }
-(function(){let s='ar';try{s=localStorage.getItem('weaver_lang')||'ar';}catch(e){}setLang(s==='en'?'en':'ar');})();
+
+const T = {
+ar:{
+  n1:'الرئيسية',n2:'المدونة',n3:'الأسعار',ncta:'🔮 جرب المنصة',
+  pt:'❓ الأسئلة الشائعة',pp:'كل ما تريد معرفته عن Weaver — التفسير، الصور، الاشتراكات، والبوت',
+  sec1:'🔮 عن المنصة',sec2:'💰 الاشتراكات والأسعار',sec3:'🤖 البوت والميزات',sec4:'🔒 الخصوصية والأمان',
+  q1:'ما هي منصة Weaver نَسَّاج؟',a1:'Weaver منصة متكاملة لتفسير الأحلام بالذكاء الاصطناعي تجمع تراث الحضارات القديمة مع تقنية <span class="tech-badge">Groq + Llama 4</span> لتقديم تفسيرات دقيقة وعميقة مع توليد صور فنية 4K.',
+  q2:'كيف يعمل التفسير بالذكاء الاصطناعي؟',a2:'يستخدم نظامنا نموذج <span class="tech-badge">Llama 4</span> عبر <span class="tech-badge">Groq API</span> المُدرَّب على تفسيرات ابن سيرين والنابلسي والموروث الإسلامي والحضارات القديمة.',
+  q3:'هل التفسير يعتمد على منهجية إسلامية؟',a3:'نعم. يستند النظام إلى منهجية ابن سيرين (654–728م) ويعتمد على رمزية القرآن الكريم واللغة العربية. التفسير للاستئناس وليس فتوى دينية.',
+  q4:'ما الفرق بين Weaver والمواقع الأخرى؟',a4:'Weaver هو الوحيد الذي يجمع: تفسير AI + صور 4K + موسوعة الحضارات + دعم عربي/إنجليزي كامل. لا يوجد منافس عربي بهذا المزيج.',
+  q5:'ما الفرق بين الخطط الثلاث؟',a5:'• <strong>أساسي ($4.99)</strong>: 5 تفسيرات + 3 صور يومياً<br>• <strong>محترف ($9.99)</strong>: غير محدود + 50 أسلوب فني<br>• <strong>فريق ($19.99)</strong>: كل المحترف + فيديو + PDF + API',
+  q6:'كيف يتم الدفع؟',a6:'عبر Gumroad الآمنة (Visa, Mastercard, PayPal). تصلك رسالة تأكيد فور الاشتراك.',
+  q7:'هل يمكن إلغاء الاشتراك؟',a7:'نعم، الإلغاء في أي وقت عبر Gumroad بدون رسوم. وصولك يبقى فعالاً حتى نهاية الفترة.',
+  q8:'هل هناك نسخة مجانية؟',a8:'يمكنك تجربة البوت مجاناً على تيليجرام. الخطط المدفوعة تفتح التفسير المفصل والصور 4K.',
+  q9:'كيف أستخدم بوت تيليجرام؟',a9:'1. افتح @aidreamweaver_bot<br>2. اضغط /start<br>3. اكتب وصف حلمك<br>4. احصل على التفسير والصورة خلال ثوانٍ',
+  q10:'ما جودة الصور المولَّدة؟',a10:'صور سينمائية بتقنيات SiliconFlow — 1024×1024 للأساسي و4K للمحترف.',
+  q11:'هل البوت يدعم العربية كاملاً؟',a11:'نعم، يفهم الفصحى والعامية ويرد بالعربية. يدعم الإنجليزية كاملاً أيضاً.',
+  q12:'هل أحلامي خاصة وسرية؟',a12:'نعم. لا نشارك بياناتك مع أطراف ثالثة. راجع <a href="/privacy.html">سياسة الخصوصية</a>.',
+  'cta-text':'لم تجد إجابتك؟ جرّب المنصة مباشرة','cta-btn':'🔮 جرب المنصة الآن',
+  fl1:'الرئيسية',fl2:'المدونة',fl3:'سياسة الخصوصية',fl4:'شروط الاستخدام',fl5:'بوت تيليجرام',
+  fcp:'© 2026 Weaver | نَسَّاج — منصة نسيج الأحلام بالذكاء الاصطناعي'
+},
+en:{
+  n1:'Home',n2:'Blog',n3:'Pricing',ncta:'🔮 Try Platform',
+  pt:'❓ Frequently Asked Questions',pp:'Everything you need to know about Weaver — interpretation, images, subscriptions, and the bot',
+  sec1:'🔮 About the Platform',sec2:'💰 Subscriptions & Pricing',sec3:'🤖 Bot & Features',sec4:'🔒 Privacy & Security',
+  q1:'What is Weaver?',a1:'Weaver is a complete AI-powered dream interpretation platform combining ancient civilization heritage (Egypt, Babylon, Greece, Islam) with <span class="tech-badge">Groq + Llama 4</span> technology to deliver accurate, deep interpretations and 4K AI-generated artwork.',
+  q2:'How does AI interpretation work?',a2:'Your dream description is analyzed using <span class="tech-badge">Llama 4</span> via <span class="tech-badge">Groq API</span>, trained on Ibn Sirin\'s methodology, Al-Nablusi, and Islamic heritage. The system considers context, emotions, and dream symbols for a complete interpretation.',
+  q3:'Is the interpretation based on Islamic methodology?',a3:'Yes. The system is grounded in Ibn Sirin\'s methodology (654–728 CE) using Quranic symbolism and Arabic linguistics. Interpretations are for reflection and not religious rulings.',
+  q4:'How is Weaver different from other sites?',a4:'Weaver is the only platform combining: AI interpretation + 4K image generation + ancient civilization encyclopedia + full Arabic/English support — no Arabic competitor has this combination.',
+  q5:'What is the difference between the three plans?',a5:'• <strong>Basic ($4.99)</strong>: 5 interpretations + 3 images/day<br>• <strong>Pro ($9.99)</strong>: Unlimited + 50 artistic styles<br>• <strong>Team ($19.99)</strong>: All Pro + video + PDF + API',
+  q6:'How do I pay?',a6:'Payment is through Gumroad (Visa, Mastercard, PayPal). You\'ll receive a confirmation email with activation instructions.',
+  q7:'Can I cancel my subscription?',a7:'Yes, cancel anytime via your Gumroad dashboard with no extra fees. Your access remains active until the end of the paid period.',
+  q8:'Is there a free version?',a8:'You can try the bot for free on Telegram. Paid plans unlock detailed interpretations and 4K images.',
+  q9:'How do I use the Telegram bot?',a9:'1. Open @aidreamweaver_bot<br>2. Press /start<br>3. Type your dream description<br>4. Get interpretation and image within seconds',
+  q10:'What is the quality of generated images?',a10:'Cinematic quality images using SiliconFlow — 1024×1024 for Basic, 4K for Pro plan.',
+  q11:'Does the bot fully support Arabic?',a11:'Yes, it understands both formal and colloquial Arabic and replies in Arabic. Full English support is also available.',
+  q12:'Are my dreams private and confidential?',a12:'Yes. We do not share your data with third parties. See our <a href="/privacy.html">Privacy Policy</a> for details.',
+  'cta-text':'Didn\'t find your answer? Try the platform directly','cta-btn':'🔮 Try the Platform Now',
+  fl1:'Home',fl2:'Blog',fl3:'Privacy Policy',fl4:'Terms of Use',fl5:'Telegram Bot',
+  fcp:'© 2026 Weaver — AI Dream Weaving Platform'
+}
+};
+
+function setL(l) {
+  document.body.className = l;
+  document.documentElement.setAttribute('lang', l);
+  document.documentElement.setAttribute('dir', l==='ar'?'rtl':'ltr');
+  document.getElementById('bar').classList.toggle('on', l==='ar');
+  document.getElementById('ben').classList.toggle('on', l==='en');
+  Object.keys(T[l]).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = T[l][id];
+  });
+  try { localStorage.setItem('weaver_lang', l); } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  let lang = 'ar';
+  try { lang = localStorage.getItem('weaver_lang') || 'ar'; } catch(e) {}
+  setL(lang);
+});
 </script>
 </body>
-  </html>
+</html>
