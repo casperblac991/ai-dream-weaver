@@ -1,3 +1,36 @@
+# Weaver | نَسَّاج - AI Dream Interpretation Platform
+# https://ai-dream-weaver.onrender.com
+
 User-agent: *
 Allow: /
-Sitemap: https://ai-dream-weaver.vercel.app/sitemap.xml
+
+# Public pages - high priority
+Allow: /index.html
+Allow: /dream-feed.html
+Allow: /blog.html
+Allow: /ancient-egypt-dreams.html
+Allow: /babylonian-dreams.html
+Allow: /greek-dream-interpretation.html
+Allow: /islamic-dream-interpretation.html
+Allow: /snake-dream.html
+Allow: /flying-dream.html
+Allow: /faq.html
+
+# Block private app routes from indexing
+Disallow: /app/dashboard
+Disallow: /app/login
+Disallow: /app/register
+Disallow: /app/logout
+Disallow: /app/settings
+Disallow: /api/
+
+# Block template/dev files
+Disallow: /templates/
+Disallow: /*.json$
+Disallow: /node_modules/
+
+# Sitemap location
+Sitemap: https://ai-dream-weaver.onrender.com/sitemap.xml
+
+# Crawl delay (be kind to server)
+Crawl-delay: 2
