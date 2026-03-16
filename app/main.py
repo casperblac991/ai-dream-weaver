@@ -4,14 +4,14 @@ from fastapi.templating import Jinja2Templates
 import uvicorn
 import os
 
-from database import init_db
-from auth import register_user, login_user
-from models import get_user_by_id, save_dream, get_user_dreams, get_dreams_used, increment_dreams_used
-from ai import interpret_dream
+from app.database import init_db
+from app.auth import register_user, login_user
+from app.models import get_user_by_id, save_dream, get_user_dreams, get_dreams_used, increment_dreams_used
+from app.ai import interpret_dream
 
 init_db()
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 sessions = {}
 
