@@ -1,5 +1,5 @@
 import hashlib
-from models import create_user, get_user_by_email
+from app.models import create_user, get_user_by_email
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
