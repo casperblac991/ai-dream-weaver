@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weaver | نَسَّاج - تفسير الأحلام بالذكاء الاصطناعي</title>
     
-    <!-- Google Analytics (موجود بالفعل) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0KEHTRWRYB"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -138,7 +138,7 @@
             border-color: #f0c060;
         }
         
-        /* ✅ قسم المستخدم الجديد */
+        /* قسم المستخدم */
         .user-section {
             display: flex;
             align-items: center;
@@ -246,10 +246,10 @@
             text-decoration: none;
         }
         
-        /* ✅ قسم تقارير الحضارات */
+        /* قسم تقارير الحضارات */
         .civilizations-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin: 4rem 0;
         }
@@ -260,6 +260,7 @@
             border-radius: 20px;
             padding: 1.5rem;
             transition: transform 0.3s;
+            text-align: center;
         }
         
         .civ-card:hover {
@@ -267,63 +268,20 @@
             border-color: #f0c060;
         }
         
-        .civ-icon {
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 1rem;
+        .civ-card a {
+            text-decoration: none;
+            color: inherit;
         }
         
-        .civ-title {
+        .civ-card h3 {
             color: #f0c060;
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
-            text-align: center;
         }
         
-        .civ-period {
-            color: #a855f7;
-            font-size: 0.9rem;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-        
-        .civ-content {
+        .civ-card p {
             color: #e2d9f3;
             font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-        
-        .civ-link {
-            color: #f0c060;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1rem;
-        }
-        
-        .civ-link:hover {
-            color: white;
-        }
-        
-        .civ-lang {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin: 1rem 0;
-        }
-        
-        .civ-lang-btn {
-            background: #1e0a3c;
-            color: #f0c060;
-            border: 1px solid #7c3aed;
-            padding: 0.2rem 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-        
-        .civ-lang-btn.active {
-            background: #7c3aed;
-            color: white;
         }
         
         /* إحصائيات الزوار */
@@ -338,7 +296,7 @@
         
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
@@ -363,7 +321,7 @@
         /* المميزات */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
             margin: 4rem 0;
         }
@@ -374,12 +332,6 @@
             border-radius: 20px;
             padding: 2rem;
             text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .feature-card:hover {
-            border-color: #f0c060;
-            transform: translateY(-5px);
         }
         
         .feature-icon {
@@ -464,8 +416,6 @@
         
         @media (max-width: 768px) {
             nav { padding: 1rem; }
-            .nav-links { gap: 1rem; }
-            .lang-switcher { margin: 0.5rem 0; }
             .price-card.featured { transform: none; }
         }
     </style>
@@ -482,30 +432,30 @@
             <span class="logo-arabic">نَسَّاج</span>
         </div>
         <ul class="nav-links">
-            <li><a href="#home" id="nav-home">الرئيسية</a></li>
-            <li><a href="blog.html" id="nav-blog">المدونة</a></li>
-            <li><a href="#features" id="nav-features">المميزات</a></li>
-            <li><a href="#pricing" id="nav-pricing">الأسعار</a></li>
-            <li><a href="faq.html" id="nav-faq">الأسئلة</a></li>
+            <li><a href="#home">الرئيسية</a></li>
+            <li><a href="blog.html">المدونة</a></li>
+            <li><a href="#features">المميزات</a></li>
+            <li><a href="#pricing">الأسعار</a></li>
+            <li><a href="faq.html">الأسئلة</a></li>
             
-            <!-- ✅ قسم المستخدم -->
+            <!-- قسم المستخدم -->
             <li class="user-section" id="userSection" style="display: none;">
                 <span id="userName"></span>
-                <a href="https://ai-dream-weaver.onrender.com/app/dashboard" id="userDashboard">لوحة التحكم</a>
-                <a href="#" onclick="logout()" id="userLogout">تسجيل خروج</a>
+                <a href="https://ai-dream-weaver.onrender.com/app/dashboard">لوحة التحكم</a>
+                <a href="#" onclick="logout()">تسجيل خروج</a>
             </li>
             
             <li class="user-section" id="guestSection">
-                <a href="https://ai-dream-weaver.onrender.com/app/login" id="guestLogin">تسجيل دخول</a>
+                <a href="https://ai-dream-weaver.onrender.com/app/login">تسجيل دخول</a>
                 <span>|</span>
-                <a href="https://ai-dream-weaver.onrender.com/app/register" class="user-btn" id="guestRegister">اشترك مجاناً</a>
+                <a href="https://ai-dream-weaver.onrender.com/app/register" class="user-btn">اشترك مجاناً</a>
             </li>
             
             <li class="lang-switcher">
                 <button class="lang-btn active" onclick="setLanguage('ar')" id="btn-ar">🇸🇦 عربي</button>
                 <button class="lang-btn" onclick="setLanguage('en')" id="btn-en">🇬🇧 English</button>
             </li>
-            <li><a href="https://t.me/aidreamweaver_bot" class="nav-cta" id="nav-cta">🤖 البوت</a></li>
+            <li><a href="https://ai-dream-weaver.onrender.com/app/analyze" class="nav-cta">🔮 جرب المنصة</a></li>
         </ul>
     </nav>
     
@@ -515,191 +465,141 @@
         <section class="hero" id="home">
             <div>
                 <div style="background: rgba(124,58,237,0.2); display: inline-block; padding: 0.5rem 1.5rem; border-radius: 50px; margin-bottom: 1rem;">
-                    <span style="color: #f0c060;" id="hero-badge">✨ نَسَّاج الأحلام بالذكاء الاصطناعي</span>
+                    <span style="color: #f0c060;">✨ نَسَّاج الأحلام بالذكاء الاصطناعي</span>
                 </div>
-                <h1 id="hero-title">
+                <h1>
                     حوّل أحلامك إلى<br>
                     <span class="gold">عوالم بصرية</span><br>
                     <span class="purple">منسوجة بخيوط الذكاء</span>
                 </h1>
-                <p id="hero-text">منصة Weaver (نَسَّاج): تفسير الأحلام بالذكاء الاصطناعي، توليد صور 4K، مدونة ثقافية.</p>
+                <p>منصة Weaver (نَسَّاج): تفسير الأحلام بالذكاء الاصطناعي، توليد صور 4K، مدونة ثقافية.</p>
                 <div>
-                    <a href="https://t.me/aidreamweaver_bot" class="btn-super" id="hero-btn">🌙 جرب البوت الآن</a>
-                    <a href="#features" class="btn-secondary" id="hero-btn2">✨ اكتشف المميزات</a>
+                    <a href="https://ai-dream-weaver.onrender.com/app/analyze" class="btn-super">🌙 جرب المنصة الآن</a>
+                    <a href="#features" class="btn-secondary">✨ اكتشف المميزات</a>
                 </div>
             </div>
         </section>
         
-        <!-- ✅ إحصائيات الزوار -->
+        <!-- إحصائيات الزوار -->
         <div class="visitor-stats">
-            <h2 style="color: #f0c060; margin-bottom: 2rem;" id="stats-title">📊 إحصائيات المنصة</h2>
+            <h2 style="color: #f0c060; margin-bottom: 2rem;">📊 إحصائيات المنصة</h2>
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-number" id="stat-users">212</div>
-                    <div class="stat-label" id="stat-users-label">مستخدم نشط (30 يوم)</div>
+                    <div class="stat-label">مستخدم نشط (30 يوم)</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" id="stat-dreams-total">+50K</div>
-                    <div class="stat-label" id="stat-dreams-label">حلم مُفسَّر</div>
+                    <div class="stat-label">حلم مُفسَّر</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" id="stat-countries">3</div>
-                    <div class="stat-label" id="stat-countries-label">دول</div>
+                    <div class="stat-label">دول</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" id="stat-views">106</div>
-                    <div class="stat-label" id="stat-views-label">مشاهدة اليوم</div>
+                    <div class="stat-label">مشاهدة اليوم</div>
                 </div>
             </div>
         </div>
         
-        <!-- ✅ قسم تقارير الحضارات -->
-        <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin: 4rem 0 2rem;" id="civ-title">📜 الأحلام في الحضارات القديمة</h2>
+        <!-- قسم تقارير الحضارات -->
+        <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin: 4rem 0 2rem;">📜 الأحلام في الحضارات القديمة</h2>
         
         <div class="civilizations-grid">
-            <!-- مصر القديمة -->
             <div class="civ-card">
-                <div class="civ-icon">🏛️</div>
-                <div class="civ-title">مصر القديمة</div>
-                <div class="civ-period">(3000 ق.م - 30 ق.م)</div>
-                <div class="civ-lang">
-                    <button class="civ-lang-btn active" onclick="showCivLang('egypt', 'ar')">عربي</button>
-                    <button class="civ-lang-btn" onclick="showCivLang('egypt', 'en')">English</button>
-                </div>
-                <div class="civ-content" id="egypt-ar">
-                    كان المصريون القدماء يعتقدون أن الأحلام رسائل من الآلهة. بردية تشيستر بيتي (1275 ق.م) تحتوي على أكثر من 200 حلم وتفسيرها. التمساح يرمز للخطر، القطة للخصوبة، والميزان للعدالة.
-                </div>
-                <div class="civ-content" id="egypt-en" style="display: none;">
-                    Ancient Egyptians believed dreams were messages from gods. The Chester Beatty Papyrus (1275 BCE) contains over 200 dreams and interpretations. Crocodile symbolizes danger, cat fertility, scales justice.
-                </div>
-                <a href="ancient-egypt-dreams.html" class="civ-link">📖 اقرأ التقرير الكامل →</a>
+                <a href="/templates/blog/ancient-egypt-dreams.html">
+                    <h3>🏛️ مصر القديمة</h3>
+                    <p>بردية تشيستر بيتي وأحلام الفراعنة. تعرف على رموز التمساح والقطة والميزان.</p>
+                </a>
             </div>
-            
-            <!-- بلاد الرافدين -->
             <div class="civ-card">
-                <div class="civ-icon">🗿</div>
-                <div class="civ-title">بلاد الرافدين</div>
-                <div class="civ-period">(3000 ق.م - 600 ق.م)</div>
-                <div class="civ-lang">
-                    <button class="civ-lang-btn active" onclick="showCivLang('meso', 'ar')">عربي</button>
-                    <button class="civ-lang-btn" onclick="showCivLang('meso', 'en')">English</button>
-                </div>
-                <div class="civ-content" id="meso-ar">
-                    ألواح نينوى الطينية تحوي أقدم سجلات الأحلام. الملك جلجامش استشار الكهنة لتفسير أحلامه. الطيران يعني النجاة من الخطر، الثعبان يرمز للحكمة أو العدو.
-                </div>
-                <div class="civ-content" id="meso-en" style="display: none;">
-                    The clay tablets of Nineveh contain the oldest dream records. King Gilgamesh consulted priests to interpret his dreams. Flying means escaping danger, snake symbolizes wisdom or enemy.
-                </div>
-                <a href="mesopotamia-dreams.html" class="civ-link">📖 اقرأ التقرير الكامل →</a>
+                <a href="/templates/blog/babylonian-dreams.html">
+                    <h3>🗿 بلاد الرافدين</h3>
+                    <p>ألواح نينوى وأحلام الملك جلجامش. الطيران والثعبان في تفسير البابليين.</p>
+                </a>
             </div>
-            
-            <!-- اليونان القديمة -->
             <div class="civ-card">
-                <div class="civ-icon">🏺</div>
-                <div class="civ-title">اليونان القديمة</div>
-                <div class="civ-period">(800 ق.م - 146 ق.م)</div>
-                <div class="civ-lang">
-                    <button class="civ-lang-btn active" onclick="showCivLang('greece', 'ar')">عربي</button>
-                    <button class="civ-lang-btn" onclick="showCivLang('greece', 'en')">English</button>
-                </div>
-                <div class="civ-content" id="greece-ar">
-                    الإغريق كانوا ينامون في معابد أسكليبيوس طلباً للأحلام الشافية. أرسطو وأفلاطون كتبوا عن الأحلام كرسائل إلهية. إله الأحلام مورفيوس يجسد التحول داخل الحلم.
-                </div>
-                <div class="civ-content" id="greece-en" style="display: none;">
-                    Greeks practiced incubation in Asklepieia temples for healing dreams. Aristotle and Plato wrote about dreams as divine messages. Morpheus, god of dreams, embodies transformation.
-                </div>
-                <a href="greece-dreams.html" class="civ-link">📖 اقرأ التقرير الكامل →</a>
+                <a href="/templates/blog/greek-dream-interpretation.html">
+                    <h3>🏺 اليونان القديمة</h3>
+                    <p>معابد أسكليبيوس وإله الأحلام مورفيوس. أرسطو وأفلاطون عن الأحلام.</p>
+                </a>
             </div>
-            
-            <!-- التراث الإسلامي -->
             <div class="civ-card">
-                <div class="civ-icon">☪️</div>
-                <div class="civ-title">التراث الإسلامي</div>
-                <div class="civ-period">(القرن 7 - 15م)</div>
-                <div class="civ-lang">
-                    <button class="civ-lang-btn active" onclick="showCivLang('islam', 'ar')">عربي</button>
-                    <button class="civ-lang-btn" onclick="showCivLang('islam', 'en')">English</button>
-                </div>
-                <div class="civ-content" id="islam-ar">
-                    الإمام ابن سيرين (654-728م) أشهر مفسر في التاريخ الإسلامي. قسم الرؤيا إلى: من الله، من الشيطان، حديث نفس. اعتمد على القرآن والحديث.
-                </div>
-                <div class="civ-content" id="islam-en" style="display: none;">
-                    Imam Ibn Sirin (654-728 CE) is the most famous dream interpreter in Islamic history. He classified visions into: divine, from Satan, and self-reflection. Based on Quran and Hadith.
-                </div>
-                <a href="ibn-sirin-dreams.html" class="civ-link">📖 اقرأ التقرير الكامل →</a>
+                <a href="/templates/blog/islamic-dream-interpretation.html">
+                    <h3>☪️ التراث الإسلامي</h3>
+                    <p>الإمام ابن سيرين وتقسيم الرؤيا. منهجية تفسير الأحلام في الإسلام.</p>
+                </a>
             </div>
         </div>
         
         <!-- المميزات -->
         <section id="features">
-            <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;" id="features-title">كل ما تحتاجه في نول واحد</h2>
+            <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;">كل ما تحتاجه في نول واحد</h2>
             
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🧠</div>
-                    <h3 id="feature1-title">تفسير عميق بالذكاء الاصطناعي</h3>
-                    <p id="feature1-text">نموذج Groq + Llama 4 ينسج خيوط أحلامك بتفسير دقيق ومراعاة للثقافة العربية والإسلامية</p>
+                    <h3>تفسير عميق بالذكاء الاصطناعي</h3>
+                    <p>نموذج Groq + Llama 4 ينسج خيوط أحلامك بتفسير دقيق ومراعاة للثقافة العربية والإسلامية</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎨</div>
-                    <h3 id="feature2-title">توليد صور 4K</h3>
-                    <p id="feature2-text">حوّل حلمك إلى لوحة فنية منسوجة بخيوط الضوء باستخدام تقنيات SiliconFlow</p>
+                    <h3>توليد صور 4K</h3>
+                    <p>حوّل حلمك إلى لوحة فنية منسوجة بخيوط الضوء باستخدام تقنيات SiliconFlow</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📚</div>
-                    <h3 id="feature3-title">مدونة ثقافية</h3>
-                    <p id="feature3-text">موسوعة متكاملة عن نسيج الأحلام في الحضارات المصرية، البابلية، اليونانية والإسلامية</p>
+                    <h3>مدونة ثقافية</h3>
+                    <p>موسوعة متكاملة عن نسيج الأحلام في الحضارات المصرية، البابلية، اليونانية والإسلامية</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🤖</div>
-                    <h3 id="feature4-title">بوت تيليجرام</h3>
-                    <p id="feature4-text">تفاعل مباشر مع @aidreamweaver_bot لتفسير أحلامك وتوليد الصور بلمسة واحدة</p>
+                    <h3>بوت تيليجرام</h3>
+                    <p>تفاعل مباشر مع @aidreamweaver_bot لتفسير أحلامك وتوليد الصور بلمسة واحدة</p>
                 </div>
             </div>
         </section>
         
         <!-- خطط الأسعار -->
         <section id="pricing">
-            <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;" id="pricing-title">خطط النسيج</h2>
+            <h2 style="font-size: 2.5rem; text-align: center; color: #f0c060; margin-bottom: 3rem;">خطط النسيج</h2>
             
             <div class="pricing-grid">
-                <!-- الخطة الأساسية -->
                 <div class="price-card">
-                    <h3 id="plan1-name">نَسَّاج أساسي</h3>
+                    <h3>نَسَّاج أساسي</h3>
                     <div class="price-amount">$4.99</div>
-                    <div id="plan1-period">شهرياً</div>
+                    <div>شهرياً</div>
                     <ul class="price-features">
-                        <li id="plan1-feat1">5 تفسيرات يومياً</li>
-                        <li id="plan1-feat2">3 صور يومياً</li>
+                        <li>5 تفسيرات يومياً</li>
+                        <li>3 صور يومياً</li>
                     </ul>
-                    <a href="https://casperblac.gumroad.com/l/dtiobz" class="price-btn" id="plan1-btn">ابدأ النسيج</a>
+                    <a href="https://casperblac.gumroad.com/l/dtiobz" class="price-btn">ابدأ النسيج</a>
                 </div>
                 
-                <!-- الخطة الاحترافية -->
                 <div class="price-card featured">
-                    <div class="price-tag" id="plan2-tag">⭐ الأكثر شعبية</div>
-                    <h3 id="plan2-name">نَسَّاج محترف</h3>
+                    <div class="price-tag">⭐ الأكثر شعبية</div>
+                    <h3>نَسَّاج محترف</h3>
                     <div class="price-amount">$9.99</div>
-                    <div id="plan2-period">شهرياً</div>
+                    <div>شهرياً</div>
                     <ul class="price-features">
-                        <li id="plan2-feat1">تفسيرات غير محدودة</li>
-                        <li id="plan2-feat2">صور 4K غير محدودة</li>
-                        <li id="plan2-feat3">+50 أسلوب فني</li>
+                        <li>تفسيرات غير محدودة</li>
+                        <li>صور 4K غير محدودة</li>
+                        <li>+50 أسلوب فني</li>
                     </ul>
-                    <a href="https://casperblac.gumroad.com/l/byqzxd" class="price-btn" id="plan2-btn">اشترك الآن</a>
+                    <a href="https://casperblac.gumroad.com/l/byqzxd" class="price-btn">اشترك الآن</a>
                 </div>
                 
-                <!-- خطة فريق -->
                 <div class="price-card">
-                    <h3 id="plan3-name">نسّاجون</h3>
+                    <h3>نسّاجون</h3>
                     <div class="price-amount">$19.99</div>
-                    <div id="plan3-period">شهرياً / لكل نَسَّاج</div>
+                    <div>شهرياً / لكل نَسَّاج</div>
                     <ul class="price-features">
-                        <li id="plan3-feat1">كل مميزات المحترف</li>
-                        <li id="plan3-feat2">توليد فيديو</li>
-                        <li id="plan3-feat3">تقارير PDF</li>
+                        <li>كل مميزات المحترف</li>
+                        <li>توليد فيديو</li>
+                        <li>تقارير PDF</li>
                     </ul>
-                    <a href="https://casperblac.gumroad.com/l/hiulqi" class="price-btn" id="plan3-btn">ابدأ معاً</a>
+                    <a href="https://casperblac.gumroad.com/l/hiulqi" class="price-btn">ابدأ معاً</a>
                 </div>
             </div>
         </section>
@@ -708,17 +608,16 @@
     <!-- تذييل -->
     <footer>
         <div class="footer-links">
-            <a href="#home" id="footer-home">الرئيسية</a>
-            <a href="blog.html" id="footer-blog">المدونة</a>
-            <a href="faq.html" id="footer-faq">الأسئلة الشائعة</a>
-            <a href="privacy.html" id="footer-privacy">سياسة الخصوصية</a>
-            <a href="terms.html" id="footer-terms">شروط الاستخدام</a>
-            <a href="https://t.me/aidreamweaver_bot" id="footer-bot">بوت تيليجرام</a>
+            <a href="#home">الرئيسية</a>
+            <a href="blog.html">المدونة</a>
+            <a href="faq.html">الأسئلة الشائعة</a>
+            <a href="privacy.html">سياسة الخصوصية</a>
+            <a href="terms.html">شروط الاستخدام</a>
+            <a href="https://t.me/aidreamweaver_bot">بوت تيليجرام</a>
         </div>
-        <p id="footer-copyright">© 2026 Weaver | نَسَّاج - منصة نسيج الأحلام بالذكاء الاصطناعي</p>
+        <p>© 2026 Weaver | نَسَّاج - منصة نسيج الأحلام بالذكاء الاصطناعي</p>
     </footer>
     
-    <!-- سكريبت النجوم واللغة -->
     <script>
         // توليد النجوم
         const starsEl = document.querySelector('.stars');
@@ -737,200 +636,38 @@
             starsEl.appendChild(s);
         }
         
-        // ✅ التحقق من حالة تسجيل الدخول
+        // التحقق من حالة تسجيل الدخول
         function checkLoginStatus() {
-            // هنا حنستدعي API المنصة عشان نجيب حالة المستخدم
-            // حالياً للعرض حنستخدم localStorage مؤقتاً
             const isLoggedIn = localStorage.getItem('weaver_logged_in') === 'true';
             const userName = localStorage.getItem('weaver_username') || 'مستخدم';
             
-            const userSection = document.getElementById('userSection');
-            const guestSection = document.getElementById('guestSection');
-            const userNameSpan = document.getElementById('userName');
-            
-            if (isLoggedIn) {
-                userSection.style.display = 'flex';
-                guestSection.style.display = 'none';
-                userNameSpan.textContent = userName;
-            } else {
-                userSection.style.display = 'none';
-                guestSection.style.display = 'flex';
-            }
+            document.getElementById('userSection').style.display = isLoggedIn ? 'flex' : 'none';
+            document.getElementById('guestSection').style.display = isLoggedIn ? 'none' : 'flex';
+            if (isLoggedIn) document.getElementById('userName').textContent = userName;
         }
         
-        // ✅ تسجيل خروج
+        // تسجيل خروج
         function logout() {
             localStorage.removeItem('weaver_logged_in');
             localStorage.removeItem('weaver_username');
             window.location.href = 'https://ai-dream-weaver.onrender.com/app/logout';
         }
         
-        // ✅ تبديل لغة المحتوى في بطاقات الحضارات
-        function showCivLang(civ, lang) {
-            // إخفاء كل المحتوى
-            document.querySelectorAll(`[id^="${civ}-"]`).forEach(el => el.style.display = 'none');
-            // إظهار المحتوى المطلوب
-            document.getElementById(`${civ}-${lang}`).style.display = 'block';
-            
-            // تحديث الأزرار
-            document.querySelectorAll(`[onclick*="${civ}"]`).forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-        
-        // نظام الترجمة الكامل
-        const translations = {
-            ar: {
-                'nav-home': 'الرئيسية',
-                'nav-blog': 'المدونة',
-                'nav-features': 'المميزات',
-                'nav-pricing': 'الأسعار',
-                'nav-faq': 'الأسئلة',
-                'nav-cta': '🤖 البوت',
-                'btn-ar': '🇸🇦 عربي',
-                'btn-en': '🇬🇧 English',
-                'guestLogin': 'تسجيل دخول',
-                'guestRegister': 'اشترك مجاناً',
-                'userDashboard': 'لوحة التحكم',
-                'userLogout': 'تسجيل خروج',
-                'hero-badge': '✨ نَسَّاج الأحلام بالذكاء الاصطناعي',
-                'hero-title': 'حوّل أحلامك إلى<br><span class="gold">عوالم بصرية</span><br><span class="purple">منسوجة بخيوط الذكاء</span>',
-                'hero-text': 'منصة Weaver (نَسَّاج): تفسير الأحلام بالذكاء الاصطناعي، توليد صور 4K، مدونة ثقافية.',
-                'hero-btn': '🌙 جرب البوت الآن',
-                'hero-btn2': '✨ اكتشف المميزات',
-                'stats-title': '📊 إحصائيات المنصة',
-                'stat-users-label': 'مستخدم نشط (30 يوم)',
-                'stat-dreams-label': 'حلم مُفسَّر',
-                'stat-countries-label': 'دول',
-                'stat-views-label': 'مشاهدة اليوم',
-                'civ-title': '📜 الأحلام في الحضارات القديمة',
-                'features-title': 'كل ما تحتاجه في نول واحد',
-                'feature1-title': 'تفسير عميق بالذكاء الاصطناعي',
-                'feature1-text': 'نموذج Groq + Llama 4 ينسج خيوط أحلامك بتفسير دقيق ومراعاة للثقافة العربية والإسلامية',
-                'feature2-title': 'توليد صور 4K',
-                'feature2-text': 'حوّل حلمك إلى لوحة فنية منسوجة بخيوط الضوء باستخدام تقنيات SiliconFlow',
-                'feature3-title': 'مدونة ثقافية',
-                'feature3-text': 'موسوعة متكاملة عن نسيج الأحلام في الحضارات المصرية، البابلية، اليونانية والإسلامية',
-                'feature4-title': 'بوت تيليجرام',
-                'feature4-text': 'تفاعل مباشر مع @aidreamweaver_bot لتفسير أحلامك وتوليد الصور بلمسة واحدة',
-                'pricing-title': 'خطط النسيج',
-                'plan1-name': 'نَسَّاج أساسي',
-                'plan1-period': 'شهرياً',
-                'plan1-feat1': '5 تفسيرات يومياً',
-                'plan1-feat2': '3 صور يومياً',
-                'plan1-btn': 'ابدأ النسيج',
-                'plan2-tag': '⭐ الأكثر شعبية',
-                'plan2-name': 'نَسَّاج محترف',
-                'plan2-period': 'شهرياً',
-                'plan2-feat1': 'تفسيرات غير محدودة',
-                'plan2-feat2': 'صور 4K غير محدودة',
-                'plan2-feat3': '+50 أسلوب فني',
-                'plan2-btn': 'اشترك الآن',
-                'plan3-name': 'نسّاجون',
-                'plan3-period': 'شهرياً / لكل نَسَّاج',
-                'plan3-feat1': 'كل مميزات المحترف',
-                'plan3-feat2': 'توليد فيديو',
-                'plan3-feat3': 'تقارير PDF',
-                'plan3-btn': 'ابدأ معاً',
-                'footer-home': 'الرئيسية',
-                'footer-blog': 'المدونة',
-                'footer-faq': 'الأسئلة الشائعة',
-                'footer-privacy': 'سياسة الخصوصية',
-                'footer-terms': 'شروط الاستخدام',
-                'footer-bot': 'بوت تيليجرام',
-                'footer-copyright': '© 2026 Weaver | نَسَّاج - منصة نسيج الأحلام بالذكاء الاصطناعي'
-            },
-            en: {
-                'nav-home': 'Home',
-                'nav-blog': 'Blog',
-                'nav-features': 'Features',
-                'nav-pricing': 'Pricing',
-                'nav-faq': 'FAQ',
-                'nav-cta': '🤖 Bot',
-                'btn-ar': '🇸🇦 عربي',
-                'btn-en': '🇬🇧 English',
-                'guestLogin': 'Login',
-                'guestRegister': 'Sign Up Free',
-                'userDashboard': 'Dashboard',
-                'userLogout': 'Logout',
-                'hero-badge': '✨ AI Dream Weaver',
-                'hero-title': 'Turn Your Dreams Into<br><span class="gold">Visual Worlds</span><br><span class="purple">Woven with Intelligence</span>',
-                'hero-text': 'Weaver: AI dream interpretation, 4K image generation, cultural blog.',
-                'hero-btn': '🌙 Try the Bot Now',
-                'hero-btn2': '✨ Explore Features',
-                'stats-title': '📊 Platform Statistics',
-                'stat-users-label': 'Active Users (30d)',
-                'stat-dreams-label': 'Dreams Interpreted',
-                'stat-countries-label': 'Countries',
-                'stat-views-label': 'Views Today',
-                'civ-title': '📜 Dreams in Ancient Civilizations',
-                'features-title': 'Everything You Need in One Loom',
-                'feature1-title': 'Deep AI Interpretation',
-                'feature1-text': 'Groq + Llama 4 weaves your dreams with accurate interpretation, respecting Arab culture.',
-                'feature2-title': '4K Image Generation',
-                'feature2-text': 'Turn your dream into a stunning artistic image woven with light using SiliconFlow technology.',
-                'feature3-title': 'Cultural Blog',
-                'feature3-text': 'A comprehensive encyclopedia about dream weaving in Egyptian, Babylonian, Greek, and Islamic civilizations.',
-                'feature4-title': 'Telegram Bot',
-                'feature4-text': 'Chat with @aidreamweaver_bot to weave your dreams and generate images.',
-                'pricing-title': 'Weaving Plans',
-                'plan1-name': 'Basic Weaver',
-                'plan1-period': 'per month',
-                'plan1-feat1': '5 interpretations/day',
-                'plan1-feat2': '3 images/day',
-                'plan1-btn': 'Start Weaving',
-                'plan2-tag': '⭐ Most Popular',
-                'plan2-name': 'Pro Weaver',
-                'plan2-period': 'per month',
-                'plan2-feat1': 'Unlimited interpretations',
-                'plan2-feat2': 'Unlimited 4K images',
-                'plan2-feat3': '+50 artistic styles',
-                'plan2-btn': 'Subscribe Now',
-                'plan3-name': 'Weavers Team',
-                'plan3-period': 'per month / per user',
-                'plan3-feat1': 'All Pro features',
-                'plan3-feat2': 'Video generation',
-                'plan3-feat3': 'PDF reports',
-                'plan3-btn': 'Start Together',
-                'footer-home': 'Home',
-                'footer-blog': 'Blog',
-                'footer-faq': 'FAQ',
-                'footer-privacy': 'Privacy',
-                'footer-terms': 'Terms',
-                'footer-bot': 'Weaver Bot',
-                'footer-copyright': '© 2026 Weaver — AI Dream Weaving Platform'
-            }
-        };
-        
+        // نظام الترجمة
         function setLanguage(lang) {
             localStorage.setItem('weaver_lang', lang);
             document.documentElement.lang = lang;
             document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             document.body.setAttribute('lang', lang);
             
-            for (let id in translations[lang]) {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.innerHTML = translations[lang][id];
-                }
-            }
-            
-            // تحديث روابط المدونة
-            const blogHref = lang === 'ar' ? 'blog.html' : 'blog-eng.html';
-            document.getElementById('nav-blog').href = blogHref;
-            document.getElementById('footer-blog').href = blogHref;
-            
             document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         }
         
-        // تحميل اللغة المحفوظة
         document.addEventListener('DOMContentLoaded', function() {
             const savedLang = localStorage.getItem('weaver_lang') || 'ar';
             setLanguage(savedLang);
             checkLoginStatus();
-            
-            // تحديث الإحصائيات من تحليلات جوجل
-            // (الأرقام ستُحدث تلقائياً من Google Analytics)
         });
     </script>
 </body>
