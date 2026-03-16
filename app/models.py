@@ -1,4 +1,4 @@
-from database import get_db
+from app.database import get_db
 import sqlite3
 
 def create_user(username, email, password):
