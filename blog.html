@@ -1,92 +1,468 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مدونة Weaver | تفسير الأحلام في الحضارات</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', system-ui; }
-        body { background: #0a0a1a; color: white; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #2a2a4a; }
-        .logo { font-size: 1.8rem; background: linear-gradient(135deg, #f0c060, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold; }
-        .nav-links a { color: #b0b0d0; margin-left: 30px; text-decoration: none; }
-        .nav-links a:hover { color: #f0c060; }
-        h1 { text-align: center; margin: 50px 0; font-size: 2.5rem; background: linear-gradient(135deg, #fff, #c0a0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .articles { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: 50px 0; }
-        .article { background: #1a1a2e; padding: 25px; border-radius: 15px; border: 1px solid #2a2a4a; }
-        .article h3 { color: #f0c060; margin-bottom: 10px; }
-        .article a { color: #a855f7; text-decoration: none; display: inline-block; margin-top: 15px; }
-        
-        /* ✅ قسم ربط المدونة بالمنصة */
-        .dream-cta {
-            background: #1a1a2e;
-            padding: 30px;
-            border-radius: 20px;
-            margin: 40px 0;
-            text-align: center;
-            border: 2px solid #a855f7;
-        }
-        .dream-cta p { color: #f0c060; font-size: 1.3rem; margin-bottom: 15px; }
-        .dream-cta a {
-            background: #7c3aed;
-            color: white;
-            padding: 12px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
-            transition: 0.3s;
-        }
-        .dream-cta a:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(124,58,237,0.3); }
-        
-        footer { text-align: center; padding: 40px 0; border-top: 1px solid #2a2a4a; margin-top: 50px; color: #b0b0d0; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مدونة Weaver | موسوعة تفسير الأحلام</title>
+<meta name="description" content="أكبر موسوعة عربية لتفسير الأحلام — تقارير الحضارات، رموز الأحلام، الكتب القديمة، التحليل النفسي والعلمي بالذكاء الاصطناعي">
+<meta name="keywords" content="تفسير الأحلام، رموز الأحلام، ابن سيرين، مصر القديمة، بابل، اليونان، الأحلام في الإسلام، علم الأحلام">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Tajawal',sans-serif;background:#050210;color:#e2d9f3;line-height:1.6;}
+body.en{font-family:'Inter',sans-serif;direction:ltr;text-align:left;}
+body.ar{direction:rtl;text-align:right;}
+.bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 20% 50%,#1e0a3c 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,#0c0a3e 0%,transparent 50%),#050210;}
+canvas{position:fixed;inset:0;z-index:-1;pointer-events:none;}
+nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:.75rem 2rem;background:rgba(5,2,16,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(124,58,237,.4);flex-wrap:wrap;gap:.5rem;}
+.logo{font-size:1.4rem;font-weight:900;display:flex;align-items:center;gap:5px;text-decoration:none;flex-shrink:0;}
+.logo-en{background:linear-gradient(135deg,#f0c060,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.logo-ar{color:#a855f7;}.logo-sep{color:#f0c060;}
+.nav-r{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+.nav-r a{color:#e2d9f3;text-decoration:none;font-size:.85rem;transition:color .2s;white-space:nowrap;}
+.nav-r a:hover{color:#f0c060;}
+.nav-cta{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white!important;padding:.4rem 1.1rem;border-radius:50px;font-size:.82rem;font-weight:700;}
+.lang-btns{display:flex;gap:5px;}
+.lb{background:rgba(30,10,60,.8);color:#f0c060;border:1px solid rgba(124,58,237,.5);padding:.3rem .7rem;border-radius:50px;cursor:pointer;font-size:.78rem;font-weight:700;transition:all .2s;font-family:inherit;}
+.lb.on,.lb:hover{background:#7c3aed;color:white;}
+.blog-hero{text-align:center;padding:3rem 1.5rem 1.5rem;}
+.blog-hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;line-height:1.2;margin-bottom:.75rem;}
+.gold{color:#f0c060;}.purple{color:#a855f7;}
+.blog-hero p{color:rgba(226,217,243,.65);font-size:1.05rem;max-width:620px;margin:0 auto 1.5rem;line-height:1.7;}
+.hero-stats{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;}
+.hstat{background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);padding:.4rem 1.1rem;border-radius:50px;font-size:.85rem;color:#a855f7;}
+.hstat span{color:#f0c060;font-weight:700;}
+.search-wrap{max-width:600px;margin:0 auto 2.5rem;padding:0 1.5rem;}
+.search-box{position:relative;}
+.search-box input{width:100%;background:rgba(30,10,60,.7);border:1px solid rgba(124,58,237,.4);border-radius:50px;color:#e2d9f3;padding:.85rem 1.5rem .85rem 3rem;font-size:1rem;font-family:inherit;outline:none;transition:border-color .2s;}
+body.ar .search-box input{padding:.85rem 3rem .85rem 1.5rem;}
+.search-box input:focus{border-color:#7c3aed;}
+.search-box input::placeholder{color:rgba(226,217,243,.4);}
+.search-icon{position:absolute;top:50%;transform:translateY(-50%);left:1.1rem;font-size:1rem;pointer-events:none;}
+body.ar .search-icon{left:auto;right:1.1rem;}
+.cat-tabs{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;padding:0 1.5rem;margin-bottom:2.5rem;}
+.cat-tab{background:rgba(30,10,60,.6);border:1px solid rgba(124,58,237,.3);color:rgba(226,217,243,.7);padding:.5rem 1.1rem;border-radius:50px;cursor:pointer;font-size:.88rem;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:.4rem;}
+.cat-tab:hover,.cat-tab.active{background:rgba(124,58,237,.35);border-color:#a855f7;color:#f0c060;}
+.cat-tab .cnt{background:rgba(240,192,96,.2);color:#f0c060;padding:.1rem .45rem;border-radius:50px;font-size:.72rem;font-weight:700;}
+.blog-layout{display:grid;grid-template-columns:1fr 300px;gap:2rem;max-width:1200px;margin:0 auto;padding:0 1.5rem 4rem;}
+@media(max-width:900px){.blog-layout{grid-template-columns:1fr;}.sidebar{order:-1;}}
+.featured-card{background:linear-gradient(135deg,rgba(45,16,96,.8),rgba(26,10,60,.8));border:1px solid rgba(240,192,96,.4);border-radius:22px;padding:2rem;margin-bottom:2rem;cursor:pointer;transition:all .3s;}
+.featured-card:hover{transform:translateY(-3px);border-color:#f0c060;}
+.feat-badge{background:linear-gradient(135deg,#f0c060,#f97316);color:#06020f;padding:.3rem 1rem;border-radius:50px;font-size:.78rem;font-weight:900;display:inline-block;margin-bottom:1rem;}
+.featured-card h2{font-size:clamp(1.3rem,3vw,1.9rem);font-weight:900;color:#f0c060;margin-bottom:.75rem;line-height:1.3;}
+.featured-card p{color:rgba(226,217,243,.7);font-size:.95rem;line-height:1.7;margin-bottom:1.25rem;}
+.feat-meta{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;}
+.feat-tag{background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.3);color:#a855f7;padding:.25rem .75rem;border-radius:50px;font-size:.78rem;}
+.feat-date{color:rgba(226,217,243,.4);font-size:.8rem;}
+.read-more{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;padding:.6rem 1.5rem;border-radius:50px;font-size:.88rem;font-weight:700;text-decoration:none;display:inline-block;margin-top:1rem;transition:opacity .2s;}
+.read-more:hover{opacity:.85;}
+.articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.4rem;margin-bottom:2rem;}
+.article-card{background:rgba(20,8,45,.8);border:1px solid rgba(124,58,237,.3);border-radius:18px;overflow:hidden;cursor:pointer;transition:all .3s;text-decoration:none;display:block;color:inherit;}
+.article-card:hover{transform:translateY(-4px);border-color:rgba(168,85,247,.6);}
+.card-banner{height:5px;width:100%;}
+.card-body{padding:1.25rem;}
+.card-cat{font-size:.72rem;font-weight:700;padding:.2rem .65rem;border-radius:50px;display:inline-block;margin-bottom:.6rem;}
+.card-title{font-size:1rem;font-weight:700;color:#e2d9f3;margin-bottom:.45rem;line-height:1.4;}
+.card-excerpt{font-size:.84rem;color:rgba(226,217,243,.6);line-height:1.55;margin-bottom:.9rem;}
+.card-footer{display:flex;justify-content:space-between;align-items:center;}
+.card-time{font-size:.75rem;color:rgba(226,217,243,.4);}
+.card-read{font-size:.75rem;color:#a855f7;}
+.cat-civ .card-banner{background:linear-gradient(90deg,#daa520,#b8860b);}
+.cat-civ .card-cat{background:rgba(218,165,32,.15);color:#daa520;border:1px solid rgba(218,165,32,.3);}
+.cat-sym .card-banner{background:linear-gradient(90deg,#7c3aed,#a855f7);}
+.cat-sym .card-cat{background:rgba(124,58,237,.15);color:#a855f7;border:1px solid rgba(124,58,237,.3);}
+.cat-book .card-banner{background:linear-gradient(90deg,#0f6e56,#1d9e75);}
+.cat-book .card-cat{background:rgba(29,158,117,.15);color:#1d9e75;border:1px solid rgba(29,158,117,.3);}
+.cat-sci .card-banner{background:linear-gradient(90deg,#185fa5,#378add);}
+.cat-sci .card-cat{background:rgba(55,138,221,.15);color:#378add;border:1px solid rgba(55,138,221,.3);}
+.cat-ai .card-banner{background:linear-gradient(90deg,#ec4899,#f97316);}
+.cat-ai .card-cat{background:rgba(236,72,153,.15);color:#ec4899;border:1px solid rgba(236,72,153,.3);}
+.sidebar{display:flex;flex-direction:column;gap:1.5rem;}
+.side-card{background:rgba(20,8,45,.8);border:1px solid rgba(124,58,237,.3);border-radius:16px;padding:1.25rem;}
+.side-title{font-size:.9rem;font-weight:700;color:#f0c060;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(124,58,237,.3);}
+.sym-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;}
+.sym-btn{background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.2);border-radius:10px;padding:.5rem .3rem;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;display:block;}
+.sym-btn:hover{background:rgba(124,58,237,.25);border-color:#a855f7;}
+.sym-icon{font-size:1.3rem;display:block;margin-bottom:.2rem;}
+.sym-name{font-size:.72rem;color:rgba(226,217,243,.7);}
+.civ-list{display:flex;flex-direction:column;gap:.5rem;}
+.civ-item{display:flex;align-items:center;gap:.75rem;padding:.6rem .75rem;background:rgba(124,58,237,.08);border-radius:10px;cursor:pointer;transition:background .2s;text-decoration:none;}
+.civ-item:hover{background:rgba(124,58,237,.2);}
+.civ-icon{font-size:1.2rem;flex-shrink:0;}
+.civ-info h4{font-size:.88rem;font-weight:700;color:#e2d9f3;}
+.civ-info span{font-size:.75rem;color:rgba(226,217,243,.5);}
+.trend-list{display:flex;flex-direction:column;gap:.4rem;}
+.trend-item{display:flex;align-items:center;gap:.6rem;padding:.45rem 0;border-bottom:.5px solid rgba(124,58,237,.2);text-decoration:none;}
+.trend-item:last-child{border-bottom:none;}
+.trend-num{color:#f0c060;font-size:.8rem;font-weight:700;width:18px;flex-shrink:0;}
+.trend-title{font-size:.84rem;color:rgba(226,217,243,.8);line-height:1.35;}
+.trend-title:hover{color:#f0c060;}
+.book-list{display:flex;flex-direction:column;gap:.7rem;}
+.book-item{display:flex;gap:.75rem;align-items:flex-start;padding-bottom:.7rem;border-bottom:.5px solid rgba(124,58,237,.15);}
+.book-item:last-child{border-bottom:none;padding-bottom:0;}
+.book-cover{width:36px;height:48px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.book-info h4{font-size:.84rem;font-weight:700;color:#e2d9f3;margin-bottom:.2rem;}
+.book-info span{font-size:.74rem;color:rgba(226,217,243,.5);}
+.ai-cta{background:linear-gradient(135deg,rgba(124,58,237,.3),rgba(236,72,153,.2));border:1px solid rgba(124,58,237,.4);border-radius:16px;padding:1.25rem;text-align:center;}
+.ai-cta h3{color:#f0c060;font-size:.95rem;font-weight:700;margin-bottom:.5rem;}
+.ai-cta p{color:rgba(226,217,243,.6);font-size:.82rem;margin-bottom:1rem;line-height:1.5;}
+.ai-btn{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;padding:.65rem 1.5rem;border-radius:50px;font-weight:700;font-size:.85rem;text-decoration:none;display:inline-block;}
+.ai-btn:hover{opacity:.85;}
+.sec-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;}
+.sec-header h2{font-size:1.15rem;font-weight:900;color:#f0c060;}
+.sec-header a{font-size:.82rem;color:#a855f7;text-decoration:none;}
+.load-more{text-align:center;margin:1.5rem 0;}
+.load-btn{background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.4);color:#a855f7;padding:.75rem 2.5rem;border-radius:50px;cursor:pointer;font-size:.9rem;font-weight:700;font-family:inherit;transition:all .2s;}
+.load-btn:hover{background:rgba(124,58,237,.4);color:#f0c060;}
+.no-results{text-align:center;padding:3rem 1.5rem;color:rgba(226,217,243,.4);}
+.no-results span{font-size:2.5rem;display:block;margin-bottom:1rem;}
+</style>
 </head>
-<body>
-    <div class="container">
-        <nav>
-            <div class="logo">Weaver | نَسَّاج</div>
-            <div class="nav-links">
-                <a href="index.html">الرئيسية</a>
-                <a href="blog.html">المدونة</a>
-            </div>
-        </nav>
+<body class="ar">
+<div class="bg"></div>
+<canvas id="cv"></canvas>
 
-        <h1>📚 موسوعة تفسير الأحلام</h1>
-
-        <!-- ✅ قسم ربط المدونة بالمنصة (يظهر في كل صفحة) -->
-        <div class="dream-cta">
-            <p>🔮 طبق التفسير على حلمك الآن</p>
-            <a href="https://ai-dream-weaver.onrender.com/app/analyze">اكتب حلمك واحصل على التفسير</a>
-        </div>
-
-        <div class="articles">
-            <div class="article">
-                <h3>🇪🇬 مصر القديمة</h3>
-                <p>بردية تشيستر بيتي وأحلام الفراعنة</p>
-                <a href="ancient-egypt-dreams.html">اقرأ المزيد →</a>
-            </div>
-            <div class="article">
-                <h3>🇮🇶 بلاد الرافدين</h3>
-                <p>ألواح نينوى وأحلام الملك جلجامش</p>
-                <a href="mesopotamia-dreams.html">اقرأ المزيد →</a>
-            </div>
-            <div class="article">
-                <h3>🇬🇷 اليونان القديمة</h3>
-                <p>معابد أسكليبيوس وإله الأحلام مورفيوس</p>
-                <a href="greece-dreams.html">اقرأ المزيد →</a>
-            </div>
-            <div class="article">
-                <h3>☪️ التراث الإسلامي</h3>
-                <p>ابن سيرين ومنهجية تفسير الأحلام</p>
-                <a href="ibn-sirin-dreams.html">اقرأ المزيد →</a>
-            </div>
-        </div>
-
-        <footer>
-            <p>© 2026 Weaver | نَسَّاج</p>
-        </footer>
+<nav>
+  <a href="/" class="logo"><span class="logo-en">Weaver</span><span class="logo-sep">|</span><span class="logo-ar">نَسَّاج</span></a>
+  <div class="nav-r">
+    <a href="/" id="n1">الرئيسية</a>
+    <a href="/dream-feed.html" id="n2">تيار الأحلام</a>
+    <div class="lang-btns">
+      <button class="lb on" id="bar" onclick="setL('ar')">🇸🇦 عربي</button>
+      <button class="lb" id="ben" onclick="setL('en')">🇬🇧 English</button>
     </div>
+    <a href="https://ai-dream-weaver.onrender.com/app/analyze" class="nav-cta" id="ncta">🔮 فسّر حلمك</a>
+  </div>
+</nav>
+
+<div class="blog-hero">
+  <h1 id="bh1">📚 <span class="gold">موسوعة</span> <span class="purple">علوم الأحلام</span></h1>
+  <p id="bhp">أعمق مرجع عربي لتفسير الأحلام — تقارير الحضارات، رموز الأحلام، الكتب القديمة، والتحليل العلمي بالذكاء الاصطناعي</p>
+  <div class="hero-stats">
+    <div class="hstat" id="hs1"><span>47</span> مقالة</div>
+    <div class="hstat" id="hs2"><span>200+</span> رمز</div>
+    <div class="hstat" id="hs3"><span>12</span> كتاب قديم</div>
+    <div class="hstat" id="hs4"><span>5</span> حضارات</div>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="search-input" placeholder="ابحث عن رمز، حضارة، أو موضوع..." oninput="filterArticles()">
+  </div>
+</div>
+
+<div class="cat-tabs">
+  <button class="cat-tab active" onclick="filterCat('all',this)">🌍 <span id="ct0">الكل</span> <span class="cnt">47</span></button>
+  <button class="cat-tab" onclick="filterCat('civ',this)">🏛️ <span id="ct1">الحضارات</span> <span class="cnt">12</span></button>
+  <button class="cat-tab" onclick="filterCat('sym',this)">🔮 <span id="ct2">رموز الأحلام</span> <span class="cnt">18</span></button>
+  <button class="cat-tab" onclick="filterCat('book',this)">📖 <span id="ct3">الكتب القديمة</span> <span class="cnt">8</span></button>
+  <button class="cat-tab" onclick="filterCat('sci',this)">🧬 <span id="ct4">التحليل العلمي</span> <span class="cnt">6</span></button>
+  <button class="cat-tab" onclick="filterCat('ai',this)">🤖 <span id="ct5">الذكاء الاصطناعي</span> <span class="cnt">3</span></button>
+</div>
+
+<div class="blog-layout">
+  <main>
+    <div id="featured-section">
+      <div class="sec-header"><h2 id="feat-label">⭐ المقال المميز</h2></div>
+      <div class="featured-card" onclick="location.href='/ancient-egypt-dreams.html'">
+        <div class="feat-badge" id="feat-badge">🏆 أعمق تقرير لهذا الشهر</div>
+        <h2 id="feat-title">بردية تشيستر بيتي: أقدم كتاب لتفسير الأحلام في التاريخ</h2>
+        <p id="feat-desc">دراسة معمّقة في البردية المصرية التي تعود إلى 1275 ق.م — أكثر من 200 رمز حلمي مصنّف، ودلالات التمساح والقطة والميزان وأنوبيس في أحلام الفراعنة. كيف أثّرت هذه الوثيقة في علم تفسير الأحلام عند اليونانيين والعرب؟</p>
+        <div class="feat-meta">
+          <span class="feat-tag">🏛️ مصر القديمة</span>
+          <span class="feat-tag">📜 كتب قديمة</span>
+          <span class="feat-tag">🔮 رموز</span>
+          <span class="feat-date" id="feat-date">مارس 2026 · 12 دقيقة قراءة</span>
+        </div>
+        <a href="/ancient-egypt-dreams.html" class="read-more" id="feat-btn">اقرأ الدراسة الكاملة ←</a>
+      </div>
+    </div>
+
+    <div class="sec-header">
+      <h2 id="art-label">📖 جميع المقالات</h2>
+    </div>
+    <div class="articles-grid" id="articles-grid"></div>
+    <div class="no-results" id="no-results" style="display:none;">
+      <span>🌙</span><p id="no-results-txt">لا توجد مقالات تطابق بحثك</p>
+    </div>
+    <div class="load-more" id="load-more-wrap">
+      <button class="load-btn" id="load-btn" onclick="loadMore()">تحميل المزيد</button>
+    </div>
+  </main>
+
+  <aside class="sidebar">
+    <div class="side-card">
+      <div class="side-title" id="st1">🔮 رموز شائعة</div>
+      <div class="sym-grid">
+        <a href="/snake-dream.html" class="sym-btn"><span class="sym-icon">🐍</span><span class="sym-name" id="sm1">ثعبان</span></a>
+        <a href="/flying-dream.html" class="sym-btn"><span class="sym-icon">🕊️</span><span class="sym-name" id="sm2">طيران</span></a>
+        <a href="#" class="sym-btn"><span class="sym-icon">💧</span><span class="sym-name" id="sm3">ماء</span></a>
+        <a href="#" class="sym-btn"><span class="sym-icon">🔥</span><span class="sym-name" id="sm4">نار</span></a>
+        <a href="#" class="sym-btn"><span class="sym-icon">🌊</span><span class="sym-name" id="sm5">بحر</span></a>
+        <a href="#" class="sym-btn"><span class="sym-icon">🌙</span><span class="sym-name" id="sm6">قمر</span></a>
+        <a href="#" class="sym-btn"><span class="sym-icon">☀️</span><span class="sym-name" id="sm7">شمس</span></a>
+        <a href="#" class="sym-btn"><span class="sym-icon">🦁</span><span class="sym-name" id="sm8">أسد</span></a>
+        <a href="#" class="sym-btn"><span class="sym-icon">🏠</span><span class="sym-name" id="sm9">بيت</span></a>
+        <a href="#" class="sym-btn"><span class="sym-icon">🚪</span><span class="sym-name" id="sm10">باب</span></a>
+        <a href="#" class="sym-btn"><span class="sym-icon">⚔️</span><span class="sym-name" id="sm11">سيف</span></a>
+        <a href="#" class="sym-btn"><span class="sym-icon">💀</span><span class="sym-name" id="sm12">موت</span></a>
+      </div>
+    </div>
+
+    <div class="side-card">
+      <div class="side-title" id="st2">🌍 استكشف الحضارات</div>
+      <div class="civ-list">
+        <a href="/ancient-egypt-dreams.html" class="civ-item"><span class="civ-icon">🏛️</span><div class="civ-info"><h4 id="cv1n">مصر القديمة</h4><span id="cv1s">بردية تشيستر بيتي · الفراعنة</span></div></a>
+        <a href="/babylonian-dreams.html" class="civ-item"><span class="civ-icon">🗿</span><div class="civ-info"><h4 id="cv2n">بلاد الرافدين</h4><span id="cv2s">ألواح نينوى · جلجامش</span></div></a>
+        <a href="/greek-dream-interpretation.html" class="civ-item"><span class="civ-icon">🏺</span><div class="civ-info"><h4 id="cv3n">اليونان القديمة</h4><span id="cv3s">مورفيوس · أرتيميدوروس</span></div></a>
+        <a href="/islamic-dream-interpretation.html" class="civ-item"><span class="civ-icon">☪️</span><div class="civ-info"><h4 id="cv4n">التراث الإسلامي</h4><span id="cv4s">ابن سيرين · ابن شاهين</span></div></a>
+        <a href="#" class="civ-item"><span class="civ-icon">🀄</span><div class="civ-info"><h4 id="cv5n">الصين القديمة</h4><span id="cv5s">قريباً</span></div></a>
+      </div>
+    </div>
+
+    <div class="side-card">
+      <div class="side-title" id="st3">📚 الكتب المرجعية</div>
+      <div class="book-list">
+        <div class="book-item"><div class="book-cover" style="background:rgba(218,165,32,.15);">📜</div><div class="book-info"><h4 id="bk1n">بردية تشيستر بيتي III</h4><span id="bk1s">مصر · 1275 ق.م</span></div></div>
+        <div class="book-item"><div class="book-cover" style="background:rgba(139,90,43,.15);">🗿</div><div class="book-info"><h4 id="bk2n">ألواح أشور بانيبال</h4><span id="bk2s">بابل · 668 ق.م</span></div></div>
+        <div class="book-item"><div class="book-cover" style="background:rgba(100,149,237,.15);">📖</div><div class="book-info"><h4 id="bk3n">أونيروكريتيكا</h4><span id="bk3s">أرتيميدوروس · 150 م</span></div></div>
+        <div class="book-item"><div class="book-cover" style="background:rgba(34,139,34,.15);">☪️</div><div class="book-info"><h4 id="bk4n">تعبير الرؤيا</h4><span id="bk4s">ابن سيرين · 728 م</span></div></div>
+        <div class="book-item"><div class="book-cover" style="background:rgba(147,51,234,.15);">🔬</div><div class="book-info"><h4 id="bk5n">تفسير الأحلام</h4><span id="bk5s">فرويد · 1899 م</span></div></div>
+      </div>
+    </div>
+
+    <div class="side-card">
+      <div class="side-title" id="st4">🔥 الأكثر قراءة</div>
+      <div class="trend-list">
+        <a href="/snake-dream.html" class="trend-item"><span class="trend-num">1</span><span class="trend-title" id="tr1">تفسير حلم الثعبان في كل الحضارات</span></a>
+        <a href="/flying-dream.html" class="trend-item"><span class="trend-num">2</span><span class="trend-title" id="tr2">حلم الطيران — الحرية أم الهروب؟</span></a>
+        <a href="/islamic-dream-interpretation.html" class="trend-item"><span class="trend-num">3</span><span class="trend-title" id="tr3">منهج ابن سيرين في تفسير الأحلام</span></a>
+        <a href="/ancient-egypt-dreams.html" class="trend-item"><span class="trend-num">4</span><span class="trend-title" id="tr4">أحلام الفراعنة ورموزها الخفية</span></a>
+        <a href="/babylonian-dreams.html" class="trend-item"><span class="trend-num">5</span><span class="trend-title" id="tr5">ملحمة جلجامش والأحلام النبوية</span></a>
+      </div>
+    </div>
+
+    <div class="ai-cta">
+      <h3 id="aict1">🤖 فسّر حلمك الآن</h3>
+      <p id="aictp">الذكاء الاصطناعي يربطك بتراث آلاف السنين في ثوانٍ</p>
+      <a href="https://ai-dream-weaver.onrender.com/app/analyze" class="ai-btn" id="aictb">🔮 ابدأ التفسير</a>
+    </div>
+  </aside>
+</div>
+
+<script>
+(function(){
+  const cv=document.getElementById('cv');const cx=cv.getContext('2d');let s=[];
+  function rsz(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+  function spawn(){s=[];for(let i=0;i<160;i++)s.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.4+.3,o:Math.random(),d:(Math.random()*.016+.004)*(Math.random()<.5?1:-1)});}
+  function draw(){cx.clearRect(0,0,cv.width,cv.height);s.forEach(p=>{p.o+=p.d;if(p.o>1||p.o<0)p.d*=-1;cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle=`rgba(255,255,255,${p.o.toFixed(2)})`;cx.fill();});requestAnimationFrame(draw);}
+  window.addEventListener('resize',()=>{rsz();spawn();});rsz();spawn();draw();
+})();
+
+/* ══════════════════════════════════════════
+   📝 أضف مقالاتك هنا فقط — لا تعدّل الكود
+   ══════════════════════════════════════════ */
+const ARTICLES = [
+  /* ── الحضارات civ ── */
+  {id:'ancient-egypt-dreams',cat:'civ',icon:'🏛️',
+   ar:{title:'الأحلام في مصر القديمة — بردية تشيستر بيتي',excerpt:'أقدم كتاب تفسير في التاريخ (1275 ق.م) يحوي 200+ رمز. رموز التمساح والقطة والميزان وأنوبيس.',date:'مارس 2026',read:'8 دقائق',cat:'🏛️ مصر القديمة'},
+   en:{title:'Dreams in Ancient Egypt — Chester Beatty Papyrus',excerpt:'The oldest dream book in history (1275 BCE) with 200+ symbols including crocodile, cat, and scales.',date:'March 2026',read:'8 min',cat:'🏛️ Ancient Egypt'},
+   url:'/ancient-egypt-dreams.html'},
+
+  {id:'babylonian-dreams',cat:'civ',icon:'🗿',
+   ar:{title:'ألواح نينوى والأحلام البابلية — جلجامش والآلهة',excerpt:'ألواح طينية عمرها 3500 سنة تكشف كيف فسّر البابليون رسائل الآلهة في الأحلام.',date:'مارس 2026',read:'9 دقائق',cat:'🗿 بلاد الرافدين'},
+   en:{title:'Nineveh Tablets & Babylonian Dreams',excerpt:'Clay tablets 3,500 years old reveal how Babylonians interpreted divine messages in dreams.',date:'March 2026',read:'9 min',cat:'🗿 Mesopotamia'},
+   url:'/babylonian-dreams.html'},
+
+  {id:'greek-dream-interpretation',cat:'civ',icon:'🏺',
+   ar:{title:'معابد أسكليبيوس ومورفيوس — الأحلام في اليونان',excerpt:'من أرتيميدوروس إلى أرسطو وأفلاطون — أول علم منظّم لتفسير الأحلام في التاريخ.',date:'مارس 2026',read:'10 دقائق',cat:'🏺 اليونان القديمة'},
+   en:{title:'Asclepius Temples & Morpheus — Greek Dreams',excerpt:'From Artemidorus to Aristotle and Plato — the first systematic science of dream interpretation.',date:'March 2026',read:'10 min',cat:'🏺 Ancient Greece'},
+   url:'/greek-dream-interpretation.html'},
+
+  {id:'islamic-dream-interpretation',cat:'civ',icon:'☪️',
+   ar:{title:'منهج ابن سيرين — أعمق نظام لتفسير الأحلام في الإسلام',excerpt:'القرآن والحديث واللغة والقياس — المنهج الرباعي للإمام ابن سيرين وتقسيمه للرؤيا.',date:'مارس 2026',read:'11 دقائق',cat:'☪️ التراث الإسلامي'},
+   en:{title:"Ibn Sirin's Method — Islamic Dream Interpretation",excerpt:"Quran, Hadith, linguistics, and analogy — Ibn Sirin's four-pillar method and classification of visions.",date:'March 2026',read:'11 min',cat:'☪️ Islamic Heritage'},
+   url:'/islamic-dream-interpretation.html'},
+
+  /* ── رموز الأحلام sym ── */
+  {id:'snake-dream',cat:'sym',icon:'🐍',
+   ar:{title:'الثعبان في الأحلام — دلالاته في 5 حضارات',excerpt:'من العدو الخفي في الإسلام إلى رمز الشفاء عند الإغريق — الثعبان لا يعني شيئاً واحداً.',date:'مارس 2026',read:'7 دقائق',cat:'🔮 رموز الأحلام'},
+   en:{title:'The Snake in Dreams — 5 Civilizations',excerpt:'From hidden enemy in Islam to healing symbol in Greece — the snake means different things across cultures.',date:'March 2026',read:'7 min',cat:'🔮 Dream Symbols'},
+   url:'/snake-dream.html'},
+
+  {id:'flying-dream',cat:'sym',icon:'🕊️',
+   ar:{title:'حلم الطيران — الحرية والطموح وما يخفيه اللاوعي',excerpt:'لماذا يحلم الناس بالطيران؟ التفسير النفسي الحديث مقابل التراث القديم.',date:'مارس 2026',read:'6 دقائق',cat:'🔮 رموز الأحلام'},
+   en:{title:'Flying Dream — Freedom & the Unconscious',excerpt:'Why do people dream of flying? Modern psychological interpretation vs ancient traditions.',date:'March 2026',read:'6 min',cat:'🔮 Dream Symbols'},
+   url:'/flying-dream.html'},
+
+  {id:'water-dream',cat:'sym',icon:'💧',
+   ar:{title:'الماء في الأحلام — من النيل المقدس إلى المحيط اللاواعي',excerpt:'الماء الصافي والعكر، الغرق والسباحة، المطر والفيضان — دلالاتها الكاملة عبر الحضارات.',date:'قريباً',read:'8 دقائق',cat:'🔮 رموز الأحلام'},
+   en:{title:'Water in Dreams — From the Sacred Nile to the Unconscious',excerpt:'Clear vs murky water, drowning vs swimming, rain and floods — full meanings across civilizations.',date:'Coming Soon',read:'8 min',cat:'🔮 Dream Symbols'},
+   url:'#'},
+
+  {id:'fire-dream',cat:'sym',icon:'🔥',
+   ar:{title:'النار في الأحلام — التطهير أم العقاب؟',excerpt:'النار في أحلام البابليين كانت رسالة إلهية. في الإسلام لها دلالات محددة. في علم النفس ترمز للشغف.',date:'قريباً',read:'7 دقائق',cat:'🔮 رموز الأحلام'},
+   en:{title:'Fire in Dreams — Purification or Punishment?',excerpt:'Fire in Babylonian dreams was divine message. In Islam specific meanings. In psychology passion.',date:'Coming Soon',read:'7 min',cat:'🔮 Dream Symbols'},
+   url:'#'},
+
+  {id:'death-dream',cat:'sym',icon:'💀',
+   ar:{title:'حلم الموت — ليس نهاية بل بداية جديدة',excerpt:'من أكثر الأحلام إرعاباً — لكنه في أغلب التفسيرات بشارة بتغيير حياتي كبير.',date:'قريباً',read:'8 دقائق',cat:'🔮 رموز الأحلام'},
+   en:{title:'Death in Dreams — Not an End but a New Beginning',excerpt:'One of the most terrifying dreams — but in most interpretations a sign of major life change.',date:'Coming Soon',read:'8 min',cat:'🔮 Dream Symbols'},
+   url:'#'},
+
+  {id:'teeth-dream',cat:'sym',icon:'🦷',
+   ar:{title:'سقوط الأسنان في الحلم — الأكثر شيوعاً عالمياً',excerpt:'دراسات علمية أثبتت أنه من أكثر أحلام العالم تكراراً — ماذا يقول عنك؟',date:'قريباً',read:'6 دقائق',cat:'🔮 رموز الأحلام'},
+   en:{title:'Falling Teeth Dream — The Most Common Dream Worldwide',excerpt:'Scientific studies proved it is among the most recurring dreams globally — what does it say about you?',date:'Coming Soon',read:'6 min',cat:'🔮 Dream Symbols'},
+   url:'#'},
+
+  /* ── الكتب القديمة book ── */
+  {id:'book-artemidorus',cat:'book',icon:'📖',
+   ar:{title:'أونيروكريتيكا — أعظم كتاب لتفسير الأحلام في التاريخ',excerpt:'أرتيميدوروس الدالدياني (150م) جمع آلاف الأحلام بمنهج علمي أثّر في ابن سيرين وفرويد معاً.',date:'قريباً',read:'10 دقائق',cat:'📖 الكتب القديمة'},
+   en:{title:'Oneirocritica — The Greatest Dream Book in History',excerpt:'Artemidorus of Daldis (150 CE) compiled thousands of dreams in a methodology that influenced both Ibn Sirin and Freud.',date:'Coming Soon',read:'10 min',cat:'📖 Ancient Books'},
+   url:'#'},
+
+  {id:'book-ibnsirin',cat:'book',icon:'☪️',
+   ar:{title:'كتاب تعبير الرؤيا لابن سيرين — دراسة وتحليل',excerpt:'أكثر كتب تفسير الأحلام تداولاً في العالم العربي منذ 13 قرناً — منهجه وأهم رموزه.',date:'قريباً',read:'12 دقائق',cat:'📖 الكتب القديمة'},
+   en:{title:"Ibn Sirin's Dream Interpretation Book — Study and Analysis",excerpt:'The most widely circulated dream book in the Arab world for 13 centuries — his method and key symbols.',date:'Coming Soon',read:'12 min',cat:'📖 Ancient Books'},
+   url:'#'},
+
+  {id:'book-freud',cat:'book',icon:'🔬',
+   ar:{title:'تفسير الأحلام لفرويد — الثورة التي غيّرت علم النفس',excerpt:'عام 1899 نشر فرويد أعظم أعماله — كيف فسّر الأحلام كرسائل من اللاوعي.',date:'قريباً',read:'11 دقائق',cat:'📖 الكتب القديمة'},
+   en:{title:"Freud's Interpretation of Dreams — The Psychology Revolution",excerpt:'In 1899 Freud published his greatest work — interpreting dreams as messages from the unconscious.',date:'Coming Soon',read:'11 min',cat:'📖 Ancient Books'},
+   url:'#'},
+
+  /* ── التحليل العلمي sci ── */
+  {id:'science-dreams',cat:'sci',icon:'🧬',
+   ar:{title:'علم الأحلام الحديث — ماذا يحدث في الدماغ أثناء النوم؟',excerpt:'مرحلة REM، الذاكرة، المشاعر، والأحلام الواضحة — العلم يلتقي مع التراث.',date:'قريباً',read:'9 دقائق',cat:'🧬 علم وتحليل'},
+   en:{title:'Modern Dream Science — What Happens in the Brain?',excerpt:'REM sleep, memory, emotions, and lucid dreams — science meets tradition in explaining the phenomenon.',date:'Coming Soon',read:'9 min',cat:'🧬 Science & Analysis'},
+   url:'#'},
+
+  {id:'psychology-dreams',cat:'sci',icon:'🧠',
+   ar:{title:'يونج وفرويد وأدلر — ثلاثة مناهج لتفسير الأحلام',excerpt:'مقارنة بين المناهج النفسية الثلاثة الكبرى وكيف يختلف تفسيرها للرموز.',date:'قريباً',read:'10 دقائق',cat:'🧬 علم وتحليل'},
+   en:{title:'Jung, Freud & Adler — Three Dream Interpretation Approaches',excerpt:'Comparison between the three major psychological approaches and how they differ in interpreting symbols.',date:'Coming Soon',read:'10 min',cat:'🧬 Science & Analysis'},
+   url:'#'},
+
+  /* ── الذكاء الاصطناعي ai ── */
+  {id:'ai-dreams',cat:'ai',icon:'🤖',
+   ar:{title:'كيف يفسّر الذكاء الاصطناعي الأحلام؟',excerpt:'خلف الكواليس — كيف تجمع Weaver بين LLaMA 4 وتراث الحضارات القديمة في تفسير واحد.',date:'مارس 2026',read:'7 دقائق',cat:'🤖 الذكاء الاصطناعي'},
+   en:{title:'How Does AI Interpret Dreams?',excerpt:'Behind the scenes — how Weaver combines LLaMA 4 with ancient civilization heritage in one unified interpretation.',date:'March 2026',read:'7 min',cat:'🤖 Artificial Intelligence'},
+   url:'#'},
+];
+
+let currentCat='all',currentSearch='',visibleCount=9;
+const l=()=>document.body.classList.contains('en')?'en':'ar';
+
+function getFiltered(){
+  return ARTICLES.filter(a=>{
+    const matchCat=currentCat==='all'||a.cat===currentCat;
+    const q=currentSearch.toLowerCase();
+    const d=a[l()];
+    const matchQ=!q||d.title.toLowerCase().includes(q)||d.excerpt.toLowerCase().includes(q);
+    return matchCat&&matchQ;
+  });
+}
+
+function renderGrid(){
+  const filtered=getFiltered();
+  const grid=document.getElementById('articles-grid');
+  const noRes=document.getElementById('no-results');
+  const loadWrap=document.getElementById('load-more-wrap');
+  if(!filtered.length){grid.innerHTML='';noRes.style.display='block';loadWrap.style.display='none';return;}
+  noRes.style.display='none';
+  const show=filtered.slice(0,visibleCount);
+  grid.innerHTML=show.map(a=>{
+    const d=a[l()];
+    return `<a href="${a.url}" class="article-card cat-${a.cat}">
+      <div class="card-banner"></div>
+      <div class="card-body">
+        <span class="card-cat">${d.cat}</span>
+        <div class="card-title">${a.icon} ${d.title}</div>
+        <div class="card-excerpt">${d.excerpt}</div>
+        <div class="card-footer">
+          <span class="card-time">${d.date}</span>
+          <span class="card-read">⏱ ${d.read}</span>
+        </div>
+      </div>
+    </a>`;
+  }).join('');
+  loadWrap.style.display=filtered.length>visibleCount?'block':'none';
+}
+
+function filterCat(cat,btn){
+  currentCat=cat;visibleCount=9;
+  document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');renderGrid();
+}
+function filterArticles(){currentSearch=document.getElementById('search-input').value;visibleCount=9;renderGrid();}
+function loadMore(){visibleCount+=6;renderGrid();}
+
+const T={
+ar:{n1:'الرئيسية',n2:'تيار الأحلام',ncta:'🔮 فسّر حلمك',
+  bh1:'📚 <span class="gold">موسوعة</span> <span class="purple">علوم الأحلام</span>',
+  bhp:'أعمق مرجع عربي لتفسير الأحلام — تقارير الحضارات، رموز الأحلام، الكتب القديمة، والتحليل العلمي بالذكاء الاصطناعي',
+  hs1:'<span>47</span> مقالة',hs2:'<span>200+</span> رمز',hs3:'<span>12</span> كتاب قديم',hs4:'<span>5</span> حضارات',
+  ct0:'الكل',ct1:'الحضارات',ct2:'رموز الأحلام',ct3:'الكتب القديمة',ct4:'التحليل العلمي',ct5:'الذكاء الاصطناعي',
+  'feat-label':'⭐ المقال المميز','feat-badge':'🏆 أعمق تقرير لهذا الشهر',
+  'feat-title':'بردية تشيستر بيتي: أقدم كتاب لتفسير الأحلام في التاريخ',
+  'feat-desc':'دراسة معمّقة في البردية المصرية التي تعود إلى 1275 ق.م — أكثر من 200 رمز حلمي مصنّف، ودلالات التمساح والقطة والميزان وأنوبيس في أحلام الفراعنة.',
+  'feat-date':'مارس 2026 · 12 دقيقة قراءة','feat-btn':'اقرأ الدراسة الكاملة ←',
+  'art-label':'📖 جميع المقالات',
+  st1:'🔮 رموز شائعة',st2:'🌍 استكشف الحضارات',st3:'📚 الكتب المرجعية',st4:'🔥 الأكثر قراءة',
+  sm1:'ثعبان',sm2:'طيران',sm3:'ماء',sm4:'نار',sm5:'بحر',sm6:'قمر',sm7:'شمس',sm8:'أسد',sm9:'بيت',sm10:'باب',sm11:'سيف',sm12:'موت',
+  cv1n:'مصر القديمة',cv1s:'بردية تشيستر بيتي · الفراعنة',cv2n:'بلاد الرافدين',cv2s:'ألواح نينوى · جلجامش',
+  cv3n:'اليونان القديمة',cv3s:'مورفيوس · أرتيميدوروس',cv4n:'التراث الإسلامي',cv4s:'ابن سيرين · ابن شاهين',cv5n:'الصين القديمة',cv5s:'قريباً',
+  bk1n:'بردية تشيستر بيتي III',bk1s:'مصر · 1275 ق.م',bk2n:'ألواح أشور بانيبال',bk2s:'بابل · 668 ق.م',
+  bk3n:'أونيروكريتيكا',bk3s:'أرتيميدوروس · 150 م',bk4n:'تعبير الرؤيا',bk4s:'ابن سيرين · 728 م',bk5n:'تفسير الأحلام',bk5s:'فرويد · 1899 م',
+  tr1:'تفسير حلم الثعبان في كل الحضارات',tr2:'حلم الطيران — الحرية أم الهروب؟',tr3:'منهج ابن سيرين',tr4:'أحلام الفراعنة ورموزها',tr5:'ملحمة جلجامش والأحلام النبوية',
+  aict1:'🤖 فسّر حلمك الآن',aictp:'الذكاء الاصطناعي يربطك بتراث آلاف السنين في ثوانٍ',aictb:'🔮 ابدأ التفسير',
+  'load-btn':'تحميل المزيد','no-results-txt':'لا توجد مقالات تطابق بحثك',
+  'search-input':'ابحث عن رمز، حضارة، أو موضوع...'},
+en:{n1:'Home',n2:'Dream Feed',ncta:'🔮 Interpret Dream',
+  bh1:'📚 <span class="gold">Dream Science</span> <span class="purple">Encyclopedia</span>',
+  bhp:'The deepest reference for dream interpretation — civilization reports, symbols, ancient books, and AI-powered analysis',
+  hs1:'<span>47</span> articles',hs2:'<span>200+</span> symbols',hs3:'<span>12</span> ancient books',hs4:'<span>5</span> civilizations',
+  ct0:'All',ct1:'Civilizations',ct2:'Dream Symbols',ct3:'Ancient Books',ct4:'Scientific Analysis',ct5:'Artificial Intelligence',
+  'feat-label':'⭐ Featured Article','feat-badge':'🏆 Deepest report this month',
+  'feat-title':'Chester Beatty Papyrus: The Oldest Dream Book in History',
+  'feat-desc':'A deep study of the Egyptian papyrus dating to 1275 BCE — 200+ classified dream symbols and the meanings of crocodile, cat, scales, and Anubis in Pharaoh dreams.',
+  'feat-date':'March 2026 · 12 min read','feat-btn':'Read the Full Study →',
+  'art-label':'📖 All Articles',
+  st1:'🔮 Common Symbols',st2:'🌍 Explore Civilizations',st3:'📚 Reference Books',st4:'🔥 Most Read',
+  sm1:'Snake',sm2:'Flying',sm3:'Water',sm4:'Fire',sm5:'Sea',sm6:'Moon',sm7:'Sun',sm8:'Lion',sm9:'House',sm10:'Door',sm11:'Sword',sm12:'Death',
+  cv1n:'Ancient Egypt',cv1s:'Chester Beatty · Pharaohs',cv2n:'Mesopotamia',cv2s:'Nineveh Tablets · Gilgamesh',
+  cv3n:'Ancient Greece',cv3s:'Morpheus · Artemidorus',cv4n:'Islamic Heritage',cv4s:'Ibn Sirin · Ibn Shahin',cv5n:'Ancient China',cv5s:'Coming Soon',
+  bk1n:'Chester Beatty Papyrus III',bk1s:'Egypt · 1275 BCE',bk2n:'Ashurbanipal Tablets',bk2s:'Babylon · 668 BCE',
+  bk3n:'Oneirocritica',bk3s:'Artemidorus · 150 CE',bk4n:"Ta'bir al-Ru'ya",bk4s:'Ibn Sirin · 728 CE',bk5n:'The Interpretation of Dreams',bk5s:'Freud · 1899 CE',
+  tr1:'Snake dream meaning across civilizations',tr2:'Flying dream — freedom or escape?',tr3:"Ibn Sirin's interpretation method",tr4:'Pharaoh dreams and hidden symbols',tr5:'Gilgamesh epic and prophetic dreams',
+  aict1:'🤖 Interpret Your Dream Now',aictp:'AI connects you to thousands of years of heritage in seconds',aictb:'🔮 Start Interpretation',
+  'load-btn':'Load More','no-results-txt':'No articles match your search',
+  'search-input':'Search for a symbol, civilization, or topic...'}
+};
+
+function setL(lang){
+  document.body.className=lang;
+  document.documentElement.setAttribute('lang',lang);
+  document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');
+  document.getElementById('bar').classList.toggle('on',lang==='ar');
+  document.getElementById('ben').classList.toggle('on',lang==='en');
+  const t=T[lang];
+  Object.keys(t).forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    if(el.tagName==='INPUT')el.placeholder=t[id];
+    else el.innerHTML=t[id];
+  });
+  renderGrid();
+  try{localStorage.setItem('weaver_lang',lang);}catch(e){}
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  renderGrid();
+  try{const s=localStorage.getItem('weaver_lang');if(s==='en')setL('en');}catch(e){}
+});
+</script>
 </body>
 </html>
