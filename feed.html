@@ -54,22 +54,20 @@
 <p class="footer-copy" id="footer-copy">© 2026 Weaver | نَسَّاج — منصة نسيج الأحلام بالذكاء الاصطناعي</p>
 </footer>
 <script>
-// النجوم
 (function(){const cv=document.getElementById('star-canvas');const ctx=cv.getContext('2d');let stars=[];function resize(){cv.width=window.innerWidth;cv.height=window.innerHeight}function spawn(){stars=[];for(let i=0;i<180;i++){stars.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.5+.3,o:Math.random(),d:(Math.random()*.016+.004)*(Math.random()<.5?1:-1)})}}function draw(){ctx.clearRect(0,0,cv.width,cv.height);stars.forEach(s=>{s.o+=s.d;if(s.o>1||s.o<0)s.d*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.o.toFixed(2)})`;ctx.fill()});requestAnimationFrame(draw)}window.addEventListener('resize',()=>{resize();spawn()});resize();spawn();draw()})();
 
-// الترجمة
 const T={ar:{n1:'الرئيسية',n2:'المميزات',n3:'الأسعار',n4:'المدونة',n5:'الأسئلة',n6:'🌙 الخلاصة','n-cta':'🔮 جرب المنصة','page-title':'🌙 الخلاصة الاجتماعية','page-subtitle':'اكتشف أحلام المجتمع وشارك تجربتك مع الآخرين','filter-recent':'🕐 الأحدث','filter-trending':'🔥 الرائجة','filter-featured':'⭐ المميزة','loading-text':'جاري تحميل الأحلام...',fl1:'الرئيسية',fl2:'المدونة',fl3:'الأسئلة الشائعة',fl4:'سياسة الخصوصية',fl5:'شروط الاستخدام',fl6:'بوت تيليجرام','footer-copy':'© 2026 Weaver | نَسَّاج — منصة نسيج الأحلام بالذكاء الاصطناعي'},
 en:{n1:'Home',n2:'Features',n3:'Pricing',n4:'Blog',n5:'FAQ',n6:'🌙 Feed','n-cta':'🔮 Try Platform','page-title':'🌙 Social Dream Feed','page-subtitle':'Discover community dreams and share your experience','filter-recent':'🕐 Recent','filter-trending':'🔥 Trending','filter-featured':'⭐ Featured','loading-text':'Loading dreams...',fl1:'Home',fl2:'Blog',fl3:'FAQ',fl4:'Privacy Policy',fl5:'Terms of Use',fl6:'Telegram Bot','footer-copy':'© 2026 Weaver — AI Dream Weaving Platform'}};
 
 let currentLang='ar';function setLang(l){const body=document.body;const html=document.documentElement;body.className=l;html.setAttribute('lang',l);html.setAttribute('dir',l==='ar'?'rtl':'ltr');document.getElementById('btn-ar').classList.toggle('on',l==='ar');document.getElementById('btn-en').classList.toggle('on',l==='en');const t=T[l];Object.keys(t).forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=t[id]});try{localStorage.setItem('weaver_lang',l)}catch(e){}currentLang=l}
 
-// ✅ Supabase - تعريف واحد فقط (تم إصلاح الخطأ)
+// ✅ Supabase URL و KEY (تم التحديث)
 const SUPABASE_URL = 'https://xgmjonmivhwnhkvljbqs.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhnbWpvbm1pdmh3bmhrdmxqYnFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2OTA0NjYsImV4cCI6MjA4OTI2NjQ2Nn0.UGuOBwPfckYUtxj5KpmjbJ-exg1cMHdWYrMuqzoC53g';
 
-let supabase; // ✅ let مرة واحدة فقط
+let supabaseClient;
 if (typeof window.supabase !== 'undefined' && SUPABASE_URL) {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 }
 
 let currentFilter = 'recent', currentPage = 1, isLoading = false;
@@ -79,8 +77,8 @@ async function loadDreams() {
     isLoading = true;
     const feedContainer = document.getElementById('dreamsFeed');
     try {
-        if (supabase) {
-            let query = supabase
+        if (supabaseClient) {
+            let query = supabaseClient
                 .from('public_dreams')
                 .select(`*, users!public_dreams_user_id_fkey (username, avatar_url)`)
                 .eq('is_public', true);
