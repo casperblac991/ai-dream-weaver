@@ -53,6 +53,212 @@
 </div>
 <p class="footer-copy" id="footer-copy">© 2026 Weaver | نَسَّاج — منصة نسيج الأحلام بالذكاء الاصطناعي</p>
 </footer>
-<script>(function(){const cv=document.getElementById('star-canvas');const ctx=cv.getContext('2d');let stars=[];function resize(){cv.width=window.innerWidth;cv.height=window.innerHeight}function spawn(){stars=[];for(let i=0;i<180;i++){stars.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.5+.3,o:Math.random(),d:(Math.random()*.016+.004)*(Math.random()<.5?1:-1)})}}function draw(){ctx.clearRect(0,0,cv.width,cv.height);stars.forEach(s=>{s.o+=s.d;if(s.o>1||s.o<0)s.d*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.o.toFixed(2)})`;ctx.fill()});requestAnimationFrame(draw)}window.addEventListener('resize',()=>{resize();spawn()});resize();spawn();draw()})();const T={ar:{n1:'الرئيسية',n2:'المميزات',n3:'الأسعار',n4:'المدونة',n5:'الأسئلة',n6:'🌙 الخلاصة','n-cta':'🔮 جرب المنصة','page-title':'🌙 الخلاصة الاجتماعية','page-subtitle':'اكتشف أحلام المجتمع وشارك تجربتك مع الآخرين','filter-recent':'🕐 الأحدث','filter-trending':'🔥 الرائجة','filter-featured':'⭐ المميزة','loading-text':'جاري تحميل الأحلام...',fl1:'الرئيسية',fl2:'المدونة',fl3:'الأسئلة الشائعة',fl4:'سياسة الخصوصية',fl5:'شروط الاستخدام',fl6:'بوت تيليجرام','footer-copy':'© 2026 Weaver | نَسَّاج — منصة نسيج الأحلام بالذكاء الاصطناعي'},en:{n1:'Home',n2:'Features',n3:'Pricing',n4:'Blog',n5:'FAQ',n6:'🌙 Feed','n-cta':'🔮 Try Platform','page-title':'🌙 Social Dream Feed','page-subtitle':'Discover community dreams and share your experience','filter-recent':'🕐 Recent','filter-trending':'🔥 Trending','filter-featured':'⭐ Featured','loading-text':'Loading dreams...',fl1:'Home',fl2:'Blog',fl3:'FAQ',fl4:'Privacy Policy',fl5:'Terms of Use',fl6:'Telegram Bot','footer-copy':'© 2026 Weaver — AI Dream Weaving Platform'}};let currentLang='ar';function setLang(l){const body=document.body;const html=document.documentElement;body.className=l;html.setAttribute('lang',l);html.setAttribute('dir',l==='ar'?'rtl':'ltr');document.getElementById('btn-ar').classList.toggle('on',l==='ar');document.getElementById('btn-en').classList.toggle('on',l==='en');const t=T[l];Object.keys(t).forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=t[id]});try{localStorage.setItem('weaver_lang',l)}catch(e){}currentLang=l}const SUPABASE_URL='YOUR_SUPABASE_URL';const SUPABASE_KEY='YOUR_SUPABASE_ANON_KEY';let supabase;if(typeof window.supabase!=='undefined'&&SUPABASE_URL!=='YOUR_SUPABASE_URL'){supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)}let currentFilter='recent',currentPage=1,isLoading=false;async function loadDreams(){if(isLoading)return;isLoading=true;const feedContainer=document.getElementById('dreamsFeed');try{if(supabase){let query=supabase.from('public_dreams').select(`*,users!public_dreams_user_id_fkey (username, avatar_url)`).eq('is_public',true);if(currentFilter==='trending'){query=query.order('likes_count',{ascending:false})}else if(currentFilter==='featured'){query=query.eq('is_featured',true).order('created_at',{ascending:false})}else{query=query.order('created_at',{ascending:false})}query=query.range((currentPage-1)*20,currentPage*20-1);const{data:dreams,error}=await query;if(error)throw error;const formattedDreams=dreams.map(dream=>({id:dream.id,user:{username:dream.users?.username||'User',avatar:dream.users?.avatar_url},dream_title:dream.dream_title,dream_text:dream.dream_text,interpretation:dream.interpretation,generated_image_url:dream.generated_image_url,tags:dream.tags||[],likes_count:dream.likes_count,comments_count:dream.comments_count,user_has_liked:false,created_at:dream.created_at}));displayDreams(formattedDreams)}else{displayMockDreams()}}catch(error){console.error('Error:',error);displayMockDreams()}finally{isLoading=false}}function displayDreams(dreams){const feedContainer=document.getElementById('dreamsFeed');if(currentPage===1){feedContainer.innerHTML=''}if(dreams.length===0&&currentPage===1){feedContainer.innerHTML=`<div class="empty-state"><div class="empty-icon">🌙</div><h3 class="empty-title">${currentLang==='ar'?'لا توجد أحلام بعد':'No dreams yet'}</h3><p class="empty-text">${currentLang==='ar'?'كن أول من يشارك حلمه مع المجتمع!':'Be the first to share!'}</p></div>`;return}dreams.forEach(dream=>{feedContainer.innerHTML+=createDreamCard(dream)});setupActionButtons()}function createDreamCard(dream){const interpTitle=currentLang==='ar'?'💡 التفسير':'💡 Interpretation';const shareText=currentLang==='ar'?'مشاركة':'Share';return`<div class="dream-card" data-dream-id="${dream.id}"><div class="dream-header"><img src="${dream.user.avatar||'https://ui-avatars.com/api/?name='+encodeURIComponent(dream.user.username)+'&background=a855f7&color=fff'}" alt="${dream.user.username}" class="avatar"><div class="dream-author"><div class="author-name">${dream.user.username}</div><div class="dream-time">${formatTimeAgo(dream.created_at)}</div></div></div><h3 class="dream-title">${dream.dream_title}</h3><p class="dream-text">${truncateText(dream.dream_text,250)}</p>${dream.generated_image_url?`<img src="${dream.generated_image_url}" alt="Dream" class="dream-image" loading="lazy">`:''}< div class="interpretation-box"><div class="interp-title">${interpTitle}</div><div class="interp-text">${truncateText(dream.interpretation,180)}</div></div>${dream.tags&&dream.tags.length>0?`<div class="dream-tags">${dream.tags.map(tag=>`<span class="tag">#${tag}</span>`).join('')}</div>`:''}<div class="dream-actions"><button class="action-btn like-btn ${dream.user_has_liked?'liked':''}" data-dream-id="${dream.id}"><span class="action-icon">${dream.user_has_liked?'❤️':'🤍'}</span><span>${dream.likes_count}</span></button><button class="action-btn comment-btn" data-dream-id="${dream.id}"><span class="action-icon">💬</span><span>${dream.comments_count}</span></button><button class="action-btn share-btn" data-dream-id="${dream.id}"><span class="action-icon">🔗</span><span>${shareText}</span></button></div></div>`}function setupActionButtons(){document.querySelectorAll('.like-btn').forEach(btn=>{btn.addEventListener('click',async(e)=>{e.preventDefault();const dreamId=btn.dataset.dreamId;toggleLike(dreamId,btn)})});document.querySelectorAll('.share-btn').forEach(btn=>{btn.addEventListener('click',(e)=>{e.preventDefault();const dreamId=btn.dataset.dreamId;shareDream(dreamId)})})}async function toggleLike(dreamId,btn){const icon=btn.querySelector('.action-icon');const count=btn.querySelector('span:last-child');if(btn.classList.contains('liked')){btn.classList.remove('liked');icon.textContent='🤍';count.textContent=parseInt(count.textContent)-1}else{btn.classList.add('liked');icon.textContent='❤️';count.textContent=parseInt(count.textContent)+1}}function shareDream(dreamId){const url=`${window.location.origin}/dream/${dreamId}`;if(navigator.share){navigator.share({title:currentLang==='ar'?'شارك هذا الحلم':'Share this dream',url:url})}else{navigator.clipboard.writeText(url);alert(currentLang==='ar'?'تم نسخ الرابط!':'Link copied!')}}function formatTimeAgo(dateString){const date=new Date(dateString);const now=new Date();const seconds=Math.floor((now-date)/1000);if(currentLang==='ar'){if(seconds<60)return'الآن';if(seconds<3600)return`منذ ${Math.floor(seconds/60)} دقيقة`;if(seconds<86400)return`منذ ${Math.floor(seconds/3600)} ساعة`;if(seconds<2592000)return`منذ ${Math.floor(seconds/86400)} يوم`;return date.toLocaleDateString('ar-SA')}else{if(seconds<60)return'Now';if(seconds<3600)return`${Math.floor(seconds/60)}m ago`;if(seconds<86400)return`${Math.floor(seconds/3600)}h ago`;if(seconds<2592000)return`${Math.floor(seconds/86400)}d ago`;return date.toLocaleDateString('en-US')}}function truncateText(text,maxLength){if(text.length<=maxLength)return text;return text.substring(0,maxLength)+'...'}function getMockDreams(){if(currentLang==='ar'){return[{id:1,user:{username:'سارة من القاهرة',avatar:null},dream_title:'رأيت نفسي أطير فوق البحر',dream_text:'كنت أحلق عالياً فوق بحر هادئ، وأشعر بسعادة غامرة وحرية لا توصف.',interpretation:'الطيران في الأحلام يرمز إلى الحرية والتحرر من القيود.',generated_image_url:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',tags:['طيران','بحر','حرية'],likes_count:42,comments_count:12,user_has_liked:false,created_at:new Date(Date.now()-2*3600*1000).toISOString()},{id:2,user:{username:'أحمد من الرياض',avatar:null},dream_title:'ثعبان ذهبي في الحديقة',dream_text:'رأيت ثعباناً ذهبي اللون يتحرك بهدوء في حديقة منزلي.',interpretation:'الثعبان الذهبي يرمز إلى الحكمة والتحول الإيجابي.',generated_image_url:null,tags:['ثعبان','ذهب','حديقة'],likes_count:38,comments_count:8,user_has_liked:true,created_at:new Date(Date.now()-5*3600*1000).toISOString()},{id:3,user:{username:'فاطمة من المغرب',avatar:null},dream_title:'باب قديم في صحراء',dream_text:'كنت أسير في صحراء واسعة ووجدت باباً خشبياً قديماً.',interpretation:'الباب يرمز إلى فرصة جديدة أو انتقال في الحياة.',generated_image_url:'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80',tags:['باب','صحراء','فرصة'],likes_count:56,comments_count:15,user_has_liked:false,created_at:new Date(Date.now()-8*3600*1000).toISOString()}]}else{return[{id:1,user:{username:'Sarah from Cairo',avatar:null},dream_title:'Flying over the sea',dream_text:'I was soaring high above a calm sea, feeling overwhelming happiness.',interpretation:'Flying symbolizes freedom and liberation from constraints.',generated_image_url:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',tags:['flying','sea','freedom'],likes_count:42,comments_count:12,user_has_liked:false,created_at:new Date(Date.now()-2*3600*1000).toISOString()},{id:2,user:{username:'Ahmed from Riyadh',avatar:null},dream_title:'Golden serpent in garden',dream_text:'I saw a golden serpent moving peacefully in my garden.',interpretation:'Golden serpent symbolizes wisdom and transformation.',generated_image_url:null,tags:['serpent','gold','garden'],likes_count:38,comments_count:8,user_has_liked:true,created_at:new Date(Date.now()-5*3600*1000).toISOString()},{id:3,user:{username:'Fatima from Morocco',avatar:null},dream_title:'Ancient door in desert',dream_text:'Walking in a vast desert, I found an old wooden door.',interpretation:'Door symbolizes new opportunity or life transition.',generated_image_url:'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80',tags:['door','desert','opportunity'],likes_count:56,comments_count:15,user_has_liked:false,created_at:new Date(Date.now()-8*3600*1000).toISOString()}]}}function displayMockDreams(){displayDreams(getMockDreams())}document.querySelectorAll('.filter-btn').forEach(btn=>{btn.addEventListener('click',(e)=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentFilter=btn.dataset.filter;currentPage=1;loadDreams()})});window.addEventListener('scroll',()=>{if((window.innerHeight+window.scrollY)>=document.body.offsetHeight-500){if(!isLoading){currentPage++;loadDreams()}}});document.addEventListener('DOMContentLoaded',function(){let lang='ar';try{lang=localStorage.getItem('weaver_lang')||'ar'}catch(e){}setLang(lang);loadDreams()});</script>
+<script>
+(function(){const cv=document.getElementById('star-canvas');const ctx=cv.getContext('2d');let stars=[];function resize(){cv.width=window.innerWidth;cv.height=window.innerHeight}function spawn(){stars=[];for(let i=0;i<180;i++){stars.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.5+.3,o:Math.random(),d:(Math.random()*.016+.004)*(Math.random()<.5?1:-1)})}}function draw(){ctx.clearRect(0,0,cv.width,cv.height);stars.forEach(s=>{s.o+=s.d;if(s.o>1||s.o<0)s.d*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.o.toFixed(2)})`;ctx.fill()});requestAnimationFrame(draw)}window.addEventListener('resize',()=>{resize();spawn()});resize();spawn();draw()})();
+
+const T={ar:{n1:'الرئيسية',n2:'المميزات',n3:'الأسعار',n4:'المدونة',n5:'الأسئلة',n6:'🌙 الخلاصة','n-cta':'🔮 جرب المنصة','page-title':'🌙 الخلاصة الاجتماعية','page-subtitle':'اكتشف أحلام المجتمع وشارك تجربتك مع الآخرين','filter-recent':'🕐 الأحدث','filter-trending':'🔥 الرائجة','filter-featured':'⭐ المميزة','loading-text':'جاري تحميل الأحلام...',fl1:'الرئيسية',fl2:'المدونة',fl3:'الأسئلة الشائعة',fl4:'سياسة الخصوصية',fl5:'شروط الاستخدام',fl6:'بوت تيليجرام','footer-copy':'© 2026 Weaver | نَسَّاج — منصة نسيج الأحلام بالذكاء الاصطناعي'},
+en:{n1:'Home',n2:'Features',n3:'Pricing',n4:'Blog',n5:'FAQ',n6:'🌙 Feed','n-cta':'🔮 Try Platform','page-title':'🌙 Social Dream Feed','page-subtitle':'Discover community dreams and share your experience','filter-recent':'🕐 Recent','filter-trending':'🔥 Trending','filter-featured':'⭐ Featured','loading-text':'Loading dreams...',fl1:'Home',fl2:'Blog',fl3:'FAQ',fl4:'Privacy Policy',fl5:'Terms of Use',fl6:'Telegram Bot','footer-copy':'© 2026 Weaver — AI Dream Weaving Platform'}};
+
+let currentLang='ar';function setLang(l){const body=document.body;const html=document.documentElement;body.className=l;html.setAttribute('lang',l);html.setAttribute('dir',l==='ar'?'rtl':'ltr');document.getElementById('btn-ar').classList.toggle('on',l==='ar');document.getElementById('btn-en').classList.toggle('on',l==='en');const t=T[l];Object.keys(t).forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=t[id]});try{localStorage.setItem('weaver_lang',l)}catch(e){}currentLang=l}
+
+// ✅ Supabase URL and KEY - تم التحديث
+const SUPABASE_URL = 'https://xgmjonmivhwnhkvljbqs.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhnbWpvbm1pdmh3bmhrdmxqYnFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2OTA0NjYsImV4cCI6MjA4OTI2NjQ2Nn0.UGuOBwPfckYUtxj5KpmjbJ-exg1cMHdWYrMuqzoC53g';
+
+let supabase;
+if (typeof window.supabase !== 'undefined' && SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+}
+
+let currentFilter = 'recent', currentPage = 1, isLoading = false;
+
+async function loadDreams() {
+    if (isLoading) return;
+    isLoading = true;
+    const feedContainer = document.getElementById('dreamsFeed');
+    try {
+        if (supabase) {
+            let query = supabase
+                .from('public_dreams')
+                .select(`*, users!public_dreams_user_id_fkey (username, avatar_url)`)
+                .eq('is_public', true);
+
+            if (currentFilter === 'trending') {
+                query = query.order('likes_count', { ascending: false });
+            } else if (currentFilter === 'featured') {
+                query = query.eq('is_featured', true).order('created_at', { ascending: false });
+            } else {
+                query = query.order('created_at', { ascending: false });
+            }
+
+            query = query.range((currentPage - 1) * 20, currentPage * 20 - 1);
+
+            const { data: dreams, error } = await query;
+            if (error) throw error;
+
+            const formattedDreams = dreams.map(dream => ({
+                id: dream.id,
+                user: {
+                    username: dream.users?.username || 'User',
+                    avatar: dream.users?.avatar_url
+                },
+                dream_title: dream.dream_title,
+                dream_text: dream.dream_text,
+                interpretation: dream.interpretation,
+                generated_image_url: dream.generated_image_url,
+                tags: dream.tags || [],
+                likes_count: dream.likes_count,
+                comments_count: dream.comments_count,
+                user_has_liked: false,
+                created_at: dream.created_at
+            }));
+
+            displayDreams(formattedDreams);
+        } else {
+            displayMockDreams();
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        displayMockDreams();
+    } finally {
+        isLoading = false;
+    }
+}
+
+function displayDreams(dreams) {
+    const feedContainer = document.getElementById('dreamsFeed');
+    if (currentPage === 1) {
+        feedContainer.innerHTML = '';
+    }
+    if (dreams.length === 0 && currentPage === 1) {
+        feedContainer.innerHTML = `<div class="empty-state"><div class="empty-icon">🌙</div><h3 class="empty-title">${currentLang==='ar'?'لا توجد أحلام بعد':'No dreams yet'}</h3><p class="empty-text">${currentLang==='ar'?'كن أول من يشارك حلمه مع المجتمع!':'Be the first to share!'}</p></div>`;
+        return;
+    }
+    dreams.forEach(dream => {
+        feedContainer.innerHTML += createDreamCard(dream);
+    });
+    setupActionButtons();
+}
+
+function createDreamCard(dream) {
+    const interpTitle = currentLang === 'ar' ? '💡 التفسير' : '💡 Interpretation';
+    const shareText = currentLang === 'ar' ? 'مشاركة' : 'Share';
+    return `<div class="dream-card" data-dream-id="${dream.id}"><div class="dream-header"><img src="${dream.user.avatar || 'https://ui-avatars.com/api/?name='+encodeURIComponent(dream.user.username)+'&background=a855f7&color=fff'}" alt="${dream.user.username}" class="avatar"><div class="dream-author"><div class="author-name">${dream.user.username}</div><div class="dream-time">${formatTimeAgo(dream.created_at)}</div></div></div><h3 class="dream-title">${dream.dream_title}</h3><p class="dream-text">${truncateText(dream.dream_text,250)}</p>${dream.generated_image_url?`<img src="${dream.generated_image_url}" alt="Dream" class="dream-image" loading="lazy">`:''}<div class="interpretation-box"><div class="interp-title">${interpTitle}</div><div class="interp-text">${truncateText(dream.interpretation,180)}</div></div>${dream.tags&&dream.tags.length>0?`<div class="dream-tags">${dream.tags.map(tag=>`<span class="tag">#${tag}</span>`).join('')}</div>`:''}<div class="dream-actions"><button class="action-btn like-btn ${dream.user_has_liked?'liked':''}" data-dream-id="${dream.id}"><span class="action-icon">${dream.user_has_liked?'❤️':'🤍'}</span><span>${dream.likes_count}</span></button><button class="action-btn comment-btn" data-dream-id="${dream.id}"><span class="action-icon">💬</span><span>${dream.comments_count}</span></button><button class="action-btn share-btn" data-dream-id="${dream.id}"><span class="action-icon">🔗</span><span>${shareText}</span></button></div></div>`;
+}
+
+function setupActionButtons() {
+    document.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const dreamId = btn.dataset.dreamId;
+            toggleLike(dreamId, btn);
+        });
+    });
+    document.querySelectorAll('.share-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const dreamId = btn.dataset.dreamId;
+            shareDream(dreamId);
+        });
+    });
+}
+
+async function toggleLike(dreamId, btn) {
+    const icon = btn.querySelector('.action-icon');
+    const count = btn.querySelector('span:last-child');
+    if (btn.classList.contains('liked')) {
+        btn.classList.remove('liked');
+        icon.textContent = '🤍';
+        count.textContent = parseInt(count.textContent) - 1;
+    } else {
+        btn.classList.add('liked');
+        icon.textContent = '❤️';
+        count.textContent = parseInt(count.textContent) + 1;
+    }
+}
+
+function shareDream(dreamId) {
+    const url = `${window.location.origin}/dream/${dreamId}`;
+    if (navigator.share) {
+        navigator.share({
+            title: currentLang === 'ar' ? 'شارك هذا الحلم' : 'Share this dream',
+            url: url
+        });
+    } else {
+        navigator.clipboard.writeText(url);
+        alert(currentLang === 'ar' ? 'تم نسخ الرابط!' : 'Link copied!');
+    }
+}
+
+function formatTimeAgo(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+    if (currentLang === 'ar') {
+        if (seconds < 60) return 'الآن';
+        if (seconds < 3600) return `منذ ${Math.floor(seconds / 60)} دقيقة`;
+        if (seconds < 86400) return `منذ ${Math.floor(seconds / 3600)} ساعة`;
+        if (seconds < 2592000) return `منذ ${Math.floor(seconds / 86400)} يوم`;
+        return date.toLocaleDateString('ar-SA');
+    } else {
+        if (seconds < 60) return 'Now';
+        if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+        if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+        if (seconds < 2592000) return `${Math.floor(seconds / 86400)}d ago`;
+        return date.toLocaleDateString('en-US');
+    }
+}
+
+function truncateText(text, maxLength) {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+}
+
+function getMockDreams() {
+    if (currentLang === 'ar') {
+        return [
+            {id:1,user:{username:'سارة من القاهرة',avatar:null},dream_title:'رأيت نفسي أطير فوق البحر',dream_text:'كنت أحلق عالياً فوق بحر هادئ، وأشعر بسعادة غامرة وحرية لا توصف.',interpretation:'الطيران في الأحلام يرمز إلى الحرية والتحرر من القيود.',generated_image_url:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',tags:['طيران','بحر','حرية'],likes_count:42,comments_count:12,user_has_liked:false,created_at:new Date(Date.now()-2*3600*1000).toISOString()},
+            {id:2,user:{username:'أحمد من الرياض',avatar:null},dream_title:'ثعبان ذهبي في الحديقة',dream_text:'رأيت ثعباناً ذهبي اللون يتحرك بهدوء في حديقة منزلي.',interpretation:'الثعبان الذهبي يرمز إلى الحكمة والتحول الإيجابي.',generated_image_url:null,tags:['ثعبان','ذهب','حديقة'],likes_count:38,comments_count:8,user_has_liked:true,created_at:new Date(Date.now()-5*3600*1000).toISOString()},
+            {id:3,user:{username:'فاطمة من المغرب',avatar:null},dream_title:'باب قديم في صحراء',dream_text:'كنت أسير في صحراء واسعة ووجدت باباً خشبياً قديماً.',interpretation:'الباب يرمز إلى فرصة جديدة أو انتقال في الحياة.',generated_image_url:'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80',tags:['باب','صحراء','فرصة'],likes_count:56,comments_count:15,user_has_liked:false,created_at:new Date(Date.now()-8*3600*1000).toISOString()}
+        ];
+    } else {
+        return [
+            {id:1,user:{username:'Sarah from Cairo',avatar:null},dream_title:'Flying over the sea',dream_text:'I was soaring high above a calm sea, feeling overwhelming happiness.',interpretation:'Flying symbolizes freedom and liberation from constraints.',generated_image_url:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',tags:['flying','sea','freedom'],likes_count:42,comments_count:12,user_has_liked:false,created_at:new Date(Date.now()-2*3600*1000).toISOString()},
+            {id:2,user:{username:'Ahmed from Riyadh',avatar:null},dream_title:'Golden serpent in garden',dream_text:'I saw a golden serpent moving peacefully in my garden.',interpretation:'Golden serpent symbolizes wisdom and transformation.',generated_image_url:null,tags:['serpent','gold','garden'],likes_count:38,comments_count:8,user_has_liked:true,created_at:new Date(Date.now()-5*3600*1000).toISOString()},
+            {id:3,user:{username:'Fatima from Morocco',avatar:null},dream_title:'Ancient door in desert',dream_text:'Walking in a vast desert, I found an old wooden door.',interpretation:'Door symbolizes new opportunity or life transition.',generated_image_url:'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80',tags:['door','desert','opportunity'],likes_count:56,comments_count:15,user_has_liked:false,created_at:new Date(Date.now()-8*3600*1000).toISOString()}
+        ];
+    }
+}
+
+function displayMockDreams() {
+    displayDreams(getMockDreams());
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        currentPage = 1;
+        loadDreams();
+    });
+});
+
+window.addEventListener('scroll', () => {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+        if (!isLoading) {
+            currentPage++;
+            loadDreams();
+        }
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let lang = 'ar';
+    try { lang = localStorage.getItem('weaver_lang') || 'ar'; } catch(e) {}
+    setLang(lang);
+    loadDreams();
+});
+</script>
 </body>
 </html>
