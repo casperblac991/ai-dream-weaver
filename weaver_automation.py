@@ -7,8 +7,6 @@
 2. تحديث صفحة المدونة الرئيسية تلقائياً
 3. إضافة المقالات الجديدة إلى صفحة blog-simple.html
 4. نشر المحتوى على تيليجرام برابط صحيح
-
-print("🔑 GROQ_API_KEY موجود:", "نعم" if os.environ.get("GROQ_API_KEY") else "لا")
 """
 
 import os
@@ -49,8 +47,11 @@ ARTICLE_TOPICS = [
 # ============================================
 def generate_article(topic_ar, max_words=600):
     """يولد مقالاً كاملاً باستخدام Groq"""
+    print(f"🔑 Generating article for: {topic_ar}")
+    print(f"🔑 GROQ_API_KEY exists: {'✅' if GROQ_API_KEY else '❌'}")
+    
     if not GROQ_API_KEY:
-        return "محتوى تجريبي: " + topic_ar
+        return f"<p>محتوى تجريبي: {topic_ar}</p><p>مفتاح Groq غير موجود في المتغيرات البيئية.</p>"
     
     try:
         response = requests.post(
@@ -67,19 +68,23 @@ def generate_article(topic_ar, max_words=600):
             },
             timeout=60
         )
+        print(f"🔑 Groq API status: {response.status_code}")
+        
         if response.status_code == 200:
-            return response.json()["choices"][0]["message"]["content"]
+            content = response.json()["choices"][0]["message"]["content"]
+            return content
+        else:
+            print(f"⚠️ Groq API error: {response.text[:200]}")
+            return f"<p>عذراً، حدث خطأ في الاتصال بـ Groq. الرمز: {response.status_code}</p><p>{topic_ar}</p>"
     except Exception as e:
-        print(f"خطأ في توليد المقال: {e}")
-    
-    return f"<p>مقال عن {topic_ar} قيد الإعداد. تابعونا للمزيد.</p>"
+        print(f"⚠️ Exception in generate_article: {e}")
+        return f"<p>عذراً، حدث خطأ: {str(e)}</p><p>{topic_ar}</p>"
 
 # ============================================
 # 📝 إنشاء صفحة مقال جديدة
 # ============================================
 def create_article_page(topic_ar, topic_en, content):
     """ينشئ ملف HTML جديد للمقال"""
-    # إنشاء اسم ملف صالح
     safe_title = topic_ar.replace(' ', '-').replace('؟', '').replace(':', '').replace('/', '-').replace('،', '')
     filename = f"{datetime.now().strftime('%Y-%m-%d')}-{safe_title}.html"
     
@@ -89,7 +94,6 @@ def create_article_page(topic_ar, topic_en, content):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{topic_ar} | Weaver</title>
-    <link rel="stylesheet" href="css/main.css">
     <style>
         body {{ font-family: 'Tajawal', sans-serif; background: #0a0a1a; color: #e2d9f3; line-height: 1.8; padding: 2rem; max-width: 800px; margin: auto; }}
         h1 {{ color: #f0c060; border-bottom: 1px solid #7c3aed; padding-bottom: 1rem; }}
@@ -151,9 +155,9 @@ def update_simple_blog(article_title_ar, article_title_en, article_file, article
 def post_to_telegram(article_title_ar, article_file):
     """ينشر في قناة تيليجرام"""
     if not TELEGRAM_TOKEN:
+        print("⚠️ TELEGRAM_TOKEN غير موجود")
         return
     
-    # الرابط الصحيح للمقال
     article_url = f"https://aidreamweaver.store/{article_file}"
     
     message = f"""📚 *مقال جديد في مدونة Weaver*
@@ -186,22 +190,16 @@ def daily_task():
     """المهمة التي تشغل كل يوم"""
     print(f"\n🚀 بدء المهمة اليومية: {datetime.now()}")
     
-    # اختيار موضوع عشوائي
     topic = random.choice(ARTICLE_TOPICS)
     print(f"📝 الموضوع: {topic['title_ar']}")
     
-    # 1. توليد المحتوى
     content = generate_article(topic["title_ar"])
-    
-    # 2. إنشاء ملف المقال
     article_file = create_article_page(topic["title_ar"], topic["title_en"], content)
     print(f"✅ تم إنشاء مقال: {article_file}")
     
-    # 3. تحديث صفحة blog-simple.html
     today = datetime.now().strftime("%Y-%m-%d")
     update_simple_blog(topic["title_ar"], topic["title_en"], article_file, today)
     
-    # 4. نشر على تيليجرام (بالرابط الصحيح)
     post_to_telegram(topic["title_ar"], article_file)
     
     print("✅ انتهت المهمة اليومية بنجاح")
