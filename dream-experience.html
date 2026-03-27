@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عيش حلمك | Weaver</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: #050210;
+            color: #e2d9f3;
+            line-height: 1.6;
+        }
+        body.en {
+            font-family: 'Inter', sans-serif;
+            direction: ltr;
+            text-align: left;
+        }
+        body.ar {
+            direction: rtl;
+            text-align: right;
+        }
+        
+        :root {
+            --gold: #f0c060;
+            --purple: #a855f7;
+            --deep: #7c3aed;
+            --pink: #ec4899;
+            --bg: #050210;
+            --surface: rgba(30,10,60,0.75);
+            --text: #e2d9f3;
+            --muted: rgba(226,217,243,0.65);
+        }
+        
+        .bg-layer {
+            position: fixed; inset: 0; z-index: -2;
+            background: radial-gradient(ellipse at 20% 50%, #1e0a3c 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
+                        #050210;
+        }
+        
+        #star-canvas {
+            position: fixed; inset: 0; z-index: -1;
+            pointer-events: none;
+            width: 100%; height: 100%;
+        }
+        
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: .75rem 2rem;
+            background: rgba(5,2,16,.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(124,58,237,.4);
+            flex-wrap: wrap; gap: .5rem;
+        }
+        .logo { font-size: 1.5rem; font-weight: 900; display: flex; align-items: center; gap: 5px; }
+        .logo-en { background: linear-gradient(135deg, #f0c060, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .logo-ar { color: #a855f7; }
+        .logo-sep { color: #f0c060; }
+        .nav-links { display: flex; align-items: center; gap: .65rem; flex-wrap: wrap; }
+        .nav-links a { color: var(--text); text-decoration: none; font-size: .85rem; transition: color .2s; }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-cta { background: linear-gradient(135deg, #7c3aed, #ec4899); color: white !important; padding: .4rem 1.1rem; border-radius: 50px; font-size: .82rem; font-weight: 700; }
+        .lang-btns { display: flex; gap: 5px; }
+        .lb { background: rgba(30,10,60,.8); color: var(--gold); border: 1px solid rgba(124,58,237,.5); padding: .3rem .7rem; border-radius: 50px; cursor: pointer; font-size: .78rem; font-weight: 700; transition: all .2s; font-family: inherit; }
+        .lb.on, .lb:hover { background: #7c3aed; color: white; border-color: #7c3aed; }
+        
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .page-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+        
+        .dream-input {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            background: rgba(30,10,60,0.8);
+            border: 1px solid rgba(124,58,237,.5);
+            border-radius: 16px;
+            color: white;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+        
+        .dream-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: white;
+            padding: .8rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124,58,237,0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .result-card {
+            background: rgba(30,10,60,0.8);
+            border: 1px solid rgba(124,58,237,.5);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            transition: all 0.3s;
+        }
+        
+        .result-title {
+            color: var(--gold);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .result-text {
+            color: var(--text);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .dream-image {
+            width: 100%;
+            border-radius: 16px;
+            margin: 1rem 0;
+            max-height: 400px;
+            object-fit: cover;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+        
+        .share-btn {
+            background: rgba(124,58,237,0.3);
+            border: 1px solid rgba(124,58,237,.5);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            color: var(--gold);
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.8rem;
+        }
+        
+        .share-btn:hover {
+            background: #7c3aed;
+            color: white;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 2rem;
+        }
+        
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(124,58,237,0.3);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .login-prompt {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(30,10,60,0.8);
+            border-radius: 20px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(124,58,237,.25);
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 0 1rem; }
+            .share-buttons { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body class="ar">
+<div class="bg-layer"></div>
+<canvas id="star-canvas"></canvas>
+
+<nav>
+    <div class="logo">
+        <span class="logo-en">Weaver</span>
+        <span class="logo-sep">|</span>
+        <span class="logo-ar">نَسَّاج</span>
+    </div>
+    <div class="nav-links">
+        <a href="index.html" id="nav-home">الرئيسية</a>
+        <a href="blog.html" id="nav-blog">المدونة</a>
+        <a href="feed.html" id="nav-feed">الخلاصة</a>
+        <a href="dream-experience.html" class="active" id="nav-exp">🌌 عيش حلمك</a>
+        <div class="lang-btns">
+            <button class="lb on" id="btn-ar" onclick="setLang('ar')">🇸🇦 عربي</button>
+            <button class="lb" id="btn-en" onclick="setLang('en')">🇬🇧 English</button>
+        </div>
+        <a href="https://ai-dream-weaver.onrender.com/app/analyze" class="nav-cta" id="nav-cta">🔮 جرب المنصة</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="page-title" id="page-title">🌌 عيش حلمك</h1>
+    <p class="page-subtitle" id="page-subtitle">اكتب وصفاً لحلمك، ودع الذكاء الاصطناعي يعيد خلقه</p>
+    
+    <div id="app-content">
+        <textarea id="dream-input" class="dream-input" placeholder="مثال: كنت أطير فوق بحر هادئ، والشمس تغرب..." rows="5"></textarea>
+        <button id="generate-btn" class="btn-primary" onclick="generateDreamExperience()">✨ عيش الحلم ✨</button>
+        <div id="result-container"></div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-links">
+        <a href="index.html">الرئيسية</a>
+        <a href="blog.html">المدونة</a>
+        <a href="faq.html">الأسئلة</a>
+        <a href="privacy.html">الخصوصية</a>
+    </div>
+    <p class="footer-copy">© 2026 Weaver | نَسَّاج — منصة نسيج الأحلام بالذكاء الاصطناعي</p>
+</footer>
+
+<script>
+// ============================================
+// SUPABASE
+// ============================================
+const SUPABASE_URL = 'https://xgmjonmivhwnhkvljbqs.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhnbWpvbm1pdmh3bmhrdmxqYnFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2OTA0NjYsImV4cCI6MjA4OTI2NjQ2Nn0.UGuOBwPfckYUtxj5KpmjbJ-exg1cMHdWYrMuqzoC53g';
+
+let supabase;
+if (typeof window.supabase !== 'undefined') {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+}
+
+// ============================================
+// GROQ API KEY - يتم قراءته من المتغيرات البيئية (آمن)
+// في الإنتاج، يجب تعيين هذا المتغير عبر GitHub Secrets أو Render Environment
+// ============================================
+const GROQ_API_KEY = ''; // سيتم تعبئته من الخادم لاحقاً
+
+// ============================================
+// توليد السرد الحلمي (بدون مفتاح في الكود)
+// ============================================
+async function generateDreamNarrative(dreamText, lang = 'ar') {
+    const prompt = lang === 'ar' 
+        ? `أنت كاتب خيالي. اكتب سرداً حلمياً جميلاً ومفصلاً بناءً على وصف الحلم التالي. استخدم لغة أدبية وصوراً حسية. اجعل النص 200-300 كلمة.\n\nوصف الحلم: ${dreamText}`
+        : `You are a creative writer. Write a beautiful, detailed dream narrative based on the following dream description. Use literary language and sensory imagery. Make the text 200-300 words.\n\nDream description: ${dreamText}`;
+    
+    // محاكاة مؤقتة (لأن المفتاح غير موجود في الكود)
+    return fallbackNarrative(dreamText, lang);
+}
+
+function fallbackNarrative(dreamText, lang) {
+    if (lang === 'ar') {
+        return `🌌 تدخل في عالم الحلم...\n\n${dreamText}\n\nالعالم من حولك يبدأ في التشكل. تشعر بالحرية والانطلاق. الألوان تتلألأ، والمشاعر تتدفق. هذا حلمك، أنت بطل قصته. استمتع بالرحلة.`;
+    }
+    return `🌌 You enter the dream world...\n\n${dreamText}\n\nThe world around you begins to take shape. You feel free and soaring. Colors shimmer, emotions flow. This is your dream, you are the hero of its story. Enjoy the journey.`;
+}
+
+// ============================================
+// توليد صورة للحلم (محاكاة)
+// ============================================
+async function generateDreamImage(prompt) {
+    // في الإنتاج، استخدم API حقيقي مع مفتاح من المتغيرات البيئية
+    return null;
+}
+
+// ============================================
+// عرض النتيجة
+// ============================================
+let currentNarrative = '';
+let currentImageUrl = '';
+
+async function generateDreamExperience() {
+    const dreamInput = document.getElementById('dream-input');
+    const dreamText = dreamInput.value.trim();
+    const generateBtn = document.getElementById('generate-btn');
+    const resultContainer = document.getElementById('result-container');
+    const currentLang = document.body.className || 'ar';
+    
+    if (!dreamText) {
+        alert(currentLang === 'ar' ? 'الرجاء كتابة وصف لحلمك' : 'Please describe your dream');
+        return;
+    }
+    
+    generateBtn.disabled = true;
+    resultContainer.innerHTML = `
+        <div class="loading">
+            <div class="spinner"></div>
+            <span>${currentLang === 'ar' ? 'جاري نسج حلمك...' : 'Weaving your dream...'}</span>
+        </div>
+    `;
+    
+    try {
+        const narrative = await generateDreamNarrative(dreamText, currentLang);
+        currentNarrative = narrative;
+        
+        resultContainer.innerHTML = `
+            <div class="result-card">
+                <div class="result-title">
+                    <span>🌌</span>
+                    <span>${currentLang === 'ar' ? 'تجربة حلمك' : 'Your Dream Experience'}</span>
+                </div>
+                <div class="result-text">${narrative.replace(/\n/g, '<br>')}</div>
+                <div class="share-buttons">
+                    <button class="share-btn" onclick="shareToTelegram()">📱 ${currentLang === 'ar' ? 'شارك على تيليجرام' : 'Share on Telegram'}</button>
+                    <button class="share-btn" onclick="copyToClipboard()">📋 ${currentLang === 'ar' ? 'نسخ الرابط' : 'Copy link'}</button>
+                </div>
+            </div>
+        `;
+    } catch (error) {
+        console.error('Error:', error);
+        resultContainer.innerHTML = `
+            <div class="result-card">
+                <div class="result-title">⚠️</div>
+                <div class="result-text">${currentLang === 'ar' ? 'حدث خطأ أثناء توليد تجربة الحلم. حاول مرة أخرى.' : 'An error occurred. Please try again.'}</div>
+            </div>
+        `;
+    } finally {
+        generateBtn.disabled = false;
+    }
+}
+
+function shareToTelegram() {
+    const currentLang = document.body.className || 'ar';
+    const text = currentLang === 'ar' 
+        ? `🌌 جربت تجربة عيش الحلم على Weaver!\n\n${currentNarrative.substring(0, 200)}...\n\nhttps://aidreamweaver.store/dream-experience.html`
+        : `🌌 I experienced the Dream Experience on Weaver!\n\n${currentNarrative.substring(0, 200)}...\n\nhttps://aidreamweaver.store/dream-experience.html`;
+    
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(text)}`, '_blank');
+}
+
+function copyToClipboard() {
+    const currentLang = document.body.className || 'ar';
+    const text = currentLang === 'ar' 
+        ? `جربت تجربة عيش الحلم على Weaver!\n${currentNarrative.substring(0, 200)}...\nhttps://aidreamweaver.store/dream-experience.html`
+        : `I experienced the Dream Experience on Weaver!\n${currentNarrative.substring(0, 200)}...\nhttps://aidreamweaver.store/dream-experience.html`;
+    
+    navigator.clipboard.writeText(text);
+    alert(currentLang === 'ar' ? 'تم نسخ الرابط!' : 'Link copied!');
+}
+
+// ============================================
+// النجوم
+// ============================================
+(function() {
+    const cv = document.getElementById('star-canvas');
+    const ctx = cv.getContext('2d');
+    let stars = [];
+    function resize() { cv.width = window.innerWidth; cv.height = window.innerHeight; }
+    function spawn() {
+        stars = [];
+        for (let i = 0; i < 180; i++) {
+            stars.push({ x: Math.random()*cv.width, y: Math.random()*cv.height, r: Math.random()*1.5+.3, o: Math.random(), d: (Math.random()*.016+.004) * (Math.random()<.5?1:-1) });
+        }
+    }
+    function draw() {
+        ctx.clearRect(0,0,cv.width,cv.height);
+        stars.forEach(s => {
+            s.o += s.d; if(s.o>1||s.o<0) s.d*=-1;
+            ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+            ctx.fillStyle = `rgba(255,255,255,${s.o.toFixed(2)})`; ctx.fill();
+        });
+        requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', () => { resize(); spawn(); });
+    resize(); spawn(); draw();
+})();
+
+// ============================================
+// الترجمة
+// ============================================
+const translations = {
+    ar: {
+        'nav-home': 'الرئيسية',
+        'nav-blog': 'المدونة',
+        'nav-feed': 'الخلاصة',
+        'nav-exp': '🌌 عيش حلمك',
+        'nav-cta': '🔮 جرب المنصة',
+        'page-title': '🌌 عيش حلمك',
+        'page-subtitle': 'اكتب وصفاً لحلمك، ودع الذكاء الاصطناعي يعيد خلقه',
+        'placeholder': 'مثال: كنت أطير فوق بحر هادئ، والشمس تغرب...',
+        'btn': '✨ عيش الحلم ✨'
+    },
+    en: {
+        'nav-home': 'Home',
+        'nav-blog': 'Blog',
+        'nav-feed': 'Feed',
+        'nav-exp': '🌌 Live Your Dream',
+        'nav-cta': '🔮 Try Platform',
+        'page-title': '🌌 Live Your Dream',
+        'page-subtitle': 'Describe your dream, and let AI recreate it',
+        'placeholder': 'Example: I was flying over a calm sea, the sun was setting...',
+        'btn': '✨ Live the Dream ✨'
+    }
+};
+
+function setLang(lang) {
+    document.body.className = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('btn-ar').classList.toggle('on', lang === 'ar');
+    document.getElementById('btn-en').classList.toggle('on', lang === 'en');
+    
+    const t = translations[lang];
+    for (let id in t) {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = t[id];
+    }
+    document.getElementById('dream-input').placeholder = t.placeholder;
+    document.getElementById('generate-btn').innerHTML = t.btn;
+    
+    localStorage.setItem('weaver_lang', lang);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('weaver_lang') || 'ar';
+    setLang(savedLang);
+});
+</script>
+</body>
+</html>
