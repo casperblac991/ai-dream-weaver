@@ -1,4 +1,4 @@
-name: 🧵 Weaver Automation (Daily Blog & Marketing)
+name: 🧵 Weaver Automation (Daily Blog)
 
 on:
   workflow_dispatch:
