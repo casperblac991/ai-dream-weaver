@@ -46,14 +46,6 @@ ARTICLE_TOPICS = [
 ]
 
 # ============================================
-# 📊 بيانات التقارير
-# ============================================
-REPORT_TEMPLATES = {
-    "weekly": "📊 *تقرير أسبوعي من Weaver*\n\n🔮 *أكثر 5 رموز ظهوراً هذا الأسبوع:*\n{top_symbols}\n\n📈 *نسبة التغير:* {change}%\n\n🌙 *شاهد المزيد:* {link}",
-    "symbol": "🔍 *رمز الأسبوع: {symbol}*\n\n{interpretation}\n\n✨ تعرف على المزيد في مدونتنا: {link}",
-}
-
-# ============================================
 # 🤖 توليد محتوى بالذكاء الاصطناعي
 # ============================================
 def generate_article(topic, max_words=800):
@@ -84,12 +76,13 @@ def generate_article(topic, max_words=800):
     return f"<p>مقال عن {topic} قيد الإعداد. تابعونا للمزيد.</p>"
 
 # ============================================
-# 📝 إنشاء صفحة مقال جديدة
+# 📝 إنشاء صفحة مقال جديدة (في المجلد الرئيسي)
 # ============================================
 def create_article_page(topic, content):
-    """ينشئ ملف HTML جديد للمقال"""
-    filename = f"articles/{datetime.now().strftime('%Y-%m-%d')}-{topic.replace(' ', '-')}.html"
-    Path("articles").mkdir(exist_ok=True)
+    """ينشئ ملف HTML جديد للمقال في المجلد الرئيسي"""
+    # إنشاء اسم ملف آمن (بدون مجلد articles/)
+    safe_title = topic.replace(' ', '-').replace('؟', '').replace(':', '')
+    filename = f"{datetime.now().strftime('%Y-%m-%d')}-{safe_title}.html"
     
     html = f"""<!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -97,7 +90,7 @@ def create_article_page(topic, content):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{topic} | Weaver</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <div id="navbar"></div>
@@ -114,7 +107,7 @@ def create_article_page(topic, content):
         </article>
     </main>
     <div id="footer"></div>
-    <script src="/js/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>"""
     
@@ -126,15 +119,26 @@ def create_article_page(topic, content):
 # 📚 تحديث صفحة المدونة الرئيسية
 # ============================================
 def update_blog_index():
-    """يحدث صفحة blog.html بأحدث المقالات"""
-    articles = sorted(Path("articles").glob("*.html"), key=os.path.getctime, reverse=True)
+    """يحدث صفحة blog.html بأحدث المقالات (من المجلد الرئيسي)"""
+    # استثناء الملفات التي ليست مقالات
+    exclude_files = ["index.html", "blog.html", "feed.html", "analytics.html", "dream-map.html", "404.html", "faq.html", "privacy.html", "terms.html"]
+    
+    articles = sorted(
+        [p for p in Path(".").glob("*.html") if p.name not in exclude_files],
+        key=os.path.getctime, 
+        reverse=True
+    )[:9]  # آخر 9 مقالات
     
     articles_html = ""
-    for article in articles[:9]:  # آخر 9 مقالات
-        title = article.stem.split("-", 1)[1].replace("-", " ") if "-" in article.stem else article.stem
+    for article in articles:
+        # استخراج العنوان من اسم الملف
+        title = article.stem
+        if len(title) > 10 and title[10] == '-':
+            title = title[11:].replace('-', ' ')
+        
         articles_html += f"""
         <div class="article-card">
-            <a href="/{article}">
+            <a href="/{article.name}">
                 <h3>{title}</h3>
                 <p>قراءة المزيد...</p>
                 <div class="article-meta">{datetime.fromtimestamp(os.path.getctime(article)).strftime('%d/%m/%Y')}</div>
@@ -146,7 +150,7 @@ def update_blog_index():
 <head>
     <meta charset="UTF-8">
     <title>مدونة Weaver | تفسير الأحلام</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <div id="navbar"></div>
@@ -157,107 +161,13 @@ def update_blog_index():
         </div>
     </main>
     <div id="footer"></div>
-    <script src="/js/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>"""
     
     with open("blog.html", "w", encoding="utf-8") as f:
         f.write(blog_content)
     print(f"✅ تم تحديث المدونة بـ {len(articles)} مقال")
-
-# ============================================
-# 📊 إنشاء تقرير تحليلي
-# ============================================
-def create_analytics_page():
-    """ينشئ صفحة تحليلات الأحلام"""
-    symbols = ["طيران", "بحر", "ثعبان", "ماء", "نار", "حلم", "موت", "ولادة", "طيران", "سماء"]
-    top_symbols = random.sample(symbols, 5)
-    
-    html = f"""<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>تحليلات الأحلام | Weaver</title>
-    <link rel="stylesheet" href="/css/main.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <div id="navbar"></div>
-    <main class="analytics-container">
-        <h1>📊 تحليلات أحلام المجتمع</h1>
-        <div class="stats-cards">
-            <div class="stat-card"><span class="stat-value">124</span><span>إجمالي الأحلام</span></div>
-            <div class="stat-card"><span class="stat-value">28</span><span>هذا الشهر</span></div>
-            <div class="stat-card"><span class="stat-value">15</span><span>رموز متكررة</span></div>
-        </div>
-        <div class="chart-card">
-            <h2>🔮 الرموز الأكثر تكراراً</h2>
-            <canvas id="symbolsChart"></canvas>
-        </div>
-    </main>
-    <script>
-        const ctx = document.getElementById('symbolsChart').getContext('2d');
-        new Chart(ctx, {{
-            type: 'bar',
-            data: {{
-                labels: {top_symbols},
-                datasets: [{{ label: 'التكرارات', data: [42, 38, 35, 28, 22], backgroundColor: '#f0c060' }}]
-            }}
-        }});
-    </script>
-</body>
-</html>"""
-    
-    with open("analytics.html", "w", encoding="utf-8") as f:
-        f.write(html)
-    print("✅ تم إنشاء صفحة التحليلات")
-
-# ============================================
-# 🗺️ إنشاء خريطة الرموز
-# ============================================
-def create_symbol_map():
-    """ينشئ صفحة خريطة الرموز التفاعلية"""
-    html = f"""<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>خريطة رموز الأحلام | Weaver</title>
-    <link rel="stylesheet" href="/css/main.css">
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-</head>
-<body>
-    <div id="navbar"></div>
-    <main class="map-container">
-        <h1>🗺️ خريطة رموز الأحلام</h1>
-        <div id="map"></div>
-    </main>
-    <script>
-        const symbols = {{
-            nodes: [
-                {{ id: "طيران", group: 1 }},
-                {{ id: "حرية", group: 1 }},
-                {{ id: "بحر", group: 2 }},
-                {{ id: "مشاعر", group: 2 }},
-                {{ id: "ثعبان", group: 3 }},
-                {{ id: "حكمة", group: 3 }},
-                {{ id: "نار", group: 4 }},
-                {{ id: "تحول", group: 4 }}
-            ],
-            links: [
-                {{ source: "طيران", target: "حرية" }},
-                {{ source: "بحر", target: "مشاعر" }},
-                {{ source: "ثعبان", target: "حكمة" }},
-                {{ source: "نار", target: "تحول" }}
-            ]
-        }};
-        // رسم الخريطة باستخدام D3.js
-    </script>
-</body>
-</html>"""
-    
-    with open("dream-map.html", "w", encoding="utf-8") as f:
-        f.write(html)
-    print("✅ تم إنشاء خريطة الرموز")
 
 # ============================================
 # 📢 نشر المحتوى على تيليجرام
@@ -291,16 +201,12 @@ def daily_task():
     # 2. تحديث المدونة
     update_blog_index()
     
-    # 3. إنشاء صفحة تحليلات (مرة أسبوعياً)
-    if datetime.now().weekday() == 0:  # يوم الاثنين
-        create_analytics_page()
-    
-    # 4. نشر إعلان على تيليجرام
+    # 3. نشر إعلان على تيليجرام
     message = f"""📚 *مقال جديد في مدونة Weaver*
 
-{random.choice(ARTICLE_TOPICS)['title']}
+🔮 *{topic['title']}*
 
-🔮 اقرأ المقال كاملاً:
+✨ اقرأ المقال كاملاً:
 https://aidreamweaver.store/{article_file}
 
 🌙 جرب تفسير حلمك: https://aidreamweaver.store/app/analyze"""
