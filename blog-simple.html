@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أحدث المقالات | Weaver</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0KEHTRWRYB"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-0KEHTRWRYB');</script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Tajawal',sans-serif;background:#050210;color:#e2d9f3;line-height:1.6}
+        body.en{font-family:'Inter',sans-serif;direction:ltr;text-align:left}
+        body.ar{direction:rtl;text-align:right}
+        :root{--gold:#f0c060;--purple:#a855f7;--deep:#7c3aed;--pink:#ec4899;--bg:#050210;--surface:rgba(30,10,60,0.75);--text:#e2d9f3;--muted:rgba(226,217,243,0.65)}
+        .bg-layer{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 20% 50%,#1e0a3c 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,#0c0a3e 0%,transparent 50%),#050210}
+        #star-canvas{position:fixed;inset:0;z-index:-1;pointer-events:none;width:100%;height:100%}
+        nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:.75rem 2rem;background:rgba(5,2,16,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(124,58,237,.4);flex-wrap:wrap;gap:.5rem}
+        .logo{font-size:1.5rem;font-weight:900;display:flex;align-items:center;gap:5px;flex-shrink:0}
+        .logo-en{background:linear-gradient(135deg,#f0c060,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .logo-ar{color:#a855f7}.logo-sep{color:#f0c060}
+        .nav-links{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap}
+        .nav-links a{color:var(--text);text-decoration:none;font-size:.85rem;transition:color .2s}
+        .nav-links a:hover,.nav-links a.active{color:var(--gold)}
+        .nav-cta{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white!important;padding:.4rem 1.1rem;border-radius:50px;font-size:.82rem;font-weight:700}
+        .lang-btns{display:flex;gap:5px}
+        .lb{background:rgba(30,10,60,.8);color:var(--gold);border:1px solid rgba(124,58,237,.5);padding:.3rem .7rem;border-radius:50px;cursor:pointer;font-size:.78rem;font-weight:700;transition:all .2s;font-family:inherit}
+        .lb.on,.lb:hover{background:#7c3aed;color:white;border-color:#7c3aed}
+        .container{max-width:900px;margin:2rem auto;padding:0 1.5rem}
+        .page-title{text-align:center;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900;color:var(--gold);margin-bottom:1rem}
+        .page-subtitle{text-align:center;color:var(--muted);font-size:1rem;margin-bottom:2.5rem}
+        .articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-bottom:3rem}
+        .article-card{background:var(--surface);border:1px solid rgba(124,58,237,.3);border-radius:18px;padding:1.5rem;transition:all .3s}
+        .article-card:hover{transform:translateY(-2px);border-color:rgba(168,85,247,.6);box-shadow:0 8px 24px rgba(124,58,237,.25)}
+        .article-card a{text-decoration:none;color:inherit}
+        .article-title{font-size:1.2rem;font-weight:700;margin-bottom:.5rem;color:var(--gold)}
+        .article-meta{color:var(--muted);font-size:.8rem;margin-top:.5rem}
+        .empty-state{text-align:center;padding:4rem 2rem}
+        .empty-icon{font-size:4rem;margin-bottom:1rem}
+        .back-link{display:inline-block;margin-top:2rem;color:var(--gold);text-decoration:none}
+        footer{text-align:center;padding:2.5rem 1.5rem;border-top:1px solid rgba(124,58,237,.25);margin-top:2rem}
+        .footer-links{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin-bottom:1rem}
+        .footer-links a{color:var(--gold);text-decoration:none;font-size:.85rem}
+        .footer-copy{color:var(--muted);font-size:.8rem}
+        @media(max-width:768px){nav{padding:.65rem 1rem}.articles-grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<body class="ar">
+<div class="bg-layer"></div>
+<canvas id="star-canvas"></canvas>
+
+<nav>
+    <div class="logo">
+        <span class="logo-en">Weaver</span>
+        <span class="logo-sep">|</span>
+        <span class="logo-ar">نَسَّاج</span>
+    </div>
+    <div class="nav-links">
+        <a href="/" id="nav-home">الرئيسية</a>
+        <a href="/blog.html" id="nav-blog">المدونة الكاملة</a>
+        <a href="/blog-simple.html" class="active" id="nav-simple">أحدث المقالات</a>
+        <a href="/feed.html" id="nav-feed">الخلاصة</a>
+        <div class="lang-btns">
+            <button class="lb on" id="btn-ar" onclick="setLang('ar')">🇸🇦 عربي</button>
+            <button class="lb" id="btn-en" onclick="setLang('en')">🇬🇧 English</button>
+        </div>
+        <a href="https://ai-dream-weaver.onrender.com/app/analyze" class="nav-cta" id="nav-cta">🔮 جرب المنصة</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="page-title" id="page-title">📚 أحدث المقالات</h1>
+    <p class="page-subtitle" id="page-subtitle">اكتشف أحدث التفسيرات والمواضيع في عالم الأحلام</p>
+    
+    <div class="articles-grid" id="articles-grid"></div>
+    
+    <div style="text-align: center;">
+        <a href="/blog.html" class="back-link" id="back-link">← العودة للمدونة الكاملة</a>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-links">
+        <a href="/">الرئيسية</a>
+        <a href="/blog.html">المدونة</a>
+        <a href="/faq.html">الأسئلة</a>
+        <a href="/privacy.html">الخصوصية</a>
+        <a href="https://t.me/aidreamweaver_bot">بوت تيليجرام</a>
+    </div>
+    <p class="footer-copy">© 2026 Weaver | نَسَّاج — منصة نسيج الأحلام بالذكاء الاصطناعي</p>
+</footer>
+
+<script>
+// النجوم
+(function(){const cv=document.getElementById('star-canvas');const ctx=cv.getContext('2d');let stars=[];function resize(){cv.width=window.innerWidth;cv.height=window.innerHeight}function spawn(){stars=[];for(let i=0;i<180;i++){stars.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.5+.3,o:Math.random(),d:(Math.random()*.016+.004)*(Math.random()<.5?1:-1)})}}function draw(){ctx.clearRect(0,0,cv.width,cv.height);stars.forEach(s=>{s.o+=s.d;if(s.o>1||s.o<0)s.d*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.o.toFixed(2)})`;ctx.fill()});requestAnimationFrame(draw)}window.addEventListener('resize',()=>{resize();spawn()});resize();spawn();draw()})();
+
+// الترجمة
+const translations = {
+    ar: {
+        'nav-home': 'الرئيسية',
+        'nav-blog': 'المدونة الكاملة',
+        'nav-simple': 'أحدث المقالات',
+        'nav-feed': 'الخلاصة',
+        'nav-cta': '🔮 جرب المنصة',
+        'page-title': '📚 أحدث المقالات',
+        'page-subtitle': 'اكتشف أحدث التفسيرات والمواضيع في عالم الأحلام',
+        'back-link': '← العودة للمدونة الكاملة',
+        'footer-copy': '© 2026 Weaver | نَسَّاج — منصة نسيج الأحلام بالذكاء الاصطناعي'
+    },
+    en: {
+        'nav-home': 'Home',
+        'nav-blog': 'Full Blog',
+        'nav-simple': 'Latest Articles',
+        'nav-feed': 'Feed',
+        'nav-cta': '🔮 Try Platform',
+        'page-title': '📚 Latest Articles',
+        'page-subtitle': 'Discover the latest interpretations and topics in the world of dreams',
+        'back-link': '← Back to Full Blog',
+        'footer-copy': '© 2026 Weaver — AI Dream Weaving Platform'
+    }
+};
+
+function setLang(lang) {
+    document.body.className = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('btn-ar').classList.toggle('on', lang === 'ar');
+    document.getElementById('btn-en').classList.toggle('on', lang === 'en');
+    
+    const t = translations[lang];
+    for (let id in t) {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = t[id];
+    }
+    localStorage.setItem('weaver_lang', lang);
+}
+
+// المقالات (يتم تحديثها يدوياً أو تلقائياً)
+const articles = [
+    { title_ar: "تفسير الأحلام عند ابن سيرين: المنهج والأصول", title_en: "Ibn Sirin: The Methodology of Dream Interpretation", date: "2026-03-27", file: "2026-03-27-تفسير-الأحلام-عند-ابن-سيرين:-المنهج-والأصول.html" },
+    { title_ar: "أحلام الطيران: الحرية والتحرر", title_en: "Flying Dreams: Freedom and Liberation", date: "2026-03-26", file: "flying-dream-meaning.html" },
+    { title_ar: "تفسير حلم الثعبان", title_en: "Snake Dream Meaning", date: "2026-03-25", file: "snake-dream-meaning.html" }
+];
+
+function loadArticles() {
+    const grid = document.getElementById('articles-grid');
+    const currentLang = document.body.className || 'ar';
+    
+    if (!articles.length) {
+        grid.innerHTML = `<div class="empty-state"><div class="empty-icon">✨</div><p>${currentLang === 'ar' ? 'لا توجد مقالات جديدة حالياً' : 'No new articles yet'}</p></div>`;
+        return;
+    }
+    
+    grid.innerHTML = articles.map(article => `
+        <div class="article-card">
+            <a href="/${article.file}">
+                <div class="article-title">${currentLang === 'ar' ? article.title_ar : article.title_en}</div>
+                <div class="article-meta">📅 ${article.date}</div>
+            </a>
+        </div>
+    `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('weaver_lang') || 'ar';
+    setLang(savedLang);
+    loadArticles();
+});
+</script>
+</body>
+</html>
