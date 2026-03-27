@@ -6,7 +6,7 @@
 1. إنشاء مقالات جديدة للمدونة (باستخدام Groq)
 2. تحديث صفحة المدونة الرئيسية تلقائياً
 3. إضافة المقالات الجديدة إلى صفحة blog-simple.html
-4. نشر المحتوى على تيليجرام
+4. نشر المحتوى على تيليجرام برابط صحيح
 """
 
 import os
@@ -39,6 +39,7 @@ ARTICLE_TOPICS = [
     {"title_ar": "تفسير الأحلام في مصر القديمة", "title_en": "Dream Interpretation in Ancient Egypt", "tags": ["مصر", "فراعنة"]},
     {"title_ar": "تفسير الأحلام في بلاد الرافدين", "title_en": "Dream Interpretation in Mesopotamia", "tags": ["بابل", "سومر"]},
     {"title_ar": "تفسير الأحلام في اليونان القديمة", "title_en": "Dream Interpretation in Ancient Greece", "tags": ["يونان", "مورفيوس"]},
+    {"title_ar": "أحلام ما قبل النوم: لماذا نحلم؟", "title_en": "Pre-sleep Dreams: Why Do We Dream?", "tags": ["نوم", "علم الأعصاب"]},
 ]
 
 # ============================================
@@ -76,27 +77,32 @@ def generate_article(topic_ar, max_words=600):
 # ============================================
 def create_article_page(topic_ar, topic_en, content):
     """ينشئ ملف HTML جديد للمقال"""
-    safe_title = topic_ar.replace(' ', '-').replace('؟', '').replace(':', '').replace('/', '-')
+    # إنشاء اسم ملف صالح
+    safe_title = topic_ar.replace(' ', '-').replace('؟', '').replace(':', '').replace('/', '-').replace('،', '')
     filename = f"{datetime.now().strftime('%Y-%m-%d')}-{safe_title}.html"
     
     html = f"""<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{topic_ar} | Weaver</title>
     <link rel="stylesheet" href="css/main.css">
+    <style>
+        body {{ font-family: 'Tajawal', sans-serif; background: #0a0a1a; color: #e2d9f3; line-height: 1.8; padding: 2rem; max-width: 800px; margin: auto; }}
+        h1 {{ color: #f0c060; border-bottom: 1px solid #7c3aed; padding-bottom: 1rem; }}
+        .article-meta {{ color: #888; font-size: 0.9rem; margin: 1rem 0; }}
+        .article-content {{ margin-top: 2rem; }}
+        .back-link {{ display: inline-block; margin-top: 2rem; color: #f0c060; text-decoration: none; }}
+    </style>
 </head>
 <body>
-    <div id="navbar"></div>
-    <main class="article-container">
-        <article>
-            <h1>{topic_ar}</h1>
-            <div class="article-meta">📅 {datetime.now().strftime('%d %B %Y')} | 🕐 {random.randint(5, 12)} دقائق قراءة</div>
-            <div class="article-content">{content}</div>
-        </article>
-    </main>
-    <div id="footer"></div>
-    <script src="js/main.js"></script>
+    <h1>{topic_ar}</h1>
+    <div class="article-meta">📅 {datetime.now().strftime('%d %B %Y')} | 🕐 {random.randint(5, 12)} دقائق قراءة</div>
+    <div class="article-content">
+        {content}
+    </div>
+    <a href="/blog-simple.html" class="back-link">← العودة للمدونة</a>
 </body>
 </html>"""
     
@@ -115,16 +121,12 @@ def update_simple_blog(article_title_ar, article_title_en, article_file, article
         print("⚠️ blog-simple.html غير موجود")
         return
     
-    # نقرأ الملف الحالي
     with open(simple_blog_path, "r", encoding="utf-8") as f:
         content = f.read()
     
-    # نبحث عن const articles = [
     if "const articles = [" in content:
-        # نضيف المقال الجديد قبل آخر قوس
         new_article = f'    {{ title_ar: "{article_title_ar}", title_en: "{article_title_en}", date: "{article_date}", file: "{article_file}" }},'
         
-        # نضيف المقال في المكان المناسب
         lines = content.split('\n')
         new_lines = []
         added = False
@@ -142,19 +144,22 @@ def update_simple_blog(article_title_ar, article_title_en, article_file, article
         print("⚠️ لم يتم العثور على قائمة articles في blog-simple.html")
 
 # ============================================
-# 📢 نشر المحتوى على تيليجرام
+# 📢 نشر المحتوى على تيليجرام (بالرابط الصحيح)
 # ============================================
 def post_to_telegram(article_title_ar, article_file):
     """ينشر في قناة تيليجرام"""
     if not TELEGRAM_TOKEN:
         return
     
+    # الرابط الصحيح للمقال
+    article_url = f"https://aidreamweaver.store/{article_file}"
+    
     message = f"""📚 *مقال جديد في مدونة Weaver*
 
 🔮 *{article_title_ar}*
 
 ✨ اقرأ المقال كاملاً:
-https://aidreamweaver.store/{article_file}
+{article_url}
 
 🌙 جرب تفسير حلمك: https://aidreamweaver.store/app/analyze"""
     
@@ -194,7 +199,7 @@ def daily_task():
     today = datetime.now().strftime("%Y-%m-%d")
     update_simple_blog(topic["title_ar"], topic["title_en"], article_file, today)
     
-    # 4. نشر على تيليجرام
+    # 4. نشر على تيليجرام (بالرابط الصحيح)
     post_to_telegram(topic["title_ar"], article_file)
     
     print("✅ انتهت المهمة اليومية بنجاح")
