@@ -7,6 +7,8 @@
 2. تحديث صفحة المدونة الرئيسية تلقائياً
 3. إضافة المقالات الجديدة إلى صفحة blog-simple.html
 4. نشر المحتوى على تيليجرام برابط صحيح
+
+print("🔑 GROQ_API_KEY موجود:", "نعم" if os.environ.get("GROQ_API_KEY") else "لا")
 """
 
 import os
