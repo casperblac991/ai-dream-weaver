@@ -1,0 +1,10 @@
+/* تنسيقات Weaver الأساسية */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Tajawal', sans-serif; background: #0a0a1a; color: #e2d9f3; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+.articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.article-card { background: #1a1a2e; padding: 20px; border-radius: 10px; border: 1px solid #7c3aed; }
+.article-card a { text-decoration: none; color: inherit; }
+.article-card h3 { color: #f0c060; margin-bottom: 10px; }
+.article-meta { color: #888; font-size: 0.8rem; margin-top: 10px; }
+.tag { display: inline-block; background: #7c3aed; color: white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; margin: 2px; }
