@@ -5,9 +5,8 @@
 يقوم بـ:
 1. إنشاء مقالات جديدة للمدونة (باستخدام Groq)
 2. تحديث صفحة المدونة الرئيسية تلقائياً
-3. إنشاء تقارير تحليلية عن الأحلام
-4. إضافة صفحات جديدة (رموز، تفسيرات، قصص)
-5. نشر المحتوى على تيليجرام
+3. إضافة المقالات الجديدة إلى صفحة blog-simple.html
+4. نشر المحتوى على تيليجرام
 """
 
 import os
@@ -16,7 +15,6 @@ import random
 import requests
 from datetime import datetime
 from pathlib import Path
-import schedule
 import time
 
 # ============================================
@@ -30,28 +28,26 @@ TELEGRAM_CHANNEL_ID = os.environ.get("TELEGRAM_CHANNEL_ID", "@weaver_dreams")
 # 📚 موضوعات المقالات
 # ============================================
 ARTICLE_TOPICS = [
-    {"title": "تفسير حلم البحر في الثقافات المختلفة", "tags": ["بحر", "ثقافة", "رموز"]},
-    {"title": "الرموز المتكررة في أحلام الطلاب", "tags": ["طلاب", "رموز", "دراسة"]},
-    {"title": "كيف تفرق بين الرؤيا والحلم العادي", "tags": ["رؤيا", "حلم", "تفسير"]},
-    {"title": "تفسير الأحلام عند ابن سيرين: المنهج والأصول", "tags": ["ابن سيرين", "إسلام", "تفسير"]},
-    {"title": "رموز الحيوانات في الأحلام: دليل شامل", "tags": ["حيوانات", "رموز", "دليل"]},
-    {"title": "تفسير حلم الثعبان بين الخوف والحكمة", "tags": ["ثعبان", "خوف", "حكمة"]},
-    {"title": "أحلام الطيران: الحرية والتحرر", "tags": ["طيران", "حرية", "تحرر"]},
-    {"title": "الماء في الأحلام: رمز المشاعر اللاواعية", "tags": ["ماء", "مشاعر", "روحانيات"]},
-    {"title": "تفسير الأحلام في مصر القديمة", "tags": ["مصر", "فراعنة", "تاريخ"]},
-    {"title": "تفسير الأحلام في بلاد الرافدين", "tags": ["بابل", "سومر", "تاريخ"]},
-    {"title": "تفسير الأحلام في اليونان القديمة", "tags": ["يونان", "مورفيوس", "تاريخ"]},
-    {"title": "أحلام ما قبل النوم: لماذا نحلم؟", "tags": ["علم الأعصاب", "نوم", "REM"]},
-    {"title": "قصص حقيقية: أحلام غيرت حياة أصحابها", "tags": ["قصص", "إلهام", "حياة"]},
+    {"title_ar": "تفسير حلم البحر في الثقافات المختلفة", "title_en": "Sea Dream in Different Cultures", "tags": ["بحر", "ثقافة"]},
+    {"title_ar": "الرموز المتكررة في أحلام الطلاب", "title_en": "Recurring Symbols in Students' Dreams", "tags": ["طلاب", "رموز"]},
+    {"title_ar": "كيف تفرق بين الرؤيا والحلم العادي", "title_en": "How to Distinguish Vision from Ordinary Dream", "tags": ["رؤيا", "حلم"]},
+    {"title_ar": "تفسير الأحلام عند ابن سيرين: المنهج والأصول", "title_en": "Ibn Sirin: Methodology of Dream Interpretation", "tags": ["ابن سيرين", "إسلام"]},
+    {"title_ar": "رموز الحيوانات في الأحلام: دليل شامل", "title_en": "Animal Symbols in Dreams: Complete Guide", "tags": ["حيوانات", "رموز"]},
+    {"title_ar": "تفسير حلم الثعبان بين الخوف والحكمة", "title_en": "Snake Dream: Between Fear and Wisdom", "tags": ["ثعبان", "خوف"]},
+    {"title_ar": "أحلام الطيران: الحرية والتحرر", "title_en": "Flying Dreams: Freedom and Liberation", "tags": ["طيران", "حرية"]},
+    {"title_ar": "الماء في الأحلام: رمز المشاعر اللاواعية", "title_en": "Water in Dreams: Symbol of Subconscious Feelings", "tags": ["ماء", "مشاعر"]},
+    {"title_ar": "تفسير الأحلام في مصر القديمة", "title_en": "Dream Interpretation in Ancient Egypt", "tags": ["مصر", "فراعنة"]},
+    {"title_ar": "تفسير الأحلام في بلاد الرافدين", "title_en": "Dream Interpretation in Mesopotamia", "tags": ["بابل", "سومر"]},
+    {"title_ar": "تفسير الأحلام في اليونان القديمة", "title_en": "Dream Interpretation in Ancient Greece", "tags": ["يونان", "مورفيوس"]},
 ]
 
 # ============================================
 # 🤖 توليد محتوى بالذكاء الاصطناعي
 # ============================================
-def generate_article(topic, max_words=800):
+def generate_article(topic_ar, max_words=600):
     """يولد مقالاً كاملاً باستخدام Groq"""
     if not GROQ_API_KEY:
-        return "محتوى تجريبي: " + topic
+        return "محتوى تجريبي: " + topic_ar
     
     try:
         response = requests.post(
@@ -61,10 +57,10 @@ def generate_article(topic, max_words=800):
                 "model": "llama3-70b-8192",
                 "messages": [
                     {"role": "system", "content": "أنت كاتب متخصص في تفسير الأحلام. اكتب مقالاً شيقاً ومنظماً بالعربية."},
-                    {"role": "user", "content": f"اكتب مقالاً عن '{topic}'، بالعربية الفصحى. اجعله حوالي {max_words} كلمة، منظم بعناوين فرعية."}
+                    {"role": "user", "content": f"اكتب مقالاً عن '{topic_ar}'، بالعربية الفصحى. اجعله حوالي {max_words} كلمة، منظم بعناوين فرعية."}
                 ],
                 "temperature": 0.7,
-                "max_tokens": 1500
+                "max_tokens": 1200
             },
             timeout=60
         )
@@ -73,37 +69,30 @@ def generate_article(topic, max_words=800):
     except Exception as e:
         print(f"خطأ في توليد المقال: {e}")
     
-    return f"<p>مقال عن {topic} قيد الإعداد. تابعونا للمزيد.</p>"
+    return f"<p>مقال عن {topic_ar} قيد الإعداد. تابعونا للمزيد.</p>"
 
 # ============================================
-# 📝 إنشاء صفحة مقال جديدة (في المجلد الرئيسي)
+# 📝 إنشاء صفحة مقال جديدة
 # ============================================
-def create_article_page(topic, content):
-    """ينشئ ملف HTML جديد للمقال في المجلد الرئيسي"""
-    # إنشاء اسم ملف آمن (بدون مجلد articles/)
-    safe_title = topic.replace(' ', '-').replace('؟', '').replace(':', '')
+def create_article_page(topic_ar, topic_en, content):
+    """ينشئ ملف HTML جديد للمقال"""
+    safe_title = topic_ar.replace(' ', '-').replace('؟', '').replace(':', '').replace('/', '-')
     filename = f"{datetime.now().strftime('%Y-%m-%d')}-{safe_title}.html"
     
     html = f"""<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{topic} | Weaver</title>
+    <title>{topic_ar} | Weaver</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <div id="navbar"></div>
     <main class="article-container">
         <article>
-            <h1>{topic}</h1>
-            <div class="article-meta">📅 {datetime.now().strftime('%d %B %Y')} | 🕐 {random.randint(5, 15)} دقائق قراءة</div>
-            <div class="article-content">
-                {content}
-            </div>
-            <div class="tags">
-                {''.join([f'<span class="tag">#{tag}</span>' for tag in random.choice(ARTICLE_TOPICS).get('tags', ['أحلام'])])}
-            </div>
+            <h1>{topic_ar}</h1>
+            <div class="article-meta">📅 {datetime.now().strftime('%d %B %Y')} | 🕐 {random.randint(5, 12)} دقائق قراءة</div>
+            <div class="article-content">{content}</div>
         </article>
     </main>
     <div id="footer"></div>
@@ -116,74 +105,72 @@ def create_article_page(topic, content):
     return filename
 
 # ============================================
-# 📚 تحديث صفحة المدونة الرئيسية
+# 📚 تحديث صفحة blog-simple.html
 # ============================================
-def update_blog_index():
-    """يحدث صفحة blog.html بأحدث المقالات (من المجلد الرئيسي)"""
-    # استثناء الملفات التي ليست مقالات
-    exclude_files = ["index.html", "blog.html", "feed.html", "analytics.html", "dream-map.html", "404.html", "faq.html", "privacy.html", "terms.html"]
+def update_simple_blog(article_title_ar, article_title_en, article_file, article_date):
+    """يحدث صفحة blog-simple.html بإضافة المقال الجديد"""
+    simple_blog_path = Path("blog-simple.html")
     
-    articles = sorted(
-        [p for p in Path(".").glob("*.html") if p.name not in exclude_files],
-        key=os.path.getctime, 
-        reverse=True
-    )[:9]  # آخر 9 مقالات
+    if not simple_blog_path.exists():
+        print("⚠️ blog-simple.html غير موجود")
+        return
     
-    articles_html = ""
-    for article in articles:
-        # استخراج العنوان من اسم الملف
-        title = article.stem
-        if len(title) > 10 and title[10] == '-':
-            title = title[11:].replace('-', ' ')
+    # نقرأ الملف الحالي
+    with open(simple_blog_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    
+    # نبحث عن const articles = [
+    if "const articles = [" in content:
+        # نضيف المقال الجديد قبل آخر قوس
+        new_article = f'    {{ title_ar: "{article_title_ar}", title_en: "{article_title_en}", date: "{article_date}", file: "{article_file}" }},'
         
-        articles_html += f"""
-        <div class="article-card">
-            <a href="/{article.name}">
-                <h3>{title}</h3>
-                <p>قراءة المزيد...</p>
-                <div class="article-meta">{datetime.fromtimestamp(os.path.getctime(article)).strftime('%d/%m/%Y')}</div>
-            </a>
-        </div>"""
-    
-    blog_content = f"""<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>مدونة Weaver | تفسير الأحلام</title>
-    <link rel="stylesheet" href="css/main.css">
-</head>
-<body>
-    <div id="navbar"></div>
-    <main class="blog-container">
-        <h1>📚 مدونة Weaver</h1>
-        <div class="articles-grid">
-            {articles_html}
-        </div>
-    </main>
-    <div id="footer"></div>
-    <script src="js/main.js"></script>
-</body>
-</html>"""
-    
-    with open("blog.html", "w", encoding="utf-8") as f:
-        f.write(blog_content)
-    print(f"✅ تم تحديث المدونة بـ {len(articles)} مقال")
+        # نضيف المقال في المكان المناسب
+        lines = content.split('\n')
+        new_lines = []
+        added = False
+        for line in lines:
+            new_lines.append(line)
+            if "const articles = [" in line and not added:
+                new_lines.append(new_article)
+                added = True
+        
+        new_content = '\n'.join(new_lines)
+        with open(simple_blog_path, "w", encoding="utf-8") as f:
+            f.write(new_content)
+        print(f"✅ تم تحديث blog-simple.html بالمقال: {article_title_ar}")
+    else:
+        print("⚠️ لم يتم العثور على قائمة articles في blog-simple.html")
 
 # ============================================
 # 📢 نشر المحتوى على تيليجرام
 # ============================================
-def post_to_telegram(message):
+def post_to_telegram(article_title_ar, article_file):
     """ينشر في قناة تيليجرام"""
     if not TELEGRAM_TOKEN:
         return
     
+    message = f"""📚 *مقال جديد في مدونة Weaver*
+
+🔮 *{article_title_ar}*
+
+✨ اقرأ المقال كاملاً:
+https://aidreamweaver.store/{article_file}
+
+🌙 جرب تفسير حلمك: https://aidreamweaver.store/app/analyze"""
+    
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    response = requests.post(url, json={
-        "chat_id": TELEGRAM_CHANNEL_ID,
-        "text": message,
-        "parse_mode": "HTML"
-    }, timeout=10)
-    return response.status_code == 200
+    try:
+        response = requests.post(url, json={
+            "chat_id": TELEGRAM_CHANNEL_ID,
+            "text": message,
+            "parse_mode": "Markdown"
+        }, timeout=10)
+        if response.status_code == 200:
+            print("✅ تم نشر الإعلان على تيليجرام")
+        else:
+            print(f"⚠️ فشل نشر تيليجرام: {response.text}")
+    except Exception as e:
+        print(f"⚠️ خطأ في تيليجرام: {e}")
 
 # ============================================
 # 🚀 المهمة اليومية الرئيسية
@@ -192,42 +179,30 @@ def daily_task():
     """المهمة التي تشغل كل يوم"""
     print(f"\n🚀 بدء المهمة اليومية: {datetime.now()}")
     
-    # 1. إنشاء مقال جديد
+    # اختيار موضوع عشوائي
     topic = random.choice(ARTICLE_TOPICS)
-    content = generate_article(topic["title"])
-    article_file = create_article_page(topic["title"], content)
+    print(f"📝 الموضوع: {topic['title_ar']}")
+    
+    # 1. توليد المحتوى
+    content = generate_article(topic["title_ar"])
+    
+    # 2. إنشاء ملف المقال
+    article_file = create_article_page(topic["title_ar"], topic["title_en"], content)
     print(f"✅ تم إنشاء مقال: {article_file}")
     
-    # 2. تحديث المدونة
-    update_blog_index()
+    # 3. تحديث صفحة blog-simple.html
+    today = datetime.now().strftime("%Y-%m-%d")
+    update_simple_blog(topic["title_ar"], topic["title_en"], article_file, today)
     
-    # 3. نشر إعلان على تيليجرام
-    message = f"""📚 *مقال جديد في مدونة Weaver*
-
-🔮 *{topic['title']}*
-
-✨ اقرأ المقال كاملاً:
-https://aidreamweaver.store/{article_file}
-
-🌙 جرب تفسير حلمك: https://aidreamweaver.store/app/analyze"""
-    
-    post_to_telegram(message)
-    print("✅ تم نشر الإعلان على تيليجرام")
+    # 4. نشر على تيليجرام
+    post_to_telegram(topic["title_ar"], article_file)
     
     print("✅ انتهت المهمة اليومية بنجاح")
 
 # ============================================
-# 🕐 الجدولة
+# 🕐 التشغيل
 # ============================================
 if __name__ == "__main__":
     print("🤖 بوت Weaver المتكامل")
     print("📅 بدء التشغيل...")
-    
-    # تشغيل مرة واحدة للاختبار
     daily_task()
-    
-    # جدولة المهام (علّق السطر أعلاه وافتح هذا للتشغيل اليومي)
-    # schedule.every().day.at("08:00").do(daily_task)
-    # while True:
-    #     schedule.run_pending()
-    #     time.sleep(60)
