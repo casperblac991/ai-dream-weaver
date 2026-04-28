@@ -292,3 +292,110 @@ async def generate_and_save_blog():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=False)
+
+# --- أنظمة الربح والنمو ---
+from app.subscriptions import get_user_subscription, upgrade_subscription, create_subscription_tables, get_revenue_stats
+from app.payment import PaymentProcessor, get_payment_analytics
+from app.seo_generator import get_seo_page, get_seo_stats, generate_all_seo_pages
+from app.viral_sharing import ViralShareGenerator, ReferralSystem, ViralMetrics
+
+# تهيئة جداول الاشتراكات
+create_subscription_tables()
+
+# --- صفحات الرموز (SEO) ---
+@app.get("/dream/{slug}", response_class=HTMLResponse)
+async def dream_symbol_page(request: Request, slug: str):
+    """صفحة تفسير الرمز (مُحسّنة للـ SEO)"""
+    page = get_seo_page(slug)
+    if not page:
+        raise HTTPException(status_code=404, detail="الرمز غير موجود")
+    
+    user = get_current_user(request)
+    return templates.TemplateResponse(request, "dream_symbol.html", {
+        "page": page,
+        "user": user
+    })
+
+# --- صفحة الترقية ---
+@app.get("/app/upgrade", response_class=HTMLResponse)
+async def upgrade_page(request: Request):
+    """صفحة الترقية إلى خطط مدفوعة"""
+    user = get_current_user(request)
+    if not user:
+        return RedirectResponse("/app/login")
+    
+    subscription = get_user_subscription(user["id"])
+    return templates.TemplateResponse(request, "upgrade.html", {
+        "user": user,
+        "subscription": subscription,
+        "plans": {
+            "pro": {"price": 9.99, "features": ["تفسير متقدم", "صور الأحلام", "تحليل نفسي"]},
+            "business": {"price": 29.99, "features": ["تفسير غير محدود", "صور 4K", "API"]}
+        }
+    })
+
+# --- معالجة الدفع ---
+@app.post("/api/checkout")
+async def checkout(request: Request):
+    """إنشاء جلسة دفع"""
+    user = get_current_user(request)
+    if not user:
+        return JSONResponse({"error": "يجب تسجيل الدخول أولاً"}, status_code=401)
+    
+    body = await request.json()
+    plan = body.get("plan", "pro")
+    
+    # إنشاء جلسة Stripe
+    session = PaymentProcessor.create_stripe_checkout(user["id"], plan, 9.99)
+    return JSONResponse(session)
+
+# --- المشاركة الفيروسية ---
+@app.get("/share/{symbol}")
+async def share_dream(request: Request, symbol: str):
+    """صفحة المشاركة الفيروسية"""
+    generator = ViralShareGenerator()
+    share_data = generator.generate_share_card(f"تفسير حلم {symbol}", symbol)
+    
+    return templates.TemplateResponse(request, "share.html", {
+        "symbol": symbol,
+        "share_data": share_data
+    })
+
+# --- الإحالة ---
+@app.get("/api/referral/{user_id}")
+async def get_referral_link(user_id: int):
+    """الحصول على رابط الإحالة"""
+    referral = ReferralSystem.generate_referral_link(user_id)
+    return JSONResponse(referral)
+
+# --- إحصائيات الربح ---
+@app.get("/api/revenue-stats")
+async def revenue_stats(request: Request):
+    """إحصائيات الإيرادات"""
+    user = get_current_user(request)
+    if not user or user.get("role") != "admin":
+        return JSONResponse({"error": "غير مصرح"}, status_code=403)
+    
+    stats = get_revenue_stats()
+    payment_stats = get_payment_analytics()
+    seo_stats = get_seo_stats()
+    viral_metrics = ViralMetrics.get_viral_metrics()
+    
+    return JSONResponse({
+        "revenue": stats,
+        "payments": payment_stats,
+        "seo": seo_stats,
+        "viral": viral_metrics
+    })
+
+# --- توليد صفحات SEO ---
+@app.post("/admin/generate-seo")
+async def admin_generate_seo(request: Request):
+    """توليد جميع صفحات SEO"""
+    user = get_current_user(request)
+    if not user or user.get("role") != "admin":
+        return JSONResponse({"error": "غير مصرح"}, status_code=403)
+    
+    result = generate_all_seo_pages()
+    return JSONResponse(result)
+
