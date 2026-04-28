@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة | Weaver</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #0a0a1a; color: #e0e0ff; }
+        .sidebar { width: 250px; background: rgba(26,10,46,0.95); height: 100vh; position: fixed; right: 0; padding: 2rem 1rem; border-left: 1px solid rgba(124,58,237,0.3); }
+        .sidebar h2 { color: #a78bfa; margin-bottom: 2rem; font-size: 1.2rem; }
+        .sidebar a { display: block; color: #ccc; text-decoration: none; padding: 0.8rem 1rem; border-radius: 8px; margin-bottom: 0.5rem; transition: all 0.3s; }
+        .sidebar a:hover, .sidebar a.active { background: rgba(124,58,237,0.3); color: #a78bfa; }
+        .main { margin-right: 250px; padding: 2rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(124,58,237,0.3); border-radius: 12px; padding: 1.5rem; text-align: center; }
+        .stat-number { font-size: 2rem; font-weight: bold; color: #a78bfa; }
+        .stat-label { color: #888; font-size: 0.9rem; margin-top: 0.5rem; }
+        .section { background: rgba(255,255,255,0.03); border: 1px solid rgba(124,58,237,0.2); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+        .section h3 { color: #a78bfa; margin-bottom: 1rem; font-size: 1.2rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: rgba(124,58,237,0.2); padding: 0.8rem; text-align: right; color: #a78bfa; font-size: 0.9rem; }
+        td { padding: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; color: #ccc; }
+        tr:hover td { background: rgba(124,58,237,0.1); }
+        .badge { padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; }
+        .badge-free { background: rgba(100,100,100,0.3); color: #aaa; }
+        .badge-pro { background: rgba(124,58,237,0.3); color: #a78bfa; }
+        .badge-admin { background: rgba(220,38,38,0.3); color: #f87171; }
+        .btn { padding: 0.5rem 1rem; border-radius: 8px; border: none; cursor: pointer; font-size: 0.85rem; }
+        .btn-primary { background: #7c3aed; color: white; }
+        .btn-primary:hover { background: #6d28d9; }
+        h1 { color: #a78bfa; margin-bottom: 2rem; }
+        .generate-btn { background: linear-gradient(135deg, #7c3aed, #a78bfa); color: white; padding: 0.8rem 1.5rem; border-radius: 8px; border: none; cursor: pointer; font-size: 1rem; margin-bottom: 1rem; }
+        .generate-btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>⚙️ لوحة الإدارة</h2>
+        <a href="/admin" class="active">📊 الإحصائيات</a>
+        <a href="/admin#users">👥 المستخدمون</a>
+        <a href="/admin#subscribers">📧 المشتركون</a>
+        <a href="/admin#blog">📝 المدونة</a>
+        <a href="/admin#marketing">📢 التسويق</a>
+        <hr style="border-color:rgba(124,58,237,0.3);margin:1rem 0;">
+        <a href="/">🏠 الموقع</a>
+        <a href="/app/logout" style="color:#f87171;">🚪 خروج</a>
+    </div>
+
+    <div class="main">
+        <h1>📊 لوحة إدارة Weaver</h1>
+
+        <!-- الإحصائيات -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_users }}</div>
+                <div class="stat-label">👥 إجمالي المستخدمين</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.active_users }}</div>
+                <div class="stat-label">✅ المستخدمون النشطون</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ "{:,}".format(stats.total_dreams) }}</div>
+                <div class="stat-label">🌙 الأحلام المفسرة</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_subscribers }}</div>
+                <div class="stat-label">📧 المشتركون</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_posts }}</div>
+                <div class="stat-label">📝 مقالات المدونة</div>
+            </div>
+        </div>
+
+        <!-- توليد مقال -->
+        <div class="section" id="blog">
+            <h3>📝 إدارة المدونة</h3>
+            <button class="generate-btn" onclick="generateBlog()">🤖 توليد مقال جديد بالذكاء الاصطناعي</button>
+            <div id="blog-status" style="color:#a78bfa;margin-top:0.5rem;"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>العنوان</th>
+                        <th>الفئة</th>
+                        <th>التاريخ</th>
+                        <th>المشاهدات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in posts %}
+                    <tr>
+                        <td><a href="/blog/{{ post.slug }}" style="color:#a78bfa;text-decoration:none;">{{ post.title[:50] }}</a></td>
+                        <td>{{ post.category }}</td>
+                        <td>{{ post.created_at[:10] }}</td>
+                        <td>{{ post.views }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- المستخدمون -->
+        <div class="section" id="users">
+            <h3>👥 المستخدمون ({{ users|length }})</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المستخدم</th>
+                        <th>البريد</th>
+                        <th>الخطة</th>
+                        <th>الأحلام</th>
+                        <th>التاريخ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in users %}
+                    <tr>
+                        <td>{{ u.username }}</td>
+                        <td>{{ u.email }}</td>
+                        <td>
+                            <span class="badge badge-{{ u.plan }}">{{ u.plan }}</span>
+                        </td>
+                        <td>{{ u.total_dreams }}</td>
+                        <td>{{ u.created_at[:10] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- المشتركون -->
+        <div class="section" id="subscribers">
+            <h3>📧 المشتركون في النشرة البريدية ({{ subscribers|length }})</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>البريد الإلكتروني</th>
+                        <th>الاسم</th>
+                        <th>المصدر</th>
+                        <th>التاريخ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sub in subscribers %}
+                    <tr>
+                        <td>{{ sub.email }}</td>
+                        <td>{{ sub.name or '-' }}</td>
+                        <td>{{ sub.source }}</td>
+                        <td>{{ sub.subscribed_at[:10] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function generateBlog() {
+            const status = document.getElementById('blog-status');
+            status.textContent = '⏳ جاري توليد المقال...';
+            try {
+                const res = await fetch('/admin/generate-blog', {method: 'POST'});
+                const data = await res.json();
+                status.textContent = '✅ ' + data.message;
+                setTimeout(() => location.reload(), 3000);
+            } catch(e) {
+                status.textContent = '❌ خطأ: ' + e.message;
+            }
+        }
+    </script>
+</body>
+</html>
