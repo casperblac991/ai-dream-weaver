@@ -66,16 +66,16 @@ def create_session(user_id: int) -> str:
 async def root(request: Request):
     user = get_current_user(request)
     stats = get_platform_stats()
-    return templates.TemplateResponse("index.html", {
-        "request": request, "user": user, "stats": stats
+    return templates.TemplateResponse(request, "index.html", {
+        "user": user, "stats": stats
     })
 
 @app.get("/app", response_class=HTMLResponse)
 async def app_home(request: Request):
     user = get_current_user(request)
     stats = get_platform_stats()
-    return templates.TemplateResponse("index.html", {
-        "request": request, "user": user, "stats": stats
+    return templates.TemplateResponse(request, "index.html", {
+        "user": user, "stats": stats
     })
 
 # التسجيل
@@ -84,7 +84,7 @@ async def register_page(request: Request):
     user = get_current_user(request)
     if user:
         return RedirectResponse("/app/dashboard")
-    return templates.TemplateResponse("register.html", {"request": request})
+    return templates.TemplateResponse(request, "register.html")
 
 @app.post("/app/register")
 async def register(
@@ -99,8 +99,7 @@ async def register(
         response = RedirectResponse("/app/dashboard", status_code=302)
         response.set_cookie("session_token", token, max_age=86400 * 30, httponly=True)
         return response
-    return templates.TemplateResponse("register.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "register.html", {
         "error": result.get("message", "خطأ في التسجيل")
     })
 
@@ -110,7 +109,7 @@ async def login_page(request: Request):
     user = get_current_user(request)
     if user:
         return RedirectResponse("/app/dashboard")
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse(request, "login.html")
 
 @app.post("/app/login")
 async def login(
@@ -124,8 +123,7 @@ async def login(
         response = RedirectResponse("/app/dashboard", status_code=302)
         response.set_cookie("session_token", token, max_age=86400 * 30, httponly=True)
         return response
-    return templates.TemplateResponse("login.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "login.html", {
         "error": "خطأ في البريد الإلكتروني أو كلمة المرور"
     })
 
@@ -147,8 +145,8 @@ async def dashboard(request: Request):
         return RedirectResponse("/app/login")
     dreams = get_user_dreams(user["id"])
     stats = get_platform_stats()
-    return templates.TemplateResponse("dashboard.html", {
-        "request": request, "user": user, "dreams": dreams, "stats": stats
+    return templates.TemplateResponse(request, "dashboard.html", {
+        "user": user, "dreams": dreams, "stats": stats
     })
 
 # تفسير الأحلام
@@ -157,7 +155,7 @@ async def analyze_page(request: Request):
     user = get_current_user(request)
     if not user:
         return RedirectResponse("/app/login")
-    return templates.TemplateResponse("analyze.html", {"request": request, "user": user})
+    return templates.TemplateResponse(request, "analyze.html", {"user": user})
 
 @app.post("/app/analyze")
 async def analyze(
@@ -175,8 +173,8 @@ async def analyze(
     limit = limits.get(user.get("plan", "free"), 5)
 
     if used >= limit:
-        return templates.TemplateResponse("analyze.html", {
-            "request": request, "user": user,
+        return templates.TemplateResponse(request, "analyze.html", {
+            "user": user,
             "error": "لقد استنفدت حد التفسيرات اليومي. يرجى الترقية للاستمرار.",
             "upgrade": True
         })
@@ -186,8 +184,8 @@ async def analyze(
     save_dream(user["id"], dream, interpretation, image_prompt)
     increment_dreams_used(user["id"])
 
-    return templates.TemplateResponse("analyze.html", {
-        "request": request, "user": user,
+    return templates.TemplateResponse(request, "analyze.html", {
+        "user": user,
         "dream": dream, "interpretation": interpretation,
         "image_prompt": image_prompt
     })
@@ -226,8 +224,8 @@ async def subscribe_email(request: Request):
 async def blog_page(request: Request):
     user = get_current_user(request)
     posts = get_blog_posts(limit=20)
-    return templates.TemplateResponse("blog.html", {
-        "request": request, "user": user, "posts": posts
+    return templates.TemplateResponse(request, "blog.html", {
+        "user": user, "posts": posts
     })
 
 @app.get("/blog/{slug}", response_class=HTMLResponse)
@@ -237,8 +235,8 @@ async def blog_post_page(request: Request, slug: str):
     post = next((p for p in posts if p.get("slug") == slug), None)
     if not post:
         raise HTTPException(status_code=404, detail="المقال غير موجود")
-    return templates.TemplateResponse("blog_post.html", {
-        "request": request, "user": user, "post": post
+    return templates.TemplateResponse(request, "blog_post.html", {
+        "user": user, "post": post
     })
 
 # إحصائيات المنصة
@@ -257,8 +255,8 @@ async def admin_page(request: Request):
     subscribers = get_all_subscribers()
     stats = get_platform_stats()
     posts = get_blog_posts(limit=50)
-    return templates.TemplateResponse("admin.html", {
-        "request": request, "user": user,
+    return templates.TemplateResponse(request, "admin.html", {
+        "user": user,
         "users": users, "subscribers": subscribers,
         "stats": stats, "posts": posts
     })
