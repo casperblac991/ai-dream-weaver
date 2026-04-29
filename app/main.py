@@ -47,8 +47,7 @@ app.add_middleware(
 )
 
 # القوالب
-templates = Jinja2Templates(directory="app/templates")
-
+templates = Jinja2Templates(directory="templates")
 # إدارة الجلسات
 sessions: dict = {}
 
