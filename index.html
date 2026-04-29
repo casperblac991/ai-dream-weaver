@@ -90,6 +90,41 @@
             color: white !important; padding: .4rem 1.1rem;
             border-radius: 50px; font-size: .82rem; font-weight: 700;
         }
+        /* أزرار تسجيل الدخول والحساب الجديدة */
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-right: 0.5rem;
+        }
+        .btn-login {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-login:hover {
+            background: var(--gold);
+            color: #050210;
+        }
+        .btn-signup {
+            background: linear-gradient(135deg, #f0c060, #a855f7);
+            border: none;
+            color: #050210;
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .btn-signup:hover {
+            opacity: 0.9;
+        }
         .lang-btns { display: flex; gap: 5px; }
         .lb {
             background: rgba(30,10,60,.8); color: var(--gold);
@@ -237,6 +272,13 @@
         <a href="#features" id="n5">المميزات</a>
         <a href="#pricing" id="n6">الأسعار</a>
         <a href="faq.html" id="n7">الأسئلة</a>
+        
+        <!-- ** تم إضافة أزرار تسجيل الدخول وإنشاء حساب هنا ** -->
+        <div class="auth-buttons">
+            <a href="/app/login" class="btn-login" id="loginBtn">🔐 تسجيل الدخول</a>
+            <a href="/app/register" class="btn-signup" id="signupBtn">🚀 إنشاء حساب</a>
+        </div>
+
         <div class="lang-btns">
             <button class="lb on" id="btn-ar" onclick="setLang('ar')">🇸🇦 عربي</button>
             <button class="lb" id="btn-en" onclick="setLang('en')">🇬🇧 English</button>
