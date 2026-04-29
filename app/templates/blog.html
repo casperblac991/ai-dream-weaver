@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المدونة - Weaver 🌙</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a0033 0%, #2d0052 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #a78bfa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .newsletter-box {
+            background: rgba(167, 139, 250, 0.1);
+            border: 2px solid rgba(167, 139, 250, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .newsletter-box h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #a78bfa;
+        }
+        
+        .newsletter-box p {
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 14px;
+        }
+        
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .newsletter-form button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #a78bfa, #c084fc);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(167, 139, 250, 0.4);
+        }
+        
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .post-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .post-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #a78bfa;
+            transform: translateY(-5px);
+        }
+        
+        .post-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #a78bfa;
+        }
+        
+        .post-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .read-more {
+            color: #a78bfa;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        
+        .read-more:hover {
+            color: #c084fc;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🌙 مدونة Weaver</h1>
+        <p>اكتشف أسرار تفسير الأحلام والرؤى</p>
+    </header>
+    
+    <div class="container">
+        <div class="newsletter-box">
+            <h2>📬 اشترك في النشرة البريدية</h2>
+            <p>احصل على أحدث مقالات تفسير الأحلام مباشرة في بريدك الإلكتروني</p>
+            <form class="newsletter-form" method="post" action="/api/subscribe">
+                <input type="email" name="email" placeholder="أدخل بريدك الإلكتروني" required>
+                <button type="submit">اشترك الآن</button>
+            </form>
+        </div>
+        
+        <h2 style="margin-bottom: 30px; font-size: 28px;">📖 أحدث المقالات</h2>
+        
+        <div class="posts-grid">
+            {% for post in posts %}
+            <div class="post-card">
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.description }}</p>
+                <div class="post-meta">
+                    <span>{{ post.date }}</span>
+                    <span>{{ post.author }}</span>
+                </div>
+                <a href="/blog/{{ post.slug }}" class="read-more">اقرأ المزيد →</a>
+            </div>
+            {% endfor %}
+            
+            <!-- مقالات تجريبية -->
+            <div class="post-card">
+                <h3>🌊 تفسير حلم الماء</h3>
+                <p>الماء في الأحلام يرمز إلى المشاعر والعواطف. تعرف على معاني مختلفة لرؤية الماء في أحلامك.</p>
+                <div class="post-meta">
+                    <span>2026-04-28</span>
+                    <span>Weaver AI</span>
+                </div>
+                <a href="/dream/الماء" class="read-more">اقرأ المزيد →</a>
+            </div>
+            
+            <div class="post-card">
+                <h3>🐍 تفسير حلم الثعبان</h3>
+                <p>الثعبان في الأحلام قد يشير إلى التحذير أو الحكمة. اكتشف التفسيرات المختلفة حسب السياق.</p>
+                <div class="post-meta">
+                    <span>2026-04-27</span>
+                    <span>Weaver AI</span>
+                </div>
+                <a href="/dream/الثعبان" class="read-more">اقرأ المزيد →</a>
+            </div>
+            
+            <div class="post-card">
+                <h3>✈️ تفسير حلم الطيران</h3>
+                <p>الطيران يرمز إلى الحرية والطموح. تعرف على ما يعنيه حلم الطيران في حياتك.</p>
+                <div class="post-meta">
+                    <span>2026-04-26</span>
+                    <span>Weaver AI</span>
+                </div>
+                <a href="/dream/الطيران" class="read-more">اقرأ المزيد →</a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2026 Weaver - منصة تفسير الأحلام بالذكاء الاصطناعي</p>
+    </footer>
+</body>
+</html>

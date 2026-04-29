@@ -399,3 +399,90 @@ async def admin_generate_seo(request: Request):
     result = generate_all_seo_pages()
     return JSONResponse(result)
 
+
+# --- صفحة المدونة ---
+@app.get("/blog", response_class=HTMLResponse)
+async def blog_page(request: Request):
+    """صفحة المدونة الرئيسية مع نموذج جمع الإيميلات"""
+    user = get_current_user(request)
+    return templates.TemplateResponse(request, "blog.html", {
+        "user": user,
+        "posts": []
+    })
+
+# --- نموذج جمع الإيميلات ---
+@app.post("/api/subscribe")
+async def subscribe_newsletter(request: Request):
+    """جمع الإيميلات من النشرة البريدية"""
+    try:
+        body = await request.json()
+        email = body.get("email")
+        
+        if not email:
+            return JSONResponse({"error": "البريد الإلكتروني مطلوب"}, status_code=400)
+        
+        # حفظ الإيميل في قاعدة البيانات
+        conn = sqlite3.connect("app/weaver.db")
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            INSERT OR IGNORE INTO newsletter_subscribers (email, subscribed_at)
+            VALUES (?, CURRENT_TIMESTAMP)
+        """)
+        
+        conn.commit()
+        conn.close()
+        
+        return JSONResponse({
+            "success": True,
+            "message": "تم الاشتراك بنجاح! شكراً لك 🌙"
+        })
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+# --- جدول المشتركين ---
+def create_newsletter_table():
+    """إنشاء جدول المشتركين في النشرة البريدية"""
+    conn = sqlite3.connect("app/weaver.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT UNIQUE NOT NULL,
+            subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            status TEXT DEFAULT 'active'
+        )
+    """)
+    
+    conn.commit()
+    conn.close()
+
+# تهيئة جدول المشتركين عند بدء التطبيق
+create_newsletter_table()
+
+# --- الحصول على قائمة الإيميلات للتسويق ---
+@app.get("/api/emails-for-marketing")
+async def get_emails_for_marketing(request: Request):
+    """الحصول على قائمة الإيميلات للحملات التسويقية"""
+    user = get_current_user(request)
+    if not user or user.get("role") != "admin":
+        return JSONResponse({"error": "غير مصرح"}, status_code=403)
+    
+    conn = sqlite3.connect("app/weaver.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        SELECT email, subscribed_at FROM newsletter_subscribers
+        WHERE status = 'active'
+        ORDER BY subscribed_at DESC
+    """)
+    
+    emails = [{"email": row[0], "subscribed_at": row[1]} for row in cursor.fetchall()]
+    conn.close()
+    
+    return JSONResponse({
+        "total_emails": len(emails),
+        "emails": emails
+    })
+
