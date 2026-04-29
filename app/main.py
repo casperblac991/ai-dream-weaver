@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Weaver (نَسَّاج) - منصة تفسير الأحلام بالذكاء الاصطناعي
-النسخة الكاملة المحدّثة v3.0
+النسخة المحدثة - تدعم التحديث اليومي للمدونة من مجلد blog/
 """
 
 from fastapi import FastAPI, Request, Form, HTTPException, BackgroundTasks
@@ -13,6 +13,9 @@ import uvicorn
 import os
 import secrets
 from datetime import datetime
+from pathlib import Path
+import glob
+import sqlite3   # <--- إصلاح الخطأ: استيراد sqlite3
 
 from app.database import init_db
 from app.auth import register_user, login_user
@@ -31,7 +34,7 @@ init_db()
 app = FastAPI(
     title="Weaver | نَسَّاج",
     description="منصة تفسير الأحلام بالذكاء الاصطناعي",
-    version="3.0.0"
+    version="3.1.0"
 )
 
 # CORS
@@ -61,7 +64,60 @@ def create_session(user_id: int) -> str:
     sessions[token] = user_id
     return token
 
-# الصفحة الرئيسية
+# ========== دالة لقراءة المقالات من مجلد blog/ (للتحديث اليومي) ==========
+def get_blog_posts_from_folder(limit=50):
+    """تجلب المقالات من ملفات HTML الموجودة في مجلد blog/"""
+    blog_dir = Path("blog")
+    posts = []
+    if blog_dir.exists():
+        html_files = glob.glob(str(blog_dir / "*.html"))
+        for file_path in sorted(html_files, key=lambda x: os.path.getmtime(x), reverse=True):
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                import re
+                title_match = re.search(r'<title>(.*?)</title>', content, re.IGNORECASE)
+                if title_match:
+                    title = title_match.group(1)
+                else:
+                    name = Path(file_path).stem
+                    title = name.replace('-', ' ').replace('_', ' ')
+                
+                name_stem = Path(file_path).stem
+                parts = name_stem.split('-')
+                if len(parts) >= 3 and parts[0].isdigit() and parts[1].isdigit() and parts[2].isdigit():
+                    date_str = f"{parts[0]}-{parts[1]}-{parts[2]}"
+                else:
+                    date_str = datetime.fromtimestamp(os.path.getmtime(file_path)).strftime("%Y-%m-%d")
+                
+                text = re.sub(r'<[^>]+>', '', content)
+                excerpt = text[:150] + "..." if len(text) > 150 else text
+                
+                posts.append({
+                    "title": title,
+                    "slug": Path(file_path).stem,
+                    "date": date_str,
+                    "excerpt": excerpt,
+                    "category": "تفسير أحلام",
+                    "author": "Weaver AI"
+                })
+            except Exception as e:
+                print(f"خطأ في قراءة {file_path}: {e}")
+    return posts[:limit]
+
+def get_all_blog_posts(limit=50):
+    """تجلب المقالات من قاعدة البيانات (الأساسية) ومن مجلد blog/ (التوليد اليومي)"""
+    db_posts = get_blog_posts(limit=100)
+    folder_posts = get_blog_posts_from_folder(limit=100)
+    all_posts = {p["slug"]: p for p in db_posts}
+    for p in folder_posts:
+        if p["slug"] not in all_posts:
+            all_posts[p["slug"]] = p
+    posts_list = list(all_posts.values())
+    posts_list.sort(key=lambda x: x.get("date", "2000-01-01"), reverse=True)
+    return posts_list[:limit]
+
+# ========== الصفحات الأساسية ==========
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
     user = get_current_user(request)
@@ -219,11 +275,11 @@ async def subscribe_email(request: Request):
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
 
-# المدونة
+# المدونة (تدعم التحديث اليومي)
 @app.get("/blog", response_class=HTMLResponse)
 async def blog_page(request: Request):
     user = get_current_user(request)
-    posts = get_blog_posts(limit=20)
+    posts = get_all_blog_posts(limit=30)
     return templates.TemplateResponse(request, "blog.html", {
         "user": user, "posts": posts
     })
@@ -231,13 +287,20 @@ async def blog_page(request: Request):
 @app.get("/blog/{slug}", response_class=HTMLResponse)
 async def blog_post_page(request: Request, slug: str):
     user = get_current_user(request)
-    posts = get_blog_posts(limit=200)
+    # حاول أولاً من مجلد blog/
+    file_path = Path(f"blog/{slug}.html")
+    if file_path.exists():
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        return HTMLResponse(content=content)
+    # ثم من قاعدة البيانات
+    posts = get_all_blog_posts(limit=200)
     post = next((p for p in posts if p.get("slug") == slug), None)
-    if not post:
-        raise HTTPException(status_code=404, detail="المقال غير موجود")
-    return templates.TemplateResponse(request, "blog_post.html", {
-        "user": user, "post": post
-    })
+    if post:
+        return templates.TemplateResponse(request, "blog_post.html", {
+            "user": user, "post": post
+        })
+    raise HTTPException(status_code=404, detail="المقال غير موجود")
 
 # إحصائيات المنصة
 @app.get("/api/stats")
@@ -254,7 +317,7 @@ async def admin_page(request: Request):
     users = get_all_users()
     subscribers = get_all_subscribers()
     stats = get_platform_stats()
-    posts = get_blog_posts(limit=50)
+    posts = get_all_blog_posts(limit=50)
     return templates.TemplateResponse(request, "admin.html", {
         "user": user,
         "users": users, "subscribers": subscribers,
@@ -288,201 +351,45 @@ async def generate_and_save_blog():
         category="تفسير الأحلام", author="نَسَّاج AI"
     )
 
-# تشغيل السيرفر
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=False)
-
-# --- أنظمة الربح والنمو ---
-from app.subscriptions import get_user_subscription, upgrade_subscription, create_subscription_tables, get_revenue_stats
-from app.payment import PaymentProcessor, get_payment_analytics
-from app.seo_generator import get_seo_page, get_seo_stats, generate_all_seo_pages
-from app.viral_sharing import ViralShareGenerator, ReferralSystem, ViralMetrics
-
-# تهيئة جداول الاشتراكات
-create_subscription_tables()
-
-# --- صفحات الرموز (SEO) ---
-@app.get("/dream/{slug}", response_class=HTMLResponse)
-async def dream_symbol_page(request: Request, slug: str):
-    """صفحة تفسير الرمز (مُحسّنة للـ SEO)"""
-    page = get_seo_page(slug)
-    if not page:
-        raise HTTPException(status_code=404, detail="الرمز غير موجود")
-    
-    user = get_current_user(request)
-    return templates.TemplateResponse(request, "dream_symbol.html", {
-        "page": page,
-        "user": user
-    })
-
-# --- صفحة الترقية ---
-@app.get("/app/upgrade", response_class=HTMLResponse)
-async def upgrade_page(request: Request):
-    """صفحة الترقية إلى خطط مدفوعة"""
-    user = get_current_user(request)
-    if not user:
-        return RedirectResponse("/app/login")
-    
-    subscription = get_user_subscription(user["id"])
-    return templates.TemplateResponse(request, "upgrade.html", {
-        "user": user,
-        "subscription": subscription,
-        "plans": {
-            "pro": {"price": 9.99, "features": ["تفسير متقدم", "صور الأحلام", "تحليل نفسي"]},
-            "business": {"price": 29.99, "features": ["تفسير غير محدود", "صور 4K", "API"]}
-        }
-    })
-
-# --- معالجة الدفع ---
-@app.post("/api/checkout")
-async def checkout(request: Request):
-    """إنشاء جلسة دفع"""
-    user = get_current_user(request)
-    if not user:
-        return JSONResponse({"error": "يجب تسجيل الدخول أولاً"}, status_code=401)
-    
-    body = await request.json()
-    plan = body.get("plan", "pro")
-    
-    # إنشاء جلسة Stripe
-    session = PaymentProcessor.create_stripe_checkout(user["id"], plan, 9.99)
-    return JSONResponse(session)
-
-# --- المشاركة الفيروسية ---
-@app.get("/share/{symbol}")
-async def share_dream(request: Request, symbol: str):
-    """صفحة المشاركة الفيروسية"""
-    generator = ViralShareGenerator()
-    share_data = generator.generate_share_card(f"تفسير حلم {symbol}", symbol)
-    
-    return templates.TemplateResponse(request, "share.html", {
-        "symbol": symbol,
-        "share_data": share_data
-    })
-
-# --- الإحالة ---
-@app.get("/api/referral/{user_id}")
-async def get_referral_link(user_id: int):
-    """الحصول على رابط الإحالة"""
-    referral = ReferralSystem.generate_referral_link(user_id)
-    return JSONResponse(referral)
-
-# --- إحصائيات الربح ---
-@app.get("/api/revenue-stats")
-async def revenue_stats(request: Request):
-    """إحصائيات الإيرادات"""
-    user = get_current_user(request)
-    if not user or user.get("role") != "admin":
-        return JSONResponse({"error": "غير مصرح"}, status_code=403)
-    
-    stats = get_revenue_stats()
-    payment_stats = get_payment_analytics()
-    seo_stats = get_seo_stats()
-    viral_metrics = ViralMetrics.get_viral_metrics()
-    
-    return JSONResponse({
-        "revenue": stats,
-        "payments": payment_stats,
-        "seo": seo_stats,
-        "viral": viral_metrics
-    })
-
-# --- توليد صفحات SEO ---
-@app.post("/admin/generate-seo")
-async def admin_generate_seo(request: Request):
-    """توليد جميع صفحات SEO"""
-    user = get_current_user(request)
-    if not user or user.get("role") != "admin":
-        return JSONResponse({"error": "غير مصرح"}, status_code=403)
-    
-    result = generate_all_seo_pages()
-    return JSONResponse(result)
-
-
-# --- صفحة المدونة ---
-@app.get("/blog", response_class=HTMLResponse)
-async def blog_page(request: Request):
-    """صفحة المدونة الرئيسية مع نموذج جمع الإيميلات"""
-    user = get_current_user(request)
-    return templates.TemplateResponse(request, "blog.html", {
-        "user": user,
-        "posts": []
-    })
-
-# --- نموذج جمع الإيميلات ---
-@app.post("/api/subscribe")
-async def subscribe_newsletter(request: Request):
-    """جمع الإيميلات من النشرة البريدية"""
-    try:
-        body = await request.json()
-        email = body.get("email")
-        
-        if not email:
-            return JSONResponse({"error": "البريد الإلكتروني مطلوب"}, status_code=400)
-        
-        # حفظ الإيميل في قاعدة البيانات
-        conn = sqlite3.connect("app/weaver.db")
-        cursor = conn.cursor()
-        
-        cursor.execute("""
-            INSERT OR IGNORE INTO newsletter_subscribers (email, subscribed_at)
-            VALUES (?, CURRENT_TIMESTAMP)
-        """)
-        
-        conn.commit()
-        conn.close()
-        
-        return JSONResponse({
-            "success": True,
-            "message": "تم الاشتراك بنجاح! شكراً لك 🌙"
-        })
-    except Exception as e:
-        return JSONResponse({"error": str(e)}, status_code=500)
-
-# --- جدول المشتركين ---
+# دالة إنشاء جدول النشرة البريدية (إذا لم يكن موجوداً)
 def create_newsletter_table():
-    """إنشاء جدول المشتركين في النشرة البريدية"""
-    conn = sqlite3.connect("app/weaver.db")
+    db_path = os.path.join(os.path.dirname(__file__), "weaver.db")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    
-    cursor.execute("""
+    cursor.execute('''
         CREATE TABLE IF NOT EXISTS newsletter_subscribers (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT UNIQUE NOT NULL,
-            subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            status TEXT DEFAULT 'active'
+            name TEXT,
+            subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-    """)
-    
+    ''')
     conn.commit()
     conn.close()
+    print("✅ جدول النشرة البريدية جاهز")
 
-# تهيئة جدول المشتركين عند بدء التطبيق
+# استدعاء إنشاء الجدول
 create_newsletter_table()
 
-# --- الحصول على قائمة الإيميلات للتسويق ---
-@app.get("/api/emails-for-marketing")
-async def get_emails_for_marketing(request: Request):
-    """الحصول على قائمة الإيميلات للحملات التسويقية"""
-    user = get_current_user(request)
-    if not user or user.get("role") != "admin":
-        return JSONResponse({"error": "غير مصرح"}, status_code=403)
-    
-    conn = sqlite3.connect("app/weaver.db")
-    cursor = conn.cursor()
-    
-    cursor.execute("""
-        SELECT email, subscribed_at FROM newsletter_subscribers
-        WHERE status = 'active'
-        ORDER BY subscribed_at DESC
-    """)
-    
-    emails = [{"email": row[0], "subscribed_at": row[1]} for row in cursor.fetchall()]
-    conn.close()
-    
-    return JSONResponse({
-        "total_emails": len(emails),
-        "emails": emails
-    })
+# ========== الأجزاء الاختيارية (معلقة لتجنب أخطاء الاستيراد) ==========
+# إذا أردت تفعيل الاشتراكات والدفع مستقبلاً، قم بإنشاء الملفات المطلوبة ثم أزل التعليق.
 
+# from app.subscriptions import get_user_subscription, upgrade_subscription, create_subscription_tables, get_revenue_stats
+# from app.payment import PaymentProcessor, get_payment_analytics
+# from app.seo_generator import get_seo_page, get_seo_stats, generate_all_seo_pages
+# from app.viral_sharing import ViralShareGenerator, ReferralSystem, ViralMetrics
+# create_subscription_tables()
+#
+# @app.get("/dream/{slug}")
+# async def dream_symbol_page(...): ...
+# @app.get("/app/upgrade") ...
+# @app.post("/api/checkout") ...
+# @app.get("/share/{symbol}") ...
+# @app.get("/api/referral/{user_id}") ...
+# @app.get("/api/revenue-stats") ...
+# @app.post("/admin/generate-seo") ...
+
+# ========== تشغيل السيرفر ==========
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=False)
