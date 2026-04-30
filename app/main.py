@@ -15,11 +15,12 @@ import secrets
 from datetime import datetime
 from pathlib import Path
 import glob
-import sqlite3   # <--- إصلاح الخطأ: استيراد sqlite3
+import sqlite3
 
+# ========== التعديل الأساسي: استيراد جميع الدوال من database.py بدلاً من models.py ==========
 from app.database import init_db
 from app.auth import register_user, login_user
-from app.models import (
+from app.database import (
     get_user_by_id, save_dream, get_user_dreams,
     get_dreams_used, increment_dreams_used,
     get_all_users, save_email_subscriber, get_all_subscribers,
@@ -27,7 +28,7 @@ from app.models import (
 )
 from app.ai import interpret_dream, generate_image_prompt, generate_blog_article
 
-# تهيئة قاعدة البيانات
+# تهيئة قاعدة البيانات (ستنشئ جميع الجداول المطلوبة)
 init_db()
 
 # إنشاء تطبيق FastAPI
@@ -350,29 +351,7 @@ async def generate_and_save_blog():
         category="تفسير الأحلام", author="نَسَّاج AI"
     )
 
-# دالة إنشاء جدول النشرة البريدية (إذا لم يكن موجوداً)
-def create_newsletter_table():
-    db_path = os.path.join(os.path.dirname(__file__), "weaver.db")
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS newsletter_subscribers (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT UNIQUE NOT NULL,
-            name TEXT,
-            subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-    conn.commit()
-    conn.close()
-    print("✅ جدول النشرة البريدية جاهز")
-
-# استدعاء إنشاء الجدول
-create_newsletter_table()
-
-# ========== الأجزاء الاختيارية (معلقة لتجنب أخطاء الاستيراد) ==========
-# إذا أردت تفعيل الاشتراكات والدفع مستقبلاً، قم بإنشاء الملفات المطلوبة ثم أزل التعليق.
-
+# ========== الأجزاء الاختيارية (معلقة) ==========
 # from app.subscriptions import get_user_subscription, upgrade_subscription, create_subscription_tables, get_revenue_stats
 # from app.payment import PaymentProcessor, get_payment_analytics
 # from app.seo_generator import get_seo_page, get_seo_stats, generate_all_seo_pages
@@ -387,6 +366,11 @@ create_newsletter_table()
 # @app.get("/api/referral/{user_id}") ...
 # @app.get("/api/revenue-stats") ...
 # @app.post("/admin/generate-seo") ...
+
+# ========== نقطة الصحة (لـ Render) ==========
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
 
 # ========== تشغيل السيرفر ==========
 if __name__ == "__main__":
