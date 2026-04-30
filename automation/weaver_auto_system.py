@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Weaver Auto System - نظام الأتمتة الشامل (نسخة مستقرة)
-يعمل على مدار الساعة بدون تدخل بشري
 """
 
 import os
@@ -14,45 +13,30 @@ import time
 from datetime import datetime, date
 from pathlib import Path
 
-# إضافة المسار الجذري
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-# ─── محاولة استيراد دوال قاعدة البيانات (اختياري) ─────────────────────────────
 try:
     from app.database import init_db
-    from app.models import save_blog_post, log_marketing, reset_daily_dreams, get_platform_stats, get_all_subscribers
+    from app.models import save_blog_post, log_marketing, reset_daily_dreams, get_platform_stats
     DB_AVAILABLE = True
-except ImportError as e:
+except ImportError:
     DB_AVAILABLE = False
-    print(f"⚠️ قاعدة البيانات غير متاحة: {e}")
-    print("   سيستمر النظام دون حفظ في قاعدة البيانات.")
+    print("⚠️ قاعدة البيانات غير متاحة")
 
-# ─── الإعدادات ────────────────────────────────────────────────────────────────
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_TOKEN", "")
 TELEGRAM_CHANNEL_ID = os.environ.get("TELEGRAM_CHANNEL_ID", "")
 SITE_URL = "https://aidreamweaver.store"
 
-# ─── مواضيع المدونة اليومية ───────────────────────────────────────────────────
 BLOG_TOPICS = [
-    {"title": "الإمام ابن سيرين وفن تفسير الأحلام", "cat": "التراث الإسلامي", "tags": "ابن سيرين,تفسير,إسلام"},
-    {"title": "رؤية النبي ﷺ في المنام - الدلالات والأحكام", "cat": "التراث الإسلامي", "tags": "النبي,رؤيا,إسلام"},
-    {"title": "الرؤيا الصادقة وأنواع الأحلام في الإسلام", "cat": "التراث الإسلامي", "tags": "رؤيا,أحلام,إسلام"},
-    {"title": "بردية تشستر بيتي - أقدم دليل لتفسير الأحلام", "cat": "مصر القديمة", "tags": "مصر,فراعنة,تاريخ"},
-    {"title": "الثعبان في المنام - تفسيرات متعددة", "cat": "رموز الأحلام", "tags": "ثعبان,رموز,تفسير"},
-    {"title": "الطيران في المنام - رمز الحرية والطموح", "cat": "رموز الأحلام", "tags": "طيران,حرية,رموز"},
+    {"title": "الإمام ابن سيرين وفن تفسير الأحلام", "cat": "التراث الإسلامي", "tags": "ابن سيرين,تفسير"},
+    {"title": "رؤية النبي ﷺ في المنام", "cat": "التراث الإسلامي", "tags": "النبي,رؤيا"},
+    {"title": "الثعبان في المنام", "cat": "رموز الأحلام", "tags": "ثعبان,رموز"},
 ]
 
-# ─── مواضيع التسويق ───────────────────────────────────────────────────────────
-MARKETING_TOPICS = [
-    "فسّر حلمك الآن بالذكاء الاصطناعي",
-    "الثعبان في المنام - هل تعرف معناه؟",
-    "جرّب تفسير الأحلام مجاناً",
-    "مدونة Weaver - موسوعة الأحلام",
-]
+MARKETING_TOPICS = ["فسّر حلمك بالذكاء الاصطناعي", "جرّب تفسير الأحلام مجاناً"]
 
-# ─── توليد المحتوى بالذكاء الاصطناعي ────────────────────────────────────────
-def generate_with_groq(prompt: str, system: str = "", max_tokens: int = 1500) -> str:
+def generate_with_groq(prompt, system="", max_tokens=1500):
     if not GROQ_API_KEY:
         return ""
     messages = []
@@ -68,65 +52,74 @@ def generate_with_groq(prompt: str, system: str = "", max_tokens: int = 1500) ->
         )
         if response.status_code == 200:
             return response.json()["choices"][0]["message"]["content"]
-        return ""
     except Exception:
-        return ""
+        pass
+    return ""
 
-# ─── دالة تحديث صفحة المدونة الرئيسية (مع استيراد BeautifulSoup داخلياً) ─────
+# -------------------------------------------------------------------
+# دالة تحديث blog.html (مع استيراد مؤجل لـ BeautifulSoup)
+# -------------------------------------------------------------------
 def update_main_blog_page(article_info):
-    """يضيف المقال الجديد إلى صفحة blog.html مع الحفاظ على التنسيق"""
-    from bs4 import BeautifulSoup  # <-- الاستيراد هنا فقط
-    
+    """يضيف المقال الجديد إلى blog.html - استيراد bs4 يحدث هنا فقط"""
+    try:
+        from bs4 import BeautifulSoup
+    except ImportError:
+        print("⚠️ BeautifulSoup غير مثبتة، لن يتم تحديث blog.html")
+        return
+
     blog_index_path = Path(__file__).parent.parent / "blog.html"
     if not blog_index_path.exists():
-        print("⚠️ ملف blog.html غير موجود، لن يتم التحديث.")
+        print("⚠️ blog.html غير موجود")
         return
+
     try:
         with open(blog_index_path, "r", encoding="utf-8") as f:
             soup = BeautifulSoup(f.read(), "html.parser")
     except Exception as e:
-        print(f"⚠️ خطأ في قراءة blog.html: {e}")
+        print(f"⚠️ خطأ قراءة blog.html: {e}")
         return
-    
+
     container = soup.find("div", class_="blog-posts") or soup.find("div", id="blog-posts") or soup.find("main")
     if not container:
-        print("⚠️ لم يتم العثور على حاوية المقالات.")
+        print("⚠️ لم يتم العثور على حاوية المقالات")
         return
-    
+
     new_card = soup.new_tag("div", **{"class": "blog-card"})
     if article_info.get("image"):
         img = soup.new_tag("img", src=article_info["image"], alt=article_info["title"])
         new_card.append(img)
-    title_tag = soup.new_tag("h3")
-    title_tag.string = article_info["title"]
-    new_card.append(title_tag)
-    date_tag = soup.new_tag("p", **{"class": "date"})
-    date_tag.string = article_info["date"]
-    new_card.append(date_tag)
-    summary_tag = soup.new_tag("p", **{"class": "summary"})
+
+    h3 = soup.new_tag("h3")
+    h3.string = article_info["title"]
+    new_card.append(h3)
+
+    p_date = soup.new_tag("p", **{"class": "date"})
+    p_date.string = article_info["date"]
+    new_card.append(p_date)
+
+    p_sum = soup.new_tag("p", **{"class": "summary"})
     summary = article_info["summary"][:150] + "..." if len(article_info["summary"]) > 150 else article_info["summary"]
-    summary_tag.string = summary
-    new_card.append(summary_tag)
+    p_sum.string = summary
+    new_card.append(p_sum)
+
     link = soup.new_tag("a", href=article_info["url"], **{"class": "read-more"})
     link.string = "اقرأ المزيد"
     new_card.append(link)
-    container.insert(0, new_card)
-    try:
-        with open(blog_index_path, "w", encoding="utf-8") as f:
-            f.write(str(soup))
-        print(f"✅ تم تحديث blog.html بإضافة: {article_info['title']}")
-    except Exception as e:
-        print(f"⚠️ خطأ في حفظ blog.html: {e}")
 
-# ─── حفظ المقال كملف HTML وتحديث الصفحة الرئيسية ─────────────────────────────
-def save_blog_as_html(title: str, content: str, topic: dict):
+    container.insert(0, new_card)
+
+    with open(blog_index_path, "w", encoding="utf-8") as f:
+        f.write(str(soup))
+    print(f"✅ تم تحديث blog.html بإضافة: {article_info['title']}")
+
+def save_blog_as_html(title, content, topic):
     blog_dir = Path(__file__).parent.parent / "blog"
     blog_dir.mkdir(exist_ok=True)
     slug = title.replace(" ", "-").replace("،", "").replace("؟", "")[:50]
     filename = f"{slug}-{date.today().strftime('%Y%m%d')}.html"
     plain_content = content.replace("<br>", " ").replace("\n", " ").replace("  ", " ")
     summary = plain_content[:150].strip()
-    
+
     html = f"""<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head><meta charset="UTF-8"><title>{title} | Weaver</title>
@@ -143,20 +136,17 @@ h1 {{ color: #a78bfa; }}
     with open(blog_dir / filename, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"✅ تم حفظ ملف HTML: {filename}")
-    
-    # تحديث الصفحة الرئيسية
-    article_info = {
+
+    update_main_blog_page({
         "title": title,
         "date": date.today().strftime("%Y-%m-%d"),
         "summary": summary,
         "url": f"/blog/{filename}",
         "image": None
-    }
-    update_main_blog_page(article_info)
+    })
 
-# ─── نشر المدونة اليومية ─────────────────────────────────────────────────────
 def generate_daily_blog():
-    print(f"\n📝 [{datetime.now().strftime('%H:%M')}] توليد مقال يومي...")
+    print(f"\n📝 توليد مقال يومي...")
     topic = random.choice(BLOG_TOPICS)
     title = topic["title"]
     system = "أنت كاتب متخصص في تفسير الأحلام."
@@ -164,36 +154,35 @@ def generate_daily_blog():
     content = generate_with_groq(prompt, system, max_tokens=2000)
     if not content:
         content = f"<h2>{title}</h2><p>مقال عن {title} - سيتم تحديثه قريباً.</p>"
-    
+
     if DB_AVAILABLE:
         try:
             init_db()
             slug = title.replace(" ", "-")[:60] + f"-{date.today().strftime('%Y%m%d')}"
             save_blog_post(title=title, content=content, slug=slug, category=topic["cat"], author="نَسَّاج AI", language="ar", tags=topic.get("tags", ""))
-            print(f"✅ تم حفظ المقال في قاعدة البيانات")
+            print("✅ حفظ في قاعدة البيانات")
         except Exception as e:
-            print(f"⚠️ خطأ في قاعدة البيانات: {e}")
+            print(f"⚠️ خطأ قاعدة بيانات: {e}")
+
     save_blog_as_html(title, content, topic)
     return title, content
 
-# ─── النشر على تيليجرام ───────────────────────────────────────────────────────
-def post_to_telegram(content: str, channel_id: str = None):
-    if not TELEGRAM_BOT_TOKEN:
-        return False
-    target = channel_id or TELEGRAM_CHANNEL_ID
-    if not target:
+def post_to_telegram(content):
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHANNEL_ID:
         return False
     try:
-        requests.post(f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
-                      json={"chat_id": target, "text": content, "parse_mode": "HTML"}, timeout=30)
+        requests.post(
+            f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+            json={"chat_id": TELEGRAM_CHANNEL_ID, "text": content, "parse_mode": "HTML"},
+            timeout=30
+        )
         print("✅ تم النشر على تيليجرام")
         return True
     except Exception:
         return False
 
-# ─── التسويق اليومي ───────────────────────────────────────────────────────────
 def run_daily_marketing():
-    print(f"\n📢 [{datetime.now().strftime('%H:%M')}] تشغيل التسويق...")
+    print("\n📢 تشغيل التسويق...")
     topic = random.choice(MARKETING_TOPICS)
     post_content = f"🌙 {topic}\nفسّر أحلامك بالذكاء الاصطناعي!\n🔗 {SITE_URL}\n#تفسير_الأحلام #Weaver"
     post_to_telegram(post_content)
@@ -202,11 +191,10 @@ def run_daily_marketing():
             log_marketing("telegram", post_content, "sent")
         except Exception:
             pass
-    print(f"✅ تم التسويق")
+    print("✅ تم التسويق")
 
-# ─── إعادة تعيين العدادات اليومية ────────────────────────────────────────────
 def reset_daily_counters():
-    print(f"\n🔄 إعادة تعيين العدادات...")
+    print("\n🔄 إعادة تعيين العدادات...")
     if DB_AVAILABLE:
         try:
             reset_daily_dreams()
@@ -214,9 +202,8 @@ def reset_daily_counters():
         except Exception as e:
             print(f"⚠️ خطأ: {e}")
 
-# ─── تقرير يومي ───────────────────────────────────────────────────────────────
 def generate_daily_report():
-    print(f"\n📊 توليد التقرير اليومي...")
+    print("\n📊 توليد التقرير اليومي...")
     if DB_AVAILABLE:
         try:
             stats = get_platform_stats()
@@ -229,7 +216,6 @@ def generate_daily_report():
         except Exception as e:
             print(f"⚠️ خطأ في التقرير: {e}")
 
-# ─── الجدولة الزمنية (للاستخدام المستمر) ─────────────────────────────────────
 def setup_schedule():
     schedule.every().day.at("08:00").do(generate_daily_blog)
     schedule.every().day.at("10:00").do(run_daily_marketing)
@@ -239,14 +225,14 @@ def setup_schedule():
     schedule.every().day.at("21:00").do(generate_daily_report)
 
 def run_once():
-    print("🚀 تشغيل نظام الأتمتة مرة واحدة...")
+    print("🚀 تشغيل مرة واحدة...")
     generate_daily_blog()
     run_daily_marketing()
     generate_daily_report()
     print("✅ اكتملت المهام")
 
 def run_continuous():
-    print("🚀 تشغيل نظام الأتمتة المستمر...")
+    print("🚀 تشغيل مستمر...")
     setup_schedule()
     generate_daily_blog()
     run_daily_marketing()
