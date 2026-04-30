@@ -14,6 +14,7 @@ import schedule
 import time
 from datetime import datetime, date
 from pathlib import Path
+from bs4 import BeautifulSoup  # <-- إضافة جديدة
 
 # إضافة المسار الجذري
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -164,14 +165,78 @@ def generate_daily_blog():
     save_blog_as_html(title, content, topic)
     return title, content
 
+# ─── دالة جديدة لتحديث صفحة المدونة الرئيسية ─────────────────────────────────
+
+def update_main_blog_page(article_info):
+    """يضيف المقال الجديد إلى صفحة blog.html مع الحفاظ على التنسيق"""
+    blog_index_path = Path(__file__).parent.parent / "blog.html"
+    if not blog_index_path.exists():
+        print("⚠️ ملف blog.html غير موجود، لن يتم التحديث.")
+        return
+
+    try:
+        with open(blog_index_path, "r", encoding="utf-8") as f:
+            soup = BeautifulSoup(f.read(), "html.parser")
+    except Exception as e:
+        print(f"⚠️ خطأ في قراءة blog.html: {e}")
+        return
+
+    # البحث عن الحاوية التي تحتوي على قائمة المقالات
+    container = soup.find("div", class_="blog-posts") or soup.find("div", id="blog-posts") or soup.find("main")
+    if not container:
+        print("⚠️ لم يتم العثور على حاوية المقالات (div.blog-posts أو #blog-posts أو main). لن يتم التحديث.")
+        return
+
+    # إنشاء بطاقة المقال الجديد
+    new_card = soup.new_tag("div", **{"class": "blog-card"})
+
+    # إضافة الصورة المصغرة (إن وجدت)
+    if article_info.get("image"):
+        img = soup.new_tag("img", src=article_info["image"], alt=article_info["title"])
+        new_card.append(img)
+
+    # إضافة العنوان
+    title_tag = soup.new_tag("h3")
+    title_tag.string = article_info["title"]
+    new_card.append(title_tag)
+
+    # إضافة التاريخ
+    date_tag = soup.new_tag("p", **{"class": "date"})
+    date_tag.string = article_info["date"]
+    new_card.append(date_tag)
+
+    # إضافة الملخص
+    summary_tag = soup.new_tag("p", **{"class": "summary"})
+    summary_tag.string = (article_info["summary"][:150] + "...") if len(article_info["summary"]) > 150 else article_info["summary"]
+    new_card.append(summary_tag)
+
+    # إضافة رابط "اقرأ المزيد"
+    link = soup.new_tag("a", href=article_info["url"], **{"class": "read-more"})
+    link.string = "اقرأ المزيد"
+    new_card.append(link)
+
+    # إدراج البطاقة في بداية الحاوية (أحدث مقال أولاً)
+    container.insert(0, new_card)
+
+    # حفظ التغييرات مع المحافظة على التنسيق
+    try:
+        with open(blog_index_path, "w", encoding="utf-8") as f:
+            f.write(str(soup))
+        print(f"✅ تم تحديث blog.html بإضافة: {article_info['title']}")
+    except Exception as e:
+        print(f"⚠️ خطأ في حفظ blog.html: {e}")
+
+# ─── تعديل دالة save_blog_as_html (إضافة استدعاء التحديث) ────────────────────
+
 def save_blog_as_html(title: str, content: str, topic: dict):
-    """حفظ المقال كملف HTML"""
+    """حفظ المقال كملف HTML وتحديث الصفحة الرئيسية"""
     blog_dir = Path(__file__).parent.parent / "blog"
     blog_dir.mkdir(exist_ok=True)
 
     slug = title.replace(" ", "-").replace("،", "").replace("؟", "")[:50]
     filename = f"{slug}-{date.today().strftime('%Y%m%d')}.html"
 
+    # المحتوى الكامل للمقال
     html = f"""<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -219,6 +284,19 @@ def save_blog_as_html(title: str, content: str, topic: dict):
     with open(blog_dir / filename, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"✅ تم حفظ ملف HTML: {filename}")
+
+    # ─── تحديث صفحة المدونة الرئيسية (إضافة جديدة) ────────────────────────────
+    # استخراج ملخص قصير من المحتوى (أول 150 حرف نصي)
+    plain_content = content.replace("<br>", " ").replace("\n", " ").replace("  ", " ")
+    summary = plain_content[:150].strip()
+    article_info = {
+        "title": title,
+        "date": date.today().strftime("%Y-%m-%d"),
+        "summary": summary,
+        "url": f"/blog/{filename}",
+        "image": None
+    }
+    update_main_blog_page(article_info)
 
 # ─── النشر على تيليجرام ───────────────────────────────────────────────────────
 
