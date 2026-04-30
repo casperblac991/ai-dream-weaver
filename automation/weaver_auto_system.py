@@ -1,23 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Weaver Auto System - نظام الأتمتة الشامل
+Weaver Auto System - نظام الأتمتة الشامل (نسخة مستقرة)
 يعمل على مدار الساعة بدون تدخل بشري
 """
 
 import os
 import sys
-import json
 import random
 import requests
 import schedule
 import time
 from datetime import datetime, date
 from pathlib import Path
-from bs4 import BeautifulSoup  # <-- إضافة جديدة
 
 # إضافة المسار الجذري
 sys.path.insert(0, str(Path(__file__).parent.parent))
+
+# ─── محاولة استيراد BeautifulSoup ────────────────────────────────────────────
+try:
+    from bs4 import BeautifulSoup
+    BEAUTIFULSOUP_AVAILABLE = True
+except ImportError:
+    BEAUTIFULSOUP_AVAILABLE = False
+    print("⚠️ BeautifulSoup غير مثبت. لن يتم تحديث blog.html تلقائياً.")
+    print("   قم بتثبيته: pip install beautifulsoup4")
+
+# ─── محاولة استيراد دوال قاعدة البيانات ──────────────────────────────────────
+try:
+    from app.database import init_db
+    from app.models import save_blog_post, log_marketing, reset_daily_dreams, get_platform_stats, get_all_subscribers
+    DB_AVAILABLE = True
+except ImportError as e:
+    DB_AVAILABLE = False
+    print(f"⚠️ قاعدة البيانات غير متاحة: {e}")
+    print("   سيستمر النظام في العمل دون حفظ في قاعدة البيانات.")
 
 # ─── الإعدادات ────────────────────────────────────────────────────────────────
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
@@ -31,29 +48,23 @@ SITE_URL = "https://aidreamweaver.store"
 
 # ─── مواضيع المدونة اليومية ───────────────────────────────────────────────────
 BLOG_TOPICS = [
-    # التراث الإسلامي
     {"title": "الإمام ابن سيرين وفن تفسير الأحلام", "cat": "التراث الإسلامي", "tags": "ابن سيرين,تفسير,إسلام"},
     {"title": "رؤية النبي ﷺ في المنام - الدلالات والأحكام", "cat": "التراث الإسلامي", "tags": "النبي,رؤيا,إسلام"},
     {"title": "الرؤيا الصادقة وأنواع الأحلام في الإسلام", "cat": "التراث الإسلامي", "tags": "رؤيا,أحلام,إسلام"},
     {"title": "كتاب تعطير الأنام في تفسير الأحلام للنابلسي", "cat": "التراث الإسلامي", "tags": "النابلسي,كتب,تفسير"},
-    # الحضارات القديمة
     {"title": "بردية تشستر بيتي - أقدم دليل لتفسير الأحلام", "cat": "مصر القديمة", "tags": "مصر,فراعنة,تاريخ"},
     {"title": "أحلام الملك جلجامش في الملحمة البابلية", "cat": "بلاد الرافدين", "tags": "بابل,جلجامش,تاريخ"},
     {"title": "معابد أسكليبيوس ومعالجة الأمراض بالأحلام", "cat": "اليونان القديمة", "tags": "يونان,أسكليبيوس,علاج"},
     {"title": "الأحلام في الحضارة الهندية القديمة - الأوبانيشاد", "cat": "الحضارات القديمة", "tags": "هند,أوبانيشاد,فلسفة"},
-    # علم النفس
     {"title": "نظرية فرويد في تفسير الأحلام", "cat": "علم النفس", "tags": "فرويد,نفس,تحليل"},
     {"title": "يونغ واللاوعي الجمعي في الأحلام", "cat": "علم النفس", "tags": "يونغ,لاوعي,نفس"},
     {"title": "الأحلام المتكررة - ماذا تعني؟", "cat": "علم النفس", "tags": "أحلام,متكررة,نفس"},
-    # رموز شائعة
     {"title": "الثعبان في المنام - تفسيرات متعددة", "cat": "رموز الأحلام", "tags": "ثعبان,رموز,تفسير"},
     {"title": "الطيران في المنام - رمز الحرية والطموح", "cat": "رموز الأحلام", "tags": "طيران,حرية,رموز"},
     {"title": "البحر والماء في الأحلام - العمق العاطفي", "cat": "رموز الأحلام", "tags": "بحر,ماء,عواطف"},
     {"title": "رؤية الميت في المنام - دلالات وتفسيرات", "cat": "رموز الأحلام", "tags": "ميت,رؤيا,تفسير"},
     {"title": "الأسنان في المنام - من ابن سيرين إلى فرويد", "cat": "رموز الأحلام", "tags": "أسنان,رموز,تفسير"},
     {"title": "النار في المنام - رمز التحول والتطهير", "cat": "رموز الأحلام", "tags": "نار,تحول,رموز"},
-    {"title": "الحمل والولادة في الأحلام", "cat": "رموز الأحلام", "tags": "حمل,ولادة,رموز"},
-    # علمي
     {"title": "مرحلة REM والأحلام - ما يقوله العلم", "cat": "علم الأحلام", "tags": "REM,نوم,علم"},
     {"title": "الأحلام الواضحة (Lucid Dreams) - كيف تتحكم في أحلامك", "cat": "علم الأحلام", "tags": "أحلام واضحة,تحكم,نوم"},
     {"title": "لماذا ننسى أحلامنا؟ - تفسير علمي", "cat": "علم الأحلام", "tags": "نسيان,أحلام,علم"},
@@ -72,7 +83,6 @@ MARKETING_TOPICS = [
 ]
 
 # ─── توليد المحتوى بالذكاء الاصطناعي ────────────────────────────────────────
-
 def generate_with_groq(prompt: str, system: str = "", max_tokens: int = 1500) -> str:
     """توليد محتوى باستخدام Groq"""
     if not GROQ_API_KEY:
@@ -104,8 +114,126 @@ def generate_with_groq(prompt: str, system: str = "", max_tokens: int = 1500) ->
         print(f"⚠️ Groq exception: {e}")
         return ""
 
-# ─── نشر المدونة اليومية ─────────────────────────────────────────────────────
+# ─── دالة تحديث صفحة المدونة الرئيسية ─────────────────────────────────────────
+def update_main_blog_page(article_info):
+    """يضيف المقال الجديد إلى صفحة blog.html مع الحفاظ على التنسيق"""
+    if not BEAUTIFULSOUP_AVAILABLE:
+        print("⚠️ BeautifulSoup غير موجود، لا يمكن تحديث blog.html.")
+        return
 
+    blog_index_path = Path(__file__).parent.parent / "blog.html"
+    if not blog_index_path.exists():
+        print(f"⚠️ ملف blog.html غير موجود في {blog_index_path}")
+        return
+
+    try:
+        with open(blog_index_path, "r", encoding="utf-8") as f:
+            soup = BeautifulSoup(f.read(), "html.parser")
+    except Exception as e:
+        print(f"⚠️ خطأ في قراءة blog.html: {e}")
+        return
+
+    # البحث عن الحاوية المناسبة
+    container = (soup.find("div", class_="blog-posts") or 
+                 soup.find("div", id="blog-posts") or 
+                 soup.find("main"))
+    if not container:
+        print("⚠️ لم يتم العثور على حاوية المقالات. لن يتم التحديث.")
+        return
+
+    # إنشاء بطاقة المقال
+    new_card = soup.new_tag("div", **{"class": "blog-card"})
+
+    if article_info.get("image"):
+        img = soup.new_tag("img", src=article_info["image"], alt=article_info["title"])
+        new_card.append(img)
+
+    title_tag = soup.new_tag("h3")
+    title_tag.string = article_info["title"]
+    new_card.append(title_tag)
+
+    date_tag = soup.new_tag("p", **{"class": "date"})
+    date_tag.string = article_info["date"]
+    new_card.append(date_tag)
+
+    summary_tag = soup.new_tag("p", **{"class": "summary"})
+    summary = article_info["summary"][:150] + "..." if len(article_info["summary"]) > 150 else article_info["summary"]
+    summary_tag.string = summary
+    new_card.append(summary_tag)
+
+    link = soup.new_tag("a", href=article_info["url"], **{"class": "read-more"})
+    link.string = "اقرأ المزيد"
+    new_card.append(link)
+
+    container.insert(0, new_card)
+
+    try:
+        with open(blog_index_path, "w", encoding="utf-8") as f:
+            f.write(str(soup))
+        print(f"✅ تم تحديث blog.html بإضافة: {article_info['title']}")
+    except Exception as e:
+        print(f"⚠️ خطأ في حفظ blog.html: {e}")
+
+# ─── حفظ المقال كملف HTML مع تحديث الصفحة الرئيسية ─────────────────────────────
+def save_blog_as_html(title: str, content: str, topic: dict):
+    """حفظ المقال كملف HTML وتحديث blog.html"""
+    blog_dir = Path(__file__).parent.parent / "blog"
+    blog_dir.mkdir(exist_ok=True)
+
+    slug = title.replace(" ", "-").replace("،", "").replace("؟", "")[:50]
+    filename = f"{slug}-{date.today().strftime('%Y%m%d')}.html"
+
+    # استخراج ملخص
+    plain_content = content.replace("<br>", " ").replace("\n", " ").replace("  ", " ")
+    summary = plain_content[:150].strip()
+
+    html = f"""<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} | Weaver نَسَّاج</title>
+    <meta name="description" content="{content[:150]}">
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        body {{ font-family: 'Segoe UI', Tahoma, sans-serif; background: #0a0a1a; color: #e0e0ff; }}
+        .article {{ max-width: 800px; margin: 2rem auto; padding: 2rem; background: rgba(255,255,255,0.05); border-radius: 16px; }}
+        h1 {{ color: #a78bfa; }}
+        h2 {{ color: #7c3aed; }}
+        p {{ line-height: 1.8; }}
+    </style>
+</head>
+<body>
+    <nav style="background:#1a0a2e;padding:1rem;">
+        <a href="{SITE_URL}" style="color:#a78bfa;">✨ Weaver | نَسَّاج</a>
+        <a href="{SITE_URL}/blog" style="color:#ccc;">← المدونة</a>
+    </nav>
+    <div class="article">
+        <h1>{title}</h1>
+        <div class="meta">✍️ AI | 📅 {date.today().strftime('%Y/%m/%d')} | 🏷️ {topic.get('cat', '')}</div>
+        <div class="content">{content.replace(chr(10), '<br>')}</div>
+        <div style="margin-top:2rem; text-align:center;">
+            <a href="{SITE_URL}/app/register" style="background:#7c3aed;color:white;padding:0.5rem 1rem;">جرّب مجاناً</a>
+        </div>
+    </div>
+</body>
+</html>"""
+
+    with open(blog_dir / filename, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"✅ تم حفظ ملف HTML: {filename}")
+
+    # تحديث الصفحة الرئيسية
+    article_info = {
+        "title": title,
+        "date": date.today().strftime("%Y-%m-%d"),
+        "summary": summary,
+        "url": f"/blog/{filename}",
+        "image": None
+    }
+    update_main_blog_page(article_info)
+
+# ─── نشر المدونة اليومية ─────────────────────────────────────────────────────
 def generate_daily_blog():
     """توليد ونشر مقال يومي"""
     print(f"\n📝 [{datetime.now().strftime('%H:%M')}] توليد مقال يومي...")
@@ -116,214 +244,60 @@ def generate_daily_blog():
     system = "أنت كاتب متخصص في تفسير الأحلام والحضارات القديمة. اكتب مقالات شيقة وعلمية بالعربية الفصحى."
     prompt = f"""اكتب مقالاً شاملاً ومفصلاً عن: {title}
 
-المقال يجب أن يتضمن:
+المطلوب:
 ## مقدمة
-[مقدمة جذابة تشوّق القارئ]
-
 ## الخلفية التاريخية
-[معلومات تاريخية وثقافية]
-
 ## التفسيرات والدلالات
-[تفسيرات مختلفة من مصادر متعددة]
-
 ## الرموز والمعاني
-[شرح الرموز المرتبطة بالموضوع]
-
 ## الخاتمة
-[خلاصة مفيدة]
-
 الطول: 700-900 كلمة. الأسلوب: علمي شيق."""
 
     content = generate_with_groq(prompt, system, max_tokens=2000)
     if not content:
-        content = f"<h2>{title}</h2><p>مقال عن {title} - قيد التحديث</p>"
+        content = f"<h2>{title}</h2><p>مقال عن {title} - سيتم تحديثه قريباً.</p>"
 
-    # حفظ في قاعدة البيانات
-    try:
-        sys.path.insert(0, str(Path(__file__).parent.parent))
-        from app.database import init_db
-        from app.models import save_blog_post
-        init_db()
+    # حفظ في قاعدة البيانات إن أمكن
+    if DB_AVAILABLE:
+        try:
+            init_db()
+            slug = title.replace(" ", "-").replace("،", "").replace("؟", "").replace("ﷺ", "")[:60]
+            slug = f"{slug}-{date.today().strftime('%Y%m%d')}"
+            save_blog_post(
+                title=title,
+                content=content,
+                slug=slug,
+                category=topic["cat"],
+                author="نَسَّاج AI",
+                language="ar",
+                tags=topic.get("tags", "")
+            )
+            print(f"✅ تم حفظ المقال في قاعدة البيانات: {title[:50]}")
+        except Exception as e:
+            print(f"⚠️ خطأ في حفظ المقال بقاعدة البيانات: {e}")
+    else:
+        print("⚠️ قاعدة البيانات غير متاحة، تم الحفظ فقط كملف HTML.")
 
-        slug = title.replace(" ", "-").replace("،", "").replace("؟", "").replace("ﷺ", "")[:60]
-        slug = f"{slug}-{date.today().strftime('%Y%m%d')}"
-
-        save_blog_post(
-            title=title,
-            content=content,
-            slug=slug,
-            category=topic["cat"],
-            author="نَسَّاج AI",
-            language="ar",
-            tags=topic.get("tags", "")
-        )
-        print(f"✅ تم حفظ المقال: {title[:50]}")
-    except Exception as e:
-        print(f"⚠️ خطأ في حفظ المقال: {e}")
-
-    # حفظ كملف HTML أيضاً
+    # حفظ كملف HTML وتحديث الصفحة الرئيسية
     save_blog_as_html(title, content, topic)
     return title, content
 
-# ─── دالة جديدة لتحديث صفحة المدونة الرئيسية ─────────────────────────────────
-
-def update_main_blog_page(article_info):
-    """يضيف المقال الجديد إلى صفحة blog.html مع الحفاظ على التنسيق"""
-    blog_index_path = Path(__file__).parent.parent / "blog.html"
-    if not blog_index_path.exists():
-        print("⚠️ ملف blog.html غير موجود، لن يتم التحديث.")
-        return
-
-    try:
-        with open(blog_index_path, "r", encoding="utf-8") as f:
-            soup = BeautifulSoup(f.read(), "html.parser")
-    except Exception as e:
-        print(f"⚠️ خطأ في قراءة blog.html: {e}")
-        return
-
-    # البحث عن الحاوية التي تحتوي على قائمة المقالات
-    container = soup.find("div", class_="blog-posts") or soup.find("div", id="blog-posts") or soup.find("main")
-    if not container:
-        print("⚠️ لم يتم العثور على حاوية المقالات (div.blog-posts أو #blog-posts أو main). لن يتم التحديث.")
-        return
-
-    # إنشاء بطاقة المقال الجديد
-    new_card = soup.new_tag("div", **{"class": "blog-card"})
-
-    # إضافة الصورة المصغرة (إن وجدت)
-    if article_info.get("image"):
-        img = soup.new_tag("img", src=article_info["image"], alt=article_info["title"])
-        new_card.append(img)
-
-    # إضافة العنوان
-    title_tag = soup.new_tag("h3")
-    title_tag.string = article_info["title"]
-    new_card.append(title_tag)
-
-    # إضافة التاريخ
-    date_tag = soup.new_tag("p", **{"class": "date"})
-    date_tag.string = article_info["date"]
-    new_card.append(date_tag)
-
-    # إضافة الملخص
-    summary_tag = soup.new_tag("p", **{"class": "summary"})
-    summary_tag.string = (article_info["summary"][:150] + "...") if len(article_info["summary"]) > 150 else article_info["summary"]
-    new_card.append(summary_tag)
-
-    # إضافة رابط "اقرأ المزيد"
-    link = soup.new_tag("a", href=article_info["url"], **{"class": "read-more"})
-    link.string = "اقرأ المزيد"
-    new_card.append(link)
-
-    # إدراج البطاقة في بداية الحاوية (أحدث مقال أولاً)
-    container.insert(0, new_card)
-
-    # حفظ التغييرات مع المحافظة على التنسيق
-    try:
-        with open(blog_index_path, "w", encoding="utf-8") as f:
-            f.write(str(soup))
-        print(f"✅ تم تحديث blog.html بإضافة: {article_info['title']}")
-    except Exception as e:
-        print(f"⚠️ خطأ في حفظ blog.html: {e}")
-
-# ─── تعديل دالة save_blog_as_html (إضافة استدعاء التحديث) ────────────────────
-
-def save_blog_as_html(title: str, content: str, topic: dict):
-    """حفظ المقال كملف HTML وتحديث الصفحة الرئيسية"""
-    blog_dir = Path(__file__).parent.parent / "blog"
-    blog_dir.mkdir(exist_ok=True)
-
-    slug = title.replace(" ", "-").replace("،", "").replace("؟", "")[:50]
-    filename = f"{slug}-{date.today().strftime('%Y%m%d')}.html"
-
-    # المحتوى الكامل للمقال
-    html = f"""<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title} | Weaver نَسَّاج</title>
-    <meta name="description" content="{content[:150]}">
-    <meta property="og:title" content="{title}">
-    <meta property="og:url" content="{SITE_URL}/blog/{slug}">
-    <link rel="stylesheet" href="../css/main.css">
-    <style>
-        body {{ font-family: 'Segoe UI', Tahoma, sans-serif; background: #0a0a1a; color: #e0e0ff; }}
-        .article {{ max-width: 800px; margin: 2rem auto; padding: 2rem; background: rgba(255,255,255,0.05); border-radius: 16px; }}
-        h1 {{ color: #a78bfa; font-size: 2rem; margin-bottom: 1rem; }}
-        h2 {{ color: #7c3aed; margin-top: 2rem; }}
-        p {{ line-height: 1.8; margin-bottom: 1rem; }}
-        .meta {{ color: #888; font-size: 0.9rem; margin-bottom: 2rem; }}
-        .tag {{ background: #7c3aed; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; margin: 0.2rem; display: inline-block; }}
-    </style>
-</head>
-<body>
-    <nav style="background:#1a0a2e;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;">
-        <a href="{SITE_URL}" style="color:#a78bfa;text-decoration:none;font-size:1.2rem;">✨ Weaver | نَسَّاج</a>
-        <a href="{SITE_URL}/blog" style="color:#ccc;text-decoration:none;">← المدونة</a>
-    </nav>
-    <div class="article">
-        <h1>{title}</h1>
-        <div class="meta">
-            ✍️ نَسَّاج AI | 📅 {date.today().strftime('%Y/%m/%d')} | 🏷️ {topic.get('cat', '')}
-        </div>
-        <div class="tags">
-            {''.join([f'<span class="tag">{t}</span>' for t in topic.get('tags', '').split(',')])}
-        </div>
-        <div class="content" style="margin-top:2rem;">
-            {content.replace(chr(10), '<br>')}
-        </div>
-        <div style="margin-top:3rem;padding:1.5rem;background:rgba(124,58,237,0.2);border-radius:12px;text-align:center;">
-            <p>🔮 فسّر أحلامك بالذكاء الاصطناعي الآن!</p>
-            <a href="{SITE_URL}/app/register" style="background:#7c3aed;color:white;padding:0.8rem 2rem;border-radius:8px;text-decoration:none;">جرّب مجاناً</a>
-        </div>
-    </div>
-</body>
-</html>"""
-
-    with open(blog_dir / filename, "w", encoding="utf-8") as f:
-        f.write(html)
-    print(f"✅ تم حفظ ملف HTML: {filename}")
-
-    # ─── تحديث صفحة المدونة الرئيسية (إضافة جديدة) ────────────────────────────
-    # استخراج ملخص قصير من المحتوى (أول 150 حرف نصي)
-    plain_content = content.replace("<br>", " ").replace("\n", " ").replace("  ", " ")
-    summary = plain_content[:150].strip()
-    article_info = {
-        "title": title,
-        "date": date.today().strftime("%Y-%m-%d"),
-        "summary": summary,
-        "url": f"/blog/{filename}",
-        "image": None
-    }
-    update_main_blog_page(article_info)
-
 # ─── النشر على تيليجرام ───────────────────────────────────────────────────────
-
 def post_to_telegram(content: str, channel_id: str = None):
-    """نشر على تيليجرام"""
     if not TELEGRAM_BOT_TOKEN:
         print("⚠️ TELEGRAM_TOKEN غير موجود")
         return False
-
     target = channel_id or TELEGRAM_CHANNEL_ID
     if not target:
         print("⚠️ TELEGRAM_CHANNEL_ID غير موجود")
         return False
-
     try:
         response = requests.post(
             f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
-            json={
-                "chat_id": target,
-                "text": content,
-                "parse_mode": "HTML",
-                "disable_web_page_preview": False
-            },
+            json={"chat_id": target, "text": content, "parse_mode": "HTML"},
             timeout=30
         )
         if response.status_code == 200:
-            print(f"✅ تم النشر على تيليجرام")
+            print("✅ تم النشر على تيليجرام")
             return True
         print(f"⚠️ خطأ تيليجرام: {response.text[:200]}")
         return False
@@ -332,102 +306,67 @@ def post_to_telegram(content: str, channel_id: str = None):
         return False
 
 # ─── التسويق اليومي ───────────────────────────────────────────────────────────
-
 def run_daily_marketing():
-    """تشغيل حملة التسويق اليومية"""
     print(f"\n📢 [{datetime.now().strftime('%H:%M')}] تشغيل التسويق اليومي...")
-
     topic = random.choice(MARKETING_TOPICS)
-
-    # توليد منشور تسويقي
-    system = "أنت خبير تسويق رقمي. اكتب منشوراً جذاباً وقصيراً لمنصة Weaver لتفسير الأحلام."
-    prompt = f"""اكتب منشوراً تسويقياً عن: {topic}
-الرابط: {SITE_URL}
-يجب أن يكون:
-- قصير وجذاب (لا يزيد عن 200 حرف)
-- يحتوي على إيموجي مناسبة
-- يشجع على زيارة الموقع
-- يحتوي على هاشتاقات عربية مناسبة"""
-
+    system = "أنت خبير تسويق رقمي. اكتب منشوراً جذاباً قصيراً (200 حرف كحد أقصى) مع إيموجي وهاشتاقات."
+    prompt = f"منشور تسويقي لموقع {SITE_URL} عن: {topic}"
     post_content = generate_with_groq(prompt, system, max_tokens=300)
     if not post_content:
-        post_content = f"🌙 {topic}\n\nفسّر أحلامك بالذكاء الاصطناعي!\n🔗 {SITE_URL}\n\n#تفسير_الأحلام #ذكاء_اصطناعي #Weaver"
-
-    # النشر على تيليجرام
+        post_content = f"🌙 {topic}\nفسّر أحلامك بالذكاء الاصطناعي!\n🔗 {SITE_URL}\n#تفسير_الأحلام #Weaver"
     post_to_telegram(post_content)
-
-    # حفظ في سجل التسويق
-    try:
-        from app.models import log_marketing
-        log_marketing("telegram", post_content, "sent")
-    except Exception as e:
-        print(f"⚠️ خطأ في حفظ سجل التسويق: {e}")
-
+    if DB_AVAILABLE:
+        try:
+            log_marketing("telegram", post_content, "sent")
+        except Exception as e:
+            print(f"⚠️ خطأ في تسجيل التسويق: {e}")
     print(f"✅ تم التسويق: {post_content[:80]}...")
 
 # ─── إعادة تعيين العدادات اليومية ────────────────────────────────────────────
-
 def reset_daily_counters():
-    """إعادة تعيين عدادات الأحلام اليومية"""
-    print(f"\n🔄 [{datetime.now().strftime('%H:%M')}] إعادة تعيين العدادات اليومية...")
-    try:
-        from app.models import reset_daily_dreams
-        reset_daily_dreams()
-        print("✅ تم إعادة تعيين العدادات")
-    except Exception as e:
-        print(f"⚠️ خطأ: {e}")
+    print(f"\n🔄 [{datetime.now().strftime('%H:%M')}] إعادة تعيين العدادات...")
+    if DB_AVAILABLE:
+        try:
+            reset_daily_dreams()
+            print("✅ تم إعادة تعيين العدادات")
+        except Exception as e:
+            print(f"⚠️ خطأ: {e}")
+    else:
+        print("⚠️ قاعدة البيانات غير متاحة")
 
 # ─── تقرير يومي ───────────────────────────────────────────────────────────────
-
 def generate_daily_report():
-    """توليد تقرير يومي"""
     print(f"\n📊 [{datetime.now().strftime('%H:%M')}] توليد التقرير اليومي...")
-    try:
-        from app.models import get_platform_stats, get_all_subscribers
-        stats = get_platform_stats()
-        subscribers = get_all_subscribers()
-
-        report = f"""📊 تقرير Weaver اليومي - {date.today().strftime('%Y/%m/%d')}
-
-👥 المستخدمون: {stats['total_users']}
-🌙 الأحلام المفسرة: {stats['total_dreams']:,}
-📧 المشتركون: {stats['total_subscribers']}
-📝 مقالات المدونة: {stats['total_posts']}
-👁️ المشاهدات اليوم: {stats['today_views']}
-
+    if DB_AVAILABLE:
+        try:
+            stats = get_platform_stats()
+            report = f"""📊 تقرير Weaver - {date.today().strftime('%Y/%m/%d')}
+👥 المستخدمون: {stats.get('total_users', 0)}
+🌙 الأحلام: {stats.get('total_dreams', 0):,}
+📧 المشتركون: {stats.get('total_subscribers', 0)}
+📝 المقالات: {stats.get('total_posts', 0)}
+👁️ المشاهدات: {stats.get('today_views', 0)}
 🔗 {SITE_URL}"""
-
-        post_to_telegram(report)
-        print("✅ تم إرسال التقرير اليومي")
-    except Exception as e:
-        print(f"⚠️ خطأ في التقرير: {e}")
+            post_to_telegram(report)
+            print("✅ تم إرسال التقرير")
+        except Exception as e:
+            print(f"⚠️ خطأ في التقرير: {e}")
+    else:
+        print("⚠️ قاعدة البيانات غير متاحة، لم يتم إنشاء التقرير.")
 
 # ─── الجدولة الزمنية ─────────────────────────────────────────────────────────
-
 def setup_schedule():
-    """إعداد الجدولة الزمنية"""
-    # مقال يومي - الساعة 8 صباحاً
     schedule.every().day.at("08:00").do(generate_daily_blog)
-    # تسويق - 3 مرات يومياً
     schedule.every().day.at("10:00").do(run_daily_marketing)
     schedule.every().day.at("15:00").do(run_daily_marketing)
     schedule.every().day.at("20:00").do(run_daily_marketing)
-    # إعادة تعيين العدادات - منتصف الليل
     schedule.every().day.at("00:00").do(reset_daily_counters)
-    # تقرير يومي - الساعة 9 مساءً
     schedule.every().day.at("21:00").do(generate_daily_report)
-
-    print("✅ تم إعداد الجدولة الزمنية")
-    print("📅 المهام المجدولة:")
-    print("  - 08:00: مقال يومي")
-    print("  - 10:00, 15:00, 20:00: تسويق")
-    print("  - 00:00: إعادة تعيين العدادات")
-    print("  - 21:00: تقرير يومي")
+    print("✅ تم إعداد الجدولة")
+    print("📅 المهام: 08:00 مقال | 10,15,20 تسويق | 00:00 إعادة تعيين | 21:00 تقرير")
 
 # ─── نقطة الدخول ─────────────────────────────────────────────────────────────
-
 def run_once():
-    """تشغيل مرة واحدة (للاختبار أو GitHub Actions)"""
     print("🚀 تشغيل نظام الأتمتة مرة واحدة...")
     generate_daily_blog()
     run_daily_marketing()
@@ -435,21 +374,16 @@ def run_once():
     print("✅ اكتملت المهام")
 
 def run_continuous():
-    """تشغيل مستمر على مدار الساعة"""
     print("🚀 تشغيل نظام الأتمتة المستمر...")
     setup_schedule()
-
-    # تشغيل فوري عند البدء
     generate_daily_blog()
     run_daily_marketing()
-
-    print("\n⏰ النظام يعمل... اضغط Ctrl+C للإيقاف")
+    print("\n⏰ يعمل... Ctrl+C للإيقاف")
     while True:
         schedule.run_pending()
         time.sleep(60)
 
 if __name__ == "__main__":
-    import sys
     if "--once" in sys.argv:
         run_once()
     else:
