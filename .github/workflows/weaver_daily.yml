@@ -1,29 +1,20 @@
 name: Weaver Daily System v3.0
-
 on:
   schedule:
     - cron: '0 6 * * *'
   workflow_dispatch:
-
 jobs:
   daily-run:
-    name: Daily System Run
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Python
-        uses: actions/setup-python@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
       - name: Install dependencies
         run: |
-          pip install requests groq schedule beautifulsoup4
-
+          python -m pip install --upgrade pip
+          python -m pip install requests groq schedule beautifulsoup4
       - name: Run daily system
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -32,10 +23,9 @@ jobs:
         run: |
           python automation/weaver_auto_system.py --once
           python automation/marketing_bot.py --once
-
       - name: Commit changes
         run: |
           git config user.email "weaver-bot@aidreamweaver.store"
           git config user.name "Weaver AI Bot"
           git add blog/ blog.html || true
-          git diff --staged --quiet || (git commit -m "🤖 تحديث تلقائي: $(date '+%Y-%m-%d %H:%M')" && git push) || true
+          git diff --staged --quiet || (git commit -m "🤖 تحديث تلقائي $(date '+%Y-%m-%d %H:%M')" && git push) || true
