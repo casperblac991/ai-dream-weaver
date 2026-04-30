@@ -17,4 +17,4 @@ stripe==8.3.0
 passlib[bcrypt]==1.7.4
 python-jose[cryptography]==3.3.0
 aiofiles==23.2.1
-starlette==0.36.3
+
