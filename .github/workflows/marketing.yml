@@ -12,11 +12,20 @@ jobs:
     name: Marketing Automation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-      - run: pip install requests schedule
+
+      - name: Install dependencies
+        run: |
+          pip install requests groq schedule beautifulsoup4
+
       - name: Run marketing campaign
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
