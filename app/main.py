@@ -492,7 +492,7 @@ async def telegram_webhook(request: Request):
         
         # معالجة الأوامر
         if text == "/start":
-            await send_telegram_message(TELEGRAM_TOKEN, chat_id,
+            send_telegram_message(TELEGRAM_TOKEN, chat_id,
                 "🌙 *مرحباً بك في نَسَّاج*\n\n"
                 "🔮 منصة تفسير الأحلام بالذكاء الاصطناعي\n\n"
                 "/dream <حلمك> - تفسير\n"
@@ -501,7 +501,7 @@ async def telegram_webhook(request: Request):
                 "Markdown"
             )
         elif text == "/help":
-            await send_telegram_message(TELEGRAM_TOKEN, chat_id,
+            send_telegram_message(TELEGRAM_TOKEN, chat_id,
                 "🔮 *مساعدة*\n\n"
                 "• /dream <نص> - فسّر حلمك\n"
                 "• أرسل الحلم مباشرة\n"
@@ -514,20 +514,20 @@ async def telegram_webhook(request: Request):
                 r = req.get("https://aidreamweaver.store/api/stats", timeout=10)
                 if r.ok:
                     s = r.json()
-                    await send_telegram_message(TELEGRAM_TOKEN, chat_id,
+                    send_telegram_message(TELEGRAM_TOKEN, chat_id,
                         f"📊 *إحصائيات*\n\n"
                         f"👥 {s.get('users',0)} مستخدم\n"
                         f"🌙 {s.get('dreams',0)} حلم",
                         "Markdown"
                     )
             except:
-                await send_telegram_message(TELEGRAM_TOKEN, chat_id, "⚠️ تعذر الجلب")
+                send_telegram_message(TELEGRAM_TOKEN, chat_id, "⚠️ تعذر الجلب")
         elif text.lower().startswith('/dream '):
             dream_text = text[7:].strip()
             if len(dream_text) < 3:
-                await send_telegram_message(TELEGRAM_TOKEN, chat_id, "✍️ اكتب حلمك:")
+                send_telegram_message(TELEGRAM_TOKEN, chat_id, "✍️ اكتب حلمك:")
             else:
-                await send_telegram_message(TELEGRAM_TOKEN, chat_id, "🔮 جاري التفسير...")
+                send_telegram_message(TELEGRAM_TOKEN, chat_id, "🔮 جاري التفسير...")
                 try:
                     import requests as req
                     r = req.post("https://aidreamweaver.store/api/interpret",
@@ -538,16 +538,16 @@ async def telegram_webhook(request: Request):
                         result = r.json()
                         interp = result.get("interpretation","")[:4000]
                         if interp:
-                            await send_telegram_message(TELEGRAM_TOKEN, chat_id, interp, "Markdown")
+                            send_telegram_message(TELEGRAM_TOKEN, chat_id, interp, "Markdown")
                         else:
-                            await send_telegram_message(TELEGRAM_TOKEN, chat_id, "⚠️ لم يتم")
+                            send_telegram_message(TELEGRAM_TOKEN, chat_id, "⚠️ لم يتم")
                 except Exception as e:
-                    await send_telegram_message(TELEGRAM_TOKEN, chat_id, f"⚠️ {str(e)[:100]}")
+                    send_telegram_message(TELEGRAM_TOKEN, chat_id, f"⚠️ {str(e)[:100]}")
         elif text and not text.startswith('/'):
             # تفسير أي نص
             try:
                 import requests as req
-                await send_telegram_message(TELEGRAM_TOKEN, chat_id, "🔮 جاري التفسير...")
+                send_telegram_message(TELEGRAM_TOKEN, chat_id, "🔮 جاري التفسير...")
                 r = req.post("https://aidreamweaver.store/api/interpret",
                     json={"dream": text, "style": "islamic", "language": "ar"},
                     timeout=60
@@ -556,9 +556,9 @@ async def telegram_webhook(request: Request):
                     result = r.json()
                     interp = result.get("interpretation","")[:4000]
                     if interp:
-                        await send_telegram_message(TELEGRAM_TOKEN, chat_id, interp, "Markdown")
+                        send_telegram_message(TELEGRAM_TOKEN, chat_id, interp, "Markdown")
             except Exception as e:
-                await send_telegram_message(TELEGRAM_TOKEN, chat_id, f"⚠️ {str(e)[:100]}")
+                send_telegram_message(TELEGRAM_TOKEN, chat_id, f"⚠️ {str(e)[:100]}")
         
         return JSONResponse({"ok": True})
     except Exception as e:
