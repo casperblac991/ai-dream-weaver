@@ -372,67 +372,6 @@ async def generate_and_save_blog():
 def health_check():
     return {"status": "ok"}
 
-# ========== تشغيل السيرفر ==========
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=False)
-
-# ========== نظام تسجيل الدخول الإجباري ==========
-
-@app.get("/app/dashboard", response_class=HTMLResponse)
-async def dashboard(request: Request):
-    """لوحة التحكم الشخصية للمستخدم"""
-    user = get_current_user(request)
-    if not user:
-        return RedirectResponse(url="/app/login", status_code=302)
-    
-    return templates.TemplateResponse(request, "dashboard.html", {
-        "user": user,
-        "dreams": []
-    })
-
-@app.post("/api/logout")
-async def logout(request: Request):
-    """تسجيل الخروج"""
-    response = JSONResponse({"message": "تم تسجيل الخروج بنجاح"})
-    response.delete_cookie("session_token")
-    return response
-
-@app.get("/api/user-dreams")
-async def get_user_dreams_api(request: Request):
-    """الحصول على أحلام المستخدم"""
-    user = get_current_user(request)
-    if not user:
-        return JSONResponse({"error": "غير مصرح"}, status_code=401)
-    
-    dreams = get_user_dreams(user['id'])
-    return JSONResponse({"dreams": dreams})
-
-@app.post("/api/interpret-dream")
-async def interpret_dream_api(request: Request, dream_description: str = Form(...)):
-    """تفسير حلم جديد"""
-    user = get_current_user(request)
-    if not user:
-        return RedirectResponse(url="/app/login", status_code=302)
-    
-    try:
-        # توليد التفسير باستخدام الذكاء الاصطناعي
-        interpretation = await interpret_dream(dream_description)
-        
-        # حفظ الحلم في قاعدة البيانات
-        save_dream(user['id'], dream_description, interpretation)
-        
-        # تحديث عدد التفسيرات المستخدمة
-        increment_dreams_used(user['id'])
-        
-        return JSONResponse({
-            "success": True,
-            "interpretation": interpretation,
-            "message": "تم تفسير الحلم بنجاح"
-        })
-    except Exception as e:
-        return JSONResponse({"error": str(e)}, status_code=500)
-
 # ========== نظام حماية المسارات ==========
 
 @app.middleware("http")
@@ -478,4 +417,9 @@ async def auth_middleware(request: Request, call_next):
     
     response = await call_next(request)
     return response
+
+# ========== تشغيل السيرفر ==========
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=False)
 

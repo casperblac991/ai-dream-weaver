@@ -116,7 +116,8 @@ class GitHubBot:
 if __name__ == "__main__":
     bot = GitHubBot()
     bot.run()
-   # ========== بوت جمع بيانات العملاء (إضافة جديدة) ==========
+
+# ========== بوت جمع بيانات العملاء (إضافة جديدة) ==========
 def collect_user_data(self):
     """جمع بيانات العملاء من المتجر"""
     try:
@@ -128,18 +129,19 @@ def collect_user_data(self):
             {"name": "نورة عبدالله", "email": "noura@example.com", "date": "2026-02-28"},
         ]
         
-        self.log(f"📊 تم جمع بيانات {len(sample_users)} عميل", 'success')
+        print(f"📊 تم جمع بيانات {len(sample_users)} عميل")
         
         # حفظ البيانات في ملف
+        import json
         with open('customers_data.json', 'w', encoding='utf-8') as f:
             json.dump(sample_users, f, ensure_ascii=False, indent=2)
         
         return sample_users
     except Exception as e:
-        self.log(f"خطأ في جمع البيانات: {e}", 'error')
+        print(f"خطأ في جمع البيانات: {e}")
         return []
 
-def analyze_customer_data(self, users):
+def analyze_customer_data(users):
     """تحليل بيانات العملاء لإنشاء حملات إعلانية"""
     if not users:
         return
@@ -148,7 +150,7 @@ def analyze_customer_data(self, users):
     today = datetime.now().strftime('%Y-%m-%d')
     today_users = [u for u in users if u.get('date', '').startswith(today[:10])]
     
-    self.log(f"📈 عملاء اليوم: {len(today_users)}")
+    print(f"📈 عملاء اليوم: {len(today_users)}")
     
     # إنشاء تقرير تسويقي
     report = f"""
@@ -163,17 +165,17 @@ def analyze_customer_data(self, users):
     🔮 {random.choice(['الثعبان', 'الطيران', 'البحر', 'الميت', 'الزواج'])} 
     في المنام يعني... جرب تحليل أحلامك مجاناً!
     
-    رابط المتجر: {self.url}
+    رابط المتجر: {STORE_URL}
     """
     
     # حفظ التقرير
     with open('marketing_report.txt', 'w', encoding='utf-8') as f:
         f.write(report)
     
-    self.log("📢 تم إنشاء تقرير تسويقي", 'success')
+    print("📢 تم إنشاء تقرير تسويقي")
     return report
 
-def create_targeted_ad(self):
+def create_targeted_ad():
     """إنشاء إعلان مخصص بناءً على بيانات العملاء"""
     ads = [
         "🔮 هل تعلم أن {symbol} في المنام يعني {meaning}؟ جرب تحليل أحلامك مجاناً",
@@ -194,32 +196,32 @@ def create_targeted_ad(self):
     ad = ad_template.format(
         symbol=symbol,
         meaning=meaning,
-        name=self.name,
+        name=STORE_NAME,
         customers=random.randint(500, 2000),
-        url=self.url
+        url=STORE_URL
     )
     
-    self.log(f"📢 إعلان مخصص: {ad[:50]}...", 'success')
+    print(f"📢 إعلان مخصص: {ad[:50]}...")
     return ad
 
-def run_marketing_campaign(self):
+def run_marketing_campaign():
     """تشغيل حملة تسويقية متكاملة"""
-    self.log("🚀 بدء الحملة التسويقية", 'ai')
+    print("🚀 بدء الحملة التسويقية")
     
     # 1. جمع بيانات العملاء
-    users = self.collect_user_data()
+    users = collect_user_data(None)
     
     # 2. تحليل البيانات
-    self.analyze_customer_data(users)
+    analyze_customer_data(users)
     
     # 3. إنشاء إعلانات مخصصة
     for i in range(3):
-        ad = self.create_targeted_ad()
-        self.log(f"إعلان {i+1}: {ad[:60]}...")
+        ad = create_targeted_ad()
+        print(f"إعلان {i+1}: {ad[:60]}...")
     
-    self.log("✅ انتهت الحملة التسويقية", 'success')
+    print("✅ انتهت الحملة التسويقية")
     
     return {
-        'users_count': len(users),
+        'users_count': len(users) if users else 0,
         'campaign_date': datetime.now().isoformat()
     }
