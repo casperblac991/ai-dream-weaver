@@ -1,4 +1,5 @@
-Weaver Complete Automation v3.0
+# Weaver Complete Automation v3.0
+name: Weaver Complete Automation
 
 on:
   schedule:
