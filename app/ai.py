@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Weaver AI Engine - كامل (يدعم Groq و OpenAI)
+Weaver AI Engine - كامل مع دعم مفاتيح API متعددة (Fallback)
 """
 
 import os
@@ -9,6 +9,17 @@ import requests
 import json
 from datetime import datetime
 
+# مفاتيح API متعددة مع ترتيب الأولوية
+API_KEYS = [
+    ("GROQ", os.environ.get("GROQ_API_KEY", "")),
+    ("OPENAI", os.environ.get("OPENAI_API_KEY", "")),
+    ("ANTHROPIC", os.environ.get("ANTHROPIC_API_KEY", "")),
+    ("DEEPSEEK", os.environ.get("DEEPSEEK_API_KEY", "")),
+    ("OLLAMA", os.environ.get("OLLAMA_API_KEY", "")),
+]
+
+# تصفية المفاتيح الفارغة
+API_KEYS = [(name, key) for name, key in API_KEYS if key]
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 
@@ -63,17 +74,106 @@ def call_openai(messages, max_tokens=1500):
         print(f"OpenAI error: {e}")
     return None
 
+# ========== دوال API إضافية للمفاتيح المتعددة ==========
+
+def call_groq_with_key(api_key, messages, model="llama3-70b-8192", max_tokens=1500):
+    try:
+        response = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            json={"model": model, "messages": messages, "temperature": 0.7, "max_tokens": max_tokens},
+            timeout=60
+        )
+        if response.status_code == 200:
+            return response.json()["choices"][0]["message"]["content"]
+    except Exception as e:
+        print(f"Groq error: {e}")
+    return None
+
+def call_openai_with_key(api_key, messages, max_tokens=1500):
+    try:
+        response = requests.post(
+            "https://api.openai.com/v1/chat/completions",
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            json={"model": "gpt-4o-mini", "messages": messages, "temperature": 0.7, "max_tokens": max_tokens},
+            timeout=60
+        )
+        if response.status_code == 200:
+            return response.json()["choices"][0]["message"]["content"]
+    except Exception as e:
+        print(f"OpenAI error: {e}")
+    return None
+
+def call_anthropic(api_key, messages, max_tokens=1500):
+    try:
+        response = requests.post(
+            "https://api.anthropic.com/v1/messages",
+            headers={"x-api-key": api_key, "Content-Type": "application/json", "anthropic-version": "2023-06-01"},
+            json={"model": "claude-3-haiku-20240307", "max_tokens": max_tokens, "messages": messages},
+            timeout=60
+        )
+        if response.status_code == 200:
+            return response.json()["content"][0]["text"]
+    except Exception as e:
+        print(f"Anthropic error: {e}")
+    return None
+
+def call_deepseek(api_key, messages, max_tokens=1500):
+    try:
+        response = requests.post(
+            "https://api.deepseek.com/v1/chat/completions",
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            json={"model": "deepseek-chat", "messages": messages, "temperature": 0.7, "max_tokens": max_tokens},
+            timeout=60
+        )
+        if response.status_code == 200:
+            return response.json()["choices"][0]["message"]["content"]
+    except Exception as e:
+        print(f"DeepSeek error: {e}")
+    return None
+
+def call_ollama(api_key, messages, model="llama3", max_tokens=1500):
+    """Ollama API (محلي)"""
+    try:
+        response = requests.post(
+            f"{api_key}/api/generate",
+            json={"model": model, "messages": messages, "stream": False},
+            timeout=60
+        )
+        if response.status_code == 200:
+            return response.json().get("message", {}).get("content", "")
+    except Exception as e:
+        print(f"Ollama error: {e}")
+    return None
+
 def interpret_dream(dream_text, style="islamic", language="ar"):
     style_config = INTERPRETATION_STYLES.get(style, INTERPRETATION_STYLES["general"])
     system_prompt = style_config.get(language, style_config["ar"])
     user_prompt = f"فسّر هذا الحلم بالتفصيل:\n\nالحلم: {dream_text}\n\nقدم التفسير بشكل منظم."
     messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}]
-    result = call_groq(messages)
-    if result:
-        return result
-    result = call_openai(messages)
-    if result:
-        return result
+    
+    # محاولة المفاتيح واحدة تلو الأخرى
+    for api_name, api_key in API_KEYS:
+        if not api_key:
+            continue
+        try:
+            if api_name == "GROQ":
+                result = call_groq_with_key(api_key, messages)
+            elif api_name == "OPENAI":
+                result = call_openai_with_key(api_key, messages)
+            elif api_name == "ANTHROPIC":
+                result = call_anthropic(api_key, messages)
+            elif api_name == "DEEPSEEK":
+                result = call_deepseek(api_key, messages)
+            elif api_name == "OLLAMA":
+                result = call_ollama(api_key, messages)
+            
+            if result:
+                return result
+        except Exception as e:
+            print(f"{api_name} failed: {e}")
+            continue
+    
     return f"🌙 **تفسير حلمك:**\n\n{dream_text}\n\n⚠️ خدمة الذكاء الاصطناعي غير متاحة حالياً. حاول لاحقاً."
 
 def generate_image_prompt(dream_text):
