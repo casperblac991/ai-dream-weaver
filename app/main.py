@@ -466,10 +466,13 @@ async def auth_middleware(request: Request, call_next):
     response = await call_next(request)
     return response
 
-# ========== بوت تيليجرام عبر Webhook (بدون مكتبة) ==========
+# ========== بوت تيليجرام عبر Webhook (بسيط 100%) ==========
 @app.post("/webhook")
 async def telegram_webhook(request: Request):
     """استقبال التحديثات من تيليجرام"""
+    import os
+    import requests
+    
     TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "")
     
     if not TELEGRAM_TOKEN:
@@ -477,105 +480,86 @@ async def telegram_webhook(request: Request):
     
     try:
         body = await request.json()
-        
-        # استخراج البيانات يدوياً
         message = body.get("message", {})
-        if not message:
-            return JSONResponse({"ok": True})
-        
         text = message.get("text", "")
-        chat = message.get("chat", {})
-        chat_id = chat.get("id")
+        chat_id = message.get("chat", {}).get("id")
         
-        if not chat_id:
+        if not chat_id or not text:
             return JSONResponse({"ok": True})
         
         # معالجة الأوامر
         if text == "/start":
-            send_telegram_message(TELEGRAM_TOKEN, chat_id,
-                "🌙 *مرحباً بك في نَسَّاج*\n\n"
-                "🔮 منصة تفسير الأحلام بالذكاء الاصطناعي\n\n"
-                "/dream <حلمك> - تفسير\n"
-                "/stats - إحصائيات\n"
-                "/help - مساعدة",
-                "Markdown"
+            requests.post(
+                f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+                json={"chat_id": chat_id, "text": "🌙 *مرحباً بك في نَسَّاج*\n\n🔮 /dream <حلمك>\n📊 /stats\n❓ /help", "parse_mode": "Markdown"},
+                timeout=10
             )
         elif text == "/help":
-            send_telegram_message(TELEGRAM_TOKEN, chat_id,
-                "🔮 *مساعدة*\n\n"
-                "• /dream <نص> - فسّر حلمك\n"
-                "• أرسل الحلم مباشرة\n"
-                "• /stats - إحصائيات",
-                "Markdown"
+            requests.post(
+                f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+                json={"chat_id": chat_id, "text": "🔮 /dream <نص> - فسّر\n/stats - إحصائيات", "parse_mode": "Markdown"},
+                timeout=10
             )
         elif text == "/stats":
             try:
-                import requests as req
-                r = req.get("https://aidreamweaver.store/api/stats", timeout=10)
+                r = requests.get("https://aidreamweaver.store/api/stats", timeout=10)
                 if r.ok:
                     s = r.json()
-                    send_telegram_message(TELEGRAM_TOKEN, chat_id,
-                        f"📊 *إحصائيات*\n\n"
-                        f"👥 {s.get('users',0)} مستخدم\n"
-                        f"🌙 {s.get('dreams',0)} حلم",
-                        "Markdown"
+                    requests.post(
+                        f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+                        json={"chat_id": chat_id, "text": f"📊 {s.get('users',0)} مستخدم\n🌙 {s.get('dreams',0)} حلم"},
+                        timeout=10
                     )
             except:
-                send_telegram_message(TELEGRAM_TOKEN, chat_id, "⚠️ تعذر الجلب")
+                pass
         elif text.lower().startswith('/dream '):
-            dream_text = text[7:].strip()
-            if len(dream_text) < 3:
-                send_telegram_message(TELEGRAM_TOKEN, chat_id, "✍️ اكتب حلمك:")
-            else:
-                send_telegram_message(TELEGRAM_TOKEN, chat_id, "🔮 جاري التفسير...")
-                try:
-                    import requests as req
-                    r = req.post("https://aidreamweaver.store/api/interpret",
-                        json={"dream": dream_text, "style": "islamic", "language": "ar"},
-                        timeout=60
-                    )
-                    if r.ok:
-                        result = r.json()
-                        interp = result.get("interpretation","")[:4000]
-                        if interp:
-                            send_telegram_message(TELEGRAM_TOKEN, chat_id, interp, "Markdown")
-                        else:
-                            send_telegram_message(TELEGRAM_TOKEN, chat_id, "⚠️ لم يتم")
-                except Exception as e:
-                    send_telegram_message(TELEGRAM_TOKEN, chat_id, f"⚠️ {str(e)[:100]}")
-        elif text and not text.startswith('/'):
-            # تفسير أي نص
+            dream = text[7:]
+            requests.post(
+                f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+                json={"chat_id": chat_id, "text": "🔮 جاري التفسير..."},
+                timeout=10
+            )
             try:
-                import requests as req
-                send_telegram_message(TELEGRAM_TOKEN, chat_id, "🔮 جاري التفسير...")
-                r = req.post("https://aidreamweaver.store/api/interpret",
+                r = requests.post("https://aidreamweaver.store/api/interpret",
+                    json={"dream": dream, "style": "islamic", "language": "ar"},
+                    timeout=60
+                )
+                if r.ok:
+                    interp = r.json().get("interpretation", "")[:4000]
+                    if interp:
+                        requests.post(
+                            f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+                            json={"chat_id": chat_id, "text": interp, "parse_mode": "Markdown"},
+                            timeout=10
+                        )
+            except:
+                pass
+        elif text and not text.startswith('/'):
+            requests.post(
+                f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+                json={"chat_id": chat_id, "text": "🔮 جاري التفسير..."},
+                timeout=10
+            )
+            try:
+                r = requests.post("https://aidreamweaver.store/api/interpret",
                     json={"dream": text, "style": "islamic", "language": "ar"},
                     timeout=60
                 )
                 if r.ok:
-                    result = r.json()
-                    interp = result.get("interpretation","")[:4000]
+                    interp = r.json().get("interpretation", "")[:4000]
                     if interp:
-                        send_telegram_message(TELEGRAM_TOKEN, chat_id, interp, "Markdown")
-            except Exception as e:
-                send_telegram_message(TELEGRAM_TOKEN, chat_id, f"⚠️ {str(e)[:100]}")
+                        requests.post(
+                            f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+                            json={"chat_id": chat_id, "text": interp, "parse_mode": "Markdown"},
+                            timeout=10
+                        )
+            except:
+                pass
         
         return JSONResponse({"ok": True})
     except Exception as e:
         print(f"Webhook error: {e}")
         return JSONResponse({"error": str(e)}, status_code=500)
-
-def send_telegram_message(token, chat_id, text, parse_mode=None):
-    """إرسال رسالة"""
-    import requests
-    url = f"https://api.telegram.org/bot{token}/sendMessage"
-    data = {"chat_id": chat_id, "text": text}
-    if parse_mode:
-        data["parse_mode"] = parse_mode
-    try:
-        requests.post(url, json=data, timeout=10)
-    except:
-        pass
 
 # ========== إعداد Webhook ==========
 @app.get("/setwebhook")
