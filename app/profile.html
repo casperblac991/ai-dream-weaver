@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>User Profile - Dreamora AI</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#020617;
+color:white;
+padding:40px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+}
+
+.dream{
+background:#0f172a;
+padding:20px;
+border-radius:10px;
+margin-top:20px;
+}
+
+h1{
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 id="username"></h1>
+
+<div id="dreams"></div>
+
+</div>
+
+<script>
+
+const urlParams = new URLSearchParams(window.location.search)
+
+const username = urlParams.get("username")
+
+document.getElementById("username").innerText = "Profile: " + username
+
+async function loadProfile(){
+
+let response = await fetch("/api/profile/"+username)
+
+let data = await response.json()
+
+let dreamsDiv = document.getElementById("dreams")
+
+dreamsDiv.innerHTML=""
+
+data.dreams.forEach(d=>{
+
+dreamsDiv.innerHTML += `
+<div class="dream">
+
+<b>Dream</b><br>
+${d.dream}
+
+<br><br>
+
+<b>Interpretation</b><br>
+${d.interpretation}
+
+</div>
+`
+
+})
+
+}
+
+loadProfile()
+
+</script>
+
+</body>
+
+</html>

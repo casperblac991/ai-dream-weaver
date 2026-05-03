@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Dream - Dreamora AI</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#020617;
+color:white;
+padding:40px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+}
+
+.card{
+background:#0f172a;
+padding:25px;
+border-radius:12px;
+margin-top:20px;
+}
+
+h1{
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌙 Dream</h1>
+
+<div id="dream-card" class="card"></div>
+
+</div>
+
+<script>
+
+const path = window.location.pathname
+const parts = path.split("/")
+const dreamId = parts[2]
+
+async function loadDream(){
+
+let response = await fetch("/api/dream/"+dreamId)
+
+let data = await response.json()
+
+let div = document.getElementById("dream-card")
+
+div.innerHTML = `
+<b>Dream</b><br>
+${data.dream}
+
+<br><br>
+
+<b>Interpretation</b><br>
+${data.interpretation}
+`
+
+}
+
+loadDream()
+
+</script>
+
+</body>
+
+</html>
