@@ -193,6 +193,54 @@ async def logout(request: Request):
     response.delete_cookie("session_token")
     return response
 
+# ========== JSON API Endpoints ==========
+
+@app.post("/api/login")
+async def api_login(request: Request):
+    """تسجيل الدخول via JSON"""
+    try:
+        body = await request.json()
+        email = body.get("email", "").strip()
+        password = body.get("password", "")
+        
+        if not email or not password:
+            return JSONResponse({"error": "البريد الإلكتروني وكلمة المرور مطلوبان"}, status_code=400)
+        
+        user = login_user(email, password)
+        if user:
+            token = create_session(user["id"])
+            return JSONResponse({
+                "success": True,
+                "user_id": user["id"],
+                "username": user["username"],
+                "token": token
+            })
+        return JSONResponse({"error": "البريد الإلكتروني أو كلمة المرور غير صحيحة"}, status_code=401)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+@app.post("/api/register")
+async def api_register(request: Request):
+    """التسجيل via JSON"""
+    try:
+        body = await request.json()
+        username = body.get("username", "").strip()
+        email = body.get("email", "").strip()
+        password = body.get("password", "")
+        
+        result = register_user(username, email, password)
+        if result.get("success"):
+            token = create_session(result["user_id"])
+            return JSONResponse({
+                "success": True,
+                "user_id": result["user_id"],
+                "username": username,
+                "token": token
+            })
+        return JSONResponse({"error": result.get("message", "خطأ في التسجيل")}, status_code=400)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
 # لوحة التحكم
 @app.get("/app/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
