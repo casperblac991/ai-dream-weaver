@@ -466,113 +466,138 @@ async def auth_middleware(request: Request, call_next):
     response = await call_next(request)
     return response
 
-# ========== تشغيل السيرفر والبوت ==========
-if __name__ == "__main__":
-    import threading
+# ========== بوت تيليجرام عبر Webhook ==========
+@app.post("/webhook")
+async def telegram_webhook(request: Request):
+    """استقبال التحديثات من تيليجرام"""
+    import json
+    from telegram import Update
+    from telegram.ext import Application
     
-    # بدء البوت في خيط منفصل
-    def start_bot():
-        try:
-            from telegram import Update
-            from telegram.ext import Application, CommandHandler, MessageHandler, ContextTypes, filters
-            import requests
+    TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "")
+    
+    if not TELEGRAM_TOKEN:
+        return JSONResponse({"error": "No token"}, status_code=500)
+    
+    try:
+        body = await request.json()
+        update = Update.de_json(body, TELEGRAM_TOKEN)
+        
+        if update.message:
+            text = update.message.text or ""
+            chat_id = update.message.chat.id
             
-            TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "")
-            api_url = os.environ.get("API_URL", "https://aidreamweaver.store")
-            
-            if not TELEGRAM_TOKEN:
-                print("⚠️ TELEGRAM_TOKEN مفقود!")
-                return
-            
-            async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-                await update.message.reply_text(
+            # معالجة الأوامر
+            if text == "/start":
+                await send_message(TELEGRAM_TOKEN, chat_id,
                     "🌙 *مرحباً بك في نَسَّاج*\n\n"
                     "🔮 منصة تفسير الأحلام بالذكاء الاصطناعي\n\n"
-                    "*الأوامر:*\n"
-                    "/dream <حلمك> - تفسير الحلم\n"
-                    "/stats - إحصائيات المنصة\n"
-                    "/help - المساعدة\n\n"
-                    "_أرسل لي حلمك وسأفسره لك!_",
+                    "/dream <حلمك> - تفسير\n"
+                    "/stats - إحصائيات\n"
+                    "/help - مساعدة",
                     parse_mode="Markdown"
                 )
-            
-            async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-                await update.message.reply_text(
-                    "🔮 *مساعدة نَسَّاج*\n\n"
+            elif text == "/help" or text == "/help@aidreamweaver_bot":
+                await send_message(TELEGRAM_TOKEN, chat_id,
+                    "🔮 *مساعدة*\n\n"
                     "• /dream <نص> - فسّر حلمك\n"
-                    "• أرسل الحلم مباشرة - فسّر تلقائي\n"
-                    "• /stats - إحصائيات\n\n"
-                    "_جرب:_ `/dream رأيت ثعباناً`",
+                    "• أرسل الحلم مباشرة\n"
+                    "• /stats - إحصائيات",
                     parse_mode="Markdown"
                 )
-            
-            async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+            elif text == "/stats":
                 try:
-                    r = requests.get(f"{api_url}/api/stats", timeout=10)
+                    import requests
+                    r = requests.get("https://aidreamweaver.store/api/stats", timeout=10)
                     if r.ok:
                         s = r.json()
-                        await update.message.reply_text(
-                            f"📊 *إحصائيات نَسَّاج*\n\n"
-                            f"👥 {s.get('users', 0)} مستخدم\n"
-                            f"🌙 {s.get('dreams', 0)} حلم مُفسَّر\n"
-                            f"📈 {s.get('views', 0)} مشاهدة",
+                        await send_message(TELEGRAM_TOKEN, chat_id,
+                            f"📊 *إحصائيات*\n\n"
+                            f"👥 {s.get('users',0)} مستخدم\n"
+                            f"🌙 {s.get('dreams',0)} حلم",
                             parse_mode="Markdown"
                         )
-                except Exception as e:
-                    await update.message.reply_text("⚠️ تعذر جلب الإحصائيات")
-            
-            async def interpret_dream(update: Update, context: ContextTypes.DEFAULT_TYPE):
-                text = update.message.text.strip()
-                if text.startswith('/'):
-                    return
-                if text.lower().startswith('/dream'):
-                    text = text.split(' ', 1)[1] if ' ' in text else ""
-                if len(text) < 3:
-                    await update.message.reply_text("✍️ أرسل لي حلمك:\n/dream رأيت...")
-                    return
+                except:
+                    await send_message(TELEGRAM_TOKEN, chat_id, "⚠️ تعذر الجلب")
+            elif text.lower().startswith('/dream '):
+                dream_text = text.split(' ', 1)[1] if len(text.split(' ', 1)) > 1 else ""
+                if len(dream_text) < 3:
+                    await send_message(TELEGRAM_TOKEN, chat_id, "✍️ اكتب حلمك:")
+                else:
+                    await send_message(TELEGRAM_TOKEN, chat_id, "🔮 جاري التفسير...")
+                    try:
+                        import requests
+                        r = requests.post("https://aidreamweaver.store/api/interpret",
+                            json={"dream": dream_text, "style": "islamic", "language": "ar"},
+                            timeout=60
+                        )
+                        if r.ok:
+                            result = r.json()
+                            interp = result.get("interpretation","")[:4000]
+                            if interp:
+                                await send_message(TELEGRAM_TOKEN, chat_id, interp, parse_mode="Markdown")
+                            else:
+                                await send_message(TELEGRAM_TOKEN, chat_id, "⚠️ لم يتم")
+                    except Exception as e:
+                        await send_message(TELEGRAM_TOKEN, chat_id, f"⚠️ {str(e)[:100]}")
+            elif text and not text.startswith('/'):
+                # تفسير أي نص
                 try:
-                    await update.message.reply_text("🔮 جاري التفسير...")
-                    r = requests.post(
-                        f"{api_url}/api/interpret",
+                    import requests
+                    await send_message(TELEGRAM_TOKEN, chat_id, "🔮 جاري التفسير...")
+                    r = requests.post("https://aidreamweaver.store/api/interpret",
                         json={"dream": text, "style": "islamic", "language": "ar"},
                         timeout=60
                     )
                     if r.ok:
                         result = r.json()
-                        interp = result.get("interpretation", "")[:4000]
+                        interp = result.get("interpretation","")[:4000]
                         if interp:
-                            await update.message.reply_text(interp, parse_mode="Markdown")
-                        else:
-                            await update.message.reply_text("⚠️ لم يتم التفسير")
-                    else:
-                        await update.message.reply_text(f"⚠️ خطأ: {r.status_code}")
+                            await send_message(TELEGRAM_TOKEN, chat_id, interp, parse_mode="Markdown")
                 except Exception as e:
-                    await update.message.reply_text(f"⚠️ {str(e)[:200]}")
-            
-            async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
-                print(f"❌ Error: {context.error}")
-            
-            print("🤖 بدء تشغيل بوت تيليجرام...")
-            
-            app = Application.builder().token(TELEGRAM_TOKEN).build()
-            app.add_handler(CommandHandler("start", start))
-            app.add_handler(CommandHandler("help", help_cmd))
-            app.add_handler(CommandHandler("stats", stats))
-            app.add_handler(CommandHandler("dream", interpret_dream))
-            app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, interpret_dream))
-            app.add_error_handler(error)
-            
-            print("✅ البوت يعمل! /start أرسل")
-            app.run_polling(drop_pending_updates=True)
-            
-        except Exception as e:
-            print(f"❌ خطأ في البوت: {e}")
+                    await send_message(TELEGRAM_TOKEN, chat_id, f"⚠️ {str(e)[:100]}")
+        
+        return JSONResponse({"ok": True})
+    except Exception as e:
+        print(f"Webhook error: {e}")
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+async def send_message(token, chat_id, text, parse_mode=None):
+    """إرسال رسالة"""
+    import requests
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    data = {"chat_id": chat_id, "text": text}
+    if parse_mode:
+        data["parse_mode"] = parse_mode
+    try:
+        requests.post(url, json=data, timeout=10)
+    except:
+        pass
+
+# ========== إعداد Webhook ==========
+@app.get("/setwebhook")
+async def set_webhook(request: Request):
+    """ضبط Webhook"""
+    TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "")
+    if not TELEGRAM_TOKEN:
+        return JSONResponse({"error": "No token"}, status_code=400)
     
-    # تشغيل البوت في خيط background
-    bot_thread = threading.Thread(target=start_bot, daemon=True)
-    bot_thread.start()
+    webhook_url = f"https://{request.url.hostname}/webhook"
+    import requests
+    r = requests.post(
+        f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/setWebhook",
+        json={"url": webhook_url}
+    )
+    return JSONResponse(r.json())
+
+@app.get("/getwebhookinfo")
+async def get_webhook_info():
+    """معلومات Webhook"""
+    TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "")
+    if not TELEGRAM_TOKEN:
+        return JSONResponse({"error": "No token"}, status_code=400)
     
-    # تشغيل السيرفر
-    port = int(os.environ.get("PORT", 10000))
-    uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=False)
+    import requests
+    r = requests.get(f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/getWebhookInfo")
+    return JSONResponse(r.json())
 
