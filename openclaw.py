@@ -451,6 +451,9 @@ class OpenClawAgent:
             
         logger.info(f"✅ Articles created: {filename_ar}, {filename_en}")
         
+        # تحديث metadata.json
+        self._update_metadata(topic, filename_ar, filename_en, date_str)
+        
         return {
             "success": True,
             "arabic_file": str(filename_ar),
@@ -560,6 +563,40 @@ class OpenClawAgent:
         logger.info(f"✅ Platform check: {'OK' if all_ok else 'ISSUES FOUND'}")
         
         return {"success": all_ok, "checks": checks, "stats": stats}
+    
+    def _update_metadata(self, topic: Dict, filename_ar: str, filename_en: str, date_str: str):
+        """تحديث ملف metadata.json"""
+        import os
+        metadata_file = self.config.BLOG_DIR / "metadata.json"
+        
+        # قراءة الملف الحالي أو إنشاء جديد
+        metadata = {}
+        if metadata_file.exists():
+            try:
+                with open(metadata_file, "r", encoding="utf-8") as f:
+                    metadata = json.load(f)
+            except:
+                pass
+        
+        # إضافة المقالة الجديدة
+        slug = f"{date_str}-{topic['name_ar'][:20]}"
+        metadata[slug] = {
+            "slug": slug,
+            "title_ar": topic.get("name_ar", ""),
+            "title_en": topic.get("name_en", ""),
+            "content_ar": topic.get("content_ar", ""),
+            "content_en": topic.get("content_en", ""),
+            "category": topic.get("category_ar", "تفسير الأحلام"),
+            "date": datetime.now().strftime("%Y-%m-%d"),
+            "views": 0,
+            "likes": 0
+        }
+        
+        # حفظ الملف
+        with open(metadata_file, "w", encoding="utf-8") as f:
+            json.dump(metadata, f, indent=2, ensure_ascii=False)
+        
+        logger.info(f"✅ Metadata updated: {metadata_file}")
         
     def _generate_weekly_report(self) -> Dict:
         """إنشاء التقرير الأسبوعي"""
