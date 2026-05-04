@@ -540,6 +540,33 @@ document.addEventListener('DOMContentLoaded', () => {
   let lang = 'ar';
   try { lang = localStorage.getItem('weaver_lang') || 'ar'; } catch(e) {}
   setL(lang);
+  
+  // تحميل المقالات الجديدة من metadata.json
+  async function loadNewArticles() {
+    try {
+      const res = await fetch('/blog/metadata.json');
+      const data = await res.json();
+      const articles = Object.entries(data);
+      
+      if (articles.length > 0) {
+        const section = document.querySelector('.filters')?.parentElement;
+        const grid = document.querySelector('.articles-grid, .search-grid') || document.querySelector('.sec:last-of-type');
+        
+        if (grid) {
+          const newCards = articles.slice(0, 6).map(([slug, a]) => `
+            <a href="/blog/${slug}.html" class="card" data-cat="new" data-search="${a.title_ar || a.title_en}">
+              <h3>${a.title_ar || a.title_en}</h3>
+              <p>${a.date || ''} · ${a.category || 'تفسير الأحلام'}</p>
+            </a>
+          `).join('');
+          
+          // إضافة能动حديث grid
+          grid.insertAdjacentHTML('beforeend', newCards);
+        }
+      }
+    } catch(e) { console.log('No new articles'); }
+  }
+  loadNewArticles();
 });
 </script>
 </body>
