@@ -54,16 +54,34 @@ logger = logging.getLogger("OpenClaw")
 # =========================================
 # Configuration
 # =========================================
+def get_config():
+    """Get config based on current directory"""
+    root = Path.cwd()
+    return type('C', (), {
+        'PLATFORM_ROOT': root,
+        'BLOG_DIR': root / "blog",
+        'ARTICLES_DIR': root / "articles" if (root / "articles").exists() else root / "blog",
+        'AUTOMATION_DIR': root / "automation",
+        'APP_DIR': root / "app",
+        'EXPORTS_DIR': root / "exports",
+        'MAX_ARTICLES_PER_DAY': 3,
+        'MAX_EMAILS_PER_DAY': 100,
+        'CHECK_INTERVAL': 300,
+    })()
+
 class Config:
     """إعدادات نظام OpenClaw"""
-    
-    PLATFORM_ROOT = Path("/workspace/project/ai-dream-weaver")
-    BLOG_DIR = PLATFORM_ROOT / "blog"
-    ARTICLES_DIR = PLATFORM_ROOT / "articles" if PLATFORM_ROOT.exists() else PLATFORM_ROOT / "blog"
-    AUTOMATION_DIR = PLATFORM_ROOT / "automation"
-    APP_DIR = PLATFORM_ROOT / "app"
-    EXPORTS_DIR = PLATFORM_ROOT / "exports"
-    
+    def __init__(self):
+        c = get_config()
+        self.PLATFORM_ROOT = c.PLATFORM_ROOT
+        self.BLOG_DIR = c.BLOG_DIR
+        self.ARTICLES_DIR = c.ARTICLES_DIR
+        self.AUTOMATION_DIR = c.AUTOMATION_DIR
+        self.APP_DIR = c.APP_DIR
+        self.EXPORTS_DIR = c.EXPORTS_DIR
+        self.MAX_ARTICLES_PER_DAY = 3
+        self.MAX_EMAILS_PER_DAY = 100
+        self.CHECK_INTERVAL = 300
     MAX_ARTICLES_PER_DAY = 3
     MAX_EMAILS_PER_DAY = 100
     CHECK_INTERVAL = 300
