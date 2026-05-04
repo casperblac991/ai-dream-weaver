@@ -60,7 +60,7 @@ def get_config():
     return type('C', (), {
         'PLATFORM_ROOT': root,
         'BLOG_DIR': root / "blog",
-        'ARTICLES_DIR': root / "articles" if (root / "articles").exists() else root / "blog",
+        'ARTICLES_DIR': root / "blog",
         'AUTOMATION_DIR': root / "automation",
         'APP_DIR': root / "app",
         'EXPORTS_DIR': root / "exports",
