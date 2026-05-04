@@ -1,0 +1,90 @@
+# OpenClaw AI Agent - GitHub Codespaces Workflow
+# This workflow runs OpenClaw on GitHub Codespaces to fully automate your platform
+
+name: OpenClaw AI Agent
+
+on:
+  # Run multiple times daily for content generation
+  schedule:
+    - cron: '0 8 * * *'    # 8 AM - Morning blog
+    - cron: '0 14 * * *'   # 2 PM - Afternoon blog  
+    - cron: '0 19 * * *'   # 7 PM - Evening blog
+    - cron: '0 10 * * *'   # 10 AM - Marketing emails
+    - cron: '0 15 * * *'   # 3 PM - Marketing emails
+    - cron: '0 * * * *'    # Every hour - Platform monitoring
+  # Allow manual trigger
+  workflow_dispatch:
+  # Trigger on push to main
+  push:
+    branches:
+      - main
+  # Trigger on new articles
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  openclaw-automation:
+    name: OpenClaw AI Agent
+    runs-on: ubuntu-latest
+    
+    # Run on GitHub Codespaces
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
+          
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests groq schedule beautifulsoup4
+          
+      - name: Run OpenClaw Agent
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🤖 Starting OpenClaw AI Agent..."
+          echo "================================"
+          
+          # Generate blog post
+          python openclaw.py --once --task blog
+          
+          # Monitor platform
+          python openclaw.py --once --task monitor
+          
+      - name: Commit and push changes
+        run: |
+          git config user.name "OpenClaw Bot"
+          git config user.email "openclaw@ai-dream-weaver.store"
+          
+          # Check for new articles
+          git add articles/ blog/ 2>/dev/null || true
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🤖 OpenClaw: New content generated $(date '+%Y-%m-%d %H:%M')"
+            git push
+          fi
+          
+      - name: Report status
+        if: always()
+        run: |
+          echo "🤖 OpenClaw execution completed"
+          echo "Check the log file: openclaw.log"
