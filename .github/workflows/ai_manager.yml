@@ -1,0 +1,72 @@
+name: 🤖 Weaver AI Manager
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'الإجراء المطلوب'
+        required: true
+        default: 'generate-blog'
+        type: choice
+        options:
+          - 'generate-blog'
+          - 'post-telegram'
+          - 'report'
+          - 'support'
+      topic:
+        description: 'موضوع المقال (للنشر)'
+        required: false
+      message:
+        description: 'الرسالة (للنشر على تيليجرام)'
+        required: false
+      dream:
+        description: 'الحلم للتفسير'
+        required: false
+
+jobs:
+  run-manager:
+    name: تشغيل الوكيل الذكي
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          pip install requests groq python-telegram-bot
+          
+      - name: تنفيذ الإجراء
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          case "${{ github.event.inputs.action }}" in
+            generate-blog)
+              python weaver_ai_manager.py --generate-blog "${{ github.event.inputs.topic }}"
+              ;;
+            post-telegram)
+              python weaver_ai_manager.py --post "${{ github.event.inputs.message }}"
+              ;;
+            report)
+              python weaver_ai_manager.py --report
+              ;;
+            support)
+              python weaver_ai_manager.py --interpret "${{ github.event.inputs.dream }}"
+              ;;
+          esac
+          
+      - name: Commit changes
+        if: github.event.inputs.action == 'generate-blog'
+        run: |
+          git config user.email "weaver-ai@aidreamweaver.store"
+          git config user.name "Weaver AI"
+          git add blog/
+          git diff --staged --quiet || git commit -m "🤖 مقال جديد من الوكيل الذكي $(date '+%Y-%m-%d')"
+          git push
