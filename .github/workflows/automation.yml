@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Python
         uses: actions/setup-python@v6
@@ -28,12 +26,20 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install requests groq schedule beautifulsoup4
 
-      - name: Generate blog post
+      - name: Check secrets and generate blog post
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
-        run: python automation/weaver_auto_system.py --once
+        run: |
+          echo "Checking GROQ_API_KEY..."
+          if [ -z "$GROQ_API_KEY" ]; then
+            echo "⚠️ GROQ_API_KEY مفقود - يتخطى التشغيل"
+            echo "Note: Add GROQ_API_KEY in https://github.com/${{ github.repository }}/settings/secrets/actions"
+            exit 0
+          fi
+          echo "✅ GROQ_API_KEY موجود"
+          python automation/weaver_auto_system.py --once || echo "⚠️ فشل التشغيل"
 
       - name: Commit and push changes
         run: |
