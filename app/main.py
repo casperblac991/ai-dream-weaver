@@ -468,7 +468,7 @@ async def auth_middleware(request: Request, call_next):
 
 # ========== بوت تيليجرام عبر Webhook (sync version) ==========
 @app.post("/webhook")
-def telegram_webhook(request: Request):
+async def telegram_webhook(request: Request):
     """استقبال التحديثات من تيليجرام - synchronous"""
     import os
     import urllib.request
@@ -482,7 +482,7 @@ def telegram_webhook(request: Request):
     
     try:
         # قراءة الـ body بشكل صحيح
-        body_bytes = request._body  # direct access to body bytes
+        body_bytes = await request.body()  # direct access to body bytes
         if not body_bytes:
             return JSONResponse({"ok": True})
         
