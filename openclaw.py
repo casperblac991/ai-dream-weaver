@@ -82,10 +82,7 @@ class Config:
         self.MAX_ARTICLES_PER_DAY = 3
         self.MAX_EMAILS_PER_DAY = 100
         self.CHECK_INTERVAL = 300
-    MAX_ARTICLES_PER_DAY = 3
-    MAX_EMAILS_PER_DAY = 100
-    CHECK_INTERVAL = 300
-    
+
 # =========================================
 # Task Types
 # =========================================
