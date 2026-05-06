@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الكوثر في أحلام المؤمنين | مدونة حالم</title>
+    <meta name="description" content="الكوثر في أحلام المؤمنين - التراث الإسلامي">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #f0c060;
+            --gold-light: #fde68a;
+            --deep: #0a0514;
+            --purple: #1e0a3c;
+            --violet: #2d1060;
+            --accent: #7c3aed;
+            --accent2: #a855f7;
+            --pink: #ec4899;
+            --cyan: #06b6d4;
+            --text: #e2d9f3;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--deep);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        
+        .bg-layer {
+            position: fixed; inset: 0; z-index: -1;
+            background: radial-gradient(ellipse at 20% 50%, #1e0a3c 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
+                        #050210;
+        }
+        
+        nav {
+            padding: 1.2rem 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(5, 2, 16, 0.8);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+        }
+        
+        .logo a {
+            font-family: 'Cairo', sans-serif; font-size: 1.8rem; font-weight: 900;
+            background: linear-gradient(135deg, var(--gold), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex; gap: 2rem; list-style: none;
+        }
+        
+        .nav-links a {
+            color: rgba(226, 217, 243, 0.7);
+            text-decoration: none;
+        }
+        
+        .lang-btn {
+            background: rgba(124, 58, 237, 0.3);
+            border: 1px solid rgba(124, 58, 237, 0.5);
+            color: var(--gold);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+        
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .article-header {
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .article-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--gold), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta {
+            color: rgba(226, 217, 243, 0.5);
+            font-size: 0.95rem;
+        }
+        
+        .article-content {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }
+        
+        .article-content h2 {
+            color: var(--gold);
+            font-family: 'Cairo', sans-serif;
+            margin: 2rem 0 1rem;
+        }
+        
+        .article-content h3 {
+            color: var(--accent2);
+            margin: 1.5rem 0 0.8rem;
+        }
+        
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-content ul {
+            margin-right: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-content strong {
+            color: var(--gold);
+        }
+        
+        .cta-box {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(236, 72, 153, 0.1));
+            border: 1px solid rgba(124, 58, 237, 0.4);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .cta-box h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), var(--pink));
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+        
+        .related-posts {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(124, 58, 237, 0.1);
+            border-radius: 15px;
+        }
+        
+        .related-posts h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .related-posts ul {
+            list-style: none;
+        }
+        
+        .related-posts li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .related-posts a {
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        .related-posts a:hover {
+            color: var(--gold);
+        }
+        
+        footer {
+            background: rgba(5, 2, 16, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+        
+        .en { display: none; }
+        
+        @media (max-width: 600px) {
+            nav { padding: 1rem; flex-direction: column; gap: 1rem; }
+            .article-title { font-size: 1.8rem; }
+            .container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body class="ar">
+    <div class="bg-layer"></div>
+    
+    <nav>
+        <div class="logo"><a href="https://aidreamweaver.store">حالم</a></div>
+        <ul class="nav-links">
+            <li><a href="https://aidreamweaver.store">الرئيسية</a></li>
+            <li><a href="blog.html">المدونة</a></li>
+            <li><a href="https://aidreamweaver.store/#pricing">الأسعار</a></li>
+            <li><a href="https://t.me/aidreamweaver_bot">البوت</a></li>
+        </ul>
+        <div>
+            <button class="lang-btn active" onclick="setLang('ar')">🇸🇦 عربي</button>
+            <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <article>
+            <div class="article-header">
+                <h1 class="article-title">الكوثر في أحلام المؤمنين</h1>
+                <div class="article-meta">📅 2026-05-06 • 🕒 8 دقائق • التراث الإسلامي</div>
+            </div>
+            
+            <div class="article-content">
+                <h2>{heading}</h2>
+<p>{paragraph}</p>
+
+<ul>
+<li>{bullet1}</li>
+<li>{bullet2}</li>
+<li>{bullet3}</li>
+</ul>
+
+<h3>{subheading}</h3>
+<p>{subparagraph}</p>
+                
+                <div class="en">
+                <p>Al-Kawthar is a river in Paradise given by Allah to His Prophet. Believers sometimes see it in their dreams.</p>
+
+<h2>Interpretations</h2>
+<ul>
+<li><strong>Bright River:</strong> Good tidings of Paradise</li>
+<li><strong>Clarity:</strong> Purification from sins</li>
+<li><strong>Life:</strong> Long life</li>
+</ul>
+
+<p>Seeing Al-Kawthar indicates spiritual closeness to Allah.</p>
+                </div>
+            </div>
+            
+            <div class="cta-box">
+                <h3>🤖 جرب تفسير الأحلام بالذكاء الاصطناعي</h3>
+                <p>احصل على تفسير دقيق لأحلامك بناءً على التراث الإسلامي والعلمي</p>
+                <a href="https://aidreamweaver.store/app/analyze" class="cta-btn">🔮 فسّر حلمك الآن</a>
+            </div>
+            
+            <div class="related-posts">
+                <h3>مقالات ذات صلة</h3>
+                <ul>
+                    <li><a href="/article-ibnsireen.html">📖 الإمام ابن سيرين: إمام المفسرين</a></li>
+                    <li><a href="/article-mesopotamia.html">🏛️ الأحلام في حضارة بلاد الرافدين</a></li>
+                    <li><a href="/dictionary-a.html">🔍 قاموس الرموز: حرف الألف</a></li>
+                </ul>
+            </div>
+        </article>
+    </div>
+    
+    <footer>
+        <div style="margin-bottom: 1rem;">
+            <a href="https://aidreamweaver.store">الرئيسية</a>
+            <a href="blog.html">المدونة</a>
+            <a href="https://t.me/aidreamweaver_bot">البوت</a>
+        </div>
+        <p>© 2026 حالم - منصة الأحلام الذكية</p>
+    </footer>
+    
+    <script>
+    function setLang(lang) {
+        document.body.className = lang;
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        if (lang === 'en') {
+            document.querySelector('.article-content > :not(.en)').style.display = 'none';
+            document.querySelector('.en').style.display = 'block';
+            document.querySelector('.article-title').textContent = 'Al-Kawthar in Believers Dreams';
+            document.querySelector('.article-meta').textContent = '📅 2026-05-06 • 🕒 8 min • Islamic Heritage';
+        } else {
+            document.querySelector('.article-content > :not(.en)').style.display = 'block';
+            document.querySelector('.en').style.display = 'none';
+            document.querySelector('.article-title').textContent = 'الكوثر في أحلام المؤمنين';
+            document.querySelector('.article-meta').textContent = '📅 2026-05-06 • 🕒 8 دقائق • التراث الإسلامي';
+        }
+    }
+    </script>
+</body>
+</html>
