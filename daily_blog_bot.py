@@ -762,405 +762,49 @@ How does AI affect our dreams?
 # دوال البوت
 # =========================================
 def create_article_html(article, lang='ar'):
-    """إنشاء ملف HTML للمقالة"""
+    """إنشاء ملف HTML بالمقالب الجديد"""
     
     today = dt.now()
     date_str = today.strftime("%Y-%m-%d")
     filename_date = today.strftime("%Y%m%d")
-    time_str = today.strftime("%H:%M")
     
-    # تنظيف العنوان لاستخدامه في اسم الملف
-    clean_title = article[f'title_{lang}'].replace(' ', '-').replace(':', '').replace('؟', '')
-    clean_title = ''.join(c for c in clean_title if c.isalnum() or c == '-')[:50]
+    clean_title = article[f'title_{lang}'][:40].replace(' ', '-').replace(':', '').replace('؟', '')
+    clean_title = ''.join(c for c in clean_title if c.isalnum() or c == '-')
     
-    if lang == 'ar':
-        filename = f"blog/{filename_date}-{clean_title}.html"
-        
-        html = f"""<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{article['title_ar']} - Weaver</title>
-    <meta name="description" content="{article['title_ar']} - {article['category_ar']}">
-    <style>
-        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        body {{
-            font-family: 'Tajawal', sans-serif;
-            background: #0a0514;
-            color: #e2d9f3;
-            line-height: 1.8;
-            padding: 2rem;
-        }}
-        .container {{ max-width: 800px; margin: 0 auto; }}
-        .header {{
-            text-align: center;
-            margin-bottom: 3rem;
-        }}
-        h1 {{
-            color: #f0c060;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }}
-        .meta {{
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            color: #a855f7;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }}
-        .category {{
-            background: #7c3aed;
-            color: white;
-            padding: 0.3rem 1rem;
-            border-radius: 50px;
-            display: inline-block;
-            margin-bottom: 1rem;
-        }}
-        .content {{
-            background: rgba(30,10,60,0.3);
-            padding: 2rem;
-            border-radius: 20px;
-            border: 1px solid #7c3aed;
-            white-space: pre-line;
-        }}
-        .content h2 {{
-            color: #f0c060;
-            margin: 1.5rem 0 1rem;
-        }}
-        .content h3 {{
-            color: #a855f7;
-            margin: 1rem 0;
-        }}
-        .content ul, .content ol {{
-            margin-right: 2rem;
-            margin-bottom: 1rem;
-        }}
-        .footer {{
-            text-align: center;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #7c3aed;
-        }}
-        .badge {{
-            background: linear-gradient(135deg, #7c3aed, #ec4899);
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }}
-        .bot-button {{
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: linear-gradient(135deg, #7c3aed, #ec4899);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(124,58,237,0.3);
-            z-index: 1000;
-        }}
-        @media (max-width: 600px) {{
-            body {{ padding: 1rem; }}
-            h1 {{ font-size: 1.8rem; }}
-            .meta {{ flex-direction: column; gap: 0.5rem; }}
-        }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <span class="category">{article['category_ar']} {article['type'] == 'report' and '📊' or ''}</span>
-            <h1>{article['title_ar']}</h1>
-            <div class="meta">
-                <span>📅 {date_str}</span>
-                <span>⏱️ {article['read_time']} دقائق قراءة</span>
-                <span>🔖 {article.get('era', '')}</span>
-                <span>🆔 مقالة #{filename_date}</span>
-            </div>
-        </div>
-        
-        <div class="content">
-            {article[f'content_{lang}']}
-        </div>
-        
-        <div class="footer">
-            <p>© 2026 Weaver | نَسَّاج - منصة تفسير الأحلام بالذكاء الاصطناعي</p>
-            <p>📚 المصدر: موسوعة Weaver الثقافية | تحديث: {date_str} {time_str}</p>
-            <p>🤖 بوت تيليجرام: <a href="https://t.me/aidreamweaver_bot" style="color: #f0c060;">@aidreamweaver_bot</a></p>
-            <p>🔗 <a href="https://aidreamweaver.store" style="color: #f0c060;">العودة إلى المدونة</a></p>
-        </div>
-    </div>
+    filename = f"blog/{filename_date}-{clean_title}.html"
     
-    <a href="https://t.me/aidreamweaver_bot" class="bot-button" target="_blank">
-        🤖 جرب بوت تفسير الأحلام
-    </a>
-</body>
-</html>"""
-    else:
-        filename = f"blog/{filename_date}-{clean_title}-eng.html"
-        
-        html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{article['title_en']} - Weaver</title>
-    <meta name="description" content="{article['title_en']} - {article['category_en']}">
-    <style>
-        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        body {{
-            font-family: 'Inter', sans-serif;
-            background: #0a0514;
-            color: #e2d9f3;
-            line-height: 1.8;
-            padding: 2rem;
-        }}
-        .container {{ max-width: 800px; margin: 0 auto; }}
-        .header {{
-            text-align: center;
-            margin-bottom: 3rem;
-        }}
-        h1 {{
-            color: #f0c060;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }}
-        .meta {{
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            color: #a855f7;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }}
-        .category {{
-            background: #7c3aed;
-            color: white;
-            padding: 0.3rem 1rem;
-            border-radius: 50px;
-            display: inline-block;
-            margin-bottom: 1rem;
-        }}
-        .content {{
-            background: rgba(30,10,60,0.3);
-            padding: 2rem;
-            border-radius: 20px;
-            border: 1px solid #7c3aed;
-            white-space: pre-line;
-        }}
-        .content h2 {{
-            color: #f0c060;
-            margin: 1.5rem 0 1rem;
-        }}
-        .content h3 {{
-            color: #a855f7;
-            margin: 1rem 0;
-        }}
-        .content ul, .content ol {{
-            margin-left: 2rem;
-            margin-bottom: 1rem;
-        }}
-        .footer {{
-            text-align: center;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #7c3aed;
-        }}
-        .badge {{
-            background: linear-gradient(135deg, #7c3aed, #ec4899);
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }}
-        .bot-button {{
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: linear-gradient(135deg, #7c3aed, #ec4899);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(124,58,237,0.3);
-            z-index: 1000;
-        }}
-        @media (max-width: 600px) {{
-            body {{ padding: 1rem; }}
-            h1 {{ font-size: 1.8rem; }}
-            .meta {{ flex-direction: column; gap: 0.5rem; }}
-        }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <span class="category">{article['category_en']} {article['type'] == 'report' and '📊' or ''}</span>
-            <h1>{article['title_en']}</h1>
-            <div class="meta">
-                <span>📅 {date_str}</span>
-                <span>⏱️ {article['read_time']} min read</span>
-                <span>🔖 {article.get('era', '')}</span>
-                <span>🆔 Article #{filename_date}</span>
-            </div>
-        </div>
-        
-        <div class="content">
-            {article[f'content_{lang}']}
-        </div>
-        
-        <div class="footer">
-            <p>© 2026 Weaver - AI Dream Interpretation Platform</p>
-            <p>📚 Source: Weaver Cultural Encyclopedia | Updated: {date_str} {time_str}</p>
-            <p>🤖 Telegram Bot: <a href="https://t.me/aidreamweaver_bot" style="color: #f0c060;">@aidreamweaver_bot</a></p>
-            <p>🔗 <a href="https://aidreamweaver.store" style="color: #f0c060;">Back to Blog</a></p>
-        </div>
-    </div>
+    # Load template from file
+    template = ""
+    try:
+        with open('article_template_v2.html', 'r', encoding='utf-8') as f:
+            template = f.read()
+    except:
+        pass
     
-    <a href="https://t.me/aidreamweaver_bot" class="bot-button" target="_blank">
-        🤖 Try the Dream Bot
-    </a>
-</body>
-</html>"""
+    if not template:
+        return filename, "<h1>خطأ في القالب</h1>"
+    
+    # Prepare content
+    title = article['title_ar']
+    title_en = article['title_en']
+    category = article['category_ar']
+    read_time = article['read_time']
+    content_ar = article.get('content_ar', 'مقال قيد الإعداد')
+    content_en = article.get('content_en', 'Article in progress')
+    
+    # Replace placeholders
+    html = template.replace('{title}', title)
+    html = html.replace('{title_en}', title_en)
+    html = html.replace('{description}', f"{title} - {category}")
+    html = html.replace('{meta}', f"📅 {date_str} • 🕒 {read_time} دقائق • {category}")
+    html = html.replace('{meta_en}', f"📅 {date_str} • 🕒 {read_time} min • {article.get('category_en', category)}")
+    html = html.replace('{content_ar}', content_ar)
+    html = html.replace('{content_en}', content_en)
+    html = html.replace('{lang}', 'ar')
+    html = html.replace('{dir}', 'rtl')
+    html = html.replace('{lang-class}', 'ar')
     
     return filename, html
-
-def update_blog_index(article, filename_ar, filename_en):
-    """تحديث صفحة المدونة الرئيسية"""
-    
-    today = dt.now().strftime("%b %d, %Y")
-    
-    # تحديث blog.html (عربي)
-    blog_ar_path = Path("blog.html")
-    if blog_ar_path.exists():
-        with open(blog_ar_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        
-        article_entry = f"""
-                <div class="feature-card">
-                    <div class="feature-icon">{'📊' if article['type'] == 'report' else '📚'}</div>
-                    <h3>{article['category_ar']}</h3>
-                    <h4>{article['title_ar']}</h4>
-                    <p>{article['content_ar'][:100]}...</p>
-                    <div class="meta">
-                        <span>📅 {today}</span>
-                        <span>⏱️ {article['read_time']} دقائق</span>
-                    </div>
-                    <a href="{filename_ar}" style="color: #f0c060;">[AI] اقرأ المزيد →</a>
-                </div>
-"""
-        
-        marker = "<!-- LATEST_ARTICLES_START -->"
-        if marker in content:
-            new_content = content.replace(marker, f"{marker}\n{article_entry}")
-            with open(blog_ar_path, 'w', encoding='utf-8') as f:
-                f.write(new_content)
-            print("✅ تم تحديث blog.html")
-    
-    # تحديث blog-eng.html (إنجليزي)
-    blog_en_path = Path("blog-eng.html")
-    if blog_en_path.exists():
-        with open(blog_en_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        
-        article_entry = f"""
-                <div class="feature-card">
-                    <div class="feature-icon">{'📊' if article['type'] == 'report' else '📚'}</div>
-                    <h3>{article['category_en']}</h3>
-                    <h4>{article['title_en']}</h4>
-                    <p>{article['content_en'][:100]}...</p>
-                    <div class="meta">
-                        <span>📅 {today}</span>
-                        <span>⏱️ {article['read_time']} min</span>
-                    </div>
-                    <a href="{filename_en}" style="color: #f0c060;">[AI] Read more →</a>
-                </div>
-"""
-        
-        marker = "<!-- LATEST_ARTICLES_START -->"
-        if marker in content:
-            new_content = content.replace(marker, f"{marker}\n{article_entry}")
-            with open(blog_en_path, 'w', encoding='utf-8') as f:
-                f.write(new_content)
-            print("✅ تم تحديث blog-eng.html")
-
-def send_telegram_notification(article, filename_ar, filename_en):
-    """إرسال إشعار على تيليجرام"""
-    
-    # هذا اختياري - يحتاج توكن
-    pass
-
-def update_blog_index(article, filename_ar, filename_en):
-    """تحديث blog.html ببطاقة المقال الجديد"""
-    blog_file = Path("blog.html")
-    if not blog_file.exists():
-        print("⚠️ ملف blog.html غير موجود")
-        return
-    
-    with open(blog_file, 'r', encoding='utf-8') as f:
-        content = f.read()
-    
-    # إنشاء بطاقة المقال
-    article_card = f"""
-    <a href="blog/{filename_ar}" class="card" data-cat="article" data-search="{article["title_ar"]}">
-      <div class="card-img" style="background:linear-gradient(135deg,#1a081a,#2a082a);">📚</div>
-      <div class="card-body">
-        <div class="card-tags"><span class="tag tag-new">✦ جديد</span></div>
-        <h3>{article["title_ar"]}</h3>
-        <p>{article["content_ar"][:80]}...</p>
-        <div class="card-meta"><span>📅 {dt.now().strftime("%B %Y")} · ⏱️ {article["read_time"]} دقائق</span><span class="read-more">اقرأ ←</span></div>
-      </div>
-    </a>"""
-    
-    # إضافة بعد opening grid tag
-    if 'class="grid" id="grid-civ">' in content:
-        content = content.replace(
-            'class="grid" id="grid-civ">',
-            'class="grid" id="grid-civ">\n' + article_card
-        )
-        with open(blog_file, 'w', encoding='utf-8') as f:
-            f.write(content)
-        print("✅ تم تحديث blog.html")
-
-
-
-def send_telegram_notification(article, filename_ar, filename_en):
-    """إرسال إشعار على تيليجرام"""
-    telegram_token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
-    telegram_channel = os.environ.get("TELEGRAM_CHANNEL_ID", "@weavers_channel")
-    
-    if not telegram_token:
-        print("⚠️ TELEGRAM_BOT_TOKEN غير موجود")
-        return
-    
-    try:
-        message = f"✨ **مقال جديد من نَسَّاج** ✨\n\n"
-        message += f"📚 **{article['title_ar']}**\n\n"
-        message += f"🏷️ التصنيف: {article['category_ar']}\n"
-        message += f"⏱️ وقت القراءة: {article['read_time']} دقائق\n\n"
-        message += f"🔗 [اقرأ المزيد](https://ai-dream-weaver.store/{filename_ar})\n\n"
-        message += f"#تفسير_الأحلام #نَسَّاج"
-        
-        telegram_url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
-        response = requests.post(telegram_url, json={
-            'chat_id': telegram_channel,
-            'text': message,
-            'parse_mode': 'Markdown',
-            'disable_web_page_preview': True
-        }, timeout=10)
-        
-        if response.status_code == 200:
-            print("✅ تم إرسال إشعار التيليجرام")
-        else:
-            print(f"⚠️ خطأ: {response.status_code}")
-            
-    except Exception as e:
-        print(f"⚠️ التيليجرام: {e}")
 
 
 def publish_daily():
@@ -1269,6 +913,18 @@ jobs:
     with open(workflow_dir / "daily_blog.yml", 'w', encoding='utf-8') as f:
         f.write(workflow_content)
     print("✅ تم إنشاء ملف GitHub Actions")
+
+
+def update_blog_index(article, filename_ar, filename_en):
+    """تحديث فهرس المدونة"""
+    # Placeholder - can be implemented later
+    print("📝 تحديث المدونة...")
+
+def send_telegram_notification(article, filename_ar, filename_en):
+    """إرسال إشعار للتليجرام"""
+    # Placeholder - needs BOT_TOKEN
+    print("📱 إشعار التليجرام...")
+
 
 # =========================================
 # التشغيل
