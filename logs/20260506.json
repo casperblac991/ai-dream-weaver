@@ -1,15 +1,15 @@
 {
   "date": "2026-05-06",
-  "time": "19:45:29",
+  "time": "19:54:54",
   "article": {
-    "title_ar": "نظرية فرويد في تفسير الأحلام",
-    "title_en": "Freud's Dream Theory",
-    "category_ar": "علم الأحلام",
-    "category_en": "Dream Science",
-    "type": "article"
+    "title_ar": "📈 تقرير: تأثير الذكاء الاصطناعي على الأحلام",
+    "title_en": "📈 Report: AI Impact on Dreams",
+    "category_ar": "تقارير",
+    "category_en": "Reports",
+    "type": "report"
   },
   "files": {
-    "arabic": "blog/20260506-نظرية-فرويد-في-تفسير-الأحلام.html",
-    "english": "blog/20260506-Freuds-Dream-Theory.html"
+    "arabic": "blog/20260506--تقرير-تأثير-الذكاء-الاصطناعي-على-الأح.html",
+    "english": "blog/20260506--Report-AI-Impact-on-Dreams.html"
   }
 }

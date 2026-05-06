@@ -776,7 +776,7 @@ def create_article_html(article, lang='ar'):
     # Load template from file
     template = ""
     try:
-        with open('article_template_v2.html', 'r', encoding='utf-8') as f:
+        with open('article_template_v3.html', 'r', encoding='utf-8') as f:
             template = f.read()
     except:
         pass

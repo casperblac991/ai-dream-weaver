@@ -1,21 +1,19 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معابد أسكليبيوس - الشفاء بالأحلام - Weaver</title>
-    <meta name="description" content="معابد أسكليبيوس - الشفاء بالأحلام - اليونان القديمة">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>{title} - Weaver</title>
+    <meta name="description" content="{title} - Reports">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: '{font}', sans-serif;
+            font-family: 'Inter', sans-serif;
             background: #0a0514;
             color: #e2d9f3;
             line-height: 1.8;
             padding: 2rem;
         }
-        body.ar { font-family: 'Tajawal', sans-serif; }
         .container { max-width: 800px; margin: 0 auto; }
         .header {
             text-align: center;
@@ -61,21 +59,6 @@
             margin-left: 2rem;
             margin-bottom: 1rem;
         }
-        .lang-section {
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid rgba(124,58,237,0.3);
-        }
-        .lang-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .lang-label {
-            font-size: 0.8rem;
-            color: #7c3aed;
-            margin-bottom: 1rem;
-        }
         .footer {
             text-align: center;
             margin-top: 3rem;
@@ -109,35 +92,71 @@
         }
     </style>
 </head>
-<body class="{lang_class}">
+<body>
     <div class="container">
         <div class="header">
-            <span class="category">اليونان القديمة 📊</span>
-            <h1>معابد أسكليبيوس - الشفاء بالأحلام</h1>
+            <span class="category">{category}</span>
+            <h1>{title}</h1>
             <div class="meta">
                 <span>📅 {date}</span>
                 <span>⏱️ {read_time} min read</span>
-                <span>🔖 {year}</span>
+                <span>🔖 2026</span>
                 <span>🆔 Article #{id}</span>
             </div>
         </div>
-
+        
         <div class="content">
+            
+Statistical report on the most common dreams this year:
 
-{content}
+🥇 **Falling from height** (78%)
+• Instability
+• Fear of failure
+• Loss of control
+
+🥈 **Teeth falling out** (65%)
+• Appearance anxiety
+• Fear of aging
+• Family issues
+
+🥉 **Flying** (52%)
+• Freedom desire
+• Success
+• Freedom from worries
+
+4️⃣ **Exams** (48%)
+• Evaluation anxiety
+• Fear of failure
+• Mental pressure
+
+5️⃣ **Being chased** (43%)
+• Escaping problems
+• Fear of something
+• Life pressures
+
+📈 **Increase this year:**
+• AI dreams: +150%
+• Travel dreams: +80%
+• Wealth dreams: +60%
+
+🌍 **By Region:**
+• Saudi Arabia: exams most common
+• Egypt: teeth most common
+• USA: falling most common
+• Europe: flying most common
 
         </div>
-
+        
         <div class="footer">
-            <p>© {year} Weaver - AI Dream Interpretation Platform</p>
-            <p>📚 Source: Weaver Cultural Encyclopedia | Updated: {updated}</p>
+            <p>© 2026 Weaver - AI Dream Interpretation Platform</p>
+            <p>📚 Source: Weaver Cultural Encyclopedia | Updated: {date} 21:46</p>
             <p>🤖 Telegram Bot: <a href="https://t.me/aidreamweaver_bot" style="color: #f0c060;">@aidreamweaver_bot</a></p>
-            <p>🔗 <a href="https://aidreamweaver.store" style="color: #f0c060;">{back_label}</a></p>
+            <p>🔗 <a href="https://aidreamweaver.store" style="color: #f0c060;">Back to Blog</a></p>
         </div>
     </div>
-
+    
     <a href="https://t.me/aidreamweaver_bot" class="bot-button" target="_blank">
-        🤖 {bot_label}
+        🤖 Try the Dream Bot
     </a>
 </body>
 </html>
