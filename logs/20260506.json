@@ -1,15 +1,15 @@
 {
   "date": "2026-05-06",
-  "time": "19:39:54",
+  "time": "19:45:29",
   "article": {
-    "title_ar": "بردية تشستر بيتي - أقدم دليل للأحلام",
-    "title_en": "Chester Beatty Papyrus - Oldest Dream Manual",
-    "category_ar": "مصر القديمة",
-    "category_en": "Ancient Egypt",
+    "title_ar": "نظرية فرويد في تفسير الأحلام",
+    "title_en": "Freud's Dream Theory",
+    "category_ar": "علم الأحلام",
+    "category_en": "Dream Science",
     "type": "article"
   },
   "files": {
-    "arabic": "blog/20260506-بردية-تشستر-بيتي---أقدم-دليل-للأحلام.html",
-    "english": "blog/20260506-Chester-Beatty-Papyrus---Oldest-Dream-Ma.html"
+    "arabic": "blog/20260506-نظرية-فرويد-في-تفسير-الأحلام.html",
+    "english": "blog/20260506-Freuds-Dream-Theory.html"
   }
 }
