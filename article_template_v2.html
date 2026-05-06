@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="{lang}" dir="{dir}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آداب الرؤيا في الإسلام | مدونة حالم</title>
-    <meta name="description" content="آداب الرؤيا في الإسلام - التراث الإسلامي">
+    <title>{title} | مدونة حالم</title>
+    <meta name="description" content="{description}">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -212,7 +212,7 @@
         }
     </style>
 </head>
-<body class="ar">
+<body class="{lang-class}">
     <div class="bg-layer"></div>
     
     <nav>
@@ -232,8 +232,8 @@
     <div class="container">
         <article>
             <div class="article-header">
-                <h1 class="article-title">آداب الرؤيا في الإسلام</h1>
-                <div class="article-meta">📅 6 مايو 2026 • 🕒 8 دقائق قراءة • التراث الإسلامي</div>
+                <h1 class="article-title">{title}</h1>
+                <div class="article-meta">{meta}</div>
             </div>
             
             <div class="article-content">
@@ -250,54 +250,7 @@
 <p>{subparagraph}</p>
                 
                 <div class="en">
-                
-<p>Dreams hold a special place in Islamic tradition as a divine means of communication with Allah. The Prophet said: <strong>"Good dreams are from Allah"</strong>, showing their great importance in our lives.</p>
-
-<p>Righteous dreams are considered a privilege for believers and a sign of pure heart. When a believer sees a true vision, it comes directly from Allah.</p>
-
-<h2>Meaning of Dreams in Islamic Law</h2>
-<p>Dreams are defined as what a sleeping person sees during sleep, and they are of three main types: <strong>true visions</strong> from Allah, <strong>ordinary dreams</strong> from the human self, and <strong>confused dreams</strong> from Satan. Muslims must distinguish between them for their spiritual safety.</p>
-
-<p>It was narrated in Sahih Bukhari that the Prophet said: <strong>"When one of you sees a dream he loves, it is from Allah, so let him thank Allah"</strong>. This shows us how to properly handle dreams.</p>
-
-<h2>Proper Dream Etiquette</h2>
-<p>There are specific rules to follow when dealing with dreams:</p>
-
-<ul>
-<li><strong>Praise and Thanksgiving:</strong> If you see a good dream, thank Allah by saying alhamduling Allah.</li>
-<li><strong>Seek Allah's Protection:</strong> If you see something frightening, seek refuge in Allah from evil dreams.</li>
-<li><strong>Share Wisely:</strong> Only share with trustworthy, wise people.</li>
-<li><strong>Wait and Be Patient:</strong> Don't rush to interpret; wait for clear thinking.</li>
-<li><strong>Balanced Interpretation:</strong> Don't exaggerate or interpret based on desires.</li>
-</ul>
-
-<h3>What the Prophet Did With Dreams</h3>
-<p>The Prophet used to share his dreams with companions in gatherings. This wonderful style of sharing made companions compete in narrating their dreams to him, as he interpreted them with scientific precision.</p>
-
-<h2>How to Distinguish True Visions</h2>
-<p>True visions are characterized by:</p>
-
-<ul>
-<li><strong>Clarity:</strong> The image is clear in mind, like reality.</li>
-<li><strong>Peacefulness:</strong> Feels happiness and joy, not fear.</li>
-<li><strong>Alignment:</strong> Meanings align with correct Islamic teachings.</li>
-<li><strong>Durability:</strong> Remembered long after waking, not quickly forgotten.</li>
-</ul>
-
-<p>Confused dreams have: confusion, fear, contradiction with teachings, and quick forgetting.</p>
-
-<h2>Dream Scholars in Islamic History</h2>
-<p>Many scholars wrote extensively on this topic:</p>
-
-<ul>
-<li><strong>Imam Ibn Sirin:</strong> The fundamental reference. His book "Tabir al-Ru'ya" is a worldwide reference.</li>
-<li><strong>Ibn Taymiyyah:</strong> Established important rules for interpretation.</li>
-<li><strong>Ibn Qayyim al-Jawziyyah:</strong> Explained the important difference between visions and dreams.</li>
-</ul>
-
-<h2>Conclusion</h2>
-<p>Dream etiquette in Islam is: <strong>praise</strong> for good dreams, <strong>protection</strong> for frightening ones, <strong>selective sharing</strong> with trust, and <strong>reliability</strong> in interpretation. Remember that Allah is the best supporter.</p>
-
+                {content_en}
                 </div>
             </div>
             
@@ -335,13 +288,13 @@
         if (lang === 'en') {
             document.querySelector('.article-content > :not(.en)').style.display = 'none';
             document.querySelector('.en').style.display = 'block';
-            document.querySelector('.article-title').textContent = 'Dream Etiquette in Islam';
-            document.querySelector('.article-meta').textContent = '📅 6 مايو 2026 • 🕒 8 min read • التراث الإسلامي';
+            document.querySelector('.article-title').textContent = '{title_en}';
+            document.querySelector('.article-meta').textContent = '{meta_en}';
         } else {
             document.querySelector('.article-content > :not(.en)').style.display = 'block';
             document.querySelector('.en').style.display = 'none';
-            document.querySelector('.article-title').textContent = 'آداب الرؤيا في الإسلام';
-            document.querySelector('.article-meta').textContent = '📅 6 مايو 2026 • 🕒 8 دقائق قراءة • التراث الإسلامي';
+            document.querySelector('.article-title').textContent = '{title}';
+            document.querySelector('.article-meta').textContent = '{meta}';
         }
     }
     </script>
