@@ -6,9 +6,10 @@ Weaver Daily Blog Bot - بوت ينشر مقالات وتقارير يومياً
 
 import os
 import random
-import datetime
+from datetime import datetime as dt
 import json
 from pathlib import Path
+import requests
 
 # =========================================
 # تكوين البوت
@@ -763,7 +764,7 @@ How does AI affect our dreams?
 def create_article_html(article, lang='ar'):
     """إنشاء ملف HTML للمقالة"""
     
-    today = datetime.datetime.now()
+    today = dt.now()
     date_str = today.strftime("%Y-%m-%d")
     filename_date = today.strftime("%Y%m%d")
     time_str = today.strftime("%H:%M")
@@ -1032,7 +1033,7 @@ def create_article_html(article, lang='ar'):
 def update_blog_index(article, filename_ar, filename_en):
     """تحديث صفحة المدونة الرئيسية"""
     
-    today = datetime.datetime.now().strftime("%b %d, %Y")
+    today = dt.now().strftime("%b %d, %Y")
     
     # تحديث blog.html (عربي)
     blog_ar_path = Path("blog.html")
@@ -1094,13 +1095,48 @@ def send_telegram_notification(article, filename_ar, filename_en):
     # هذا اختياري - يحتاج توكن
     pass
 
+
+def send_telegram_notification(article, filename_ar, filename_en):
+    """إرسال إشعار على تيليجرام"""
+    telegram_token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+    telegram_channel = os.environ.get("TELEGRAM_CHANNEL_ID", "@weavers_channel")
+    
+    if not telegram_token:
+        print("⚠️ TELEGRAM_BOT_TOKEN غير موجود")
+        return
+    
+    try:
+        message = f"✨ **مقال جديد من نَسَّاج** ✨\n\n"
+        message += f"📚 **{article['title_ar']}**\n\n"
+        message += f"🏷️ التصنيف: {article['category_ar']}\n"
+        message += f"⏱️ وقت القراءة: {article['read_time']} دقائق\n\n"
+        message += f"🔗 [اقرأ المزيد](https://ai-dream-weaver.store/{filename_ar})\n\n"
+        message += f"#تفسير_الأحلام #نَسَّاج"
+        
+        telegram_url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
+        response = requests.post(telegram_url, json={
+            'chat_id': telegram_channel,
+            'text': message,
+            'parse_mode': 'Markdown',
+            'disable_web_page_preview': True
+        }, timeout=10)
+        
+        if response.status_code == 200:
+            print("✅ تم إرسال إشعار التيليجرام")
+        else:
+            print(f"⚠️ خطأ: {response.status_code}")
+            
+    except Exception as e:
+        print(f"⚠️ التيليجرام: {e}")
+
+
 def publish_daily():
     """الدالة الرئيسية - تنشر مقالة كل يوم"""
     
     print("="*60)
     print(f"🚀 {BOT_NAME} v{VERSION}")
     print("="*60)
-    print(f"📅 التاريخ: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"📅 التاريخ: {dt.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print()
     
     # إنشاء مجلد المقالات
@@ -1126,12 +1162,13 @@ def publish_daily():
     print(f"✅ تم إنشاء: {filename_en}")
     
     # تحديث المدونة
+    send_telegram_notification(article, filename_ar, filename_en)
     update_blog_index(article, filename_ar, filename_en)
     
     # إنشاء ملف JSON للتتبع
     log = {
-        "date": datetime.datetime.now().strftime("%Y-%m-%d"),
-        "time": datetime.datetime.now().strftime("%H:%M:%S"),
+        "date": dt.now().strftime("%Y-%m-%d"),
+        "time": dt.now().strftime("%H:%M:%S"),
         "article": {
             "title_ar": article['title_ar'],
             "title_en": article['title_en'],
@@ -1145,7 +1182,7 @@ def publish_daily():
         }
     }
     
-    log_file = f"logs/{datetime.datetime.now().strftime('%Y%m%d')}.json"
+    log_file = f"logs/{dt.now().strftime('%Y%m%d')}.json"
     Path("logs").mkdir(exist_ok=True)
     with open(log_file, 'w', encoding='utf-8') as f:
         json.dump(log, f, ensure_ascii=False, indent=2)
