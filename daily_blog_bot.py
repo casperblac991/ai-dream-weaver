@@ -774,7 +774,7 @@ def create_article_html(article, lang='ar'):
     clean_title = ''.join(c for c in clean_title if c.isalnum() or c == '-')[:50]
     
     if lang == 'ar':
-        filename = f"articles/{filename_date}-{clean_title}.html"
+        filename = f"blog/{filename_date}-{clean_title}.html"
         
         html = f"""<!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -901,7 +901,7 @@ def create_article_html(article, lang='ar'):
 </body>
 </html>"""
     else:
-        filename = f"articles/{filename_date}-{clean_title}-eng.html"
+        filename = f"blog/{filename_date}-{clean_title}-eng.html"
         
         html = f"""<!DOCTYPE html>
 <html lang="en">
