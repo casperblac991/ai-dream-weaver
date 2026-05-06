@@ -3,325 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بردية تشستر بيتي - أقدم دليل للأحلام | مدونة حالم</title>
+    <title>بردية تشستر بيتي - أقدم دليل للأحلام - Weaver</title>
     <meta name="description" content="بردية تشستر بيتي - أقدم دليل للأحلام - مصر القديمة">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #f0c060;
-            --gold-light: #fde68a;
-            --deep: #0a0514;
-            --purple: #1e0a3c;
-            --violet: #2d1060;
-            --accent: #7c3aed;
-            --accent2: #a855f7;
-            --pink: #ec4899;
-            --cyan: #06b6d4;
-            --text: #e2d9f3;
-        }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: 'Tajawal', sans-serif;
-            background: var(--deep);
-            color: var(--text);
+            background: #0a0514;
+            color: #e2d9f3;
             line-height: 1.8;
-        }
-        
-        .bg-layer {
-            position: fixed; inset: 0; z-index: -1;
-            background: radial-gradient(ellipse at 20% 50%, #1e0a3c 0%, transparent 60%),
-                        radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
-                        #050210;
-        }
-        
-        nav {
-            padding: 1.2rem 3rem;
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(5, 2, 16, 0.8);
-            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
-        }
-        
-        .logo a {
-            font-family: 'Cairo', sans-serif; font-size: 1.8rem; font-weight: 900;
-            background: linear-gradient(135deg, var(--gold), var(--accent2));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex; gap: 2rem; list-style: none;
-        }
-        
-        .nav-links a {
-            color: rgba(226, 217, 243, 0.7);
-            text-decoration: none;
-        }
-        
-        .lang-btn {
-            background: rgba(124, 58, 237, 0.3);
-            border: 1px solid rgba(124, 58, 237, 0.5);
-            color: var(--gold);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            margin-right: 0.5rem;
-        }
-        
-        .lang-btn:hover, .lang-btn.active {
-            background: var(--accent);
-            color: white;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
             padding: 2rem;
         }
-        
-        .article-header {
+        .container { max-width: 800px; margin: 0 auto; }
+        .header {
             text-align: center;
-            margin: 3rem 0;
+            margin-bottom: 3rem;
         }
-        
-        .article-title {
-            font-family: 'Cairo', sans-serif;
+        h1 {
+            color: #f0c060;
             font-size: 2.5rem;
-            background: linear-gradient(135deg, var(--gold), var(--accent2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             margin-bottom: 1rem;
         }
-        
-        .article-meta {
-            color: rgba(226, 217, 243, 0.5);
-            font-size: 0.95rem;
-        }
-        
-        .article-content {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(124, 58, 237, 0.2);
-        }
-        
-        .article-content h2 {
-            color: var(--gold);
-            font-family: 'Cairo', sans-serif;
-            margin: 2rem 0 1rem;
-        }
-        
-        .article-content h3 {
-            color: var(--accent2);
-            margin: 1.5rem 0 0.8rem;
-        }
-        
-        .article-content p {
-            margin-bottom: 1.5rem;
-        }
-        
-        .article-content ul {
-            margin-right: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .article-content li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .article-content strong {
-            color: var(--gold);
-        }
-        
-        .cta-box {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(236, 72, 153, 0.1));
-            border: 1px solid rgba(124, 58, 237, 0.4);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            margin: 2rem 0;
-        }
-        
-        .cta-box h3 {
-            color: var(--gold);
+        .meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            color: #a855f7;
             margin-bottom: 1rem;
+            flex-wrap: wrap;
         }
-        
-        .cta-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--accent), var(--pink));
+        .category {
+            background: #7c3aed;
             color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 700;
-            margin-top: 1rem;
-        }
-        
-        .related-posts {
-            margin-top: 3rem;
-            padding: 2rem;
-            background: rgba(124, 58, 237, 0.1);
-            border-radius: 15px;
-        }
-        
-        .related-posts h3 {
-            color: var(--gold);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            display: inline-block;
             margin-bottom: 1rem;
         }
-        
-        .related-posts ul {
-            list-style: none;
+        .content {
+            background: rgba(30,10,60,0.3);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid #7c3aed;
+            white-space: pre-line;
         }
-        
-        .related-posts li {
-            margin-bottom: 0.8rem;
+        .content h2 {
+            color: #f0c060;
+            margin: 1.5rem 0 1rem;
         }
-        
-        .related-posts a {
-            color: var(--text);
-            text-decoration: none;
+        .content h3 {
+            color: #a855f7;
+            margin: 1rem 0;
         }
-        
-        .related-posts a:hover {
-            color: var(--gold);
+        .content ul, .content ol {
+            margin-right: 2rem;
+            margin-bottom: 1rem;
         }
-        
-        footer {
-            background: rgba(5, 2, 16, 0.8);
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 3rem 2rem;
+        .footer {
             text-align: center;
             margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #7c3aed;
         }
-        
-        footer a {
-            color: var(--gold);
+        .badge {
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .bot-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
             text-decoration: none;
-            margin: 0 1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(124,58,237,0.3);
+            z-index: 1000;
         }
-        
-        .en { display: none; }
-        
         @media (max-width: 600px) {
-            nav { padding: 1rem; flex-direction: column; gap: 1rem; }
-            .article-title { font-size: 1.8rem; }
-            .container { padding: 1rem; }
+            body { padding: 1rem; }
+            h1 { font-size: 1.8rem; }
+            .meta { flex-direction: column; gap: 0.5rem; }
         }
     </style>
 </head>
-<body class="ar">
-    <div class="bg-layer"></div>
-    
-    <nav>
-        <div class="logo"><a href="https://aidreamweaver.store">حالم</a></div>
-        <ul class="nav-links">
-            <li><a href="https://aidreamweaver.store">الرئيسية</a></li>
-            <li><a href="blog.html">المدونة</a></li>
-            <li><a href="https://aidreamweaver.store/#pricing">الأسعار</a></li>
-            <li><a href="https://t.me/aidreamweaver_bot">البوت</a></li>
-        </ul>
-        <div>
-            <button class="lang-btn active" onclick="setLang('ar')">🇸🇦 عربي</button>
-            <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
-        </div>
-    </nav>
-    
+<body>
     <div class="container">
-        <article>
-            <div class="article-header">
-                <h1 class="article-title">بردية تشستر بيتي - أقدم دليل للأحلام</h1>
-                <div class="article-meta">📅 2026-05-06 • 🕒 8 دقائق • مصر القديمة</div>
+        <div class="header">
+            <span class="category">مصر القديمة </span>
+            <h1>بردية تشستر بيتي - أقدم دليل للأحلام</h1>
+            <div class="meta">
+                <span>📅 2026-05-06</span>
+                <span>⏱️ 8 دقائق قراءة</span>
+                <span>🔖 1275 BCE</span>
+                <span>🆔 مقالة #20260506</span>
             </div>
+        </div>
+        
+        <div class="content">
             
-            <div class="article-content">
-                <h2>{heading}</h2>
-<p>{paragraph}</p>
+بردية تشستر بيتي هي أقدم دليل معروف لتفسير الأحلام في التاريخ.
 
-<ul>
-<li>{bullet1}</li>
-<li>{bullet2}</li>
-<li>{bullet3}</li>
-</ul>
+📜 **وصف البردية:**
+• تاريخها: 1275 قبل الميلاد
+• مكان العثور: طيبة (الأقصر حالياً)
+• طولها: 5 أمتار
+• لغتها: الهيروغليفية
 
-<h3>{subheading}</h3>
-<p>{subparagraph}</p>
-                
-                <div class="en">
-                
-The Chester Beatty Papyrus is the oldest known dream interpretation manual.
+🌟 **في مصر القديمة:**
+• كان الفراعنة يعتقدون أن الأحلام رسائل من الآلهة
+• الكهنة كانوا المفسرين الرسميين
+• الأحلام تكتب على البرديات وتُحفظ في المعابد
 
-📜 **Description:**
-• Date: 1275 BCE
-• Found: Thebes (Luxor)
-• Length: 5 meters
-• Language: Hieroglyphs
+🔍 **أمثلة من التفسيرات الفرعونية:**
+• رؤية التمساح: تحذير من خطر
+• رؤية النيل: خير وبركة
+• رؤية الفرعون: ترقية في المنصب
+• رؤية الثعبان: حكمة وشفاء
+• رؤية الموت: حياة جديدة
 
-🌟 **In Ancient Egypt:**
-• Pharaohs believed dreams were divine messages
-• Priests were official interpreters
-• Dreams recorded on papyrus and kept in temples
+🏛️ **تأثير الأحلام:**
+• كانت سبباً في قرارات الملوك
+• بنيت معابد بناءً على أحلام
+• غيرت مسار الحروب
 
-🔍 **Egyptian Interpretations:**
-• Seeing crocodile: danger warning
-• Seeing Nile: blessing
-• Seeing Pharaoh: promotion
-• Seeing snake: wisdom and healing
-• Seeing death: new life
-
-🏛️ **Dream Influence:**
-• Influenced royal decisions
-• Temples built based on dreams
-• Changed war strategies
-
-                </div>
-            </div>
-            
-            <div class="cta-box">
-                <h3>🤖 جرب تفسير الأحلام بالذكاء الاصطناعي</h3>
-                <p>احصل على تفسير دقيق لأحلامك بناءً على التراث الإسلامي والعلمي</p>
-                <a href="https://aidreamweaver.store/app/analyze" class="cta-btn">🔮 فسّر حلمك الآن</a>
-            </div>
-            
-            <div class="related-posts">
-                <h3>مقالات ذات صلة</h3>
-                <ul>
-                    <li><a href="/article-ibnsireen.html">📖 الإمام ابن سيرين: إمام المفسرين</a></li>
-                    <li><a href="/article-mesopotamia.html">🏛️ الأحلام في حضارة بلاد الرافدين</a></li>
-                    <li><a href="/dictionary-a.html">🔍 قاموس الرموز: حرف الألف</a></li>
-                </ul>
-            </div>
-        </article>
+        </div>
+        
+        <div class="footer">
+            <p>© 2026 Weaver | نَسَّاج - منصة تفسير الأحلام بالذكاء الاصطناعي</p>
+            <p>📚 المصدر: موسوعة Weaver الثقافية | تحديث: 2026-05-06 18:40</p>
+            <p>🤖 بوت تيليجرام: <a href="https://t.me/aidreamweaver_bot" style="color: #f0c060;">@aidreamweaver_bot</a></p>
+            <p>🔗 <a href="https://aidreamweaver.store" style="color: #f0c060;">العودة إلى المدونة</a></p>
+        </div>
     </div>
     
-    <footer>
-        <div style="margin-bottom: 1rem;">
-            <a href="https://aidreamweaver.store">الرئيسية</a>
-            <a href="blog.html">المدونة</a>
-            <a href="https://t.me/aidreamweaver_bot">البوت</a>
-        </div>
-        <p>© 2026 حالم - منصة الأحلام الذكية</p>
-    </footer>
-    
-    <script>
-    function setLang(lang) {
-        document.body.className = lang;
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        event.target.classList.add('active');
-        if (lang === 'en') {
-            document.querySelector('.article-content > :not(.en)').style.display = 'none';
-            document.querySelector('.en').style.display = 'block';
-            document.querySelector('.article-title').textContent = 'Chester Beatty Papyrus - Oldest Dream Manual';
-            document.querySelector('.article-meta').textContent = '📅 2026-05-06 • 🕒 8 min • Ancient Egypt';
-        } else {
-            document.querySelector('.article-content > :not(.en)').style.display = 'block';
-            document.querySelector('.en').style.display = 'none';
-            document.querySelector('.article-title').textContent = 'بردية تشستر بيتي - أقدم دليل للأحلام';
-            document.querySelector('.article-meta').textContent = '📅 2026-05-06 • 🕒 8 دقائق • مصر القديمة';
-        }
-    }
-    </script>
+    <a href="https://t.me/aidreamweaver_bot" class="bot-button" target="_blank">
+        🤖 جرب بوت تفسير الأحلام
+    </a>
 </body>
 </html>
