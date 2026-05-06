@@ -1095,6 +1095,39 @@ def send_telegram_notification(article, filename_ar, filename_en):
     # هذا اختياري - يحتاج توكن
     pass
 
+def update_blog_index(article, filename_ar, filename_en):
+    """تحديث blog.html ببطاقة المقال الجديد"""
+    blog_file = Path("blog.html")
+    if not blog_file.exists():
+        print("⚠️ ملف blog.html غير موجود")
+        return
+    
+    with open(blog_file, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # إنشاء بطاقة المقال
+    article_card = f"""
+    <a href="blog/{filename_ar}" class="card" data-cat="article" data-search="{article["title_ar"]}">
+      <div class="card-img" style="background:linear-gradient(135deg,#1a081a,#2a082a);">📚</div>
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-new">✦ جديد</span></div>
+        <h3>{article["title_ar"]}</h3>
+        <p>{article["content_ar"][:80]}...</p>
+        <div class="card-meta"><span>📅 {dt.now().strftime("%B %Y")} · ⏱️ {article["read_time"]} دقائق</span><span class="read-more">اقرأ ←</span></div>
+      </div>
+    </a>"""
+    
+    # إضافة بعد opening grid tag
+    if 'class="grid" id="grid-civ">' in content:
+        content = content.replace(
+            'class="grid" id="grid-civ">',
+            'class="grid" id="grid-civ">\n' + article_card
+        )
+        with open(blog_file, 'w', encoding='utf-8') as f:
+            f.write(content)
+        print("✅ تم تحديث blog.html")
+
+
 
 def send_telegram_notification(article, filename_ar, filename_en):
     """إرسال إشعار على تيليجرام"""
