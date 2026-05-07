@@ -2,7 +2,7 @@ name: نشر المقالات اليومي 📚
 
 on:
   schedule:
-    - cron: '0 3 * * *'  # 6 صباحاً السعودية
+    - cron: '0 3 * * *'  # 6 صباحاً السعودية - now 3AM UTC = 6AM Saudi
   workflow_dispatch:  # للتشغيل اليدوي
 
 jobs:
