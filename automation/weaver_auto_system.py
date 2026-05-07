@@ -118,21 +118,224 @@ def save_blog_as_html(title, content, topic):
     slug = title.replace(" ", "-").replace("،", "").replace("؟", "")[:50]
     filename = f"{slug}-{date.today().strftime('%Y%m%d')}.html"
     plain_content = content.replace("<br>", " ").replace("\n", " ").replace("  ", " ")
-    summary = plain_content[:150].strip()
-
+    summary = plain_content[:200].strip()
+    
+    # Get related posts for the article
+    related = [
+        {"title": "الإمام ابن سيرين: إمام المفسرين", "url": "#ibnsireen"},
+        {"title": "الأحلام في مصر القديمة", "url": "#egypt"},
+        {"title": "معجم الرموز", "url": "#dictionary"},
+    ]
+    related_html = "\n".join([f'<li><a href="{r["url"]}">📖 {r["title"]}</a></li>' for r in related])
+    
+    # Get current date in Arabic
+    arabic_months = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
+    current_date = date.today()
+    arabic_date = f"{current_date.day} {arabic_months[current_date.month-1]} {current_date.year}"
+    
     html = f"""<!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="UTF-8"><title>{title} | Weaver</title>
-<style>
-body {{ font-family: 'Segoe UI', Tahoma, sans-serif; background: #0a0a1a; color: #e0e0ff; }}
-.article {{ max-width: 800px; margin: 2rem auto; padding: 2rem; background: rgba(255,255,255,0.05); border-radius: 16px; }}
-h1 {{ color: #a78bfa; }}
-</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} | مدونة حالم</title>
+    <meta name="description" content="{summary[:150]}">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {{
+            --gold: #f0c060;
+            --gold-light: #fde68a;
+            --deep: #0a0514;
+            --purple: #1e0a3c;
+            --violet: #2d1060;
+            --accent: #7c3aed;
+            --accent2: #a855f7;
+            --pink: #ec4899;
+            --cyan: #06b6d4;
+            --text: #e2d9f3;
+        }}
+        
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        
+        body {{
+            font-family: 'Tajawal', sans-serif;
+            background: var(--deep);
+            color: var(--text);
+            line-height: 1.9;
+        }}
+        
+        .bg-layer {{
+            position: fixed; inset: 0; z-index: -1;
+            background: radial-gradient(ellipse at 20% 50%, #1e0a3c 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
+                        #050210;
+        }}
+        
+        nav {{
+            padding: 1.2rem 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(5, 2, 16, 0.8);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+        }}
+        
+        .logo a {{
+            font-family: 'Cairo', sans-serif; font-size: 1.8rem; font-weight: 900;
+            background: linear-gradient(135deg, var(--gold), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }}
+        
+        .nav-links {{
+            display: flex; gap: 2rem; list-style: none;
+        }}
+        
+        .nav-links a {{
+            color: rgba(226, 217, 243, 0.7);
+            text-decoration: none;
+        }}
+        
+        .lang-toggle {{
+            padding: 0.5rem 1rem;
+            background: rgba(124, 58, 237, 0.2);
+            border-radius: 20px;
+            color: var(--gold);
+            font-size: 0.9rem;
+        }}
+        
+        .container {{
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }}
+        
+        .article-header {{
+            text-align: center;
+            margin: 3rem 0;
+        }}
+        
+        .article-title {{
+            font-family: 'Cairo', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--gold), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }}
+        
+        .article-meta {{
+            color: rgba(226, 217, 243, 0.5);
+            font-size: 0.95rem;
+        }}
+        
+        .article-content {{
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }}
+        
+        .article-content h2 {{
+            color: var(--gold);
+            font-family: 'Cairo', sans-serif;
+            margin: 2.5rem 0 1rem;
+            font-size: 1.5rem;
+        }}
+        
+        .article-content p {{
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }}
+        
+        .article-content ul {{
+            margin: 1rem 0 1rem 2rem;
+        }}
+        
+        .article-content li {{
+            margin-bottom: 0.5rem;
+        }}
+        
+        .related-posts {{
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(124, 58, 237, 0.1);
+            border-radius: 15px;
+        }}
+        
+        .related-posts h3 {{
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }}
+        
+        .related-posts ul {{
+            list-style: none;
+        }}
+        
+        .related-posts li {{
+            margin-bottom: 0.5rem;
+        }}
+        
+        .related-posts a {{
+            color: var(--text);
+            text-decoration: none;
+        }}
+        
+        .related-posts a:hover {{
+            color: var(--gold);
+        }}
+        
+        footer {{
+            background: rgba(5, 2, 16, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }}
+    </style>
 </head>
 <body>
-<nav><a href="{SITE_URL}" style="color:#a78bfa;">Weaver</a> | <a href="{SITE_URL}/blog">المدونة</a></nav>
-<div class="article"><h1>{title}</h1><div>{content.replace(chr(10), '<br>')}</div></div>
-</body></html>"""
+    <div class="bg-layer"></div>
+    
+    <nav>
+        <div class="logo"><a href="{SITE_URL}">حالم</a></div>
+        <ul class="nav-links">
+            <li><a href="{SITE_URL}">الرئيسية</a></li>
+            <li><a href="{SITE_URL}/blog.html">المدونة</a></li>
+            <li><a href="{SITE_URL}/#pricing">الأسعار</a></li>
+            <li><a href="https://t.me/aidreamweaver_bot">البوت</a></li>
+        </ul>
+        <span class="lang-toggle">🇸🇦 🇬🇧</span>
+    </nav>
+    
+    <div class="container">
+        <article>
+            <div class="article-header">
+                <h1 class="article-title">{title}</h1>
+                <div class="article-meta">📅 {arabic_date} • 🕒 8 دقائق قراءة • 🏛️ {topic.get('cat', 'الحضارات')}</div>
+            </div>
+            
+            <div class="article-content">
+                {content.replace(chr(10), '</p><p>')}
+            </div>
+            
+            <div class="related-posts">
+                <h3>مقالات ذات صلة</h3>
+                <ul>
+                    {related_html}
+                </ul>
+            </div>
+        </article>
+    </div>
+    
+    <footer>
+        <div style="margin-bottom: 1rem;">
+            <a href="{SITE_URL}" style="color: var(--gold); text-decoration: none; margin: 0 1rem;">الرئيسية</a>
+            <a href="{SITE_URL}/blog.html" style="color: var(--gold); text-decoration: none; margin: 0 1rem;">المدونة</a>
+            <a href="https://t.me/aidreamweaver_bot" style="color: var(--gold); text-decoration: none; margin: 0 1rem;">البوت</a>
+        </div>
+        <p>© 2026 حالم - منصة الأحلام الذكية</p>
+    </footer>
+</body>
+</html>"""
     with open(blog_dir / filename, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"✅ تم حفظ ملف HTML: {filename}")
@@ -149,11 +352,31 @@ def generate_daily_blog():
     print(f"\n📝 توليد مقال يومي...")
     topic = random.choice(BLOG_TOPICS)
     title = topic["title"]
-    system = "أنت كاتب متخصص في تفسير الأحلام."
-    prompt = f"اكتب مقالاً شاملاً عن: {title} (700-900 كلمة)"
-    content = generate_with_groq(prompt, system, max_tokens=2000)
+    
+    # Enhanced prompt for better bilingual content
+    system = """أنت كاتب متخصص في تفسير الأحلام والتراث الإسلامي.
+اكتب مقالاً شاملاً ومفصلاً (800-1200 كلمة) يتضمن:
+1. مقدمة جذابة عن الموضوع
+2. شرح تفصيلي للتاريخ والسياق
+3. أمثلة من مصادر موثوقة (ابن سيرين، بردية تشيستر بيتي، الخ)
+4. تفسيرات رمزية متعددة
+5. خاتمة ونصائح للقراء
+6. اكتب كل فقرة بالعربية ثم الإنجليزية (ازدواجية的语言)
+استخدم لغة عربية فصيحة مع عناوين فرعية h2."""
+    
+    prompt = f"""اكتب مقالاً شاملاً بالتفصيل عن: {title}
+
+المتطلبات:
+- 800-1200 كلمة
+- ازدواجية: كل فقرة بالعربية ثم الإنجليزية
+- عناوين فرعية (h2) لتنظيم المحتوى
+- أمثلة تاريخية موثوقة
+- رموز الأحلام وتفسيراتها
+- مصادر من التراث العربي والإسلامي والغربي""
+    
+    content = generate_with_groq(prompt, system, max_tokens=3500)
     if not content:
-        content = f"<h2>{title}</h2><p>مقال عن {title} - سيتم تحديثه قريباً.</p>"
+        content = f"""<h2>مقدمة</h2><p>مقال شامل عن {title} - سيتم تحديثه قريباً.</p>"""
 
     if DB_AVAILABLE:
         try:
