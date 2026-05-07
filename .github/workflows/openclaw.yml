@@ -4,9 +4,9 @@ name: OpenClaw AI Agent
 
 on:
   schedule:
-    - cron: '0 8 * * *'    # 8 AM
-    - cron: '0 14 * * *'   # 2 PM
-    - cron: '0 19 * * *'   # 7 PM
+    - cron: '0 13 * * *'   # 1 PM - moved from 8 AM
+    - cron: '0 16 * * *'   # 4 PM - moved from 3 PM to avoid conflict with marketing
+    - cron: '0 21 * * *'   # 9 PM - moved from 8 PM
   workflow_dispatch:
   push:
     branches:
