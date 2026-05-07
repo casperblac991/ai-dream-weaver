@@ -372,11 +372,11 @@ def generate_daily_blog():
 - عناوين فرعية (h2) لتنظيم المحتوى
 - أمثلة تاريخية موثوقة
 - رموز الأحلام وتفسيراتها
-- مصادر من التراث العربي والإسلامي والغربي""
+- مصادر من التراث العربي والإسلامي والغربي"""
     
     content = generate_with_groq(prompt, system, max_tokens=3500)
     if not content:
-        content = f"""<h2>مقدمة</h2><p>مقال شامل عن {title} - سيتم تحديثه قريباً.</p>"""
+        content = f"<h2>مقدمة</h2><p>مقال شامل عن {title} - سيتم تحديثه قريباً.</p>"
 
     if DB_AVAILABLE:
         try:
@@ -430,11 +430,7 @@ def generate_daily_report():
     if DB_AVAILABLE:
         try:
             stats = get_platform_stats()
-            report = f"""📊 تقرير Weaver - {date.today()}
-👥 المستخدمون: {stats.get('total_users', 0)}
-🌙 الأحلام: {stats.get('total_dreams', 0):,}
-📧 المشتركون: {stats.get('total_subscribers', 0)}
-🔗 {SITE_URL}"""
+            report = f"📊 تقرير Weaver - {date.today()}"
             post_to_telegram(report)
         except Exception as e:
             print(f"⚠️ خطأ في التقرير: {e}")
