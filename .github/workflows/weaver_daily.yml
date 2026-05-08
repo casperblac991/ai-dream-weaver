@@ -14,9 +14,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          python -m pip install requests python-telegram-bot schedule
       - name: Run daily blog bot
-        run: |
-          python daily_blog_bot.py
+        run: python daily_blog_bot.py
       - name: Commit and push
         run: |
           git config user.email "weaver-bot@aidreamweaver.store"
