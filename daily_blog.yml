@@ -1,21 +1,122 @@
-name: تحديث المدونة اليومي
+name: نشر المقالات اليومي 📚
 
 on:
   schedule:
-    - cron: '0 3 * * *'
-  workflow_dispatch:
+    # تشغيل يومياً الساعة 8 صباحاً بتوقيت UTC
+    - cron: '0 8 * * *'
+  
+  workflow_dispatch: # السماح بالتشغيل اليدوي
+  
+  push:
+    branches:
+      - main
+    paths:
+      - 'automation/**'
+      - 'daily_blog_bot.py'
+      - '.github/workflows/daily_blog.yml'
 
 jobs:
-  update:
+  publish:
     runs-on: ubuntu-latest
+    
+    # إضافة permissions للكتابة
+    permissions:
+      contents: write
+      
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-      - run: pip install requests
-      - run: python weaver_complete.py
-      - run: |
-          git config user.name "Weaver Bot"
-          git config user.email "bot@aidreamweaver.store"
-          git add articles/ *.html
-          git commit -m "تحديث المدونة" || exit 0
-          git push
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        continue-on-error: false
+      
+      - name: ⚙️ Configure Git
+        run: |
+          git config --global user.name "AI Dream Weaver Bot"
+          git config --global user.email "bot@aidreamweaver.store"
+      
+      - name: 🔍 Check API Keys
+        run: |
+          if [ -z "${{ secrets.GROQ_API_KEY }}" ]; then
+            echo "⚠️ تحذير: GROQ_API_KEY غير موجود"
+          else
+            echo "✅ GROQ_API_KEY موجود"
+          fi
+          
+          if [ -z "${{ secrets.OPENAI_API_KEY }}" ]; then
+            echo "⚠️ تحذير: OPENAI_API_KEY غير موجود"
+          else
+            echo "✅ OPENAI_API_KEY موجود"
+          fi
+      
+      - name: 📝 Generate Daily Blog Post
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "🚀 بدء توليد المقال اليومي..."
+          python daily_blog_bot.py
+        continue-on-error: true
+        id: generate_blog
+      
+      - name: 📊 Check for New Files
+        id: check_changes
+        run: |
+          git add -A
+          if git diff --staged --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "⚠️ لم يتم إنشاء ملفات جديدة"
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "✅ تم إنشاء ملفات جديدة"
+          fi
+      
+      - name: 🚀 Commit and Push
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          DATE=$(date +'%Y-%m-%d %H:%M')
+          git add -A
+          git commit -m "🤖 مقال يومي تلقائي - $DATE" || echo "لا توجد تغييرات للحفظ"
+          git push origin main || echo "فشل في الدفع - قد يكون بسبب عدم وجود تغييرات"
+      
+      - name: 📈 Generate Summary
+        if: always()
+        run: |
+          echo "## 📊 ملخص التنفيذ" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.generate_blog.outcome }}" == "success" ]; then
+            echo "✅ **توليد المقال**: نجح" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **توليد المقال**: فشل" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ steps.check_changes.outputs.changes }}" == "true" ]; then
+            echo "✅ **ملفات جديدة**: تم الإنشاء" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ **ملفات جديدة**: لم يتم الإنشاء" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⏰ **وقت التنفيذ**: $(date)" >> $GITHUB_STEP_SUMMARY
+      
+      - name: 🔔 Notify on Failure
+        if: failure()
+        run: |
+          echo "❌ فشل في تنفيذ البوت"
+          echo "تحقق من:"
+          echo "1. API Keys في GitHub Secrets"
+          echo "2. ملف requirements.txt"
+          echo "3. كود البوت daily_blog_bot.py"
+          exit 0 # لا نريد فشل الـ workflow بالكامل
