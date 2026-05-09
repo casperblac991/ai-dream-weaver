@@ -41,10 +41,11 @@ jobs:
       - name: Run Sigil Agent
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUT: ${{ github.event.inputs.prompt }}
         run: |
-          sigil run "$INPUT" --model gpt-4o
+          sigil run "$INPUT"
 
       - name: Create Pull Request if changes
         if: github.event_name == 'workflow_dispatch'
