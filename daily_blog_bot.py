@@ -1,938 +1,363 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Weaver Daily Blog Bot - بوت ينشر مقالات وتقارير يومياً
+بوت نشر المقالات اليومي لمنصة نَسَّاج الأحلام
+يقوم بتوليد مقالات تلقائية عن تفسير الأحلام بالذكاء الاصطناعي
 """
 
 import os
-import random
-from datetime import datetime as dt
+import sys
+from datetime import datetime
 import json
-from pathlib import Path
-import requests
-
-# =========================================
-# تكوين البوت
-# =========================================
-BOT_NAME = "Weaver Daily Bot"
-VERSION = "2.0"
-ADMIN_ID = 6790340715
-
-# =========================================
-# مواضيع المقالات (متنوعة)
-# =========================================
-ARTICLES = [
-    # ===== التراث الإسلامي =====
-    {
-        "title_ar": "الإمام محمد بن سيرين - شيخ المفسرين",
-        "title_en": "Imam Ibn Sirin - The Master Interpreter",
-        "category_ar": "التراث الإسلامي",
-        "category_en": "Islamic Heritage",
-        "type": "article",
-        "era": "654-728 CE",
-        "read_time": 8,
-        "content_ar": """
-الإمام محمد بن سيرين (654-728م) هو أشهر مفسر أحلام في التاريخ الإسلامي. كان من التابعين المعروفين بالورع والزهد.
-
-📚 **نشأته:**
-ولد في خلافة عثمان بن عفان، ونشأ في بيت علم وتقوى. تتلمذ على يد كبار الصحابة والتابعين.
-
-🔍 **منهجه في التفسير:**
-• لا يفسر الرؤيا إلا بعد الصلاة والاستخارة
-• يسأل الرائي عن حاله (صالح أو طالح)
-• يعتمد على القرآن والسنة في تفسيره
-• يراعي اللغة العربية ومعاني الكلمات
-
-🌟 **أشهر تفسيراته:**
-• رؤية النبي ﷺ في المنام حق
-• البحر يدل على الملك أو العالم
-• الثعبان يدل على العدو
-• الطيران يدل على السفر أو الموت
-• الأسنان تدل على الأهل والأقارب
-
-📖 **مؤلفاته:**
-أشهر كتبه "تفسير الأحلام" الذي جمعه تلاميذه. تأثر به جميع المفسرين بعده.
-""",
-        "content_en": """
-Imam Muhammad Ibn Sirin (654-728 CE) is the most famous dream interpreter in Islamic history.
-
-📚 **Biography:**
-Born during Caliph Uthman's reign, raised in a scholarly family. Studied under great companions.
-
-🔍 **Methodology:**
-• Never interprets without prayer
-• Asks about dreamer's spiritual state
-• Based on Quran and Sunnah
-• Considers Arabic language meanings
-
-🌟 **Famous Interpretations:**
-• Seeing Prophet Muhammad is true
-• Sea represents king or knowledge
-• Snake represents enemy
-• Flying represents travel or death
-• Teeth represent family
-"""
-    },
-    {
-        "title_ar": "الفرق بين الرؤيا والحلم - ابن القيم",
-        "title_en": "Vision vs. Dream - Ibn Al-Qayyim",
-        "category_ar": "التراث الإسلامي",
-        "category_en": "Islamic Heritage",
-        "type": "article",
-        "era": "1292-1350 CE",
-        "read_time": 6,
-        "content_ar": """
-الإمام ابن القيم يفرق بين ثلاثة أنواع:
-
-🌟 **الرؤيا:**
-• من الله تعالى
-• تحمل بشارة أو تحذير
-• صادقة وواضحة
-• تأتي للصالحين
-
-💭 **الحلم:**
-• من الشيطان
-• يسبب الحزن والقلق
-• أضغاث أحلام (غير مفهومة)
-• يخوف النائم
-
-🧠 **حديث النفس:**
-• مما يفكر فيه الإنسان
-• يرى في منامه ما يشغله
-• ليس له تفسير
-
-كيف تفرق بينهم؟
-- الرؤيا: تبشر بخير
-- الحلم: يزعج ويخوف
-- حديث النفس: يعكس الواقع
-""",
-        "content_en": """
-Imam Ibn Al-Qayyim distinguishes three types:
-
-🌟 **Vision (Ru'ya):**
-• From Allah
-• Good news or warning
-• Clear and true
-• Comes to righteous
-
-💭 **Dream (Hulm):**
-• From Satan
-• Causes sadness
-• Confusing nightmares
-• Frightens the sleeper
-
-🧠 **Self-Talk:**
-• From daily thoughts
-• Reflects concerns
-• No interpretation
-
-How to distinguish:
-- Vision: brings good news
-- Dream: causes fear
-- Self-talk: reflects reality
-"""
-    },
-    {
-        "title_ar": "تفسير حلم يوسف عليه السلام",
-        "title_en": "Prophet Yusuf's Dream Interpretation",
-        "category_ar": "التراث الإسلامي",
-        "category_en": "Islamic Heritage",
-        "type": "article",
-        "era": "Quranic",
-        "read_time": 7,
-        "content_ar": """
-قصة يوسف عليه السلام من أعظم قصص تفسير الأحلام في القرآن.
-
-🌙 **رؤيا يوسف:**
-"إذ قال يوسف لأبيه يا أبت إني رأيت أحد عشر كوكباً والشمس والقمر رأيتهم لي ساجدين"
-
-🔍 **تفسير يعقوب عليه السلام:**
-• الأحد عشر كوكباً: إخوته
-• الشمس: أبوه
-• القمر: أمه أو خالته
-• السجود: تعظيم وطاعة
-
-⏳ **التحقق بعد 40 سنة:**
-تحققت الرؤيا عندما سجد إخوته وأبواه له في مصر.
-
-📚 **دروس من القصة:**
-• الرؤيا الصالحة قد تتحقق بعد سنوات
-• لا تقص الرؤيا على الحاسدين
-• تعبير الرؤيا علم عظيم
-""",
-        "content_en": """
-Prophet Yusuf's story is among the greatest dream interpretations in the Quran.
-
-🌙 **Yusuf's Vision:**
-"I saw eleven stars and the sun and moon prostrating to me"
-
-🔍 **Jacob's Interpretation:**
-• Eleven stars: his brothers
-• Sun: his father
-• Moon: his mother/aunt
-• Prostration: honor and respect
-
-⏳ **Fulfillment after 40 years:**
-The vision came true when his family prostrated to him in Egypt.
-
-📚 **Lessons:**
-• True visions may take years to fulfill
-• Don't share dreams with envious people
-• Dream interpretation is a great science
-"""
-    },
-    {
-        "title_ar": "آداب الرؤيا في الإسلام",
-        "title_en": "Dream Etiquette in Islam",
-        "category_ar": "التراث الإسلامي",
-        "category_en": "Islamic Heritage",
-        "type": "article",
-        "era": "Islamic",
-        "read_time": 5,
-        "content_ar": """
-كيف تتعامل مع رؤياك وفق السنة النبوية:
-
-🌙 **إذا رأيت رؤيا صالحة:**
-• احمد الله عليها
-• استبشر بها خيراً
-• قصها على من تحب
-• انتظر خيرها
-
-💭 **إذا رأيت حلماً مزعجاً:**
-• استعذ بالله من الشيطان
-• استعذ من شر الرؤيا
-• لا تحدث بها أحداً
-• تحول إلى الجنب الآخر
-• صلِّ إذا استيقظت
-
-📖 **الأدعية المأثورة:**
-"اللهم إني أعوذ بك من شر ما رأيت"
-"أعوذ بكلمات الله التامة من غضبه وعقابه"
-
-⚠️ **تحذير:**
-• لا تفسر حلماً مزعجاً بنفسك
-• لا تطلب تفسيراً من جاهل
-• لا تصدق كل من يدعي تفسير الأحلام
-""",
-        "content_en": """
-How to deal with your dreams according to Sunnah:
-
-🌙 **If you see a good vision:**
-• Praise Allah
-• Be optimistic
-• Share with loved ones
-• Expect good
-
-💭 **If you see a bad dream:**
-• Seek refuge from Satan
-• Seek protection from its evil
-• Don't share it
-• Turn to other side
-• Pray if you wake
-
-📖 **Prophetic supplications:**
-"I seek refuge from its evil"
-"I seek refuge in Allah's perfect words"
-
-⚠️ **Warning:**
-• Don't interpret bad dreams yourself
-• Don't ask ignorant people
-• Don't believe every dream interpreter
-"""
-    },
-
-    # ===== مصر القديمة =====
-    {
-        "title_ar": "بردية تشستر بيتي - أقدم دليل للأحلام",
-        "title_en": "Chester Beatty Papyrus - Oldest Dream Manual",
-        "category_ar": "مصر القديمة",
-        "category_en": "Ancient Egypt",
-        "type": "article",
-        "era": "1275 BCE",
-        "read_time": 8,
-        "content_ar": """
-بردية تشستر بيتي هي أقدم دليل معروف لتفسير الأحلام في التاريخ.
-
-📜 **وصف البردية:**
-• تاريخها: 1275 قبل الميلاد
-• مكان العثور: طيبة (الأقصر حالياً)
-• طولها: 5 أمتار
-• لغتها: الهيروغليفية
-
-🌟 **في مصر القديمة:**
-• كان الفراعنة يعتقدون أن الأحلام رسائل من الآلهة
-• الكهنة كانوا المفسرين الرسميين
-• الأحلام تكتب على البرديات وتُحفظ في المعابد
-
-🔍 **أمثلة من التفسيرات الفرعونية:**
-• رؤية التمساح: تحذير من خطر
-• رؤية النيل: خير وبركة
-• رؤية الفرعون: ترقية في المنصب
-• رؤية الثعبان: حكمة وشفاء
-• رؤية الموت: حياة جديدة
-
-🏛️ **تأثير الأحلام:**
-• كانت سبباً في قرارات الملوك
-• بنيت معابد بناءً على أحلام
-• غيرت مسار الحروب
-""",
-        "content_en": """
-The Chester Beatty Papyrus is the oldest known dream interpretation manual.
-
-📜 **Description:**
-• Date: 1275 BCE
-• Found: Thebes (Luxor)
-• Length: 5 meters
-• Language: Hieroglyphs
-
-🌟 **In Ancient Egypt:**
-• Pharaohs believed dreams were divine messages
-• Priests were official interpreters
-• Dreams recorded on papyrus and kept in temples
-
-🔍 **Egyptian Interpretations:**
-• Seeing crocodile: danger warning
-• Seeing Nile: blessing
-• Seeing Pharaoh: promotion
-• Seeing snake: wisdom and healing
-• Seeing death: new life
-
-🏛️ **Dream Influence:**
-• Influenced royal decisions
-• Temples built based on dreams
-• Changed war strategies
-"""
-    },
-    {
-        "title_ar": "أحلام الفراعنة وتأثيرها على القرارات",
-        "title_en": "Pharaohs' Dreams and Royal Decisions",
-        "category_ar": "مصر القديمة",
-        "category_en": "Ancient Egypt",
-        "type": "article",
-        "era": "1550-1070 BCE",
-        "read_time": 7,
-        "content_ar": """
-كيف أثرت الأحلام على قرارات ملوك مصر القديمة؟
-
-👑 **أحلام الملوك:**
-• الملك تحتمس الرابع بنى تمثال أبو الهول بعد حلم
-• أحلام رمسيس الثاني أثرت على خططه الحربية
-• الملكة حتشبسوت رأت أحلاماً عن إلهها آمون
-
-📜 **سجلات الأحلام:**
-• كتبت على جدران المعابد
-• نقشت على المسلات
-• حفظت في المكتبات الملكية
-
-🔮 **أحلام غيرت التاريخ:**
-• حلم الملك نخاو الثاني قبل المعركة
-• رؤيا الملك أمنمحات عن اغتياله
-• أحلام كليوباترا قبل سقوط مصر
-
-⚡ **تفسير الأحلام الملكية:**
-• الكهنة الكبار هم المفسرون
-• يقررون مصير الحروب
-• يوجهون السياسة الخارجية
-""",
-        "content_en": """
-How did dreams influence Ancient Egyptian kings' decisions?
-
-👑 **Royal Dreams:**
-• Thutmose IV built the Sphinx after a dream
-• Ramesses II's dreams affected war plans
-• Hatshepsut had dreams about god Amun
-
-📜 **Dream Records:**
-• Written on temple walls
-• Carved on obelisks
-• Kept in royal libraries
-
-🔮 **History-Changing Dreams:**
-• Pharaoh Necho II's pre-battle dream
-• Amenemhat's assassination vision
-• Cleopatra's dreams before Egypt's fall
-
-⚡ **Royal Dream Interpretation:**
-• High priests were interpreters
-• Decided war outcomes
-• Guided foreign policy
-"""
-    },
-
-    # ===== بلاد الرافدين =====
-    {
-        "title_ar": "الألواح الطينية البابلية",
-        "title_en": "Babylonian Clay Tablets",
-        "category_ar": "بلاد الرافدين",
-        "category_en": "Mesopotamia",
-        "type": "article",
-        "era": "2000-1600 BCE",
-        "read_time": 7,
-        "content_ar": """
-في بلاد الرافدين، كتبت الأحلام على ألواح طينية بالخط المسماري.
-
-📜 **عن الألواح:**
-• أقدم الألواح عمرها 4000 سنة
-• وجدت في مكتبة آشور بانيبال
-• مكتوبة باللغة الأكادية
-
-🌟 **معتقدات البابليين:**
-• الأحلام رسائل من الآلهة
-• الكهنة يفسرون الأحلام للملوك
-• بعض الأحلام سبب للحروب
-
-🔍 **تفسيرات بابلية:**
-• رؤية الإله: بركة وحماية
-• رؤية الملك: منصب رفيع
-• رؤية الثعبان: شفاء
-• رؤية النهر: رزق وفير
-
-👑 **أشهر الأحلام:**
-• حلم الملك كشتاريا
-• أحلام جلجامش في الملحمة
-• حلم الملك نبوخذ نصر
-""",
-        "content_en": """
-In Mesopotamia, dreams were written on clay tablets in cuneiform script.
-
-📜 **About the Tablets:**
-• Oldest tablets are 4000 years old
-• Found in Ashurbanipal's library
-• Written in Akkadian
-
-🌟 **Babylonian Beliefs:**
-• Dreams were divine messages
-• Priests interpreted kings' dreams
-• Some dreams caused wars
-
-🔍 **Babylonian Interpretations:**
-• Seeing god: blessing and protection
-• Seeing king: high position
-• Seeing snake: healing
-• Seeing river: abundant provision
-
-👑 **Famous Dreams:**
-• King Kashtaria's dream
-• Gilgamesh's dreams in the epic
-• Nebuchadnezzar's dream
-"""
-    },
-
-    # ===== اليونان القديمة =====
-    {
-        "title_ar": "معابد أسكليبيوس - الشفاء بالأحلام",
-        "title_en": "Asklepieia Temples - Healing Through Dreams",
-        "category_ar": "اليونان القديمة",
-        "category_en": "Ancient Greece",
-        "type": "article",
-        "era": "500 BCE - 400 CE",
-        "read_time": 7,
-        "content_ar": """
-في اليونان القديمة، بنيت معابد أسكليبيوس للشفاء بالأحلام.
-
-🏛️ **وصف المعابد:**
-• كانت منتشرة في كل اليونان
-• أشهرها في إبيداوروس وكوس
-• تضم مهاجع للنوم والعلاج
-
-💤 **طريقة العلاج:**
-1. يتطهر المريض ويصوم
-2. يقدم أضحية لإله الشفاء
-3. ينام في المهجع المقدس
-4. يأتيه حلم بالعلاج المناسب
-5. الكهنة يفسرون الحلم ويصفون العلاج
-
-🌟 **إله الأحلام مورفيوس:**
-• كان يظهر في المنام على شكل إنسان
-• يستطيع تقليد أي شكل
-• ابن هيبنوس (إله النوم)
-
-📚 **فلاسفة الأحلام:**
-• أرسطو: كتب عن الأحلام
-• أفلاطون: الأحلام نوافذ للروح
-• أبقراط: الأحلام تكشف الأمراض
-""",
-        "content_en": """
-In Ancient Greece, Asklepieia temples were built for healing through dreams.
-
-🏛️ **Temple Description:**
-• Spread throughout Greece
-• Famous ones at Epidaurus and Kos
-• Had dormitories for healing sleep
-
-💤 **Healing Process:**
-1. Patient purified and fasted
-2. Offered sacrifice to healing god
-3. Slept in sacred dormitory
-4. Received healing dream
-5. Priests interpreted and prescribed
-
-🌟 **Morpheus - God of Dreams:**
-• Appeared in human form
-• Could imitate any shape
-• Son of Hypnos (sleep god)
-
-📚 **Philosophers on Dreams:**
-• Aristotle: wrote about dreams
-• Plato: dreams are soul windows
-• Hippocrates: dreams reveal illness
-"""
-    },
-
-    # ===== علم الأحلام الحديث =====
-    {
-        "title_ar": "نظرية فرويد في تفسير الأحلام",
-        "title_en": "Freud's Dream Theory",
-        "category_ar": "علم الأحلام",
-        "category_en": "Dream Science",
-        "type": "article",
-        "era": "1900 CE",
-        "read_time": 8,
-        "content_ar": """
-سيغموند فرويد، مؤسس التحليل النفسي، كتب كتاب "تفسير الأحلام" عام 1900.
-
-📚 **نظريته:**
-• الأحلام "طريق ملكي" إلى اللاوعي
-• الأحلام تحقق رغبات مكبوتة
-• الرموز في الأحلام لها دلالات نفسية
-
-🔍 **آلية الحلم:**
-1. الرغبة المكبوتة (في اللاوعي)
-2. الرقيب النفسي (يمنع الظهور المباشر)
-3. تشويه الرغبة (تظهر برموز)
-4. الحلم النهائي (صورة رمزية)
-
-🌟 **الرموز عند فرويد:**
-• العصا: رمز ذكري
-• الصندوق: رمز أنثوي
-• الطيران: رغبة جنسية
-• السقوط: خوف من الفشل
-
-⚠️ **انتقادات النظرية:**
-• ركز كثيراً على الجنس
-• أهمل الجانب الروحي
-• عارضه تلميذه يونغ
-""",
-        "content_en": """
-Sigmund Freud, founder of psychoanalysis, wrote "The Interpretation of Dreams" in 1900.
-
-📚 **His Theory:**
-• Dreams are "royal road" to unconscious
-• Dreams fulfill repressed wishes
-• Symbols have psychological meanings
-
-🔍 **Dream Mechanism:**
-1. Repressed wish (in unconscious)
-2. Mental censor (blocks direct expression)
-3. Wish distortion (appears as symbols)
-4. Final dream (symbolic image)
-
-🌟 **Freudian Symbols:**
-• Stick: male symbol
-• Box: female symbol
-• Flying: sexual desire
-• Falling: fear of failure
-
-⚠️ **Criticism:**
-• Over-emphasized sexuality
-• Ignored spiritual aspects
-• Opposed by his student Jung
-"""
-    },
-    {
-        "title_ar": "الأحلام وحركة العين السريعة (REM)",
-        "title_en": "Dreams and REM Sleep",
-        "category_ar": "علم الأحلام",
-        "category_en": "Dream Science",
-        "type": "article",
-        "era": "1953 CE",
-        "read_time": 6,
-        "content_ar": """
-في عام 1953، اكتشف العلماء حركة العين السريعة أثناء النوم.
-
-🌙 **ما هي حركة العين السريعة؟**
-• مرحلة من النوم تتحرك فيها العين بسرعة
-• تحدث كل 90 دقيقة
-• تستمر من 5 إلى 30 دقيقة
-• فيها تحدث معظم الأحلام
-
-🧠 **خصائص نوم REM:**
-• المخ نشيط جداً
-• العضلات مشلولة (لا نتحرك)
-• ضربات القلب غير منتظمة
-• التنفس سريع
-
-📊 **إحصائيات:**
-• 20-25% من النوم REM
-• 4-5 فترات REM كل ليلة
-• 2 ساعة أحلام كل ليلة
-• 6 سنوات أحلام في العمر
-
-🔬 **اكتشافات حديثة:**
-• الأحلام تساعد على تثبيت الذاكرة
-• تنظم المشاعر
-• تنظف المخ من السموم
-• تطور الإبداع
-""",
-        "content_en": """
-In 1953, scientists discovered Rapid Eye Movement (REM) sleep.
-
-🌙 **What is REM?**
-• Sleep stage with rapid eye movement
-• Occurs every 90 minutes
-• Lasts 5-30 minutes
-• Most dreams occur here
-
-🧠 **REM Characteristics:**
-• Brain highly active
-• Muscles paralyzed
-• Irregular heartbeat
-• Rapid breathing
-
-📊 **Statistics:**
-• 20-25% of sleep is REM
-• 4-5 REM periods nightly
-• 2 hours of dreams nightly
-• 6 years of dreaming in lifetime
-
-🔬 **Recent Discoveries:**
-• Dreams help memory consolidation
-• Regulate emotions
-• Clean brain toxins
-• Enhance creativity
-"""
-    },
-
-    # ===== تقارير خاصة =====
-    {
-        "title_ar": "📊 تقرير: أكثر الأحلام شيوعاً في 2026",
-        "title_en": "📊 Report: Most Common Dreams in 2026",
-        "category_ar": "تقارير",
-        "category_en": "Reports",
-        "type": "report",
-        "era": "2026",
-        "read_time": 5,
-        "content_ar": """
-تقرير إحصائي عن أكثر الأحلام شيوعاً هذا العام:
-
-🥇 **السقوط من مكان مرتفع** (78%)
-• يدل على عدم الاستقرار
-• خوف من الفشل
-• فقدان السيطرة
-
-🥈 **الأسنان تسقط** (65%)
-• قلق على المظهر
-• خوف من التقدم في العمر
-• مشاكل عائلية
-
-🥉 **الطيران** (52%)
-• رغبة في الحرية
-• نجاح وتفوق
-• تخلص من هموم
-
-4️⃣ **الامتحانات** (48%)
-• قلق من التقييم
-• خوف من الفشل
-• ضغط نفسي
-
-5️⃣ **المطاردة** (43%)
-• هروب من مشكلة
-• خوف من شيء
-• ضغوط الحياة
-
-📈 **زيادة هذا العام:**
-• أحلام الذكاء الاصطناعي: +150%
-• أحلام السفر: +80%
-• أحلام الثراء: +60%
-
-🌍 **حسب المناطق:**
-• السعودية: الامتحانات الأكثر
-• مصر: الأسنان الأكثر
-• أمريكا: السقوط الأكثر
-• أوروبا: الطيران الأكثر
-""",
-        "content_en": """
-Statistical report on the most common dreams this year:
-
-🥇 **Falling from height** (78%)
-• Instability
-• Fear of failure
-• Loss of control
-
-🥈 **Teeth falling out** (65%)
-• Appearance anxiety
-• Fear of aging
-• Family issues
-
-🥉 **Flying** (52%)
-• Freedom desire
-• Success
-• Freedom from worries
-
-4️⃣ **Exams** (48%)
-• Evaluation anxiety
-• Fear of failure
-• Mental pressure
-
-5️⃣ **Being chased** (43%)
-• Escaping problems
-• Fear of something
-• Life pressures
-
-📈 **Increase this year:**
-• AI dreams: +150%
-• Travel dreams: +80%
-• Wealth dreams: +60%
-
-🌍 **By Region:**
-• Saudi Arabia: exams most common
-• Egypt: teeth most common
-• USA: falling most common
-• Europe: flying most common
-"""
-    },
-    {
-        "title_ar": "📈 تقرير: تأثير الذكاء الاصطناعي على الأحلام",
-        "title_en": "📈 Report: AI Impact on Dreams",
-        "category_ar": "تقارير",
-        "category_en": "Reports",
-        "type": "report",
-        "era": "2026",
-        "read_time": 6,
-        "content_ar": """
-كيف يؤثر الذكاء الاصطناعي على أحلامنا؟
-
-🤖 **إحصائيات 2026:**
-• 73% يستخدمون ChatGPT
-• 45% يحلمون بالروبوتات
-• 38% يرون ذكاء اصطناعي في المنام
-
-🌙 **أنماط الأحلام الجديدة:**
-• التحدث مع روبوتات
-• العيش في عوالم افتراضية
-• العمل مع مساعدين رقميين
-
-📊 **تغييرات في التفسير:**
-• الحاسوب: يدل على التنظيم
-• الإنترنت: التواصل مع العالم
-• الروبوت: المساعدة في العمل
-
-🔮 **توقعات:**
-• زيادة أحلام الميتافيرس
-• أحلام عن العمل عن بعد
-• رموز تقنية جديدة
-
-⚠️ **تأثير سلبي:**
-• 28% كوابيس عن التقنية
-• قلق من استبدال البشر
-• خوف من فقدان الخصوصية
-""",
-        "content_en": """
-How does AI affect our dreams?
-
-🤖 **2026 Statistics:**
-• 73% use ChatGPT
-• 45% dream about robots
-• 38% see AI in dreams
-
-🌙 **New Dream Patterns:**
-• Talking with robots
-• Living in virtual worlds
-• Working with digital assistants
-
-📊 **Interpretation Changes:**
-• Computer: organization
-• Internet: global connection
-• Robot: work assistance
-
-🔮 **Predictions:**
-• More metaverse dreams
-• Remote work dreams
-• New technological symbols
-
-⚠️ **Negative Impact:**
-• 28% tech nightmares
-• Fear of human replacement
-• Privacy concerns
-"""
-    }
-]
-
-# =========================================
-# دوال البوت
-# =========================================
-def create_article_html(article, lang='ar'):
-    """إنشاء ملف HTML بالمقالب الجديد"""
+import random
+import logging
+
+# إعداد الـ logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('bot.log', encoding='utf-8'),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+logger = logging.getLogger(__name__)
+
+# محاولة استيراد المكتبات المطلوبة
+try:
+    from groq import Groq
+    logger.info("✅ تم استيراد مكتبة Groq بنجاح")
+except ImportError as e:
+    logger.error(f"❌ فشل استيراد Groq: {e}")
+    logger.info("محاولة التثبيت...")
+    os.system("pip install groq")
+    from groq import Groq
+
+try:
+    import requests
+    logger.info("✅ تم استيراد مكتبة requests بنجاح")
+except ImportError:
+    logger.error("❌ فشل استيراد requests")
+    os.system("pip install requests")
+    import requests
+
+
+class DailyBlogBot:
+    """بوت توليد المقالات اليومية"""
     
-    today = dt.now()
-    date_str = today.strftime("%Y-%m-%d")
-    filename_date = today.strftime("%Y%m%d")
+    def __init__(self):
+        """تهيئة البوت"""
+        self.groq_api_key = os.getenv('GROQ_API_KEY')
+        self.openai_api_key = os.getenv('OPENAI_API_KEY')
+        
+        if not self.groq_api_key:
+            logger.warning("⚠️ GROQ_API_KEY غير موجود - سيتم استخدام محتوى احتياطي")
+        
+        self.client = None
+        if self.groq_api_key:
+            try:
+                self.client = Groq(api_key=self.groq_api_key)
+                logger.info("✅ تم تهيئة Groq client بنجاح")
+            except Exception as e:
+                logger.error(f"❌ فشل تهيئة Groq client: {e}")
+        
+        # مواضيع المقالات
+        self.topics = [
+            "تفسير حلم الماء في المنام",
+            "رؤية الثعبان في الحلم - التفسير الشامل",
+            "تفسير حلم الطيران في السماء",
+            "رؤية الموت في المنام - المعاني والدلالات",
+            "تفسير حلم النار والحريق",
+            "رؤية الحيوانات في الأحلام",
+            "تفسير حلم السقوط من مكان عالٍ",
+            "رؤية الأشخاص الموتى في المنام",
+            "تفسير حلم المال والثروة",
+            "رؤية البحر في المنام",
+            "تفسير حلم الزواج للعزباء",
+            "رؤية الحمل في المنام",
+            "تفسير حلم السفر والرحلات",
+            "رؤية المطر في الحلم",
+            "تفسير حلم البكاء والحزن"
+        ]
+        
+        # قوالب HTML للمقالات
+        self.html_template = """<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} | نَسَّاج الأحلام</title>
+    <meta name="description" content="{description}">
+    <meta name="keywords" content="تفسير الأحلام, {keywords}">
     
-    clean_title = article[f'title_{lang}'][:40].replace(' ', '-').replace(':', '').replace('؟', '')
-    clean_title = ''.join(c for c in clean_title if c.isalnum() or c == '-')
+    <!-- Open Graph -->
+    <meta property="og:title" content="{title}">
+    <meta property="og:description" content="{description}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://aidreamweaver.store/{slug}">
     
-    filename = f"blog/{filename_date}-{clean_title}.html"
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/blog.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container">
+                <a href="index.html" class="logo">🌙 نَسَّاج الأحلام</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="blog.html">المدونة</a></li>
+                    <li><a href="dream.html">تفسير حلمك</a></li>
+                    <li><a href="about.html">من نحن</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="article-page">
+        <article class="container">
+            <header class="article-header">
+                <h1>{title}</h1>
+                <div class="article-meta">
+                    <span class="date">📅 {date}</span>
+                    <span class="author">✍️ فريق نَسَّاج الأحلام</span>
+                    <span class="reading-time">⏱️ {reading_time} دقائق قراءة</span>
+                </div>
+            </header>
+
+            <div class="article-content">
+                {content}
+            </div>
+
+            <footer class="article-footer">
+                <div class="tags">
+                    {tags}
+                </div>
+                
+                <div class="share-buttons">
+                    <h3>شارك المقال:</h3>
+                    <button onclick="shareOnTwitter()">🐦 تويتر</button>
+                    <button onclick="shareOnFacebook()">📘 فيسبوك</button>
+                    <button onclick="shareOnWhatsApp()">💬 واتساب</button>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2026 نَسَّاج الأحلام - منصة تفسير الأحلام بالذكاء الاصطناعي</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>"""
     
-    # Load template from file
-    template = ""
+    def generate_article_with_ai(self, topic):
+        """توليد مقال باستخدام AI"""
+        if not self.client:
+            logger.warning("⚠️ Groq client غير متاح - استخدام محتوى احتياطي")
+            return self.generate_fallback_article(topic)
+        
+        try:
+            logger.info(f"🤖 توليد مقال عن: {topic}")
+            
+            prompt = f"""أنت كاتب محترف متخصص في تفسير الأحلام. اكتب مقالاً شاملاً عن "{topic}" بالعربية.
+
+يجب أن يتضمن المقال:
+1. مقدمة جذابة (100-150 كلمة)
+2. المعنى الرئيسي للحلم (200-300 كلمة)
+3. التفسيرات المختلفة حسب السياق (300-400 كلمة)
+4. الرموز والدلالات (200-250 كلمة)
+5. خاتمة ملهمة (100-150 كلمة)
+
+استخدم تنسيق HTML مع عناوين <h2> و <h3> وفقرات <p>.
+اجعل المحتوى غنياً بالمعلومات ومفيداً للقارئ."""
+
+            response = self.client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=[
+                    {"role": "system", "content": "أنت خبير في تفسير الأحلام وكتابة المحتوى العربي."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.8,
+                max_tokens=2000
+            )
+            
+            content = response.choices[0].message.content
+            logger.info(f"✅ تم توليد المقال بنجاح ({len(content)} حرف)")
+            return content
+            
+        except Exception as e:
+            logger.error(f"❌ فشل توليد المقال: {e}")
+            return self.generate_fallback_article(topic)
+    
+    def generate_fallback_article(self, topic):
+        """توليد مقال احتياطي عند فشل AI"""
+        logger.info("📝 إنشاء مقال احتياطي...")
+        
+        return f"""
+<h2>مقدمة</h2>
+<p>يعتبر {topic} من الأحلام الشائعة التي يراها الكثيرون، وله دلالات ومعانٍ عميقة في عالم تفسير الأحلام.</p>
+
+<h2>التفسير العام</h2>
+<p>يشير {topic} في المنام إلى العديد من المعاني والدلالات التي تختلف باختلاف سياق الحلم وحالة الرائي.</p>
+
+<h3>للعزباء</h3>
+<p>قد يرمز هذا الحلم للعزباء إلى تغييرات إيجابية قادمة في حياتها.</p>
+
+<h3>للمتزوجة</h3>
+<p>بالنسبة للمرأة المتزوجة، قد يدل الحلم على استقرار الحياة الأسرية.</p>
+
+<h3>للرجل</h3>
+<p>أما بالنسبة للرجل، فقد يشير الحلم إلى النجاح في العمل أو المشاريع.</p>
+
+<h2>الدلالات الإيجابية</h2>
+<p>من بين الدلالات الإيجابية لهذا الحلم:</p>
+<ul>
+    <li>تحقيق الأهداف والطموحات</li>
+    <li>تحسن الأحوال المادية</li>
+    <li>السعادة والراحة النفسية</li>
+</ul>
+
+<h2>الدلالات السلبية</h2>
+<p>في بعض الحالات، قد يحمل الحلم دلالات تحذيرية مثل:</p>
+<ul>
+    <li>وجود عقبات في الطريق</li>
+    <li>الحاجة إلى الحذر في اتخاذ القرارات</li>
+    <li>التنبيه لأمور تحتاج إلى اهتمام</li>
+</ul>
+
+<h2>نصائح عملية</h2>
+<p>إذا رأيت هذا الحلم، يُنصح بما يلي:</p>
+<ul>
+    <li>التفكر في حالتك النفسية الحالية</li>
+    <li>تدوين تفاصيل الحلم فور الاستيقاظ</li>
+    <li>الاستعانة بالله والدعاء</li>
+</ul>
+
+<h2>خاتمة</h2>
+<p>تذكر أن تفسير الأحلام علم واسع، والتفسيرات تختلف باختلاف السياق والظروف. نسأل الله أن يرينا وإياكم في المنام ما يسرنا.</p>
+"""
+    
+    def create_blog_post(self):
+        """إنشاء مقال مدونة جديد"""
+        try:
+            # اختيار موضوع عشوائي
+            topic = random.choice(self.topics)
+            logger.info(f"📌 الموضوع المختار: {topic}")
+            
+            # توليد المحتوى
+            content = self.generate_article_with_ai(topic)
+            
+            # إنشاء البيانات الوصفية
+            date = datetime.now()
+            slug = f"{date.strftime('%Y-%m-%d')}-{topic.replace(' ', '-')}"
+            
+            # حساب وقت القراءة (متوسط 200 كلمة/دقيقة)
+            word_count = len(content.split())
+            reading_time = max(1, word_count // 200)
+            
+            # التوصيف
+            description = f"تفسير شامل ومفصل عن {topic} في المنام مع الدلالات والمعاني المختلفة."
+            keywords = f"{topic}, تفسير الأحلام, رؤيا, منام"
+            
+            # الوسوم
+            tags_list = topic.split()[:3]
+            tags_html = " ".join([f'<span class="tag">#{tag}</span>' for tag in tags_list])
+            
+            # ملء القالب
+            html_content = self.html_template.format(
+                title=topic,
+                description=description,
+                keywords=keywords,
+                slug=slug,
+                date=date.strftime('%Y-%m-%d'),
+                reading_time=reading_time,
+                content=content,
+                tags=tags_html
+            )
+            
+            # حفظ الملف
+            filename = f"{slug}.html"
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(html_content)
+            
+            logger.info(f"✅ تم إنشاء المقال: {filename}")
+            
+            # تحديث صفحة المدونة
+            self.update_blog_index(topic, slug, description, date)
+            
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ فشل إنشاء المقال: {e}")
+            return False
+    
+    def update_blog_index(self, title, slug, description, date):
+        """تحديث صفحة فهرس المدونة"""
+        try:
+            blog_index_file = 'blog.html'
+            
+            if not os.path.exists(blog_index_file):
+                logger.warning("⚠️ ملف blog.html غير موجود")
+                return
+            
+            # قراءة المحتوى الحالي
+            with open(blog_index_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # إنشاء بطاقة المقال الجديد
+            new_card = f"""
+        <article class="blog-card">
+            <div class="blog-card-header">
+                <h3><a href="{slug}.html">{title}</a></h3>
+                <span class="date">📅 {date.strftime('%Y-%m-%d')}</span>
+            </div>
+            <p>{description}</p>
+            <a href="{slug}.html" class="read-more">اقرأ المزيد ←</a>
+        </article>
+"""
+            
+            # إضافة المقال الجديد في بداية القائمة
+            if '<div class="blog-grid">' in content:
+                content = content.replace(
+                    '<div class="blog-grid">',
+                    f'<div class="blog-grid">{new_card}',
+                    1
+                )
+                
+                with open(blog_index_file, 'w', encoding='utf-8') as f:
+                    f.write(content)
+                
+                logger.info("✅ تم تحديث صفحة المدونة")
+            else:
+                logger.warning("⚠️ لم يتم العثور على blog-grid في blog.html")
+                
+        except Exception as e:
+            logger.error(f"❌ فشل تحديث فهرس المدونة: {e}")
+
+
+def main():
+    """الوظيفة الرئيسية"""
     try:
-        with open('article_template_v3.html', 'r', encoding='utf-8') as f:
-            template = f.read()
-    except:
-        pass
-    
-    if not template:
-        return filename, "<h1>خطأ في القالب</h1>"
-    
-    # Prepare content
-    title = article['title_ar']
-    title_en = article['title_en']
-    category = article['category_ar']
-    read_time = article['read_time']
-    content_ar = article.get('content_ar', 'مقال قيد الإعداد')
-    content_en = article.get('content_en', 'Article in progress')
-    
-    # Replace placeholders
-    html = template.replace('{title}', title)
-    html = html.replace('{title_en}', title_en)
-    html = html.replace('{description}', f"{title} - {category}")
-    html = html.replace('{meta}', f"📅 {date_str} • 🕒 {read_time} دقائق • {category}")
-    html = html.replace('{meta_en}', f"📅 {date_str} • 🕒 {read_time} min • {article.get('category_en', category)}")
-    html = html.replace('{content_ar}', content_ar)
-    html = html.replace('{content_en}', content_en)
-    html = html.replace('{lang}', 'ar')
-    html = html.replace('{dir}', 'rtl')
-    html = html.replace('{lang-class}', 'ar')
-    
-    return filename, html
+        logger.info("🚀 بدء تشغيل البوت...")
+        
+        bot = DailyBlogBot()
+        success = bot.create_blog_post()
+        
+        if success:
+            logger.info("✅ تم تنفيذ البوت بنجاح!")
+            return 0
+        else:
+            logger.error("❌ فشل تنفيذ البوت")
+            return 1
+            
+    except Exception as e:
+        logger.error(f"❌ خطأ فادح: {e}")
+        return 1
 
 
-def publish_daily():
-    """الدالة الرئيسية - تنشر مقالة كل يوم"""
-    
-    print("="*60)
-    print(f"🚀 {BOT_NAME} v{VERSION}")
-    print("="*60)
-    print(f"📅 التاريخ: {dt.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print()
-    
-    # إنشاء مجلد المقالات
-    Path("articles").mkdir(exist_ok=True)
-    Path("reports").mkdir(exist_ok=True)
-    
-    # اختيار موضوع عشوائي
-    article = random.choice(ARTICLES)
-    print(f"📚 الموضوع: {article['title_ar']}")
-    print(f"🏷️ التصنيف: {article['category_ar']}")
-    print(f"📊 النوع: {article['type']}")
-    
-    # إنشاء المقالة العربية
-    filename_ar, html_ar = create_article_html(article, 'ar')
-    with open(filename_ar, 'w', encoding='utf-8') as f:
-        f.write(html_ar)
-    print(f"✅ تم إنشاء: {filename_ar}")
-    
-    # إنشاء المقالة الإنجليزية
-    filename_en, html_en = create_article_html(article, 'en')
-    with open(filename_en, 'w', encoding='utf-8') as f:
-        f.write(html_en)
-    print(f"✅ تم إنشاء: {filename_en}")
-    
-    # تحديث المدونة
-    send_telegram_notification(article, filename_ar, filename_en)
-    update_blog_index(article, filename_ar, filename_en)
-    
-    # إنشاء ملف JSON للتتبع
-    log = {
-        "date": dt.now().strftime("%Y-%m-%d"),
-        "time": dt.now().strftime("%H:%M:%S"),
-        "article": {
-            "title_ar": article['title_ar'],
-            "title_en": article['title_en'],
-            "category_ar": article['category_ar'],
-            "category_en": article['category_en'],
-            "type": article['type']
-        },
-        "files": {
-            "arabic": filename_ar,
-            "english": filename_en
-        }
-    }
-    
-    log_file = f"logs/{dt.now().strftime('%Y%m%d')}.json"
-    Path("logs").mkdir(exist_ok=True)
-    with open(log_file, 'w', encoding='utf-8') as f:
-        json.dump(log, f, ensure_ascii=False, indent=2)
-    print(f"✅ تم تسجيل النشر في: {log_file}")
-    
-    print("\n" + "="*60)
-    print("🎉 تم النشر بنجاح!")
-    print("="*60)
-    
-    return filename_ar, filename_en
-
-# =========================================
-# ملف GitHub Actions
-# =========================================
-def create_github_workflow():
-    """إنشاء ملف للتشغيل التلقائي"""
-    
-    workflow_dir = Path(".github/workflows")
-    workflow_dir.mkdir(parents=True, exist_ok=True)
-    
-    workflow_content = """name: نشر المقالات اليومي 📚
-
-on:
-  schedule:
-    - cron: '0 3 * * *'  # 6 صباحاً السعودية
-  workflow_dispatch:  # للتشغيل اليدوي
-
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: إعداد Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-      
-      - name: تشغيل البوت
-        run: python daily_blog_bot.py
-      
-      - name: رفع التغييرات
-        run: |
-          git config user.name "Weaver Bot"
-          git config user.email "bot@aidreamweaver.store"
-          git add articles/ logs/ *.html
-          git commit -m "📚 نشر مقالة يومية - $(date +'%Y-%m-%d')" || exit 0
-          git push
-"""
-    
-    with open(workflow_dir / "daily_blog.yml", 'w', encoding='utf-8') as f:
-        f.write(workflow_content)
-    print("✅ تم إنشاء ملف GitHub Actions")
-
-
-def update_blog_index(article, filename_ar, filename_en):
-    """تحديث فهرس المدونة"""
-    # Placeholder - can be implemented later
-    print("📝 تحديث المدونة...")
-
-def send_telegram_notification(article, filename_ar, filename_en):
-    """إرسال إشعار للتليجرام"""
-    # Placeholder - needs BOT_TOKEN
-    print("📱 إشعار التليجرام...")
-
-
-# =========================================
-# التشغيل
-# =========================================
 if __name__ == "__main__":
-    # تشغيل البوت
-    publish_daily()
-    
-    # إنشاء ملف GitHub Actions (مرة واحدة)
-    if not Path(".github/workflows/daily_blog.yml").exists():
-        create_github_workflow()
+    sys.exit(main())
