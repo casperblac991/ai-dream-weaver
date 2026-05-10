@@ -17,7 +17,9 @@ permissions:
 jobs:
   dependabot-auto-merge:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
+    # Only run automatically for Dependabot PRs, but allow manual trigger
+    if: >
+      github.actor == 'dependabot[bot]' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Enable auto-merge
         uses: actions/github-script@v7
