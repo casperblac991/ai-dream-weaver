@@ -13,7 +13,7 @@ import requests
 from datetime import datetime
 
 # ========== الإعدادات ==========
-STORE_URL = "https://ai-dream-weaver.vercel.app"
+STORE_URL = "https://aidreamweaver.store"
 STORE_NAME = "AI Dream Weaver"
 
 # ========== قاموس الرموز ==========

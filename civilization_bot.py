@@ -244,7 +244,7 @@ class CivilizationReportBot:
         </div>
         <div class="footer">
             <p>🔮 نَسَّاج الأحلام - موسوعة تفسير الأحلام عبر الحضارات</p>
-            <p>https://ai-dream-weaver.vercel.app/reports/{filename}</p>
+            <p>https://aidreamweaver.store/reports/{filename}</p>
         </div>
     </div>
 </body>
@@ -275,7 +275,7 @@ class CivilizationReportBot:
             return
         
         try:
-            message = f"🔮 *تقرير جديد في نَسَّاج الأحلام*\n\n📚 {title}\n\n🔗 https://ai-dream-weaver.vercel.app/reports/{filename}"
+            message = f"🔮 *تقرير جديد في نَسَّاج الأحلام*\n\n📚 {title}\n\n🔗 https://aidreamweaver.store/reports/{filename}"
             url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
             data = {
                 "chat_id": "@nasaj_ahlam",  # أو معرف قناتك
