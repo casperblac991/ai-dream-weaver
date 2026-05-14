@@ -1,0 +1,154 @@
+# AI Dream Weaver - Social Media Automation with n8n
+
+## 📋 الملخص
+
+تم إعداد **n8n** بنجاح لتشغيل أتمتة الحملات على منصات التواصل الاجتماعي!
+
+---
+
+## 🚀 بيانات الوصول
+
+- **رابط n8n**: http://localhost:5678
+- **اسم المستخدم**: admin
+- **كلمة المرور**: ai-dreamweaver2024
+
+---
+
+## 📦 الملفات المُنشأة
+
+| الملف | الوصف |
+|-------|-------|
+| `docker-compose.n8n.yml` | إعدادات Docker لـ n8n |
+| `.env.n8n` | متغيرات البيئة لـ n8n |
+| `n8n-workflows/social-media-automation.json` | سير العمل جاهز للاستيراد |
+| `social_media_automation.py` | سكريبت بايثون للأتمتة (بديل) |
+
+---
+
+## ⚙️ إعدادات المنصات
+
+أضف مفاتيح API في متغيرات البيئة:
+
+```bash
+# Telegram
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+TELEGRAM_CHAT_ID=your_chat_id
+
+# Twitter/X
+TWITTER_BEARER_TOKEN=your_twitter_bearer_token
+
+# Facebook
+FACEBOOK_ACCESS_TOKEN=your_facebook_access_token
+FACEBOOK_PAGE_ID=your_facebook_page_id
+```
+
+---
+
+## 📋 خطوات التشغيل
+
+### الطريقة الأولى: عبر n8n (الويب)
+
+1. افتح http://localhost:5678
+2. سجّل دخول بكلمة: `admin` / `ai-dreamweaver2024`
+3. اذهب إلى **Workflows**
+4. اضغط **Import from File**
+5. اختر `n8n-workflows/social-media-automation.json`
+6. فعّل Workflow
+
+### الطريقة الثانية: عبر سكريبت Python
+
+```bash
+# تشغيل مرة واحدة
+python3 social_media_automation.py --once
+
+# تشغيل كخدمة خلفية (كل 6 ساعات)
+python3 social_media_automation.py --daemon
+```
+
+---
+
+## 🔄 سير العمل
+
+1. **المشغل**: كل 6 ساعات (قابل للتعديل)
+2. **توليد المحتوى**: اختيار موضوع عشوائي من الأحلام
+3. **النشر**: Telegram + Twitter + Facebook + Instagram
+4. **التسجيل**: حفظ النتائج في logs/
+
+---
+
+## 🎯 منصات الدعم
+
+- Telegram Bot
+- Twitter/X API
+- Facebook Graph API
+- Instagram (عبر Facebook)
+
+---
+
+## ⚠️ ملاحظات
+
+- تحتاج لإضافة مفاتيح API الخاصة بكل منصة
+- السكريبت يعمل بدون n8n إذا لم يكن هناك مفاتيح
+
+services:
+  n8n:
+    image: n8nio/n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      # General
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=${N8N_USER:admin}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_PASSWORD:ai-dreamweaver2024}
+      - N8N_HOST=${N8N_HOST:0.0.0.0}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      
+      # Webhook URL for external access
+      - WEBHOOK_URL=${WEBHOOK_URL:http://localhost:5678}
+      
+      # Disable AI features (we'll use our own AI)
+      - N8N_AI_ENABLED=false
+      
+      # Execution settings
+      - EXECUTIONS_MODE=${EXECUTIONS_MODE:regular}
+      - EXECUTIONS_TIMEOUT=300
+      - EXECUTIONS_TIMEOUT_MAX=600
+      
+      # Database (using SQLite for simplicity)
+      - DB_TYPE=sqljs
+      - DB_SQLJS_FILE=/home/node/.n8n/storage.sqlite
+      
+      # AI API Keys (for n8n nodes that need them)
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      
+      # Enable additional nodes
+      - N8N_EXECUTIONS_DATA_SAVE_ON_ERROR=all
+      - N8N_EXECUTIONS_DATA_SAVE_ON_SUCCESS=all
+      
+    volumes:
+      - n8n_storage:/home/node/.n8n
+    
+    networks:
+      - ai-dream-network
+
+  # Redis for caching and queue management
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - ai-dream-network
+
+volumes:
+  n8n_storage:
+  redis_data:
+
+networks:
+  ai-dream-network:
+    driver: bridge
