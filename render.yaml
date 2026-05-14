@@ -4,32 +4,17 @@ services:
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11.0
+        value: "3.11"
       - key: GROQ_API_KEY
         sync: false
-      - key: STRIPE_API_KEY
+      - key: OPENAI_API_KEY
         sync: false
-      - key: PAYPAL_CLIENT_ID
-        sync: false
-      - key: TELEGRAM_TOKEN
+      - key: TELEGRAM_BOT_TOKEN
         sync: false
       - key: DATABASE_URL
-        value: sqlite:///app/weaver.db
-    routes:
-      - path: /
-        name: Home
-      - path: /app/login
-        name: Login
-      - path: /app/register
-        name: Register
-      - path: /app/dashboard
-        name: Dashboard
-      - path: /blog
-        name: Blog
-      - path: /dream/*
-        name: Dream Symbols
-      - path: /api/*
-        name: API
+        value: sqlite:///weaver.db
+      - key: SITE_URL
+        value: https://aidreamweaver.store
