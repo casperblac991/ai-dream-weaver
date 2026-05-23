@@ -126,6 +126,82 @@ async def root(request: Request):
         "user": user, "stats": stats
     })
 
+# Static HTML pages (served from root directory)
+@app.get("/about", response_class=HTMLResponse)
+async def about_page(request: Request):
+    try:
+        with open("about.html", "r", encoding="utf-8") as f:
+            content = f.read()
+        return HTMLResponse(content=content)
+    except FileNotFoundError:
+        return HTMLResponse(content="<h1>Page not found</h1>", status_code=404)
+
+@app.get("/faq", response_class=HTMLResponse)
+async def faq_page(request: Request):
+    try:
+        with open("faq.html", "r", encoding="utf-8") as f:
+            content = f.read()
+        return HTMLResponse(content=content)
+    except FileNotFoundError:
+        return HTMLResponse(content="<h1>Page not found</h1>", status_code=404)
+
+# Placeholder pages for /store and /library
+@app.get("/store", response_class=HTMLResponse)
+async def store_page(request: Request):
+    return HTMLResponse(content="""
+    <!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Weaver Store - قريباً</title>
+        <style>
+            body { font-family: 'Tajawal', sans-serif; background: #050210; color: #e2d9f3; min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+            .container { text-align: center; padding: 2rem; }
+            h1 { font-size: 2rem; color: #f0c060; margin-bottom: 1rem; }
+            p { color: #a855f7; font-size: 1.2rem; }
+            a { color: #7c3aed; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🔮 المتجر قريباً</h1>
+            <p>نعمل على إضافة منتجات ومحتوى جديد. تابعنا!</p>
+            <p><a href="/">العودة للرئيسية →</a></p>
+        </div>
+    </body>
+    </html>
+    """)
+
+@app.get("/library", response_class=HTMLResponse)
+async def library_page(request: Request):
+    return HTMLResponse(content="""
+    <!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Weaver Library - قريباً</title>
+        <style>
+            body { font-family: 'Tajawal', sans-serif; background: #050210; color: #e2d9f3; min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+            .container { text-align: center; padding: 2rem; }
+            h1 { font-size: 2rem; color: #f0c060; margin-bottom: 1rem; }
+            p { color: #a855f7; font-size: 1.2rem; }
+            a { color: #7c3aed; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>📚 المكتبة قريباً</h1>
+            <p>نعمل على تجهيز مكتبة شاملة للأحلام والتراث. تابعنا!</p>
+            <p><a href="/">العودة للرئيسية →</a></p>
+        </div>
+    </body>
+    </html>
+    """)
+
 @app.get("/app", response_class=HTMLResponse)
 async def app_home(request: Request):
     user = get_current_user(request)
