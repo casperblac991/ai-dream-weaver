@@ -44,7 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUT: ${{ github.event.inputs.prompt }}
         run: |
-          sigil run "$INPUT" --model gpt-4o
+          sigil run "$INPUT"
 
       - name: Create Pull Request if changes
         if: github.event_name == 'workflow_dispatch'
