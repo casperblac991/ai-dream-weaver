@@ -6,7 +6,8 @@ Weaver (نَسَّاج) - منصة تفسير الأحلام بالذكاء ال
 """
 
 from fastapi import FastAPI, Request, Form, HTTPException, BackgroundTasks
-from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -16,6 +17,9 @@ from datetime import datetime
 from pathlib import Path
 import glob
 import sqlite3
+
+# تحديد مسار التطبيق (دعم Render و local)
+APP_ROOT = Path(__file__).parent.parent.resolve()
 
 # ========== التعديل الأساسي: استيراد جميع الدوال من database.py بدلاً من models.py ==========
 from app.database import init_db
@@ -38,17 +42,31 @@ app = FastAPI(
     version="3.1.0"
 )
 
-# CORS
+# CORS - إصلاح: allow_credentials مع origins محددة
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://ai-dream-weaver.onrender.com",
+        "https://aidreamweaver.store",
+        "http://localhost:10000",
+        "http://127.0.0.1:10000",
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
     allow_headers=["*"],
 )
 
-# القوالب
-templates = Jinja2Templates(directory="templates")
+# القوالب - إصلاح: مسار صحيح
+templates = Jinja2Templates(directory=str(APP_ROOT / "templates"))
+
+# Static files - إصلاح: دعم الملفات الثابتة
+if (APP_ROOT / "css").exists():
+    app.mount("/css", StaticFiles(directory=str(APP_ROOT / "css")), name="css")
+if (APP_ROOT / "js").exists():
+    app.mount("/js", StaticFiles(directory=str(APP_ROOT / "js")), name="js")
+if (APP_ROOT / "images").exists():
+    app.mount("/images", StaticFiles(directory=str(APP_ROOT / "images")), name="images")
+
 # إدارة الجلسات
 sessions: dict = {}
 
@@ -119,6 +137,7 @@ def get_all_blog_posts(limit=50):
 
 # ========== الصفحات الأساسية ==========
 @app.get("/", response_class=HTMLResponse)
+@app.head("/")
 async def root(request: Request):
     user = get_current_user(request)
     stats = get_platform_stats()
@@ -493,6 +512,7 @@ async def generate_and_save_blog():
 
 # ========== نقطة الصحة (لـ Render) ==========
 @app.get("/health")
+@app.head("/health")
 def health_check():
     return {"status": "ok"}
 
@@ -650,4 +670,94 @@ async def get_webhook_info():
     import requests
     r = requests.get(f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/getWebhookInfo")
     return JSONResponse(r.json())
+
+
+# ========== Static Files Fallback & Error Handlers ==========
+
+# Handler للملفات الثابتة من المستوى الأعلى
+@app.get("/favicon.ico")
+async def favicon():
+    favicon_path = APP_ROOT / "favicon.ico"
+    if favicon_path.exists():
+        return FileResponse(str(favicon_path))
+    return JSONResponse({"error": "Not found"}, status_code=404)
+
+@app.get("/robots.txt")
+async def robots():
+    robots_path = APP_ROOT / "robots.txt"
+    if robots_path.exists():
+        return FileResponse(str(robots_path))
+    return JSONResponse({"error": "Not found"}, status_code=404)
+
+@app.get("/sitemap.xml")
+async def sitemap():
+    sitemap_path = APP_ROOT / "sitemap.xml"
+    if sitemap_path.exists():
+        return FileResponse(str(sitemap_path))
+    return JSONResponse({"error": "Not found"}, status_code=404)
+
+# Error handlers
+@app.exception_handler(404)
+async def not_found(request: Request, exc):
+    return HTMLResponse(
+        content="""<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - الصفحة غير موجودة</title>
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background: #050210; color: #e2d9f3; min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+        .container { text-align: center; padding: 2rem; }
+        h1 { font-size: 4rem; color: #f0c060; margin-bottom: 1rem; }
+        p { color: #a855f7; font-size: 1.2rem; }
+        a { color: #7c3aed; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔮 404</h1>
+        <p>الصفحة التي تبحث عنها غير موجودة</p>
+        <p><a href="/">العودة للرئيسية →</a></p>
+    </div>
+</body>
+</html>""",
+        status_code=404
+    )
+
+@app.exception_handler(500)
+async def server_error(request: Request, exc):
+    return HTMLResponse(
+        content="""<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - خطأ في الخادم</title>
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background: #050210; color: #e2d9f3; min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+        .container { text-align: center; padding: 2rem; }
+        h1 { font-size: 4rem; color: #ff6b6b; margin-bottom: 1rem; }
+        p { color: #a855f7; font-size: 1.2rem; }
+        a { color: #7c3aed; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚠️ 500</h1>
+        <p>حدث خطأ في الخادم. نعمل على إصلاحه.</p>
+        <p><a href="/">العودة للرئيسية →</a></p>
+    </div>
+</body>
+</html>""",
+        status_code=500
+    )
+
+
+# ========== Production Entry Point ==========
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run("app:app", host="0.0.0.0", port=port, reload=False)
 
