@@ -31,6 +31,7 @@ from app.database import (
     get_platform_stats, save_blog_post, get_blog_posts
 )
 from app.ai import interpret_dream, generate_image_prompt, generate_blog_article
+from app.shop import router as shop_router
 
 # تهيئة قاعدة البيانات (ستنشئ جميع الجداول المطلوبة)
 init_db()
@@ -41,6 +42,9 @@ app = FastAPI(
     description="منصة تفسير الأحلام بالذكاء الاصطناعي",
     version="3.1.0"
 )
+
+# إضافة روتر المتجر
+app.include_router(shop_router)
 
 # CORS - إصلاح: allow_credentials مع origins محددة
 app.add_middleware(
@@ -165,33 +169,13 @@ async def faq_page(request: Request):
         return HTMLResponse(content="<h1>Page not found</h1>", status_code=404)
 
 # Placeholder pages for /store and /library
+@app.get("/shop", response_class=HTMLResponse)
+async def shop_page(request: Request):
+    return templates.TemplateResponse(request, "shop.html")
+
 @app.get("/store", response_class=HTMLResponse)
 async def store_page(request: Request):
-    return HTMLResponse(content="""
-    <!DOCTYPE html>
-    <html lang="ar" dir="rtl">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Weaver Store - قريباً</title>
-        <style>
-            body { font-family: 'Tajawal', sans-serif; background: #050210; color: #e2d9f3; min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
-            .container { text-align: center; padding: 2rem; }
-            h1 { font-size: 2rem; color: #f0c060; margin-bottom: 1rem; }
-            p { color: #a855f7; font-size: 1.2rem; }
-            a { color: #7c3aed; text-decoration: none; }
-            a:hover { text-decoration: underline; }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>🔮 المتجر قريباً</h1>
-            <p>نعمل على إضافة منتجات ومحتوى جديد. تابعنا!</p>
-            <p><a href="/">العودة للرئيسية →</a></p>
-        </div>
-    </body>
-    </html>
-    """)
+    return RedirectResponse("/shop")
 
 @app.get("/library", response_class=HTMLResponse)
 async def library_page(request: Request):

@@ -281,7 +281,7 @@ class DailyBlogBot:
             
             # حفظ الملف
             filename = f"{slug}.html"
-            with open(filename, 'w', encoding='utf-8') as f:
+            with open('/home/ubuntu/ai-dream-weaver/templates/' + filename, 'w', encoding='utf-8') as f:
                 f.write(html_content)
             
             logger.info(f"✅ تم إنشاء المقال: {filename}")
@@ -298,7 +298,7 @@ class DailyBlogBot:
     def update_blog_index(self, title, slug, description, date):
         """تحديث صفحة فهرس المدونة"""
         try:
-            blog_index_file = 'blog.html'
+            blog_index_file = '/home/ubuntu/ai-dream-weaver/templates/blog.html'
             
             if not os.path.exists(blog_index_file):
                 logger.warning("⚠️ ملف blog.html غير موجود")
@@ -310,6 +310,13 @@ class DailyBlogBot:
             
             # إنشاء بطاقة المقال الجديد
             new_card = f"""
+        <article class="article-card reveal visible">
+            <div class="article-category">✦ {title}</div>
+            <h3><a href="{slug}.html">{title}</a></h3>
+            <p>{description}</p>
+            <div class="article-meta">📅 {date.strftime("%Y-%m-%d")} • 5 min read</div>
+            <a href="{slug}.html" class="read-more">اقرأ المزيد →</a>
+        </article>
         <article class="blog-card">
             <div class="blog-card-header">
                 <h3><a href="{slug}.html">{title}</a></h3>
@@ -321,10 +328,10 @@ class DailyBlogBot:
 """
             
             # إضافة المقال الجديد في بداية القائمة
-            if '<div class="blog-grid">' in content:
+            if '<div class="posts-grid" id="postsGrid">' in content:
                 content = content.replace(
-                    '<div class="blog-grid">',
-                    f'<div class="blog-grid">{new_card}',
+                    '<div class="posts-grid" id="postsGrid">',
+                    f'<div class="posts-grid" id="postsGrid">{new_card}',
                     1
                 )
                 
@@ -333,7 +340,7 @@ class DailyBlogBot:
                 
                 logger.info("✅ تم تحديث صفحة المدونة")
             else:
-                logger.warning("⚠️ لم يتم العثور على blog-grid في blog.html")
+                logger.warning("⚠️ لم يتم العثور على posts-grid في blog.html")
                 
         except Exception as e:
             logger.error(f"❌ فشل تحديث فهرس المدونة: {e}")
