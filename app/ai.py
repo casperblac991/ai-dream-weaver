@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Weaver AI Engine - كامل مع دعم مفاتيح API متعددة (Fallback)
+Weaver AI Engine - كامل مع دعم مفاتيح API متعددة (Fallback) + Gemma 4
 """
 
 import os
 import requests
 import json
 from datetime import datetime
+
+# إعدادات Ollama / Local AI
+OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.2")
 
 # مفاتيح API متعددة مع ترتيب الأولوية
 API_KEYS = [
@@ -196,3 +200,96 @@ def generate_blog_article(topic, language="ar"):
     if result:
         return result
     return f"<p>مقال عن: {topic}</p><p>المحتوى قيد التوليد...</p>"
+
+
+# ========== دوال Ollama / Gemma 4 ==========
+
+def call_ollama_local(messages, model=None, max_tokens=1500):
+    """استدعاء Ollama المحلي"""
+    if model is None:
+        model = OLLAMA_MODEL
+    
+    base_url = OLLAMA_BASE_URL.rstrip("/")
+    
+    try:
+        # تحويل تنسيق الرسائل لـ Ollama
+        ollama_messages = []
+        for msg in messages:
+            role = msg.get("role", "user")
+            if role == "system":
+                ollama_messages.append({"role": "system", "content": msg["content"]})
+            else:
+                ollama_messages.append({"role": "user", "content": msg["content"]})
+        
+        response = requests.post(
+            f"{base_url}/api/chat",
+            json={
+                "model": model,
+                "messages": ollama_messages,
+                "stream": False,
+                "options": {
+                    "temperature": 0.7,
+                    "num_predict": max_tokens
+                }
+            },
+            timeout=120
+        )
+        
+        if response.status_code == 200:
+            return response.json().get("message", {}).get("content", "")
+    except Exception as e:
+        print(f"Ollama local error: {e}")
+    return None
+
+
+def check_ollama_status():
+    """فحص حالة Ollama"""
+    try:
+        response = requests.get(f"{OLLAMA_BASE_URL}/api/tags", timeout=5)
+        if response.status_code == 200:
+            models = response.json().get("models", [])
+            return {
+                "status": "connected",
+                "available_models": [m.get("name") for m in models],
+                "current_model": OLLAMA_MODEL,
+                "llama_available": any("llama" in m.get("name", "").lower() for m in models)
+            }
+    except:
+        pass
+    return {
+        "status": "disconnected",
+        "current_model": OLLAMA_MODEL,
+        "llama_available": False
+    }
+
+
+def interpret_dream_local(dream_text, style="islamic", language="ar"):
+    """تفسير الحلم باستخدام Ollama المحلي"""
+    style_config = INTERPRETATION_STYLES.get(style, INTERPRETATION_STYLES["general"])
+    system_prompt = style_config.get(language, style_config["ar"])
+    
+    if language == "ar":
+        user_prompt = f"""الحلم: {dream_text}
+
+قدم تفسيراً منظماً يتضمن:
+1. التفسير الرمزي
+2. الدلالات الروحانية والنفسية
+3. النصائح العملية
+
+أجب بالعربية الفصحى."""
+    else:
+        user_prompt = f"""Dream: {dream_text}
+
+Provide an organized interpretation with:
+1. Symbolic interpretation
+2. Spiritual and psychological meanings
+3. Practical advice."""
+    
+    messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}]
+    result = call_ollama_local(messages, model=OLLAMA_MODEL, max_tokens=2000)
+    
+    if result:
+        return result
+    
+    # Fallback إلى API التقليدية
+    return interpret_dream(dream_text, style, language)
