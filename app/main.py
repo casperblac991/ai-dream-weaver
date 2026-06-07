@@ -177,6 +177,14 @@ async def shop_page(request: Request):
 async def dream_interpreter_page(request: Request):
     return templates.TemplateResponse(request, "dream-interpreter.html")
 
+@app.get("/dream-experience.html", response_class=HTMLResponse)
+async def dream_experience_page(request: Request):
+    return templates.TemplateResponse(request, "dream-experience.html")
+
+@app.get("/dream-experience", response_class=HTMLResponse)
+async def dream_experience_redirect(request: Request):
+    return templates.TemplateResponse(request, "dream-experience.html")
+
 @app.get("/store", response_class=HTMLResponse)
 async def store_page(request: Request):
     return RedirectResponse("/shop")
