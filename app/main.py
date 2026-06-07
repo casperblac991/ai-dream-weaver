@@ -173,6 +173,10 @@ async def faq_page(request: Request):
 async def shop_page(request: Request):
     return templates.TemplateResponse(request, "shop.html")
 
+@app.get("/dream-interpreter", response_class=HTMLResponse)
+async def dream_interpreter_page(request: Request):
+    return templates.TemplateResponse(request, "dream-interpreter.html")
+
 @app.get("/store", response_class=HTMLResponse)
 async def store_page(request: Request):
     return RedirectResponse("/shop")
@@ -397,6 +401,12 @@ async def api_interpret(request: Request):
         return JSONResponse({"interpretation": result, "status": "success", "source": "ollama" if status["status"] == "connected" else "api"})
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
+
+# API: حالة Ollama
+@app.get("/api/ollama-status")
+async def ollama_status():
+    from app.ai import check_ollama_status
+    return JSONResponse(check_ollama_status())
 
 # الاشتراك في النشرة البريدية
 @app.post("/api/subscribe")
