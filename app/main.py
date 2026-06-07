@@ -383,8 +383,18 @@ async def api_interpret(request: Request):
         language = body.get("language", "ar")
         if not dream_text:
             return JSONResponse({"error": "dream text required"}, status_code=400)
-        result = interpret_dream(dream_text, style=style, language=language)
-        return JSONResponse({"interpretation": result, "status": "success"})
+        
+        # محاولة استخدام Ollama المحلي أولاً
+        from app.ai import check_ollama_status, interpret_dream_local
+        status = check_ollama_status()
+        
+        if status["status"] == "connected":
+            result = interpret_dream_local(dream_text, style=style, language=language)
+        else:
+            # Fallback إلى API التقليدية
+            result = interpret_dream(dream_text, style=style, language=language)
+        
+        return JSONResponse({"interpretation": result, "status": "success", "source": "ollama" if status["status"] == "connected" else "api"})
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
 
