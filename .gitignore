@@ -1,6 +1,10 @@
+*.log
+*.pyc
+*.tmp
+.env
+Secrets.json
+__pycache__/
+logs/
 node_modules/
 skills-lock.json
-logs/
-*.log
-__pycache__/
-*.pyc
+weaver.db
