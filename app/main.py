@@ -70,6 +70,8 @@ if (APP_ROOT / "js").exists():
     app.mount("/js", StaticFiles(directory=str(APP_ROOT / "js")), name="js")
 if (APP_ROOT / "images").exists():
     app.mount("/images", StaticFiles(directory=str(APP_ROOT / "images")), name="images")
+if (APP_ROOT / "reports").exists():
+    app.mount("/reports", StaticFiles(directory=str(APP_ROOT / "reports")), name="reports")
 
 # إدارة الجلسات
 sessions: dict = {}
