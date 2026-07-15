@@ -182,6 +182,10 @@ async def lucid_dreaming_page(request: Request):
 async def offers_page(request: Request):
     return templates.TemplateResponse(request, "offers.html")
 
+@app.get("/global-map", response_class=HTMLResponse)
+async def global_map_page(request: Request):
+    return templates.TemplateResponse(request, "global-map.html")
+
 # Placeholder pages for /store and /library
 @app.get("/shop", response_class=HTMLResponse)
 async def shop_page(request: Request):
