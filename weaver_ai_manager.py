@@ -425,6 +425,9 @@ class WeaverManager:
         self.reports = ReportGenerator()
     
     async def run_daily_automation(self):
+        # استدعاء المنسق المركزي للمزامنة
+        import subprocess
+        subprocess.Popen(["python3", "sync_all.py"])
         """تشغيل الأتمتة اليومية"""
         print("🤖 بدء الأتمتة اليومية...")
         
