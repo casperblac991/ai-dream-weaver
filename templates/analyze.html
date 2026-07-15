@@ -52,17 +52,16 @@ async function analyze(){
 
 let dream=document.getElementById("dream").value
 
-let response=await fetch("/analyze",{
+let formData = new FormData();
+formData.append('dream', dream);
+
+let response=await fetch("/app/analyze",{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({dream:dream})
+body:formData
 })
 
-let data=await response.json()
-
-document.getElementById("result").innerText=data.result
+let text = await response.text();
+document.getElementById("result").innerHTML = text;
 
 }
 </script>

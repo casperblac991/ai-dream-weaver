@@ -123,22 +123,24 @@ class CivilizationReportBot:
         }
         
         prompt = f"""
-        اكتب تقريراً شاملاً عن تفسير الأحلام في {civilization['name']} ({civilization['period']}).
+        Write a comprehensive report about dream interpretation in {civilization['name']} ({civilization['period']}).
         
-        يجب أن يتضمن التقرير:
-        1. مقدمة عن الحضارة واهتمامها بالأحلام
-        2. طقوس تفسير الأحلام (كيف كانوا يحصلون على الأحلام؟ هل كانوا ينامون في المعابد؟)
-        3. المعتقدات المرتبطة (هل اعتبروا الأحلام رسائل من الآلهة؟ من الأسلاف؟)
-        4. أشهر الأحلام المسجلة في هذه الحضارة
-        5. أشهر المفسرين أو الكهنة المتخصصين
-        6. الرموز الشائعة في أحلامهم وتفسيرها
-        7. التشابه مع حضارات أخرى (إن وجد)
-        8. خاتمة وتأثير هذه التقاليد على الحضارات اللاحقة
+        The report must be written in TWO sections:
+        Section 1: Arabic Language (العربية)
+        Section 2: English Language (الإنجليزية)
         
-        اجعل التقرير غنياً بالمعلومات التاريخية الدقيقة. استشهد بالمصادر إن أمكن.
-        اكتب بأسلوب أكاديمي سلس. حوالي 1000-1500 كلمة.
+        Each section must include:
+        1. Introduction to the civilization and its interest in dreams.
+        2. Dream interpretation rituals (Incubation, temples, etc.).
+        3. Beliefs (Messages from gods, ancestors, etc.).
+        4. Famous recorded dreams.
+        5. Famous interpreters or priests.
+        6. Common symbols and their meanings.
+        7. Similarities with other civilizations.
+        8. Conclusion and legacy.
         
-        المطلوب: نص التقرير فقط (بدون JSON، بدون تعليمات).
+        Make it academic, detailed, and cite sources if possible. Total length: 2000+ words (1000 per language).
+        Output: The full text in both languages.
         """
         
         data = {
