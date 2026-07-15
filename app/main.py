@@ -170,6 +170,18 @@ async def faq_page(request: Request):
     except FileNotFoundError:
         return HTMLResponse(content="<h1>Page not found</h1>", status_code=404)
 
+@app.get("/personality-test", response_class=HTMLResponse)
+async def personality_test_page(request: Request):
+    return templates.TemplateResponse(request, "personality-test.html")
+
+@app.get("/lucid-dreaming", response_class=HTMLResponse)
+async def lucid_dreaming_page(request: Request):
+    return templates.TemplateResponse(request, "lucid-dreaming.html")
+
+@app.get("/offers", response_class=HTMLResponse)
+async def offers_page(request: Request):
+    return templates.TemplateResponse(request, "offers.html")
+
 # Placeholder pages for /store and /library
 @app.get("/shop", response_class=HTMLResponse)
 async def shop_page(request: Request):
