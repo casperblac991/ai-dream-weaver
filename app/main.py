@@ -190,6 +190,14 @@ async def global_map_page(request: Request):
 async def community_page(request: Request):
     return templates.TemplateResponse(request, "community.html")
 
+@app.get("/lucid-lab", response_class=HTMLResponse)
+async def lucid_lab_page(request: Request):
+    return templates.TemplateResponse(request, "lucid-lab.html")
+
+@app.get("/cosmic-dictionary", response_class=HTMLResponse)
+async def cosmic_dictionary_page(request: Request):
+    return templates.TemplateResponse(request, "cosmic-dictionary.html")
+
 @app.post("/api/generate-video")
 async def api_generate_video(request: Request):
     body = await request.json()
