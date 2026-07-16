@@ -186,6 +186,19 @@ async def offers_page(request: Request):
 async def global_map_page(request: Request):
     return templates.TemplateResponse(request, "global-map.html")
 
+@app.get("/community", response_class=HTMLResponse)
+async def community_page(request: Request):
+    return templates.TemplateResponse(request, "community.html")
+
+@app.post("/api/generate-video")
+async def api_generate_video(request: Request):
+    body = await request.json()
+    dream = body.get("dream", "")
+    lang = body.get("language", "ar")
+    from app.ai import generate_dream_video
+    video_data = generate_dream_video(dream, lang)
+    return video_data
+
 # Placeholder pages for /store and /library
 @app.get("/shop", response_class=HTMLResponse)
 async def shop_page(request: Request):

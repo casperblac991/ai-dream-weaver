@@ -84,6 +84,29 @@ def init_db():
                 updated_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
         """)
+        # Community Comments
+        db.execute("""
+            CREATE TABLE IF NOT EXISTS comments (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                dream_id INTEGER NOT NULL,
+                comment_text TEXT NOT NULL,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY(dream_id) REFERENCES dreams(id) ON DELETE CASCADE
+            )
+        """)
+        # User Follows
+        db.execute("""
+            CREATE TABLE IF NOT EXISTS follows (
+                follower_id INTEGER NOT NULL,
+                followed_id INTEGER NOT NULL,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (follower_id, followed_id),
+                FOREIGN KEY(follower_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY(followed_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        """)
         db.commit()
     print("✅ قاعدة البيانات جاهزة")
 

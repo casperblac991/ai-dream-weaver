@@ -213,6 +213,20 @@ def generate_blog_article(topic, language="ar"):
         return result
     return f"<p>مقال عن: {topic}</p><p>المحتوى قيد التوليد...</p>"
 
+def generate_dream_video(dream_text, language="ar"):
+    """
+    محاكاة توليد فيديو للأحلام باستخدام الذكاء الاصطناعي (Sora/Runway style)
+    في هذه المرحلة، نقوم بتوليد السيناريو والروابط المطلوبة.
+    """
+    prompt = f"Create a cinematic video script for this dream: {dream_text}. Language: {language}"
+    # سيتم ربط هذا لاحقاً بـ API لتوليد الفيديو مثل Replicate أو Runway
+    return {
+        "status": "processing",
+        "script": prompt,
+        "video_url": "https://aidreamweaver.store/static/videos/sample_dream.mp4",
+        "voiceover": f"Generated voiceover in {language}"
+    }
+
 
 # ========== دوال Ollama / Gemma 4 ==========
 
