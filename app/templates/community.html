@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مجتمع نَسَّاج | Weaver Social</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+        }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+        }
+        .nav {
+            background: var(--card);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .main-container {
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .post-box {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .post-box textarea {
+            width: 100%;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            padding: 15px;
+            resize: none;
+            box-sizing: border-box;
+        }
+        .dream-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .dream-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        .actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 10px;
+        }
+        .action-btn {
+            cursor: pointer;
+            color: #94a3b8;
+            transition: color 0.3s;
+        }
+        .action-btn:hover {
+            color: var(--primary);
+        }
+        .video-badge {
+            background: linear-gradient(45deg, #f43f5e, #fb923c);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">نَسَّاج Social</div>
+        <div class="user-menu"><i class="fas fa-bell"></i> <i class="fas fa-user-circle" style="margin-right: 15px;"></i></div>
+    </div>
+
+    <div class="main-container">
+        <div class="post-box">
+            <textarea placeholder="ماذا حلمت اليوم؟ انشر حلمك ليراه المجتمع والمفسرون..."></textarea>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; align-items: center;">
+                <div>
+                    <i class="fas fa-image" style="margin-left: 10px; color: #10b981;"></i>
+                    <i class="fas fa-video" style="color: #f43f5e;"></i>
+                </div>
+                <button style="background: var(--primary); color: white; border: none; padding: 8px 25px; border-radius: 20px; cursor: pointer;">نشر</button>
+            </div>
+        </div>
+
+        <div class="dream-feed">
+            <!-- Sample Post 1 -->
+            <div class="dream-card">
+                <div class="user-info">
+                    <div class="avatar">أ</div>
+                    <div>
+                        <div style="font-weight: bold;">أحمد محمد <span class="video-badge">تم توليد فيديو</span></div>
+                        <div style="font-size: 0.8rem; color: #94a3b8;">منذ ساعتين</div>
+                    </div>
+                </div>
+                <p>حلمت أنني أسير في غابة من الكريستال، وكانت الأشجار تلمع بألوان قوس قزح. فجأة ظهر لي طائر ضخم وتحدث معي بلغة لم أفهمها...</p>
+                <div style="background: #000; border-radius: 10px; height: 200px; display: flex; justify-content: center; align-items: center; margin-top: 10px;">
+                    <i class="fas fa-play-circle" style="font-size: 3rem; color: rgba(255,255,255,0.5);"></i>
+                    <span style="margin-right: 10px;">مشاهدة فيديو الحلم</span>
+                </div>
+                <div class="actions">
+                    <span class="action-btn"><i class="far fa-heart"></i> 24</span>
+                    <span class="action-btn"><i class="far fa-comment"></i> 5 تعليقات</span>
+                    <span class="action-btn"><i class="fas fa-share"></i> مشاركة</span>
+                </div>
+            </div>
+
+            <!-- Sample Post 2 -->
+            <div class="dream-card">
+                <div class="user-info">
+                    <div class="avatar" style="background: #8b5cf6;">س</div>
+                    <div>
+                        <div style="font-weight: bold;">سارة علي</div>
+                        <div style="font-size: 0.8rem; color: #94a3b8;">منذ 5 ساعات</div>
+                    </div>
+                </div>
+                <p>تفسير حلم السقوط من مكان مرتفع.. هل له علاقة بالتوتر في العمل؟</p>
+                <div style="background: rgba(99, 102, 241, 0.1); padding: 15px; border-radius: 10px; border-right: 3px solid var(--primary); margin-top: 10px;">
+                    <strong>تفسير نَسَّاج AI:</strong> السقوط غالباً ما يرمز إلى فقدان السيطرة في جانب معين من حياتك اليقظة...
+                </div>
+                <div class="actions">
+                    <span class="action-btn"><i class="far fa-heart"></i> 12</span>
+                    <span class="action-btn"><i class="far fa-comment"></i> 3 تعليقات</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

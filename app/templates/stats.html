@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>إحصائيات حالم</title>
+    <style>
+        body { background: #0a0514; color: #e2d9f3; font-family: 'Tajawal', sans-serif; }
+        .container { max-width: 800px; margin: auto; padding: 2rem; }
+        .stat-card { background: #1e0a3c; padding: 2rem; border-radius: 20px; margin: 1rem 0; }
+        .number { font-size: 3rem; color: #f0c060; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 إحصائيات منصة حالم</h1>
+        <div class="stat-card">
+            <h2>إجمالي المستخدمين</h2>
+            <div class="number" id="total-users">--</div>
+        </div>
+        <div class="stat-card">
+            <h2>الصور المولدة</h2>
+            <div class="number" id="total-images">--</div>
+        </div>
+    </div>
+    <script>
+        fetch('/leads.json')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('total-users').textContent = data.total_users;
+                document.getElementById('total-images').textContent = data.total_images;
+            })
+            .catch(() => {
+                document.getElementById('total-users').textContent = 'جاري التحميل';
+            });
+    </script>
+</body>
+</html>
