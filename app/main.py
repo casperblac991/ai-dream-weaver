@@ -61,7 +61,13 @@ app.add_middleware(
 )
 
 # القوالب - إصلاح: مسار صحيح
-templates = Jinja2Templates(directory=str(APP_ROOT / "templates"))
+# محاولة العثور على مجلد القوالب في عدة أماكن لضمان الاستقرار
+template_dirs = [
+    str(APP_ROOT / "app" / "templates"),
+    str(APP_ROOT / "templates"),
+    str(Path(__file__).parent / "templates")
+]
+templates = Jinja2Templates(directory=[d for d in template_dirs if Path(d).exists()])
 
 # Static files - إصلاح: دعم الملفات الثابتة
 if (APP_ROOT / "css").exists():
