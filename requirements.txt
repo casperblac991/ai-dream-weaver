@@ -1,5 +1,7 @@
 # AI Dream Weaver Platform Requirements
-# Dependencies لمنصة نَسَّاج الأحلام
+# Dependencies لمنصة نَسَّاج الأحلام - Force Rebuild v2
+passlib[bcrypt]>=1.7.4
+bcrypt>=4.0.1
 
 # Core Framework
 fastapi==0.115.6
