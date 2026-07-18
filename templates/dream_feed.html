@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Dream Feed - Dreamora AI</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#020617;
+color:white;
+padding:40px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+}
+
+.dream{
+background:#0f172a;
+padding:20px;
+border-radius:12px;
+margin-top:20px;
+}
+
+.likes{
+color:#94a3b8;
+margin-top:10px;
+}
+
+.comment-box{
+margin-top:15px;
+}
+
+input{
+padding:8px;
+border-radius:6px;
+border:none;
+width:70%;
+}
+
+button{
+padding:8px 12px;
+border:none;
+border-radius:6px;
+background:#6366f1;
+color:white;
+cursor:pointer;
+}
+
+.comment{
+margin-top:5px;
+color:#cbd5f5;
+}
+
+h1{
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌙 Dream Feed</h1>
+
+<div id="dreams"></div>
+
+</div>
+
+<script>
+
+async function loadDreams(){
+
+let response = await fetch("/api/public-dreams")
+
+let data = await response.json()
+
+let dreamsDiv = document.getElementById("dreams")
+
+dreamsDiv.innerHTML=""
+
+for(let d of data.dreams){
+
+dreamsDiv.innerHTML += `
+
+<div class="dream">
+
+<b>Dream</b><br>
+${d.dream}
+
+<br><br>
+
+<b>AI Interpretation</b><br>
+${d.interpretation}
+
+<div class="likes">
+❤️ Likes: ${d.likes}
+</div>
+
+<button onclick="likeDream(${d.id})">👍 Like</button>
+
+<div id="comments-${d.id}"></div>
+
+<div class="comment-box">
+
+<input id="comment-input-${d.id}" placeholder="Write a comment">
+
+<button onclick="addComment(${d.id})">Send</button>
+
+</div>
+
+</div>
+
+`
+
+loadComments(d.id)
+
+}
+
+}
+
+async function likeDream(id){
+
+await fetch("/api/like-dream/"+id,{
+method:"POST"
+})
+
+loadDreams()
+
+}
+
+async function loadComments(dreamId){
+
+let response = await fetch("/api/comments/"+dreamId)
+
+let data = await response.json()
+
+let div = document.getElementById("comments-"+dreamId)
+
+let html=""
+
+data.comments.forEach(c=>{
+
+html += `<div class="comment"><b>${c.username}</b>: ${c.comment}</div>`
+
+})
+
+div.innerHTML = html
+
+}
+
+async function addComment(dreamId){
+
+let input = document.getElementById("comment-input-"+dreamId)
+
+let comment = input.value
+
+await fetch("/api/add-comment",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+dream_id:dreamId,
+username:"user",
+comment:comment
+})
+
+})
+
+input.value=""
+
+loadComments(dreamId)
+
+}
+
+loadDreams()
+
+</script>
+
+</body>
+</html>

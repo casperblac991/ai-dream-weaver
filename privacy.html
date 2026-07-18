@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <script>
+  (function(){var s='ar';try{s=localStorage.getItem('weaver_lang')||'ar';}catch(e){}
+  if(s!=='ar'&&s!=='en')s='ar';
+  document.documentElement.lang=s;document.documentElement.dir=(s==='en')?'ltr':'rtl';})();
+  </script>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سياسة الخصوصية | Weaver نَسَّاج</title>
+  <meta name="description" content="سياسة الخصوصية لمنصة Weaver نَسَّاج لتفسير الأحلام بالذكاء الاصطناعي.">
+  <meta property="og:title" content="سياسة الخصوصية | Weaver نَسَّاج">
+  <meta property="og:image" content="https://aidreamweaver.store/og-image.png">
+  <meta property="og:url" content="https://aidreamweaver.store/privacy.html">
+  <link rel="canonical" href="https://aidreamweaver.store/privacy.html">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cinzel+Decorative:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+:root{--bg:#04010e;--surface:rgba(18,6,46,.7);--surface2:rgba(30,10,60,.85);--purple:#7c3aed;--purple2:#a855f7;--purple3:#c084fc;--gold:#f0c060;--gold2:#fde68a;--pink:#ec4899;--text:#ede9f8;--muted:rgba(237,233,248,.58);--border:rgba(124,58,237,.25);--border2:rgba(240,192,96,.35);--r:16px;--r2:24px;--rp:50px;--ease:.3s cubic-bezier(.4,0,.2,1)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Tajawal','DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.9;overflow-x:hidden}
+body[lang="en"]{font-family:'DM Sans','Tajawal',sans-serif}
+a{color:inherit;text-decoration:none}button{cursor:pointer;border:none;background:none;font-family:inherit}
+.bg-canvas{position:fixed;inset:0;z-index:-2;background:var(--bg)}
+.bg-canvas::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 15% 35%,rgba(60,10,120,.5),transparent 65%),radial-gradient(ellipse 55% 50% at 85% 15%,rgba(15,8,70,.55),transparent 60%)}
+.stars-layer{position:fixed;inset:0;z-index:-1;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,4s) var(--delay,0s) infinite alternate ease-in-out}
+@keyframes twinkle{from{opacity:.05;transform:scale(.8)}to{opacity:.85;transform:scale(1.4)}}
+nav{position:sticky;top:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:.85rem 2.5rem;background:rgba(4,1,14,.9);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);gap:1rem}
+.logo{display:flex;align-items:center;gap:6px;font-weight:900;white-space:nowrap}
+.logo-en{font-family:'Cinzel Decorative',serif;font-size:1.3rem;background:linear-gradient(135deg,var(--gold),var(--purple2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo-sep{color:var(--gold);opacity:.6}.logo-ar{color:var(--purple3);font-size:1rem;font-family:'Tajawal',sans-serif}
+.nav-menu{display:flex;align-items:center;gap:.2rem;list-style:none}
+.nav-menu a{color:var(--muted);font-size:.88rem;font-weight:500;padding:.38rem .75rem;border-radius:var(--rp);transition:color var(--ease),background var(--ease)}
+.nav-menu a:hover{color:var(--gold);background:rgba(240,192,96,.08)}
+.lang-group{display:flex;gap:4px}
+.lang-btn{font-size:.78rem;font-weight:700;color:var(--gold);background:rgba(124,58,237,.15);border:1px solid var(--border);border-radius:var(--rp);padding:.32rem .8rem;transition:all var(--ease)}
+.lang-btn:hover{background:var(--purple);color:#fff}
+.lang-btn.active{background:var(--purple);color:#fff;border-color:var(--gold)}
+.nav-cta{background:linear-gradient(135deg,var(--purple),var(--pink))!important;color:#fff!important;font-weight:700!important;padding:.45rem 1.25rem!important;border-radius:var(--rp)!important;box-shadow:0 0 16px rgba(124,58,237,.4)}
+.nav-cta:hover{box-shadow:0 0 28px rgba(124,58,237,.65)!important;transform:translateY(-2px)!important;color:#fff!important}
+.hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;padding:6px;border-radius:8px;background:var(--surface);border:1px solid var(--border)}
+.hamburger span{display:block;width:22px;height:2px;background:var(--gold);border-radius:2px;transition:all var(--ease)}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}.hamburger.open span:nth-child(2){opacity:0}.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-drawer{display:none;position:fixed;top:61px;left:0;right:0;bottom:0;z-index:199;background:rgba(4,1,14,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;padding:2rem;opacity:0;pointer-events:none;transition:opacity var(--ease)}
+.mobile-drawer.open{display:flex!important;opacity:1;pointer-events:all}
+.mobile-drawer a{font-size:1.3rem;font-weight:700;color:var(--text)}
+.mobile-drawer a:hover{color:var(--gold)}
+.mobile-cta-d{background:linear-gradient(135deg,var(--purple),var(--pink))!important;color:#fff!important;padding:.85rem 2.5rem!important;border-radius:var(--rp)!important;font-weight:700!important}
+.container{max-width:820px;margin:0 auto;padding:4rem 1.75rem 5rem}
+.page-hero{text-align:center;padding:3rem 0 2.5rem;animation:fadeUp .9s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.18);border:1px solid rgba(124,58,237,.4);color:var(--gold);font-size:.85rem;font-weight:700;padding:.4rem 1.2rem;border-radius:var(--rp);margin-bottom:1.5rem}
+.page-hero h1{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,4vw,2.5rem);font-weight:700;margin-bottom:.8rem;background:linear-gradient(135deg,var(--gold),var(--purple2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+.page-hero p{color:var(--muted);font-size:.92rem;max-width:520px;margin:0 auto}
+.last-updated{text-align:center;color:var(--purple3);font-size:.82rem;margin-bottom:2.5rem}
+.doc-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:2rem 2.5rem;margin-bottom:1.5rem;transition:border-color var(--ease)}
+.doc-section:hover{border-color:rgba(124,58,237,.45)}
+.doc-section h2{font-size:1.1rem;font-weight:800;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+.doc-section h2 .icon{font-size:1.3rem}
+.doc-section p{color:var(--muted);font-size:.93rem;line-height:1.9;margin-bottom:.85rem}
+.doc-section p:last-child{margin-bottom:0}
+.doc-section ul{color:var(--muted);font-size:.92rem;line-height:1.85;padding-right:1.4rem;margin-bottom:.85rem}
+body[lang="en"] .doc-section ul{padding-right:0;padding-left:1.4rem}
+.doc-section ul li{margin-bottom:.3rem}
+.doc-section a{color:var(--gold2);text-decoration:underline;text-underline-offset:3px}
+.highlight{color:var(--gold2);font-weight:600}
+.contact-card{background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(236,72,153,.08));border:1px solid rgba(124,58,237,.3);border-radius:var(--r2);padding:2rem;text-align:center;margin-top:2rem}
+.contact-card h3{color:var(--gold);margin-bottom:.5rem;font-size:1rem}
+.contact-card p{color:var(--muted);font-size:.9rem;margin-bottom:1rem}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:.8rem 1.8rem;border-radius:var(--rp);font-weight:700;font-size:.9rem;font-family:inherit;transition:all var(--ease)}
+.btn-primary{background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;box-shadow:0 0 20px rgba(124,58,237,.35)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(124,58,237,.55);color:#fff}
+footer{border-top:1px solid var(--border);padding:2.5rem 0 2rem;text-align:center}
+.footer-links{display:flex;flex-wrap:wrap;gap:.4rem 1.3rem;justify-content:center;margin-bottom:1.2rem}
+.footer-links a{color:var(--gold2);font-size:.85rem;transition:color var(--ease)}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{color:rgba(237,233,248,.28);font-size:.78rem;margin-top:4px}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:900px){nav{padding:.85rem 1.2rem}.nav-menu{display:none}.hamburger{display:flex}}
+@media(max-width:600px){.container{padding:3rem 1rem 4rem}.doc-section{padding:1.5rem 1.2rem}}
+  </style>
+</head>
+<body lang="ar">
+<div class="bg-canvas"></div>
+<div class="stars-layer" id="stars"></div>
+<nav>
+  <div class="logo"><span class="logo-en">Weaver</span><span class="logo-sep">|</span><span class="logo-ar">نَسَّاج</span></div>
+  <ul class="nav-menu">
+    <li><a href="index.html" id="nav-home">الرئيسية</a></li>
+    <li><a href="blog.html" id="nav-blog">المدونة</a></li>
+    <li><a href="index.html#pricing" id="nav-pricing">الأسعار</a></li>
+    <li><a href="faq.html" id="nav-faq">الأسئلة</a></li>
+    <li><div class="lang-group"><button class="lang-btn active" id="btn-ar" onclick="setLang('ar')">🇸🇦 عربي</button><button class="lang-btn" id="btn-en" onclick="setLang('en')">🇬🇧 English</button></div></li>
+    <li><a href="https://t.me/aidreamweaver_bot" class="nav-cta" id="nav-cta" target="_blank" rel="noopener">🤖 البوت</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="index.html" onclick="closeMenu()" id="m-home">الرئيسية</a>
+  <a href="blog.html" onclick="closeMenu()" id="m-blog">المدونة</a>
+  <a href="index.html#pricing" onclick="closeMenu()" id="m-pricing">الأسعار</a>
+  <a href="faq.html" onclick="closeMenu()" id="m-faq">الأسئلة</a>
+  <div class="lang-group"><button class="lang-btn active" id="m-btn-ar" onclick="setLang('ar');closeMenu()">🇸🇦 عربي</button><button class="lang-btn" id="m-btn-en" onclick="setLang('en');closeMenu()">🇬🇧 English</button></div>
+  <a href="https://t.me/aidreamweaver_bot" class="mobile-cta-d" target="_blank" rel="noopener" id="m-cta">🤖 جرب البوت</a>
+</div>
+
+<div class="container">
+  <div class="page-hero">
+    <div class="hero-badge" id="hero-badge">🔒 سياسة الخصوصية</div>
+    <h1 id="hero-title">سياسة الخصوصية</h1>
+    <p id="hero-sub">خصوصيتك أمانة لدينا — نحن ملتزمون بحماية بياناتك الشخصية</p>
+  </div>
+  <p class="last-updated" id="last-updated">آخر تحديث: 7 مارس 2026</p>
+
+  <div class="doc-section reveal">
+    <h2><span class="icon">📋</span> <span id="s1-title">مقدمة</span></h2>
+    <p id="s1-p1">تصف سياسة الخصوصية هذه كيفية جمع واستخدام وحماية المعلومات التي تقدمها عند استخدامك لمنصة Weaver (نَسَّاج) — بوت تيليجرام والموقع الإلكتروني على aidreamweaver.store.</p>
+    <p id="s1-p2">باستخدامك لخدماتنا، فإنك توافق على الشروط المذكورة في هذه السياسة. نشجعك على قراءتها بعناية.</p>
+  </div>
+
+  <div class="doc-section reveal">
+    <h2><span class="icon">📊</span> <span id="s2-title">البيانات التي نجمعها</span></h2>
+    <p id="s2-intro">نجمع الحد الأدنى الضروري من البيانات لتقديم خدمتنا:</p>
+    <ul id="s2-list">
+      <li><span class="highlight">معرّف تيليجرام (User ID):</span> لتحديد هويتك والتحقق من اشتراكك</li>
+      <li><span class="highlight">اسم المستخدم على تيليجرام:</span> للتواصل وتخصيص التجربة</li>
+      <li><span class="highlight">وصف الأحلام المُرسَلة:</span> لمعالجتها وتفسيرها فورياً عبر Gemini AI</li>
+      <li><span class="highlight">تاريخ ووقت الاستخدام:</span> لإحصاءات الخدمة وتحسين الأداء</li>
+      <li><span class="highlight">بيانات الاشتراك:</span> نوع الخطة وتاريخ الانتهاء (عبر Gumroad)</li>
+    </ul>
+    <p id="s2-note"><strong>ملاحظة:</strong> لا نجمع أي بيانات مالية أو بطاقات ائتمانية — جميع المدفوعات تتم عبر Gumroad.</p>
+  </div>
+
+  <div class="doc-section reveal">
+    <h2><span class="icon">🎯</span> <span id="s3-title">كيف نستخدم البيانات</span></h2>
+    <ul id="s3-list">
+      <li>تفسير الأحلام عبر Google Gemini AI</li>
+      <li>توليد الصور الفنية عبر SiliconFlow</li>
+      <li>التحقق من صلاحية الاشتراك وإدارة الحصص اليومية</li>
+      <li>تحسين جودة التفسيرات والخدمة العامة</li>
+      <li>الرد على استفساراتك ودعمك الفني</li>
+      <li>الإحصاءات الداخلية لتطوير المنصة</li>
+    </ul>
+  </div>
+
+  <div class="doc-section reveal">
+    <h2><span class="icon">🤝</span> <span id="s4-title">مشاركة البيانات مع أطراف ثالثة</span></h2>
+    <p id="s4-p1">نحن <span class="highlight">لا نبيع ولا نؤجر</span> بياناتك الشخصية لأي طرف ثالث بأي شكل من الأشكال.</p>
+    <p id="s4-p2">نشارك الحد الأدنى الضروري مع مزودي الخدمة التاليين لتشغيل المنصة:</p>
+    <ul id="s4-list">
+      <li><span class="highlight">Google Gemini AI:</span> نص الحلم فقط للتفسير — لا يُخزَّن من طرفهم</li>
+      <li><span class="highlight">SiliconFlow:</span> وصف إنجليزي للصورة فقط — لا يُخزَّن</li>
+      <li><span class="highlight">Gumroad:</span> بيانات الاشتراك والمدفوعات (يخضع لسياسة خصوصية Gumroad)</li>
+      <li><span class="highlight">Telegram:</span> يخضع لسياسة خصوصية تيليجرام المستقلة</li>
+    </ul>
+  </div>
+
+  <div class="doc-section reveal">
+    <h2><span class="icon">🔐</span> <span id="s5-title">أمان البيانات</span></h2>
+    <p id="s5-p1">نلتزم بأفضل الممارسات الأمنية لحماية بياناتك:</p>
+    <ul id="s5-list">
+      <li>اتصالات مشفرة بـ HTTPS/TLS لجميع البيانات المنقولة</li>
+      <li>لا نخزن مفاتيح API في الكود المصدري — نستخدم متغيرات بيئية</li>
+      <li>بيانات الأحلام لا تُشارك مع أي جهة تسويقية</li>
+      <li>وصول محدود للبيانات — فريق التطوير فقط في حالات الضرورة القصوى</li>
+    </ul>
+  </div>
+
+  <div class="doc-section reveal">
+    <h2><span class="icon">⏱️</span> <span id="s6-title">مدة الاحتفاظ بالبيانات</span></h2>
+    <p id="s6-p1">نحتفظ ببيانات المستخدم طالما كان الاشتراك فعّالاً. عند إلغاء الاشتراك أو طلب الحذف، يتم حذف البيانات خلال 30 يوماً.</p>
+    <p id="s6-p2">وصف الأحلام يُحذف من خوادمنا بعد معالجته مباشرة — لا نحتفظ بأرشيف لأحلامك.</p>
+  </div>
+
+  <div class="doc-section reveal">
+    <h2><span class="icon">✅</span> <span id="s7-title">حقوقك</span></h2>
+    <ul id="s7-list">
+      <li><span class="highlight">الوصول:</span> يمكنك طلب نسخة من بياناتك المخزنة</li>
+      <li><span class="highlight">التصحيح:</span> يمكنك طلب تصحيح أي بيانات غير دقيقة</li>
+      <li><span class="highlight">الحذف:</span> يمكنك طلب حذف جميع بياناتك ("الحق في النسيان")</li>
+      <li><span class="highlight">الاعتراض:</span> يمكنك الاعتراض على معالجة بياناتك في أي وقت</li>
+      <li><span class="highlight">النقل:</span> يمكنك طلب نسخة من بياناتك بصيغة قابلة للنقل</li>
+    </ul>
+  </div>
+
+  <div class="doc-section reveal">
+    <h2><span class="icon">🍪</span> <span id="s8-title">الكوكيز وتتبع الزوار</span></h2>
+    <p id="s8-p1">يستخدم موقعنا <span class="highlight">localStorage</span> فقط لحفظ تفضيل اللغة — لا نستخدم كوكيز تتبع إلزامية.</p>
+    <p id="s8-p2">نستخدم Google Analytics (GA4) لتحليل حركة الزوار بشكل مجهول لتحسين تجربة الموقع. يمكنك إيقافه عبر إضافات المتصفح.</p>
+  </div>
+
+  <div class="doc-section reveal">
+    <h2><span class="icon">👶</span> <span id="s9-title">حماية الأطفال</span></h2>
+    <p id="s9-p1">خدماتنا موجهة للأشخاص الذين تجاوزوا 13 عاماً. لا نجمع عمداً بيانات من الأطفال دون 13 عاماً. إذا علمت أن طفلاً قدّم بياناته، يرجى التواصل معنا فوراً.</p>
+  </div>
+
+  <div class="doc-section reveal">
+    <h2><span class="icon">🔄</span> <span id="s10-title">تحديثات السياسة</span></h2>
+    <p id="s10-p1">نحتفظ بحق تحديث هذه السياسة دورياً. سيتم إشعارك بأي تغييرات جوهرية عبر بوت تيليجرام. تاريخ "آخر تحديث" في أعلى الصفحة يعكس دائماً النسخة الأحدث.</p>
+  </div>
+
+  <div class="contact-card reveal">
+    <h3 id="contact-title">📬 تواصل معنا بشأن خصوصيتك</h3>
+    <p id="contact-text">هل لديك سؤال حول بياناتك؟ تواصل معنا مباشرة عبر بوت تيليجرام</p>
+    <a href="https://t.me/aidreamweaver_bot" class="btn btn-primary" target="_blank" rel="noopener" id="contact-btn">🤖 تواصل عبر البوت</a>
+  </div>
+</div>
+
+<footer>
+  <div class="container" style="padding-top:0;padding-bottom:0">
+    <div class="footer-links">
+      <a href="index.html" id="f-home">الرئيسية</a>
+      <a href="blog.html" id="f-blog">المدونة</a>
+      <a href="faq.html" id="f-faq">الأسئلة</a>
+      <a href="privacy.html" id="f-privacy" style="color:var(--gold)">الخصوصية</a>
+      <a href="terms.html" id="f-terms">الشروط</a>
+      <a href="https://t.me/aidreamweaver_bot" target="_blank" rel="noopener" id="f-bot">بوت Weaver</a>
+    </div>
+    <p class="footer-copy" id="f-copy">© 2026 Weaver | نَسَّاج — منصة تفسير الأحلام بالذكاء الاصطناعي</p>
+    <p class="footer-copy">aidreamweaver.store</p>
+  </div>
+</footer>
+
+<script>
+(function(){const l=document.getElementById('stars'),f=document.createDocumentFragment();for(let i=0;i<130;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*2.2+0.4;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+2).toFixed(1)}s;--delay:${(Math.random()*5).toFixed(1)}s;`;f.appendChild(s);}l.appendChild(f);})();
+function toggleMenu(){const h=document.getElementById('hamburger'),d=document.getElementById('mobileDrawer');h.classList.toggle('open');d.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
+function closeMenu(){document.getElementById('hamburger').classList.remove('open');document.getElementById('mobileDrawer').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('click',function(e){const d=document.getElementById('mobileDrawer'),h=document.getElementById('hamburger');if(d.classList.contains('open')&&!d.contains(e.target)&&!h.contains(e.target))closeMenu();});
+(function(){const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');o.unobserve(x.target);}});},{threshold:.08,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.reveal').forEach(el=>o.observe(el));})();
+const T={
+  ar:{_dir:'rtl',_lang:'ar',_title:'سياسة الخصوصية | Weaver نَسَّاج',
+    'nav-home':'الرئيسية','nav-blog':'المدونة','nav-pricing':'الأسعار','nav-faq':'الأسئلة','nav-cta':'🤖 البوت',
+    'm-home':'الرئيسية','m-blog':'المدونة','m-pricing':'الأسعار','m-faq':'الأسئلة','m-cta':'🤖 جرب البوت',
+    'hero-badge':'🔒 سياسة الخصوصية','hero-title':'سياسة الخصوصية',
+    'hero-sub':'خصوصيتك أمانة لدينا — نحن ملتزمون بحماية بياناتك الشخصية',
+    'last-updated':'آخر تحديث: 7 مارس 2026',
+    's1-title':'مقدمة','s1-p1':'تصف سياسة الخصوصية هذه كيفية جمع واستخدام وحماية المعلومات التي تقدمها عند استخدامك لمنصة Weaver (نَسَّاج) على aidreamweaver.store وبوت تيليجرام.','s1-p2':'باستخدامك لخدماتنا، فإنك توافق على الشروط المذكورة في هذه السياسة.',
+    's2-title':'البيانات التي نجمعها','s2-intro':'نجمع الحد الأدنى الضروري من البيانات لتقديم خدمتنا:','s2-list':'<li><span class="highlight">معرّف تيليجرام (User ID):</span> لتحديد هويتك والتحقق من اشتراكك</li><li><span class="highlight">اسم المستخدم:</span> للتواصل وتخصيص التجربة</li><li><span class="highlight">وصف الأحلام:</span> لمعالجتها وتفسيرها فورياً</li><li><span class="highlight">تاريخ الاستخدام:</span> لإحصاءات الخدمة وتحسين الأداء</li><li><span class="highlight">بيانات الاشتراك:</span> نوع الخطة وتاريخ الانتهاء</li>','s2-note':'<strong>ملاحظة:</strong> لا نجمع أي بيانات مالية — جميع المدفوعات عبر Gumroad.',
+    's3-title':'كيف نستخدم البيانات','s3-list':'<li>تفسير الأحلام عبر Google Gemini AI</li><li>توليد الصور الفنية عبر SiliconFlow</li><li>التحقق من صلاحية الاشتراك</li><li>تحسين جودة التفسيرات</li><li>الرد على استفساراتك</li>',
+    's4-title':'مشاركة البيانات','s4-p1':'نحن <span class="highlight">لا نبيع ولا نؤجر</span> بياناتك الشخصية لأي طرف ثالث.','s4-p2':'نشارك الحد الأدنى مع:','s4-list':'<li><span class="highlight">Google Gemini:</span> نص الحلم للتفسير فقط</li><li><span class="highlight">SiliconFlow:</span> وصف الصورة فقط</li><li><span class="highlight">Gumroad:</span> بيانات الاشتراك</li><li><span class="highlight">Telegram:</span> يخضع لسياستهم المستقلة</li>',
+    's5-title':'أمان البيانات','s5-p1':'نلتزم بأفضل الممارسات الأمنية:','s5-list':'<li>اتصالات مشفرة HTTPS/TLS</li><li>مفاتيح API في متغيرات بيئية آمنة</li><li>بيانات الأحلام لا تُشارك تسويقياً</li><li>وصول محدود للبيانات</li>',
+    's6-title':'مدة الاحتفاظ','s6-p1':'نحتفظ ببياناتك طالما الاشتراك فعّال. عند الإلغاء تُحذف خلال 30 يوماً.','s6-p2':'وصف الأحلام يُحذف بعد المعالجة مباشرة.',
+    's7-title':'حقوقك','s7-list':'<li><span class="highlight">الوصول:</span> طلب نسخة من بياناتك</li><li><span class="highlight">التصحيح:</span> تصحيح بيانات غير دقيقة</li><li><span class="highlight">الحذف:</span> حذف جميع بياناتك</li><li><span class="highlight">الاعتراض:</span> الاعتراض على المعالجة</li>',
+    's8-title':'الكوكيز','s8-p1':'نستخدم localStorage فقط لحفظ تفضيل اللغة.','s8-p2':'نستخدم Google Analytics (GA4) بشكل مجهول لتحسين الموقع.',
+    's9-title':'حماية الأطفال','s9-p1':'خدماتنا للأشخاص فوق 13 عاماً. إذا علمت بحالة طفل دون 13، تواصل معنا فوراً.',
+    's10-title':'تحديثات السياسة','s10-p1':'نحتفظ بحق التحديث. سيتم إشعارك بالتغييرات عبر البوت.',
+    'contact-title':'📬 تواصل معنا بشأن خصوصيتك','contact-text':'هل لديك سؤال حول بياناتك؟ تواصل معنا مباشرة','contact-btn':'🤖 تواصل عبر البوت',
+    'f-home':'الرئيسية','f-blog':'المدونة','f-faq':'الأسئلة','f-privacy':'الخصوصية','f-terms':'الشروط','f-bot':'بوت Weaver',
+    'f-copy':'© 2026 Weaver | نَسَّاج — منصة تفسير الأحلام بالذكاء الاصطناعي'},
+  en:{_dir:'ltr',_lang:'en',_title:'Privacy Policy | Weaver نَسَّاج',
+    'nav-home':'Home','nav-blog':'Blog','nav-pricing':'Pricing','nav-faq':'FAQ','nav-cta':'🤖 Bot',
+    'm-home':'Home','m-blog':'Blog','m-pricing':'Pricing','m-faq':'FAQ','m-cta':'🤖 Try the Bot',
+    'hero-badge':'🔒 Privacy Policy','hero-title':'Privacy Policy',
+    'hero-sub':'Your privacy is a trust — we are committed to protecting your personal data',
+    'last-updated':'Last updated: March 7, 2026',
+    's1-title':'Introduction','s1-p1':'This Privacy Policy describes how Weaver (نَسَّاج) collects, uses, and protects information you provide when using our platform at aidreamweaver.store and our Telegram bot.','s1-p2':'By using our services, you agree to the terms described in this policy. We encourage you to read it carefully.',
+    's2-title':'Data We Collect','s2-intro':'We collect the minimum data necessary to provide our service:','s2-list':'<li><span class="highlight">Telegram User ID:</span> To identify you and verify your subscription</li><li><span class="highlight">Telegram username:</span> For communication and personalization</li><li><span class="highlight">Dream descriptions:</span> To process and interpret immediately via Gemini AI</li><li><span class="highlight">Usage timestamps:</span> For service statistics and performance improvement</li><li><span class="highlight">Subscription data:</span> Plan type and expiry (via Gumroad)</li>','s2-note':'<strong>Note:</strong> We never collect financial data or card details — all payments go through Gumroad.',
+    's3-title':'How We Use Data','s3-list':'<li>Interpret dreams via Google Gemini AI</li><li>Generate artistic images via SiliconFlow</li><li>Verify subscription validity and manage daily quotas</li><li>Improve interpretation quality and overall service</li><li>Respond to your inquiries and provide support</li>',
+    's4-title':'Third-Party Data Sharing','s4-p1':'We <span class="highlight">never sell or rent</span> your personal data to any third party.','s4-p2':'We share the minimum necessary with:','s4-list':'<li><span class="highlight">Google Gemini AI:</span> Dream text only for interpretation</li><li><span class="highlight">SiliconFlow:</span> Image description only</li><li><span class="highlight">Gumroad:</span> Subscription and payment data</li><li><span class="highlight">Telegram:</span> Subject to Telegram\'s independent privacy policy</li>',
+    's5-title':'Data Security','s5-p1':'We follow security best practices:','s5-list':'<li>HTTPS/TLS encrypted connections for all data in transit</li><li>API keys stored in secure environment variables</li><li>Dream data never shared with marketing parties</li><li>Limited data access — development team only when strictly necessary</li>',
+    's6-title':'Data Retention','s6-p1':'We retain your data as long as your subscription is active. Upon cancellation, data is deleted within 30 days.','s6-p2':'Dream descriptions are deleted from our servers immediately after processing — we keep no dream archive.',
+    's7-title':'Your Rights','s7-list':'<li><span class="highlight">Access:</span> Request a copy of your stored data</li><li><span class="highlight">Rectification:</span> Request correction of inaccurate data</li><li><span class="highlight">Erasure:</span> Request deletion of all your data ("right to be forgotten")</li><li><span class="highlight">Objection:</span> Object to data processing at any time</li>',
+    's8-title':'Cookies & Tracking','s8-p1':'Our site uses localStorage only to save your language preference — no mandatory tracking cookies.','s8-p2':'We use Google Analytics (GA4) anonymously to improve site experience. You can disable it via browser extensions.',
+    's9-title':'Child Protection','s9-p1':'Our services are intended for persons over 13 years old. If you believe a child under 13 has submitted data, please contact us immediately.',
+    's10-title':'Policy Updates','s10-p1':'We reserve the right to update this policy periodically. You will be notified of significant changes via the Telegram bot.',
+    'contact-title':'📬 Contact Us About Your Privacy','contact-text':'Have a question about your data? Contact us directly via the bot','contact-btn':'🤖 Contact via Bot',
+    'f-home':'Home','f-blog':'Blog','f-faq':'FAQ','f-privacy':'Privacy','f-terms':'Terms','f-bot':'Weaver Bot',
+    'f-copy':'© 2026 Weaver | نَسَّاج — AI Dream Interpretation Platform'}
+};
+function setLang(lang){
+  const t=T[lang];if(!t)return;
+  try{localStorage.setItem('weaver_lang',lang);}catch(e){}
+  document.documentElement.lang=t._lang;document.documentElement.dir=t._dir;
+  document.body.setAttribute('lang',t._lang);document.title=t._title;
+  Object.keys(t).forEach(id=>{if(id.startsWith('_'))return;const el=document.getElementById(id);if(el)el.innerHTML=t[id];});
+  ['btn-ar','btn-en','m-btn-ar','m-btn-en'].forEach(id=>{const b=document.getElementById(id);if(!b)return;b.classList.toggle('active',(lang==='ar'&&id.includes('ar'))||(lang==='en'&&id.includes('en')));});
+  ['nav-blog','m-blog','f-blog'].forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('href',lang==='en'?'blog-en.html':'blog.html');});
+}
+(function(){let s='ar';try{s=localStorage.getItem('weaver_lang')||'ar';}catch(e){}setLang(s==='en'?'en':'ar');})();
+</script>
+</body>
+                                                                                                                     </html>

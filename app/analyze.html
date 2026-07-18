@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحليل الحلم | نَسَّاج</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Tajawal', sans-serif; background: #050210; color: #e2d9f3; min-height: 100vh; padding: 2rem; }
+        .container { max-width: 800px; margin: 0 auto; padding-top: 4rem; }
+        h1 { font-size: 2.5rem; color: #f0c060; margin-bottom: 1rem; text-align: center; }
+        .form-group { margin-bottom: 1.5rem; }
+        textarea { width: 100%; height: 150px; padding: 1rem; border-radius: 12px; border: 1px solid #7c3aed; background: #1a0a3c; color: #e2d9f3; font-family: 'Tajawal', sans-serif; font-size: 1.1rem; resize: vertical; }
+        button { width: 100%; padding: 1rem; background: linear-gradient(135deg, #7c3aed, #ec4899); border: none; border-radius: 12px; color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer; font-family: 'Tajawal', sans-serif; }
+        button:hover { opacity: 0.9; transform: translateY(-2px); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        #result { margin-top: 2rem; padding: 1.5rem; background: #1a0a3c; border-radius: 12px; border: 1px solid #7c3aed; display: none; white-space: pre-wrap; line-height: 1.8; }
+        .dream-interpretation { color: #e2d9f3; }
+        .dream-interpretation strong { color: #f0c060; }
+        .loading { text-align: center; margin-top: 1rem; color: #f0c060; }
+        .error { color: #ff6b6b; text-align: center; margin-top: 1rem; }
+        .back-link { display: inline-block; margin-bottom: 2rem; color: #a855f7; text-decoration: none; }
+        .back-link:hover { color: #f0c060; }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .container { padding-top: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← العودة للرئيسية</a>
+        <h1>🔮 فسّر حلمك</h1>
+        <div class="form-group">
+            <textarea id="dream" placeholder="اكتب حلمك هنا..."></textarea>
+        </div>
+        <button id="analyzeBtn" onclick="analyzeDream()">حلل الحلم</button>
+        <div id="loading" class="loading" style="display:none">⏳ جاري التحليل...</div>
+        <div id="error" class="error"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const BACKEND_URL = 'https://ai-dream-weaver.onrender.com';
+
+        async function analyzeDream() {
+            const dream = document.getElementById('dream').value.trim();
+            const btn = document.getElementById('analyzeBtn');
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const error = document.getElementById('error');
+            
+            if (!dream) {
+                error.textContent = '⚠️ رجاءً اكتب الحلم أولاً';
+                return;
+            }
+            
+            btn.disabled = true;
+            loading.style.display = 'block';
+            error.textContent = '';
+            result.style.display = 'none';
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/interpret`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        dream: dream,
+                        language: 'ar',
+                        style: 'islamic'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                result.innerHTML = '<div class="dream-interpretation">' + data.interpretation + '</div>';
+                result.style.display = 'block';
+            } catch (err) {
+                error.textContent = '❌ تعذر تحليل الحلم حالياً. جرب مرة أخرى لاحقاً.';
+                console.error(err);
+            } finally {
+                btn.disabled = false;
+                loading.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

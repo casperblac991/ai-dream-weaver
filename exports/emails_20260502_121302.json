@@ -1,0 +1,278 @@
+{
+  "export_date": "2026-05-02T12:13:02.399278",
+  "total_emails": 50,
+  "users": [
+    {
+      "id": 1,
+      "email": "user1@gmail.com",
+      "username": "user1",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 2,
+      "email": "user2@yahoo.com",
+      "username": "user2",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 3,
+      "email": "user3@hotmail.com",
+      "username": "user3",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 4,
+      "email": "user4@outlook.com",
+      "username": "user4",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 5,
+      "email": "user5@gmail.com",
+      "username": "user5",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 6,
+      "email": "user6@yahoo.com",
+      "username": "user6",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 7,
+      "email": "user7@hotmail.com",
+      "username": "user7",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 8,
+      "email": "user8@outlook.com",
+      "username": "user8",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 9,
+      "email": "user9@gmail.com",
+      "username": "user9",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 10,
+      "email": "user10@yahoo.com",
+      "username": "user10",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 11,
+      "email": "user11@gmail.com",
+      "username": "user11",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 12,
+      "email": "user12@yahoo.com",
+      "username": "user12",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 13,
+      "email": "user13@hotmail.com",
+      "username": "user13",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 14,
+      "email": "user14@outlook.com",
+      "username": "user14",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 15,
+      "email": "user15@gmail.com",
+      "username": "user15",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 16,
+      "email": "user16@yahoo.com",
+      "username": "user16",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 17,
+      "email": "user17@hotmail.com",
+      "username": "user17",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 18,
+      "email": "user18@outlook.com",
+      "username": "user18",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 19,
+      "email": "user19@gmail.com",
+      "username": "user19",
+      "created_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 20,
+      "email": "user20@yahoo.com",
+      "username": "user20",
+      "created_at": "2026-05-02 16:12:57"
+    }
+  ],
+  "subscribers": [
+    {
+      "id": 1,
+      "email": "subscriber1@gmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 2,
+      "email": "subscriber2@yahoo.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 3,
+      "email": "subscriber3@hotmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 4,
+      "email": "subscriber4@outlook.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 5,
+      "email": "subscriber5@gmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 6,
+      "email": "subscriber6@yahoo.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 7,
+      "email": "subscriber7@hotmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 8,
+      "email": "subscriber8@outlook.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 9,
+      "email": "subscriber9@gmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 10,
+      "email": "subscriber10@yahoo.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 11,
+      "email": "subscriber11@gmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 12,
+      "email": "subscriber12@yahoo.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 13,
+      "email": "subscriber13@hotmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 14,
+      "email": "subscriber14@outlook.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 15,
+      "email": "subscriber15@gmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 16,
+      "email": "subscriber16@yahoo.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 17,
+      "email": "subscriber17@hotmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 18,
+      "email": "subscriber18@outlook.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 19,
+      "email": "subscriber19@gmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 20,
+      "email": "subscriber20@yahoo.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 21,
+      "email": "subscriber21@gmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 22,
+      "email": "subscriber22@yahoo.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 23,
+      "email": "subscriber23@hotmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 24,
+      "email": "subscriber24@outlook.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 25,
+      "email": "subscriber25@gmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 26,
+      "email": "subscriber26@yahoo.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 27,
+      "email": "subscriber27@hotmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 28,
+      "email": "subscriber28@outlook.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 29,
+      "email": "subscriber29@gmail.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    },
+    {
+      "id": 30,
+      "email": "subscriber30@yahoo.com",
+      "subscribed_at": "2026-05-02 16:12:57"
+    }
+  ]
+}

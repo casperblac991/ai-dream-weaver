@@ -1,0 +1,10 @@
+// ✅ بعد التعديل - ضع روابطك الحقيقية
+const GUMROAD_LINKS = {
+    'interpret': 'https://gum.co/abc123',      // رابط تفسير الأحلام
+    'image': 'https://gum.co/def456',          // رابط صور 4K
+    'video': 'https://gum.co/ghi789',          // رابط الفيديوهات
+    'bundle': 'https://gum.co/jkl012',         // رابط الباقة الشاملة
+    'basic': 'https://gum.co/mno345',          // رابط الباقة الأساسية
+    'pro': 'https://gum.co/pqr678',            // رابط الباقة المتقدمة
+    'enterprise': 'https://gum.co/stu901'       // رابط الباقة الاحترافية
+};

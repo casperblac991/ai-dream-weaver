@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عروض خاصة | نَسَّاج</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #f0c060;
+            --purple: #7c3aed;
+            --dark: #050210;
+        }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--dark);
+            color: white;
+            margin: 0;
+            text-align: center;
+        }
+        .header {
+            padding: 60px 20px;
+            background: linear-gradient(to bottom, #1e1b4b, var(--dark));
+        }
+        .header h1 {
+            font-size: 3rem;
+            color: var(--gold);
+        }
+        .offers-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .offer-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(240, 192, 96, 0.3);
+            border-radius: 20px;
+            width: 300px;
+            padding: 30px;
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .offer-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+        }
+        .badge {
+            background: var(--gold);
+            color: black;
+            padding: 5px 20px;
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: var(--gold);
+        }
+        .old-price {
+            text-decoration: line-through;
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+        .features-list {
+            text-align: right;
+            margin: 20px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .features-list li::before {
+            content: "✨";
+            margin-left: 10px;
+        }
+        .buy-btn {
+            display: block;
+            background: var(--purple);
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .buy-btn:hover {
+            background: #6d28d9;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>💎 عروض حصرية لفترة محدودة</h1>
+        <p>استثمر في عالمك الداخلي مع باقاتنا المتكاملة</p>
+    </div>
+
+    <div class="offers-grid">
+        <!-- باقة تحليل الشخصية -->
+        <div class="offer-card">
+            <div class="badge">الأكثر طلباً</div>
+            <h3>باقة تحليل الشخصية الشامل</h3>
+            <p>تقرير مفصل (20 صفحة) يحلل نمط حياتك من خلال أحلامك.</p>
+            <div class="old-price">49$</div>
+            <div class="price">19$</div>
+            <ul class="features-list">
+                <li>تحليل 5 أحلام متكررة</li>
+                <li>خارطة طريق نفسية</li>
+                <li>جلسة استشارية مسجلة</li>
+            </ul>
+            <a href="https://gumroad.com/l/dream-personality" class="buy-btn">احصل عليها الآن</a>
+        </div>
+
+        <!-- باقة المحترفين -->
+        <div class="offer-card">
+            <h3>باقة "نَسَّاج" الذهبية</h3>
+            <p>وصول كامل وغير محدود لجميع أدوات الذكاء الاصطناعي.</p>
+            <div class="old-price">99$</div>
+            <div class="price">39$</div>
+            <ul class="features-list">
+                <li>تفسيرات غير محدودة</li>
+                <li>توليد صور بدقة 4K</li>
+                <li>تقارير PDF يومية</li>
+            </ul>
+            <a href="/app/register?plan=gold" class="buy-btn">اشترك الآن</a>
+        </div>
+
+        <!-- كتاب الأحلام الجلية -->
+        <div class="offer-card">
+            <h3>كتاب "فن التحكم بالأحلام"</h3>
+            <p>دليل عملي شامل لتعلم الأحلام الجلية في 30 يوماً.</p>
+            <div class="old-price">25$</div>
+            <div class="price">9$</div>
+            <ul class="features-list">
+                <li>تقنيات MILD و WILD</li>
+                <li>تمارين ذهنية يومية</li>
+                <li>ملفات صوتية مساعدة</li>
+            </ul>
+            <a href="https://gumroad.com/l/lucid-book" class="buy-btn">شراء الكتاب الرقمي</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌌 عيش حلمك | Weaver</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(2px 2px at 160px 120px, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 230px 80px, #fff, transparent);
+            background-repeat: repeat;
+            background-size: 250px 250px;
+            animation: twinkle 5s ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #a855f7, #6366f1, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
+        }
+        .header p {
+            color: #888;
+            font-size: 1.2rem;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 35px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #a855f7;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .form-group textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 18px;
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            font-size: 1rem;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #a855f7;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+        }
+        .btn {
+            width: 100%;
+            padding: 18px 30px;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(168, 85, 247, 0.5);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .result {
+            margin-top: 30px;
+            display: none;
+        }
+        .result.show {
+            display: block;
+        }
+        .result-section {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .result-section h3 {
+            color: #6366f1;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        .result-content {
+            line-height: 1.9;
+            color: #ccc;
+        }
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .dream-image {
+            max-width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        .loading {
+            text-align: center;
+            padding: 50px;
+            display: none;
+        }
+        .loading.show {
+            display: block;
+        }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(168, 85, 247, 0.3);
+            border-top-color: #a855f7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .status {
+            text-align: center;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+        .status.connected {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        .status.disconnected {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .source-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+        .source-badge.ollama {
+            background: rgba(168, 85, 247, 0.2);
+            color: #a855f7;
+        }
+        .source-badge.api {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="container">
+        <div class="header">
+            <h1>🌌 عيش حلمك</h1>
+            <p>اكتب وصفاً لحلمك، ودع الذكاء الاصطناعي يعيد خلقه</p>
+        </div>
+
+        <div id="status" class="status"></div>
+
+        <div class="card">
+            <form id="dreamForm">
+                <div class="form-group">
+                    <label for="dream">📝 صِف حلمك:</label>
+                    <textarea id="dream" placeholder="مثال: كنت أطير فوق بحر هادئ، والشمس تغرب خلف الأفق، والنجوم تظهر واحدة تلو الأخرى..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn" id="submitBtn">✨ عيش الحلم ✨</button>
+            </form>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>جاري تحويل حلمك إلى صورة...</p>
+        </div>
+
+        <div class="result" id="result">
+            <div class="image-container">
+                <img id="dreamImage" class="dream-image" src="" alt="حلمك" style="display:none;">
+            </div>
+            
+            <div class="result-section">
+                <span class="source-badge" id="sourceBadge"></span>
+                <h3>📖 تفسير الحلم</h3>
+                <div class="result-content" id="interpretationContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check AI status on load
+        async function checkStatus() {
+            const statusEl = document.getElementById('status');
+            try {
+                const response = await fetch('/api/ollama-status');
+                const data = await response.json();
+                if (data.status === 'connected') {
+                    statusEl.className = 'status connected';
+                    statusEl.textContent = '✅ الذكاء الاصطناعي المحلي متصل - مجاني وسريع';
+                } else {
+                    statusEl.className = 'status disconnected';
+                    statusEl.textContent = '🔄 جاري الاتصال بالذكاء الاصطناعي...';
+                }
+            } catch (e) {
+                statusEl.className = 'status disconnected';
+                statusEl.textContent = '🔄 جاري الاتصال بالذكاء الاصطناعي...';
+            }
+        }
+
+        checkStatus();
+
+        // Handle form submission
+        document.getElementById('dreamForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const dream = document.getElementById('dream').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const interpretationContent = document.getElementById('interpretationContent');
+            const sourceBadge = document.getElementById('sourceBadge');
+            const dreamImage = document.getElementById('dreamImage');
+
+            // Show loading
+            submitBtn.disabled = true;
+            loading.classList.add('show');
+            result.classList.remove('show');
+            dreamImage.style.display = 'none';
+
+            try {
+                // First, get interpretation
+                const response = await fetch('/api/interpret', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        dream: dream, 
+                        style: 'general', 
+                        language: 'ar' 
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.interpretation) {
+                    interpretationContent.textContent = data.interpretation;
+                    sourceBadge.textContent = data.source === 'ollama' ? '🤖 AI محلي (مجاني)' : '☁️ API سحابي';
+                    sourceBadge.className = 'source-badge ' + (data.source === 'ollama' ? 'ollama' : 'api');
+                    
+                    // Try to get an image (optional)
+                    try {
+                        const imgResponse = await fetch('/api/generate-image', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ prompt: dream })
+                        });
+                        
+                        if (imgResponse.ok) {
+                            const imgData = await imgResponse.json();
+                            if (imgData.image_url) {
+                                dreamImage.src = imgData.image_url;
+                                dreamImage.style.display = 'block';
+                            }
+                        }
+                    } catch (imgErr) {
+                        console.log('Image generation not available');
+                    }
+                    
+                    result.classList.add('show');
+                } else {
+                    interpretationContent.textContent = 'عذراً، حدث خطأ في التفسير. حاول مرة أخرى.';
+                    result.classList.add('show');
+                }
+            } catch (e) {
+                interpretationContent.textContent = 'خطأ في الاتصال: ' + e.message;
+                result.classList.add('show');
+            } finally {
+                submitBtn.disabled = false;
+                loading.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مختبر الأحلام الجلية | نَسَّاج AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #00f2ff;
+            --neon-purple: #bc13fe;
+            --bg: #010409;
+        }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg);
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        .lab-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .header {
+            padding: 50px 0;
+            border-bottom: 1px solid var(--neon-blue);
+        }
+        .header h1 {
+            font-size: 3.5rem;
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .tool-card {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            transition: 0.3s;
+        }
+        .tool-card:hover {
+            transform: scale(1.05);
+            border-color: var(--neon-purple);
+        }
+        .btn-action {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .btn-action:hover {
+            background: var(--neon-blue);
+            color: black;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #333;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--neon-purple);
+            width: 35%;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="lab-container">
+        <div class="header">
+            <h1>🧪 مختبر الأحلام الجلية</h1>
+            <p>الأداة الأولى عالمياً للتحكم الكامل في أحلامك باستخدام تقنيات AI الحيوية.</p>
+        </div>
+
+        <div class="tool-grid">
+            <!-- Reality Check Trainer -->
+            <div class="tool-card">
+                <h3>🔔 مدرب اختبار الواقع</h3>
+                <p>تمارين تفاعلية لتدريب عقلك الباطن على التمييز بين الحلم واليقظة.</p>
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <p style="font-size: 0.8rem; margin-top: 5px;">مستوى الوعي: 35%</p>
+                <button class="btn-action">ابدأ التمرين اليومي</button>
+            </div>
+
+            <!-- MILD Script Generator -->
+            <div class="tool-card">
+                <h3>📝 مولد سيناريوهات MILD</h3>
+                <p>يقوم الذكاء الاصطناعي بكتابة "نص توكيدي" مخصص لك لتقرأه قبل النوم.</p>
+                <button class="btn-action">توليد نص الليلة</button>
+            </div>
+
+            <!-- Dream Anchor -->
+            <div class="tool-card">
+                <h3>⚓ مرساة الأحلام</h3>
+                <p>تقنية صوتية (Binaural Beats) تساعدك على الدخول في الحلم الجلي بسرعة.</p>
+                <button class="btn-action">تشغيل الترددات</button>
+            </div>
+        </div>
+
+        <div style="margin-top: 60px; padding: 40px; background: rgba(188, 19, 254, 0.1); border-radius: 20px;">
+            <h2>📈 إحصائيات المختبر</h2>
+            <div style="display: flex; justify-content: space-around; margin-top: 20px;">
+                <div><div style="font-size: 2rem; color: var(--neon-blue);">85%</div><div>نسبة النجاح</div></div>
+                <div><div style="font-size: 2rem; color: var(--neon-purple);">12,400</div><div>متدرب نشط</div></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

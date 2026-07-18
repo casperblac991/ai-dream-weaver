@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 تفسير الأحلام بالذكاء الاصطناعي | MindWeave</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a855f7;
+            font-weight: 600;
+        }
+        .form-group textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #a855f7;
+        }
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+        }
+        .btn {
+            width: 100%;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            display: none;
+        }
+        .result.show {
+            display: block;
+        }
+        .result h3 {
+            color: #6366f1;
+            margin-bottom: 15px;
+        }
+        .result-content {
+            line-height: 1.8;
+            color: #ccc;
+            white-space: pre-wrap;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+        .loading.show {
+            display: block;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(168, 85, 247, 0.3);
+            border-top-color: #a855f7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .status {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        .status.connected {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        .status.disconnected {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        .source-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+        .source-badge.ollama {
+            background: rgba(168, 85, 247, 0.2);
+            color: #a855f7;
+        }
+        .source-badge.api {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔮 تفسير الأحلام</h1>
+            <p>أدخل حلمك واحصل على تفسير شامل بالذكاء الاصطناعي</p>
+        </div>
+
+        <div id="status" class="status"></div>
+
+        <div class="card">
+            <form id="dreamForm">
+                <div class="form-group">
+                    <label for="dream">📝 صف حلمك:</label>
+                    <textarea id="dream" placeholder="مثال: رأيت في المنام أنني أسير في طريق طويل مظلم ورأيت أسداً يحميني..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="style">🎯 أسلوب التفسير:</label>
+                    <select id="style">
+                        <option value="islamic">إسلامي (ابن سيرين)</option>
+                        <option value="psychological">نفسي (فرويد/يونغ)</option>
+                        <option value="ancient">حضاري قديم</option>
+                        <option value="general" selected>شامل (مزيج)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn" id="submitBtn">🔮 فسّر حلمك</button>
+            </form>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>جاري التفسير...</p>
+        </div>
+
+        <div class="result" id="result">
+            <span class="source-badge" id="sourceBadge"></span>
+            <h3>✨ التفسير:</h3>
+            <div class="result-content" id="resultContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Check Ollama status on load
+        async function checkStatus() {
+            const statusEl = document.getElementById('status');
+            try {
+                const response = await fetch('/api/ollama-status');
+                const data = await response.json();
+                if (data.status === 'connected') {
+                    statusEl.className = 'status connected';
+                    statusEl.textContent = '✅ الذكاء الاصطناعي المحلي متصل - مجاني وسريع';
+                } else {
+                    statusEl.className = 'status disconnected';
+                    statusEl.textContent = '⚠️ جاري الاتصال بالذكاء الاصطناعي السحابي...';
+                }
+            } catch (e) {
+                statusEl.className = 'status disconnected';
+                statusEl.textContent = '⚠️ جاري الاتصال بالذكاء الاصطناعي السحابي...';
+            }
+        }
+
+        checkStatus();
+
+        // Handle form submission
+        document.getElementById('dreamForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const dream = document.getElementById('dream').value;
+            const style = document.getElementById('style').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const resultContent = document.getElementById('resultContent');
+            const sourceBadge = document.getElementById('sourceBadge');
+
+            // Show loading
+            submitBtn.disabled = true;
+            loading.classList.add('show');
+            result.classList.remove('show');
+
+            try {
+                const response = await fetch('/api/interpret', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ dream, style, language: 'ar' })
+                });
+
+                const data = await response.json();
+
+                if (data.interpretation) {
+                    resultContent.textContent = data.interpretation;
+                    sourceBadge.textContent = data.source === 'ollama' ? '🤖 AI محلي (مجاني)' : '☁️ API سحابي';
+                    sourceBadge.className = 'source-badge ' + (data.source === 'ollama' ? 'ollama' : 'api');
+                    result.classList.add('show');
+                } else {
+                    resultContent.textContent = 'عذراً، حدث خطأ. حاول مرة أخرى.';
+                    result.classList.add('show');
+                }
+            } catch (e) {
+                resultContent.textContent = 'خطأ في الاتصال: ' + e.message;
+                result.classList.add('show');
+            } finally {
+                submitBtn.disabled = false;
+                loading.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

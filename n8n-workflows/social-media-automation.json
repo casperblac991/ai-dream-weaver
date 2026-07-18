@@ -1,0 +1,113 @@
+/**
+ * AI Dream Weaver - Social Media Automation Workflow
+ * 
+ * هذا سير العمل لأتمتة الحملات على منصات التواصل الاجتماعي
+ * يُنفذ كل 6 ساعات لتوليد ونشر محتوى ذكي
+ * 
+ * للتحميل في n8n:
+ * 1. افتح http://localhost:5678
+ * 2. اذهب إلى Workflows
+ * 3. اضغط على Import from File
+ * 4. اختر هذا الملف
+ */
+
+{
+  "name": "AI Dream Weaver - Social Media Campaign",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "scheduler",
+      "name": "Schedule Trigger (every 6 hours)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "operation": "execute",
+        "functionCode": "// AI Content Generator Node\n// Generates social media posts from recent dream content\n\nconst dreams = [\n  { title: \"رؤية البحر في المنام\", category: \"الأحلام الإيجابية\", tags: [\"#الأحلام\", \"#البحر\", \"#الاستقرار\"] },\n  { title: \"تفسير حلم السقوط\", category: \"القلق\", tags: [\"#الأحلام\", \"#السقوط\", \"#التفسير\"] },\n  { title: \"رؤية الثعبان\", category: \"التنبيهات\", tags: [\"#الأحلام\", \"#الثعبان\", \"#التحول\"] },\n  { title: \"حلم النار\", category: \"التحذير\", tags: [\"#الأحلام\", \"#النار\", \"#التوتر\"] }\n];\n\n// Select random dream\nconst dream = dreams[Math.floor(Math.random() * dreams.length)];\n\nconst post = {\n  content: `🌙 ${dream.title}\\n\\nهل حلمت به من قبل؟ اكشف معنا تفسير أحلامك!\\n\\n${dream.tags.join(' ')}\\n\\n🔗 رابط الموقع في الملف الشخصي`,\n  platform: dream.category === 'الأحلام الإيجابية' ? 'twitter' : 'facebook',\n  tags: dream.tags\n};\n\nreturn post;"
+      },
+      "id": "ai-generator",
+      "name": "AI Content Generator",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [300, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 1
+      },
+      "id": "splitter",
+      "name": "Split to Posts",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot{{$credentials.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "authentication": "genericCredentialType",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "{{$credentials.TELEGRAM_CHAT_ID}}"
+            },
+            {
+              "name": "text",
+              "value": "{{$json.content}}"
+            },
+            {
+              "name": "parse_mode",
+              "value": "HTML"
+            }
+          ]
+        }
+      },
+      "id": "telegram",
+      "name": "Telegram Bot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "operation": "execute",
+        "functionCode": "// Log results\nreturn {\n  success: true,\n  timestamp: new Date().toISOString(),\n  content: $input.first().json.content\n};"
+      },
+      "id": "logger",
+      "name": "Log Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [[{ "node": "AI Content Generator", "type": "main" }]]
+    },
+    "AI Content Generator": {
+      "main": [[{ "node": "Split to Posts", "type": "main" }]]
+    },
+    "Split to Posts": {
+      "main": [[{ "node": "Telegram Bot", "type": "main" }]]
+    },
+    "Telegram Bot": {
+      "main": [[{ "node": "Log Results", "type": "main" }]]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": "ai-dream-social-automation"
+}

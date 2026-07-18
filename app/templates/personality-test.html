@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محلل الشخصية عبر الأحلام | نَسَّاج</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --secondary: #f0c060;
+            --bg: #050210;
+            --text: #e2d9f3;
+        }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at top right, #1e1b4b, transparent),
+                              radial-gradient(circle at bottom left, #1e1b4b, transparent);
+        }
+        .container {
+            max-width: 800px;
+            width: 90%;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        h1 {
+            color: var(--secondary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #a855f7;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+        .test-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            color: white;
+            padding: 15px;
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .btn {
+            background: linear-gradient(45deg, var(--primary), #a855f7);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+        }
+        #result {
+            margin-top: 40px;
+            display: none;
+            text-align: right;
+            line-height: 1.8;
+            background: rgba(124, 58, 237, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+        }
+        .login-gate {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(240, 192, 96, 0.1);
+            border: 1px dashed var(--secondary);
+            border-radius: 10px;
+            display: none;
+        }
+        .login-gate a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔮 محلل الشخصية عبر الأحلام</h1>
+        <p class="subtitle">اكتشف أسرار شخصيتك الكامنة من خلال تحليل أحلامك المتكررة</p>
+        
+        <div class="test-box">
+            <p>صف حلماً يتكرر معك أو حلماً أثر فيك مؤخراً:</p>
+            <textarea id="dreamInput" placeholder="مثلاً: حلمت أنني أطير فوق مدينة مهجورة..."></textarea>
+            <button class="btn" onclick="analyzePersonality()">حلل شخصيتي الآن</button>
+            
+            <div id="result">
+                <h3 style="color: var(--secondary)">📊 نتيجة التحليل الأولي:</h3>
+                <div id="analysisContent"></div>
+                <div class="login-gate" id="loginGate">
+                    <p>✨ هذا جزء بسيط من التحليل. للحصول على تقرير الشخصية الكامل (10 صفحات) وتوصيات خاصة:</p>
+                    <a href="/app/register">سجل حسابك مجاناً الآن ←</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function analyzePersonality() {
+            const dream = document.getElementById('dreamInput').value;
+            if (dream.length < 10) {
+                alert('يرجى كتابة وصف أطول للحلم للحصول على تحليل دقيق.');
+                return;
+            }
+
+            const resultDiv = document.getElementById('result');
+            const contentDiv = document.getElementById('analysisContent');
+            const loginGate = document.getElementById('loginGate');
+            
+            contentDiv.innerHTML = "⌛ جاري قراءة رموز حلمك...";
+            resultDiv.style.display = 'block';
+
+            try {
+                // محاكاة استدعاء API للتحليل
+                setTimeout(() => {
+                    contentDiv.innerHTML = `
+                        <p>بناءً على الرموز التي ذكرتها، تظهر شخصيتك ميلاً نحو <strong>الإبداع والبحث عن الحرية</strong>. الحلم بالطيران أو المساحات المفتوحة يشير إلى رغبة دفينة في التحرر من قيود حالية في حياتك المهنية أو الشخصية.</p>
+                        <p>لديك قدرة عالية على التكيف، لكنك قد تعاني من القلق تجاه المستقبل...</p>
+                    `;
+                    loginGate.style.display = 'block';
+                }, 2000);
+            } catch (error) {
+                contentDiv.innerHTML = "⚠️ حدث خطأ، يرجى المحاولة لاحقاً.";
+            }
+        }
+    </script>
+</body>
+</html>
