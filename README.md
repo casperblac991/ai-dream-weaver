@@ -3,7 +3,7 @@
 الموقع: https://aidreamweaver.store
 
 ## الميزات
-- تفسير AI بأسلوب ابن سيرين (Groq + Llama 4)
+- تفسير AI عبر طبقة توجيه متعددة المزودين (Groq / OpenAI / Anthropic / DeepSeek / Ollama)
 - **Ollama محلي** - تشغيل مجاني بدون API (8GB RAM)
 - توليد صور 4K للأحلام
 - مدونة يومية تلقائية بالذكاء الاصطناعي
