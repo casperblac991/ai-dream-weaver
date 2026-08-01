@@ -5,6 +5,19 @@ Weaver (نَسَّاج) - منصة تفسير الأحلام بالذكاء ال
 النسخة المحدثة - تدعم التحديث اليومي للمدونة من مجلد blog/
 """
 
+import subprocess
+import sys
+
+# آلية تثبيت تلقائي للمكتبات المفقودة (لحل مشكلة Render)
+def _install_deps():
+    try:
+        import passlib
+    except ImportError:
+        print("Installing missing dependency: passlib")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "passlib[bcrypt]"])
+
+_install_deps()
+
 from fastapi import FastAPI, Request, Form, HTTPException, BackgroundTasks
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
