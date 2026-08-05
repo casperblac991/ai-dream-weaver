@@ -73,11 +73,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# القوالب - إصلاح: مسار صحيح
-# محاولة العثور على مجلد القوالب في عدة أماكن لضمان الاستقرار
-# استخدام مسار مطلق ومباشر لضمان الوصول للقوالب في بيئة Render/Vercel
+# القوالب - إصلاح نهائي للمسارات
 BASE_DIR = Path(__file__).parent.resolve()
-templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
+# البحث في المجلدات الممكنة
+possible_template_dirs = [
+    str(BASE_DIR / "templates"),
+    str(APP_ROOT / "app" / "templates"),
+    str(APP_ROOT / "templates")
+]
+templates = Jinja2Templates(directory=[d for d in possible_template_dirs if os.path.isdir(d)])
 
 # Static files - إصلاح: دعم الملفات الثابتة
 if (APP_ROOT / "css").exists():
@@ -186,31 +190,39 @@ async def faq_page(request: Request):
     except FileNotFoundError:
         return HTMLResponse(content="<h1>Page not found</h1>", status_code=404)
 
+# دعم الروابط المرنة (بامتداد .html وبدونه)
 @app.get("/personality-test", response_class=HTMLResponse)
+@app.get("/personality-test.html", response_class=HTMLResponse)
 async def personality_test_page(request: Request):
     return templates.TemplateResponse(request, "personality-test.html")
 
 @app.get("/lucid-dreaming", response_class=HTMLResponse)
+@app.get("/lucid-dreaming.html", response_class=HTMLResponse)
 async def lucid_dreaming_page(request: Request):
     return templates.TemplateResponse(request, "lucid-dreaming.html")
 
 @app.get("/offers", response_class=HTMLResponse)
+@app.get("/offers.html", response_class=HTMLResponse)
 async def offers_page(request: Request):
     return templates.TemplateResponse(request, "offers.html")
 
 @app.get("/global-map", response_class=HTMLResponse)
+@app.get("/global-map.html", response_class=HTMLResponse)
 async def global_map_page(request: Request):
     return templates.TemplateResponse(request, "global-map.html")
 
 @app.get("/community", response_class=HTMLResponse)
+@app.get("/community.html", response_class=HTMLResponse)
 async def community_page(request: Request):
     return templates.TemplateResponse(request, "community.html")
 
 @app.get("/lucid-lab", response_class=HTMLResponse)
+@app.get("/lucid-lab.html", response_class=HTMLResponse)
 async def lucid_lab_page(request: Request):
     return templates.TemplateResponse(request, "lucid-lab.html")
 
 @app.get("/cosmic-dictionary", response_class=HTMLResponse)
+@app.get("/cosmic-dictionary.html", response_class=HTMLResponse)
 async def cosmic_dictionary_page(request: Request):
     return templates.TemplateResponse(request, "cosmic-dictionary.html")
 
