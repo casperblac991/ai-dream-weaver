@@ -73,15 +73,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# القوالب - إصلاح نهائي للمسارات
-BASE_DIR = Path(__file__).parent.resolve()
-# البحث في المجلدات الممكنة
-possible_template_dirs = [
-    str(BASE_DIR / "templates"),
-    str(APP_ROOT / "app" / "templates"),
-    str(APP_ROOT / "templates")
-]
-templates = Jinja2Templates(directory=[d for d in possible_template_dirs if os.path.isdir(d)])
+# القوالب - استخدام المجلد الجذري لضمان عمل جميع الصفحات
+templates = Jinja2Templates(directory="templates")
 
 # Static files - إصلاح: دعم الملفات الثابتة
 if (APP_ROOT / "css").exists():
