@@ -115,7 +115,7 @@ def render_template(request: Request, template_name: str, context: dict = None):
     
     # دمج السياق الإضافي
     base_context.update(context)
-    return templates.TemplateResponse(template_name, base_context)
+    return templates.TemplateResponse(request, template_name, base_context)
 
 def create_session(user_id: int) -> str:
     token = secrets.token_hex(32)
@@ -331,9 +331,7 @@ async def register(
         response = RedirectResponse("/app/dashboard", status_code=302)
         response.set_cookie("session_token", token, max_age=86400 * 30, httponly=True)
         return response
-    return templates.TemplateResponse(request, "register.html", {
-        "error": result.get("message", "خطأ في التسجيل")
-    })
+    return render_template(request, "register.html", {"error": result.get("message", "خطأ في التسجيل")})
 
 # تسجيل الدخول
 @app.get("/app/login", response_class=HTMLResponse)
@@ -355,9 +353,7 @@ async def login(
         response = RedirectResponse("/app/dashboard", status_code=302)
         response.set_cookie("session_token", token, max_age=86400 * 30, httponly=True)
         return response
-    return templates.TemplateResponse(request, "login.html", {
-        "error": "خطأ في البريد الإلكتروني أو كلمة المرور"
-    })
+    return render_template(request, "login.html", {"error": "خطأ في البريد الإلكتروني أو كلمة المرور"})
 
 # تسجيل الخروج
 @app.get("/app/logout")
@@ -426,9 +422,7 @@ async def dashboard(request: Request):
     dreams = get_user_dreams(user["id"])
     stats = get_platform_stats()
     lang = request.cookies.get("lang", "ar")
-    return templates.TemplateResponse(request, "dashboard.html", {
-        "user": user, "dreams": dreams, "stats": stats, "lang": lang, "t": lambda key: get_text(key, lang)
-    })
+    return render_template(request, "dashboard.html", {"dreams": dreams, "stats": stats})
 
 # تفسير الأحلام
 @app.get("/app/analyze", response_class=HTMLResponse)
@@ -454,8 +448,7 @@ async def analyze(
     limit = limits.get(user.get("plan", "free"), 5)
 
     if used >= limit:
-        return templates.TemplateResponse(request, "analyze.html", {
-            "user": user,
+        return render_template(request, "analyze.html", {
             "error": "لقد استنفدت حد التفسيرات اليومي. يرجى الترقية للاستمرار.",
             "upgrade": True
         })
@@ -465,8 +458,7 @@ async def analyze(
     save_dream(user["id"], dream, interpretation, image_prompt)
     increment_dreams_used(user["id"])
 
-    return templates.TemplateResponse(request, "analyze.html", {
-        "user": user,
+    return render_template(request, "analyze.html", {
         "dream": dream, "interpretation": interpretation,
         "image_prompt": image_prompt
     })
