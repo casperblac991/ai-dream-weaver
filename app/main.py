@@ -196,32 +196,27 @@ async def faq_page(request: Request):
         return HTMLResponse(content="<h1>Page not found</h1>", status_code=404)
 
 # دعم الروابط المرنة (بامتداد .html وبدونه)
-@app.get("/personality-test", response_class=HTMLResponse)
-@app.get("/personality-test.html", response_class=HTMLResponse)
+@app.get("/app/personality-test", response_class=HTMLResponse)
 async def personality_test_page(request: Request):
     lang = request.cookies.get("lang", "ar")
     return templates.TemplateResponse(request, "personality-test.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
-@app.get("/lucid-dreaming", response_class=HTMLResponse)
-@app.get("/lucid-dreaming.html", response_class=HTMLResponse)
+@app.get("/app/lucid-dreaming", response_class=HTMLResponse)
 async def lucid_dreaming_page(request: Request):
     lang = request.cookies.get("lang", "ar")
     return templates.TemplateResponse(request, "lucid-dreaming.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
-@app.get("/offers", response_class=HTMLResponse)
-@app.get("/offers.html", response_class=HTMLResponse)
+@app.get("/app/offers", response_class=HTMLResponse)
 async def offers_page(request: Request):
     lang = request.cookies.get("lang", "ar")
     return templates.TemplateResponse(request, "offers.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
-@app.get("/global-map", response_class=HTMLResponse)
-@app.get("/global-map.html", response_class=HTMLResponse)
+@app.get("/app/global-map", response_class=HTMLResponse)
 async def global_map_page(request: Request):
     lang = request.cookies.get("lang", "ar")
     return templates.TemplateResponse(request, "global-map.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
-@app.get("/community", response_class=HTMLResponse)
-@app.get("/community.html", response_class=HTMLResponse)
+@app.get("/app/community", response_class=HTMLResponse)
 async def community_page(request: Request):
     lang = request.cookies.get("lang", "ar")
     public_dreams = get_public_dreams(limit=20)
@@ -231,12 +226,12 @@ async def community_page(request: Request):
         "t": lambda key: get_text(key, lang)
     })
 
-@app.post("/api/like-dream/{dream_id}")
+@app.post("/app/api/like-dream/{dream_id}")
 async def api_like_dream(dream_id: int):
     like_dream(dream_id)
     return {"success": True}
 
-@app.post("/api/comment")
+@app.post("/app/api/comment")
 async def api_add_comment(request: Request):
     user = get_current_user(request)
     if not user:
@@ -249,14 +244,12 @@ async def api_add_comment(request: Request):
     add_comment(user["id"], dream_id, text)
     return {"success": True}
 
-@app.get("/lucid-lab", response_class=HTMLResponse)
-@app.get("/lucid-lab.html", response_class=HTMLResponse)
+@app.get("/app/lucid-lab", response_class=HTMLResponse)
 async def lucid_lab_page(request: Request):
     lang = request.cookies.get("lang", "ar")
     return templates.TemplateResponse(request, "lucid-lab.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
-@app.get("/cosmic-dictionary", response_class=HTMLResponse)
-@app.get("/cosmic-dictionary.html", response_class=HTMLResponse)
+@app.get("/app/cosmic-dictionary", response_class=HTMLResponse)
 async def cosmic_dictionary_page(request: Request):
     lang = request.cookies.get("lang", "ar")
     return templates.TemplateResponse(request, "cosmic-dictionary.html", {"lang": lang, "t": lambda key: get_text(key, lang)})

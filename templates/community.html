@@ -165,7 +165,7 @@
     <script>
         async function likeDream(id) {
             try {
-                const res = await fetch(`/api/like-dream/${id}`, { method: 'POST' });
+                const res = await fetch(`/app/api/like-dream/${id}`, { method: 'POST' });
                 if (res.ok) {
                     const span = document.getElementById(`likes-${id}`);
                     span.innerText = parseInt(span.innerText) + 1;
