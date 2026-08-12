@@ -1,43 +1,50 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="{{ lang }}" dir="{% if lang == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قاموس الرموز الكوني | نَسَّاج AI</title>
+    <title>{{ t('nav_dictionary') }} | Weaver AI</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #7c3aed;
+            --bg: #050210;
+            --text: #e2d9f3;
+        }
         body {
             font-family: 'Tajawal', sans-serif;
-            background: #0a0a0a;
-            color: #d1d1d1;
+            background: var(--bg);
+            color: var(--text);
             margin: 0;
-            padding: 40px;
+            padding: 40px 20px;
         }
         .container { max-width: 900px; margin: 0 auto; }
         .search-box {
-            background: #1a1a1a;
+            background: #1e1b4b;
             padding: 20px;
             border-radius: 15px;
             display: flex;
             gap: 10px;
             margin-bottom: 40px;
+            border: 1px solid rgba(124, 58, 237, 0.3);
         }
         input {
             flex: 1;
-            background: transparent;
-            border: 1px solid #333;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--primary);
             padding: 10px;
             color: white;
             border-radius: 8px;
+            font-family: inherit;
         }
         .symbol-card {
-            background: #1a1a1a;
+            background: #1e1b4b;
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 20px;
-            border-right: 5px solid #7c3aed;
+            border-right: 5px solid var(--primary);
         }
-        .symbol-card h2 { color: #7c3aed; margin-top: 0; }
+        .symbol-card h2 { color: var(--primary); margin-top: 0; }
         .tag {
             background: rgba(124, 58, 237, 0.2);
             color: #a78bfa;
@@ -46,16 +53,25 @@
             font-size: 0.8rem;
             margin-left: 5px;
         }
+        .btn-search {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 style="text-align: center; color: white;">🌌 قاموس الرموز الكوني (AI Powered)</h1>
+        <h1 style="text-align: center;">🌌 {{ t('nav_dictionary') }}</h1>
         <p style="text-align: center;">قاموس حي يتطور لحظياً بناءً على تحليل ملايين الأحلام حول العالم.</p>
         
         <div class="search-box">
             <input type="text" placeholder="ابحث عن رمز في حلمك (مثلاً: البحر، المصعد، القطة)...">
-            <button style="background: #7c3aed; color: white; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer;">بحث ذكي</button>
+            <button class="btn-search">بحث ذكي</button>
         </div>
 
         <div class="symbol-card">
@@ -70,6 +86,8 @@
             <p><strong>الدلالة العامة:</strong> نقاء الروح، الاستقرار العاطفي، والرزق القادم.</p>
             <p><strong>إحصائية AI:</strong> 70% من الذين حلموا بهذا الرمز شعروا براحة نفسية في الـ 48 ساعة التالية.</p>
         </div>
+        
+        <p style="text-align: center;"><a href="/" style="color: var(--primary); text-decoration: none;">← {{ t('nav_home') }}</a></p>
     </div>
 </body>
 </html>

@@ -1,70 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ lang }}" dir="{% if lang == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
-<meta charset="UTF-8">
-<title>AI Dream Analyzer</title>
-<style>
-body{
-font-family: Arial;
-background:#0f172a;
-color:white;
-text-align:center;
-padding:40px;
-}
-
-textarea{
-width:80%;
-height:120px;
-padding:10px;
-font-size:16px;
-}
-
-button{
-padding:10px 20px;
-font-size:18px;
-background:#6366f1;
-color:white;
-border:none;
-cursor:pointer;
-}
-
-#result{
-margin-top:30px;
-font-size:18px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحليل الحلم بالذكاء الاصطناعي | نَسَّاج AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --secondary: #f0c060;
+            --bg: #050210;
+            --text: #e2d9f3;
+        }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #1e1b4b;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            color: white;
+            padding: 15px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .btn {
+            background: linear-gradient(45deg, var(--primary), #a855f7);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+        #result {
+            margin-top: 40px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <h1>🔮 {{ t('btn_try_now') }}</h1>
+        <p>صف حلمك بالتفصيل لنقوم بنسج تفسيره بالذكاء الاصطناعي...</p>
+        
+        <textarea id="dreamInput" placeholder="اكتب حلمك هنا..."></textarea>
+        
+        <button class="btn" onclick="analyzeDream()">نسج التفسير الآن</button>
+        
+        <div id="loading" class="loading">
+            <div style="font-size: 2rem; animation: spin 2s linear infinite;">⏳</div>
+            <p>جاري النسيج... قد يستغرق الأمر لحظات</p>
+        </div>
+        
+        <div id="result"></div>
+    </div>
 
-<h1>AI Dream Analyzer</h1>
-
-<p>Write your dream and get interpretation</p>
-
-<textarea id="dream"></textarea><br><br>
-
-<button onclick="analyze()">Analyze Dream</button>
-
-<div id="result"></div>
-
-<script>
-async function analyze(){
-
-let dream=document.getElementById("dream").value
-
-let formData = new FormData();
-formData.append('dream', dream);
-
-let response=await fetch("/app/analyze",{
-method:"POST",
-body:formData
-})
-
-let text = await response.text();
-document.getElementById("result").innerHTML = text;
-
-}
-</script>
-
+    <script>
+        async function analyzeDream() {
+            const dream = document.getElementById('dreamInput').value;
+            if (!dream) return;
+            
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').innerHTML = '';
+            
+            const formData = new FormData();
+            formData.append('dream', dream);
+            
+            try {
+                const res = await fetch('/app/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+                const html = await res.text();
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('result').innerHTML = html;
+            } catch (e) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('result').innerHTML = '⚠️ حدث خطأ، يرجى المحاولة لاحقاً.';
+            }
+        }
+    </script>
 </body>
 </html>

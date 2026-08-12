@@ -221,3 +221,39 @@ def get_platform_stats():
             "total_blog_posts": total_blog,
             "dreams_today": dreams_today
         }
+
+# ========== دوال المجتمع (Community) ==========
+def get_public_dreams(limit=50):
+    with get_db() as db:
+        rows = db.execute("""
+            SELECT d.*, u.username, u.avatar 
+            FROM dreams d 
+            JOIN users u ON d.user_id = u.id 
+            WHERE d.is_public = 1 
+            ORDER BY d.created_at DESC LIMIT ?
+        """, (limit,)).fetchall()
+        return [dict(row) for row in rows]
+
+def like_dream(dream_id):
+    with get_db() as db:
+        db.execute("UPDATE dreams SET likes = likes + 1 WHERE id = ?", (dream_id,))
+        db.commit()
+
+def add_comment(user_id, dream_id, comment_text):
+    with get_db() as db:
+        db.execute("""
+            INSERT INTO comments (user_id, dream_id, comment_text)
+            VALUES (?, ?, ?)
+        """, (user_id, dream_id, comment_text))
+        db.commit()
+
+def get_dream_comments(dream_id):
+    with get_db() as db:
+        rows = db.execute("""
+            SELECT c.*, u.username, u.avatar 
+            FROM comments c 
+            JOIN users u ON c.user_id = u.id 
+            WHERE c.dream_id = ? 
+            ORDER BY c.created_at ASC
+        """, (dream_id,)).fetchall()
+        return [dict(row) for row in rows]

@@ -41,8 +41,10 @@ from app.database import (
     get_user_by_id, save_dream, get_user_dreams,
     get_dreams_used, increment_dreams_used,
     get_all_users, save_email_subscriber, get_all_subscribers,
-    get_platform_stats, save_blog_post, get_blog_posts
+    get_platform_stats, save_blog_post, get_blog_posts,
+    get_public_dreams, like_dream, add_comment, get_dream_comments
 )
+from app.translations import get_text
 from app.ai import interpret_dream, generate_image_prompt, generate_blog_article
 from app.shop import router as shop_router
 
@@ -160,9 +162,19 @@ def get_all_blog_posts(limit=50):
 async def root(request: Request):
     user = get_current_user(request)
     stats = get_platform_stats()
+    lang = request.cookies.get("lang", "ar")
     return templates.TemplateResponse(request, "index.html", {
-        "user": user, "stats": stats
+        "user": user, 
+        "stats": stats,
+        "lang": lang,
+        "t": lambda key: get_text(key, lang)
     })
+
+@app.get("/set-lang/{lang}")
+async def set_lang(lang: str):
+    response = RedirectResponse(url="/")
+    response.set_cookie(key="lang", value=lang, max_age=31536000)
+    return response
 
 # Static HTML pages (served from root directory)
 @app.get("/about", response_class=HTMLResponse)
@@ -187,37 +199,67 @@ async def faq_page(request: Request):
 @app.get("/personality-test", response_class=HTMLResponse)
 @app.get("/personality-test.html", response_class=HTMLResponse)
 async def personality_test_page(request: Request):
-    return templates.TemplateResponse(request, "personality-test.html")
+    lang = request.cookies.get("lang", "ar")
+    return templates.TemplateResponse(request, "personality-test.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
 @app.get("/lucid-dreaming", response_class=HTMLResponse)
 @app.get("/lucid-dreaming.html", response_class=HTMLResponse)
 async def lucid_dreaming_page(request: Request):
-    return templates.TemplateResponse(request, "lucid-dreaming.html")
+    lang = request.cookies.get("lang", "ar")
+    return templates.TemplateResponse(request, "lucid-dreaming.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
 @app.get("/offers", response_class=HTMLResponse)
 @app.get("/offers.html", response_class=HTMLResponse)
 async def offers_page(request: Request):
-    return templates.TemplateResponse(request, "offers.html")
+    lang = request.cookies.get("lang", "ar")
+    return templates.TemplateResponse(request, "offers.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
 @app.get("/global-map", response_class=HTMLResponse)
 @app.get("/global-map.html", response_class=HTMLResponse)
 async def global_map_page(request: Request):
-    return templates.TemplateResponse(request, "global-map.html")
+    lang = request.cookies.get("lang", "ar")
+    return templates.TemplateResponse(request, "global-map.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
 @app.get("/community", response_class=HTMLResponse)
 @app.get("/community.html", response_class=HTMLResponse)
 async def community_page(request: Request):
-    return templates.TemplateResponse(request, "community.html")
+    lang = request.cookies.get("lang", "ar")
+    public_dreams = get_public_dreams(limit=20)
+    return templates.TemplateResponse(request, "community.html", {
+        "dreams": public_dreams,
+        "lang": lang,
+        "t": lambda key: get_text(key, lang)
+    })
+
+@app.post("/api/like-dream/{dream_id}")
+async def api_like_dream(dream_id: int):
+    like_dream(dream_id)
+    return {"success": True}
+
+@app.post("/api/comment")
+async def api_add_comment(request: Request):
+    user = get_current_user(request)
+    if not user:
+        return JSONResponse({"success": False, "message": "يجب تسجيل الدخول للتعليق"}, status_code=401)
+    
+    body = await request.json()
+    dream_id = body.get("dream_id")
+    text = body.get("text")
+    
+    add_comment(user["id"], dream_id, text)
+    return {"success": True}
 
 @app.get("/lucid-lab", response_class=HTMLResponse)
 @app.get("/lucid-lab.html", response_class=HTMLResponse)
 async def lucid_lab_page(request: Request):
-    return templates.TemplateResponse(request, "lucid-lab.html")
+    lang = request.cookies.get("lang", "ar")
+    return templates.TemplateResponse(request, "lucid-lab.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
 @app.get("/cosmic-dictionary", response_class=HTMLResponse)
 @app.get("/cosmic-dictionary.html", response_class=HTMLResponse)
 async def cosmic_dictionary_page(request: Request):
-    return templates.TemplateResponse(request, "cosmic-dictionary.html")
+    lang = request.cookies.get("lang", "ar")
+    return templates.TemplateResponse(request, "cosmic-dictionary.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
 @app.post("/api/generate-video")
 async def api_generate_video(request: Request):
@@ -400,8 +442,9 @@ async def dashboard(request: Request):
         return RedirectResponse("/app/login")
     dreams = get_user_dreams(user["id"])
     stats = get_platform_stats()
+    lang = request.cookies.get("lang", "ar")
     return templates.TemplateResponse(request, "dashboard.html", {
-        "user": user, "dreams": dreams, "stats": stats
+        "user": user, "dreams": dreams, "stats": stats, "lang": lang, "t": lambda key: get_text(key, lang)
     })
 
 # تفسير الأحلام
@@ -410,7 +453,8 @@ async def analyze_page(request: Request):
     user = get_current_user(request)
     if not user:
         return RedirectResponse("/app/login")
-    return templates.TemplateResponse(request, "analyze.html", {"user": user})
+    lang = request.cookies.get("lang", "ar")
+    return templates.TemplateResponse(request, "analyze.html", {"user": user, "lang": lang, "t": lambda key: get_text(key, lang)})
 
 @app.post("/app/analyze")
 async def analyze(

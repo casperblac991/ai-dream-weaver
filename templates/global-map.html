@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="{{ lang }}" dir="{% if lang == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>خارطة الأحلام العالمية | نَسَّاج</title>
+    <title>{{ t('nav_map') }} | نَسَّاج</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --bg: #020617;
-            --card: #1e293b;
+            --primary: #7c3aed;
+            --bg: #050210;
+            --card: #1e1b4b;
         }
         body {
             font-family: 'Tajawal', sans-serif;
@@ -58,7 +58,7 @@
             padding: 30px;
             border-radius: 20px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(124, 58, 237, 0.2);
         }
         .stat-card h3 {
             color: #818cf8;
@@ -72,7 +72,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🌍 خارطة الأحلام العالمية (Live)</h1>
+        <h1>🌍 {{ t('nav_map') }} (Live)</h1>
         <p style="text-align: center; color: #94a3b8;">شاهد ماذا يحلم العالم الآن. اتجاهات الأحلام المباشرة من 150 دولة.</p>
         
         <div class="map-placeholder"></div>
@@ -94,6 +94,8 @@
                 <p>بناءً على تحليل 10,000 حلم اليوم</p>
             </div>
         </div>
+        
+        <p style="text-align: center; margin-top: 40px;"><a href="/" style="color: var(--primary); text-decoration: none;">← {{ t('nav_home') }}</a></p>
     </div>
 </body>
 </html>
