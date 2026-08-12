@@ -57,20 +57,20 @@
     </div>
 
     <div class="grid">
-        {% for post in posts %}
-        <a href="/blog/{{ post.slug }}" class="card">
-            <h3>{{ post.title }}</h3>
-            <p>{{ post.excerpt }}</p>
+        
+        <a href="/blog/" class="card">
+            <h3></h3>
+            <p></p>
             <div class="card-meta">
-                <span>📅 {{ post.created_at[:10] }}</span>
-                <span>{{ post.author }}</span>
+                <span>📅 </span>
+                <span></span>
             </div>
         </a>
-        {% else %}
+        
         <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
             <p>لا توجد مقالات حالياً. جاري توليد المحتوى...</p>
         </div>
-        {% endfor %}
+        
     </div>
 </div>
 </body>
