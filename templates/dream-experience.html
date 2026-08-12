@@ -3,339 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌌 عيش حلمك | Weaver</title>
+    <title>عيش حلمك | Weaver</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%);
-            min-height: 100vh;
-            color: #e0e0e0;
-            overflow-x: hidden;
+            font-family: 'Tajawal', sans-serif;
+            background: #050210;
+            color: #e2d9f3;
+            line-height: 1.6;
         }
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        body.en { font-family: 'Inter', sans-serif; direction: ltr; text-align: left; }
+        body.ar { direction: rtl; text-align: right; }
+        
+        :root { --gold: #f0c060; --purple: #a855f7; --surface: rgba(30,10,60,0.75); }
+        
+        .bg-layer {
+            position: fixed; inset: 0; z-index: -2;
+            background: radial-gradient(ellipse at 20% 50%, #1e0a3c 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, #0c0a3e 0%, transparent 50%),
+                        #050210;
+        }
+        
+        #star-canvas {
+            position: fixed; inset: 0; z-index: -1;
             pointer-events: none;
-            background-image: 
-                radial-gradient(2px 2px at 20px 30px, #fff, transparent),
-                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.3), transparent),
-                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-                radial-gradient(2px 2px at 160px 120px, rgba(255,255,255,0.2), transparent),
-                radial-gradient(1px 1px at 230px 80px, #fff, transparent);
-            background-repeat: repeat;
-            background-size: 250px 250px;
-            animation: twinkle 5s ease-in-out infinite;
+            width: 100%; height: 100%;
         }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+        
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: .75rem 2rem;
+            background: rgba(5,2,16,.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(124,58,237,.4);
+            flex-wrap: wrap;
         }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 1;
+        .logo { font-size: 1.5rem; font-weight: 900; display: flex; align-items: center; gap: 5px; }
+        .logo-en { background: linear-gradient(135deg, #f0c060, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-ar { color: #a855f7; }
+        .logo-sep { color: #f0c060; }
+        .nav-links { display: flex; align-items: center; gap: .65rem; flex-wrap: wrap; }
+        .nav-links a { color: #e2d9f3; text-decoration: none; font-size: .85rem; transition: color .2s; }
+        .nav-links a:hover { color: #f0c060; }
+        .nav-cta { background: linear-gradient(135deg, #7c3aed, #ec4899); color: white !important; padding: .4rem 1.1rem; border-radius: 50px; }
+        .lang-btns { display: flex; gap: 5px; }
+        .lb { background: rgba(30,10,60,.8); color: #f0c060; border: 1px solid rgba(124,58,237,.5); padding: .3rem .7rem; border-radius: 50px; cursor: pointer; font-size: .78rem; font-weight: 700; transition: all .2s; }
+        .lb.on, .lb:hover { background: #7c3aed; color: white; border-color: #7c3aed; }
+        
+        .container { max-width: 800px; margin: 2rem auto; padding: 0 1.5rem; text-align: center; }
+        .page-title { font-size: 2rem; color: var(--gold); margin-bottom: 1rem; }
+        .page-subtitle { color: rgba(226,217,243,0.65); margin-bottom: 2rem; }
+        .dream-input {
+            width: 100%; min-height: 150px; padding: 1rem;
+            background: rgba(30,10,60,0.8); border: 1px solid rgba(124,58,237,.5);
+            border-radius: 16px; color: white; font-size: 1rem; font-family: inherit;
+            resize: vertical; margin-bottom: 1rem;
         }
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
+        .dream-input:focus { outline: none; border-color: var(--gold); }
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #ec4899); color: white;
+            padding: .8rem 2rem; border-radius: 50px; font-size: 1rem; font-weight: bold;
+            border: none; cursor: pointer; transition: transform 0.3s; width: 100%;
         }
-        .header h1 {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #a855f7, #6366f1, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 15px;
-            text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(124,58,237,0.4); }
+        .result-card {
+            background: rgba(30,10,60,0.8); border: 1px solid rgba(124,58,237,.5);
+            border-radius: 20px; padding: 1.5rem; margin-top: 2rem;
         }
-        .header p {
-            color: #888;
-            font-size: 1.2rem;
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 35px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-        .form-group {
-            margin-bottom: 25px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            color: #a855f7;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-        .form-group textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 18px;
-            border: 2px solid rgba(168, 85, 247, 0.3);
-            border-radius: 16px;
-            background: rgba(0, 0, 0, 0.4);
-            color: #fff;
-            font-size: 1rem;
-            resize: vertical;
-            transition: all 0.3s;
-        }
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #a855f7;
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
-        }
-        .btn {
-            width: 100%;
-            padding: 18px 30px;
-            background: linear-gradient(135deg, #a855f7, #6366f1);
-            border: none;
-            border-radius: 16px;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(168, 85, 247, 0.5);
-        }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .result {
-            margin-top: 30px;
-            display: none;
-        }
-        .result.show {
-            display: block;
-        }
-        .result-section {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 20px;
-        }
-        .result-section h3 {
-            color: #6366f1;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-        .result-content {
-            line-height: 1.9;
-            color: #ccc;
-        }
-        .image-container {
-            text-align: center;
-            margin: 20px 0;
-        }
-        .dream-image {
-            max-width: 100%;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-        }
-        .loading {
-            text-align: center;
-            padding: 50px;
-            display: none;
-        }
-        .loading.show {
-            display: block;
-        }
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(168, 85, 247, 0.3);
-            border-top-color: #a855f7;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .status {
-            text-align: center;
-            padding: 12px 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            font-size: 0.95rem;
-        }
-        .status.connected {
-            background: rgba(34, 197, 94, 0.15);
-            color: #22c55e;
-            border: 1px solid rgba(34, 197, 94, 0.3);
-        }
-        .status.disconnected {
-            background: rgba(239, 68, 68, 0.15);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        .source-badge {
-            display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-bottom: 15px;
-        }
-        .source-badge.ollama {
-            background: rgba(168, 85, 247, 0.2);
-            color: #a855f7;
-        }
-        .source-badge.api {
-            background: rgba(99, 102, 241, 0.2);
-            color: #6366f1;
-        }
+        .result-title { color: var(--gold); font-size: 1.3rem; margin-bottom: 1rem; }
+        .result-text { color: #e2d9f3; line-height: 1.8; text-align: right; }
+        body.en .result-text { text-align: left; }
+        .loading { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 2rem; }
+        .spinner { width: 30px; height: 30px; border: 3px solid rgba(124,58,237,0.3); border-top-color: var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .share-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+        .share-btn { background: rgba(124,58,237,0.3); border: 1px solid rgba(124,58,237,.5); padding: 0.5rem 1rem; border-radius: 50px; color: var(--gold); cursor: pointer; transition: 0.3s; font-size: 0.8rem; }
+        .share-btn:hover { background: #7c3aed; color: white; }
+        footer { text-align: center; padding: 2rem; border-top: 1px solid rgba(124,58,237,.25); margin-top: 2rem; color: rgba(255,255,255,0.3); }
+        @media (max-width: 768px) { .container { padding: 0 1rem; } }
     </style>
 </head>
-<body>
-    <div class="stars"></div>
-    <div class="container">
-        <div class="header">
-            <h1>🌌 عيش حلمك</h1>
-            <p>اكتب وصفاً لحلمك، ودع الذكاء الاصطناعي يعيد خلقه</p>
-        </div>
+<body class="ar">
+<div class="bg-layer"></div>
+<canvas id="star-canvas"></canvas>
 
-        <div id="status" class="status"></div>
-
-        <div class="card">
-            <form id="dreamForm">
-                <div class="form-group">
-                    <label for="dream">📝 صِف حلمك:</label>
-                    <textarea id="dream" placeholder="مثال: كنت أطير فوق بحر هادئ، والشمس تغرب خلف الأفق، والنجوم تظهر واحدة تلو الأخرى..." required></textarea>
-                </div>
-
-                <button type="submit" class="btn" id="submitBtn">✨ عيش الحلم ✨</button>
-            </form>
-        </div>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>جاري تحويل حلمك إلى صورة...</p>
-        </div>
-
-        <div class="result" id="result">
-            <div class="image-container">
-                <img id="dreamImage" class="dream-image" src="" alt="حلمك" style="display:none;">
-            </div>
-            
-            <div class="result-section">
-                <span class="source-badge" id="sourceBadge"></span>
-                <h3>📖 تفسير الحلم</h3>
-                <div class="result-content" id="interpretationContent"></div>
-            </div>
-        </div>
+<nav>
+    <div class="logo">
+        <span class="logo-en">Weaver</span>
+        <span class="logo-sep">|</span>
+        <span class="logo-ar">نَسَّاج</span>
     </div>
+    <div class="nav-links">
+        <a href="index.html" id="nav-home">الرئيسية</a>
+        <a href="blog.html" id="nav-blog">المدونة</a>
+        <a href="feed.html" id="nav-feed">الخلاصة</a>
+        <a href="dream-experience.html" class="active" id="nav-exp">🌌 عيش حلمك</a>
+        <div class="lang-btns">
+            <button class="lb on" id="btn-ar" onclick="setLang('ar')">🇸🇦 عربي</button>
+            <button class="lb" id="btn-en" onclick="setLang('en')">🇬🇧 English</button>
+        </div>
+        <a href="https://aidreamweaver.store/app/analyze" class="nav-cta" id="nav-cta">🔮 جرب المنصة</a>
+    </div>
+</nav>
 
-    <script>
-        // Check AI status on load
-        async function checkStatus() {
-            const statusEl = document.getElementById('status');
-            try {
-                const response = await fetch('/api/ollama-status');
-                const data = await response.json();
-                if (data.status === 'connected') {
-                    statusEl.className = 'status connected';
-                    statusEl.textContent = '✅ الذكاء الاصطناعي المحلي متصل - مجاني وسريع';
-                } else {
-                    statusEl.className = 'status disconnected';
-                    statusEl.textContent = '🔄 جاري الاتصال بالذكاء الاصطناعي...';
-                }
-            } catch (e) {
-                statusEl.className = 'status disconnected';
-                statusEl.textContent = '🔄 جاري الاتصال بالذكاء الاصطناعي...';
-            }
+<div class="container">
+    <h1 class="page-title" id="page-title">🌌 عيش حلمك</h1>
+    <p class="page-subtitle" id="page-subtitle">اكتب وصفاً لحلمك، ودع الذكاء الاصطناعي يعيد خلقه</p>
+    
+    <textarea id="dream-input" class="dream-input" placeholder="مثال: كنت أطير فوق بحر هادئ، والشمس تغرب..." rows="5"></textarea>
+    <button id="generate-btn" class="btn-primary" onclick="generateDreamExperience()">✨ عيش الحلم ✨</button>
+    <div id="result-container"></div>
+</div>
+
+<footer>
+    <p>© 2026 Weaver | نَسَّاج — منصة نسيج الأحلام بالذكاء الاصطناعي</p>
+</footer>
+
+<script>
+// ============================================
+// توليد السرد الحلمي (محاكاة)
+// ============================================
+let currentNarrative = '';
+
+function generateDreamNarrative(dreamText, lang) {
+    if (lang === 'ar') {
+        return `🌌 تدخل في عالم الحلم...\n\n${dreamText}\n\nالعالم من حولك يبدأ في التشكل. تشعر بالحرية والانطلاق. الألوان تتلألأ، والمشاعر تتدفق. هذا حلمك، أنت بطل قصته. استمتع بالرحلة.`;
+    }
+    return `🌌 You enter the dream world...\n\n${dreamText}\n\nThe world around you begins to take shape. You feel free and soaring. Colors shimmer, emotions flow. This is your dream, you are the hero of its story. Enjoy the journey.`;
+}
+
+async function generateDreamExperience() {
+    const dreamInput = document.getElementById('dream-input');
+    const dreamText = dreamInput.value.trim();
+    const generateBtn = document.getElementById('generate-btn');
+    const resultContainer = document.getElementById('result-container');
+    const currentLang = document.body.className || 'ar';
+    
+    if (!dreamText) {
+        alert(currentLang === 'ar' ? 'الرجاء كتابة وصف لحلمك' : 'Please describe your dream');
+        return;
+    }
+    
+    generateBtn.disabled = true;
+    resultContainer.innerHTML = `<div class="loading"><div class="spinner"></div><span>${currentLang === 'ar' ? 'جاري نسج حلمك...' : 'Weaving your dream...'}</span></div>`;
+    
+    setTimeout(() => {
+        const narrative = generateDreamNarrative(dreamText, currentLang);
+        currentNarrative = narrative;
+        
+        resultContainer.innerHTML = `
+            <div class="result-card">
+                <div class="result-title">🌌 ${currentLang === 'ar' ? 'تجربة حلمك' : 'Your Dream Experience'}</div>
+                <div class="result-text">${narrative.replace(/\n/g, '<br>')}</div>
+                <div class="share-buttons">
+                    <button class="share-btn" onclick="shareToTelegram()">📱 ${currentLang === 'ar' ? 'شارك على تيليجرام' : 'Share on Telegram'}</button>
+                    <button class="share-btn" onclick="copyToClipboard()">📋 ${currentLang === 'ar' ? 'نسخ الرابط' : 'Copy link'}</button>
+                </div>
+            </div>
+        `;
+        generateBtn.disabled = false;
+    }, 1200);
+}
+
+function shareToTelegram() {
+    const currentLang = document.body.className || 'ar';
+    const text = currentLang === 'ar' 
+        ? `🌌 جربت تجربة عيش الحلم على Weaver!\n\n${currentNarrative.substring(0, 200)}...\n\nhttps://aidreamweaver.store/dream-experience.html`
+        : `🌌 I experienced the Dream Experience on Weaver!\n\n${currentNarrative.substring(0, 200)}...\n\nhttps://aidreamweaver.store/dream-experience.html`;
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(text)}`, '_blank');
+}
+
+function copyToClipboard() {
+    const currentLang = document.body.className || 'ar';
+    const text = currentLang === 'ar' 
+        ? `جربت تجربة عيش الحلم على Weaver!\n${currentNarrative.substring(0, 200)}...\nhttps://aidreamweaver.store/dream-experience.html`
+        : `I experienced the Dream Experience on Weaver!\n${currentNarrative.substring(0, 200)}...\nhttps://aidreamweaver.store/dream-experience.html`;
+    navigator.clipboard.writeText(text);
+    alert(currentLang === 'ar' ? 'تم نسخ الرابط!' : 'Link copied!');
+}
+
+// ============================================
+// النجوم
+// ============================================
+(function() {
+    const cv = document.getElementById('star-canvas');
+    const ctx = cv.getContext('2d');
+    let stars = [];
+    function resize() { cv.width = window.innerWidth; cv.height = window.innerHeight; }
+    function spawn() {
+        stars = [];
+        for (let i = 0; i < 180; i++) {
+            stars.push({ x: Math.random()*cv.width, y: Math.random()*cv.height, r: Math.random()*1.5+.3, o: Math.random(), d: (Math.random()*.016+.004) * (Math.random()<.5?1:-1) });
         }
-
-        checkStatus();
-
-        // Handle form submission
-        document.getElementById('dreamForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const dream = document.getElementById('dream').value;
-            const submitBtn = document.getElementById('submitBtn');
-            const loading = document.getElementById('loading');
-            const result = document.getElementById('result');
-            const interpretationContent = document.getElementById('interpretationContent');
-            const sourceBadge = document.getElementById('sourceBadge');
-            const dreamImage = document.getElementById('dreamImage');
-
-            // Show loading
-            submitBtn.disabled = true;
-            loading.classList.add('show');
-            result.classList.remove('show');
-            dreamImage.style.display = 'none';
-
-            try {
-                // First, get interpretation
-                const response = await fetch('/api/interpret', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        dream: dream, 
-                        style: 'general', 
-                        language: 'ar' 
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.interpretation) {
-                    interpretationContent.textContent = data.interpretation;
-                    sourceBadge.textContent = data.source === 'ollama' ? '🤖 AI محلي (مجاني)' : '☁️ API سحابي';
-                    sourceBadge.className = 'source-badge ' + (data.source === 'ollama' ? 'ollama' : 'api');
-                    
-                    // Try to get an image (optional)
-                    try {
-                        const imgResponse = await fetch('/api/generate-image', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ prompt: dream })
-                        });
-                        
-                        if (imgResponse.ok) {
-                            const imgData = await imgResponse.json();
-                            if (imgData.image_url) {
-                                dreamImage.src = imgData.image_url;
-                                dreamImage.style.display = 'block';
-                            }
-                        }
-                    } catch (imgErr) {
-                        console.log('Image generation not available');
-                    }
-                    
-                    result.classList.add('show');
-                } else {
-                    interpretationContent.textContent = 'عذراً، حدث خطأ في التفسير. حاول مرة أخرى.';
-                    result.classList.add('show');
-                }
-            } catch (e) {
-                interpretationContent.textContent = 'خطأ في الاتصال: ' + e.message;
-                result.classList.add('show');
-            } finally {
-                submitBtn.disabled = false;
-                loading.classList.remove('show');
-            }
+    }
+    function draw() {
+        ctx.clearRect(0,0,cv.width,cv.height);
+        stars.forEach(s => {
+            s.o += s.d; if(s.o>1||s.o<0) s.d*=-1;
+            ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+            ctx.fillStyle = `rgba(255,255,255,${s.o.toFixed(2)})`; ctx.fill();
         });
-    </script>
+        requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', () => { resize(); spawn(); });
+    resize(); spawn(); draw();
+})();
+
+// ============================================
+// الترجمة
+// ============================================
+const translations = {
+    ar: {
+        'nav-home': 'الرئيسية', 'nav-blog': 'المدونة', 'nav-feed': 'الخلاصة', 'nav-exp': '🌌 عيش حلمك', 'nav-cta': '🔮 جرب المنصة',
+        'page-title': '🌌 عيش حلمك', 'page-subtitle': 'اكتب وصفاً لحلمك، ودع الذكاء الاصطناعي يعيد خلقه',
+        'placeholder': 'مثال: كنت أطير فوق بحر هادئ، والشمس تغرب...', 'btn': '✨ عيش الحلم ✨'
+    },
+    en: {
+        'nav-home': 'Home', 'nav-blog': 'Blog', 'nav-feed': 'Feed', 'nav-exp': '🌌 Live Your Dream', 'nav-cta': '🔮 Try Platform',
+        'page-title': '🌌 Live Your Dream', 'page-subtitle': 'Describe your dream, and let AI recreate it',
+        'placeholder': 'Example: I was flying over a calm sea, the sun was setting...', 'btn': '✨ Live the Dream ✨'
+    }
+};
+
+function setLang(lang) {
+    document.body.className = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('btn-ar').classList.toggle('on', lang === 'ar');
+    document.getElementById('btn-en').classList.toggle('on', lang === 'en');
+    
+    const t = translations[lang];
+    for (let id in t) {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = t[id];
+    }
+    document.getElementById('dream-input').placeholder = t.placeholder;
+    document.getElementById('generate-btn').innerHTML = t.btn;
+    localStorage.setItem('weaver_lang', lang);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('weaver_lang') || 'ar';
+    setLang(savedLang);
+});
+</script>
 </body>
 </html>

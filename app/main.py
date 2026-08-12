@@ -179,21 +179,13 @@ async def set_lang(lang: str):
 # Static HTML pages (served from root directory)
 @app.get("/about", response_class=HTMLResponse)
 async def about_page(request: Request):
-    try:
-        with open("about.html", "r", encoding="utf-8") as f:
-            content = f.read()
-        return HTMLResponse(content=content)
-    except FileNotFoundError:
-        return HTMLResponse(content="<h1>Page not found</h1>", status_code=404)
+    lang = request.cookies.get("lang", "ar")
+    return templates.TemplateResponse(request, "about.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
 @app.get("/faq", response_class=HTMLResponse)
 async def faq_page(request: Request):
-    try:
-        with open("faq.html", "r", encoding="utf-8") as f:
-            content = f.read()
-        return HTMLResponse(content=content)
-    except FileNotFoundError:
-        return HTMLResponse(content="<h1>Page not found</h1>", status_code=404)
+    lang = request.cookies.get("lang", "ar")
+    return templates.TemplateResponse(request, "faq.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
 
 # دعم الروابط المرنة (بامتداد .html وبدونه)
 @app.get("/app/personality-test", response_class=HTMLResponse)
