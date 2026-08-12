@@ -552,6 +552,17 @@ async def get_stats():
     stats = get_platform_stats()
     return JSONResponse(stats)
 
+@app.get("/api/health")
+async def health_check():
+    import os
+    files = os.listdir("templates") if os.path.exists("templates") else []
+    return {
+        "status": "ok",
+        "version": "3.2.0",
+        "templates_found": len(files),
+        "files": files[:10]
+    }
+
 # لوحة الإدارة
 @app.get("/admin", response_class=HTMLResponse)
 async def admin_page(request: Request):
