@@ -524,20 +524,20 @@ async def blog_post_page(request: Request, slug: str):
     # إزالة .html إذا كانت موجودة في الـ slug لتجنب التكرار
     clean_slug = slug.replace(".html", "")
     
-    # 1. حاول أولاً من مجلد blog/ (المقالات المولدة بالذكاء الاصطناعي)
+    # 1. حاول أولاً من مجلد templates/ (تقارير الحضارات الكلاسيكية المصممة بعناية)
+    template_path = Path(f"templates/{clean_slug}.html")
+    if template_path.exists():
+        # التأكد من أنه ليس أحد القوالب الأساسية المحمية
+        protected_templates = ["index.html", "login.html", "register.html", "dashboard.html", "admin.html", "analyze.html", "blog.html", "blog_post.html"]
+        if f"{clean_slug}.html" not in protected_templates:
+            return render_template(request, f"{clean_slug}.html")
+
+    # 2. حاول من مجلد blog/ (المقالات المولدة بالذكاء الاصطناعي)
     file_path = Path(f"blog/{clean_slug}.html")
     if file_path.exists():
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
         return HTMLResponse(content=content)
-        
-    # 2. حاول من مجلد templates/ (تقارير الحضارات الكلاسيكية)
-    template_path = Path(f"templates/{clean_slug}.html")
-    if template_path.exists():
-        # التأكد من أنه ليس أحد القوالب الأساسية المحمية
-        protected_templates = ["index.html", "login.html", "register.html", "dashboard.html", "admin.html", "analyze.html"]
-        if f"{clean_slug}.html" not in protected_templates:
-            return render_template(request, f"{clean_slug}.html")
             
     # 3. ثم من قاعدة البيانات
     posts = get_all_blog_posts(limit=200)
