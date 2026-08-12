@@ -200,7 +200,7 @@ def save_blog_post(title, content, slug, category="تفسير الأحلام", a
         """, (title, slug, content, excerpt, category, author))
         db.commit()
 
-def get_blog_posts(limit=50):
+def get_all_blog_posts(limit=50):
     with get_db() as db:
         rows = db.execute("""
             SELECT * FROM blog_posts WHERE is_published = 1

@@ -158,7 +158,6 @@ def get_all_blog_posts(limit=50):
 
 # ========== الصفحات الأساسية ==========
 @app.get("/", response_class=HTMLResponse)
-@app.head("/")
 async def root(request: Request):
     user = get_current_user(request)
     stats = get_platform_stats()
