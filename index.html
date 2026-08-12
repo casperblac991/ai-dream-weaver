@@ -265,45 +265,40 @@
         <span class="logo-ar">نَسَّاج</span>
     </div>
     <div class="nav-links">
-        <a href="/" id="n1">{{ t('nav_home') }}</a>
-        <a href="/app/community" id="n3">👥 {{ t('nav_community') }}</a>
-        <a href="/app/lucid-lab" id="n4">🧪 {{ t('nav_lucid_lab') }}</a>
-        <a href="/app/cosmic-dictionary" id="n_dict">🌌 {{ t('nav_dictionary') }}</a>
-        <a href="/app/global-map" id="n_map">🌍 {{ t('nav_map') }}</a>
-        <a href="/app/personality-test" id="n_test">🧠 {{ t('nav_personality') }}</a>
-        <a href="/app/offers" id="n_offers">💎 {{ t('nav_offers') }}</a>
-        <a href="/blog" id="n2">{{ t('nav_blog') }}</a>
+        <a href="/" id="n1">الرئيسية</a>
+        <a href="/app/community" id="n3">👥 المجتمع</a>
+        <a href="/app/lucid-lab" id="n4">🧪 مختبر الأحلام</a>
+        <a href="/app/cosmic-dictionary" id="n_dict">🌌 القاموس الكوني</a>
+        <a href="/app/global-map" id="n_map">🌍 خارطة الأحلام</a>
+        <a href="/app/personality-test" id="n_test">🧠 تحليل الشخصية</a>
+        <a href="/app/offers" id="n_offers">💎 عروض خاصة</a>
+        <a href="/blog.html" id="n2">المدونة</a>
         
         <div class="auth-buttons">
-            {% if user %}
-            <a href="/app/dashboard" class="btn-login">👤 {{ t('nav_dashboard') }}</a>
-            {% else %}
-            <a href="/app/login" class="btn-login" id="loginBtn">🔐 {{ t('nav_login') }}</a>
-            <a href="/app/register" class="btn-signup" id="signupBtn">🚀 {{ t('nav_register') }}</a>
-            {% endif %}
+            
+            <a href="/app/login" class="btn-login" id="loginBtn">🔐 تسجيل الدخول</a>
+            <a href="/app/register" class="btn-signup" id="signupBtn">🚀 إنشاء حساب</a>
+            
         </div>
-
-        <div class="lang-btns">
-            <a href="/set-lang/ar" class="lb {% if lang == 'ar' %}on{% endif %}">🇸🇦</a>
-            <a href="/set-lang/en" class="lb {% if lang == 'en' %}on{% endif %}">🇬🇧</a>
-            <a href="/set-lang/fr" class="lb {% if lang == 'fr' %}on{% endif %}">🇫🇷</a>
-        </div>
-        <a href="/app/analyze" class="nav-cta" id="nav-cta">🔮 {{ t('nav_cta') }}</a>
+    </div>
+    <div class="lang-btns">
+        <a href="/set-lang/ar" class="lb on">🇸🇦 عربي</a>
+        <a href="/set-lang/en" class="lb ">🇬🇧 EN</a>
+        <a href="/set-lang/fr" class="lb ">🇫🇷 FR</a>
+        <a href="/set-lang/zh" class="lb ">🇨🇳 ZH</a>
+    </div>
+        <a href="https://aidreamweaver.store/app/analyze" class="nav-cta" id="nav-cta">🔮 جرب المنصة</a>
     </div>
 </nav>
 
 <div class="section" id="home">
     <section class="hero">
-        <div class="hero-badge" id="hero-badge">✨ {{ t('hero_badge') }}</div>
-        <h1 id="hero-title">
-            {{ t('hero_title_1') }}<br>
-            <span class="gold">{{ t('hero_title_2') }}</span><br>
-            <span class="purple">{{ t('hero_title_3') }}</span>
-        </h1>
-        <p id="hero-text">{{ t('hero_subtitle') }}</p>
+        <div class="hero-badge" id="hero-badge">✨ Weaver AI</div>
+        <h1 id="hero-title">hero_title</h1>
+        <p id="hero-text">منصة Weaver (نَسَّاج): تفسير الأحلام بالذكاء الاصطناعي، توليد صور 4K، مدونة ثقافية غنية بتراث الحضارات.</p>
         <div class="hero-btns">
-            <a href="/app/analyze" class="btn-fire" id="hero-btn1">🌙 {{ t('btn_try_now') }}</a>
-            <a href="/app/community" class="btn-ghost" id="hero-btn2">👥 {{ t('btn_discover') }}</a>
+            <a href="/app/analyze" class="btn-fire" id="hero-btn1">🎬 جرب المنصة الآن</a>
+            <a href="/app/community" class="btn-ghost" id="hero-btn2">👥 اكتشف المميزات</a>
         </div>
     </section>
 

@@ -41,7 +41,7 @@ from app.database import (
     get_user_by_id, save_dream, get_user_dreams,
     get_dreams_used, increment_dreams_used,
     get_all_users, save_email_subscriber, get_all_subscribers,
-    get_platform_stats, save_blog_post, get_blog_posts,
+    get_platform_stats, save_blog_post, get_all_blog_posts as get_db_blog_posts,
     get_public_dreams, like_dream, add_comment, get_dream_comments
 )
 from app.translations import get_text
@@ -146,7 +146,7 @@ def get_blog_posts_from_folder(limit=50):
 
 def get_all_blog_posts(limit=50):
     """تجلب المقالات من قاعدة البيانات (الأساسية) ومن مجلد blog/ (التوليد اليومي)"""
-    db_posts = get_blog_posts(limit=100)
+    db_posts = get_db_blog_posts(limit=100)
     folder_posts = get_blog_posts_from_folder(limit=100)
     all_posts = {p["slug"]: p for p in db_posts}
     for p in folder_posts:
