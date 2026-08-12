@@ -75,8 +75,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# القوالب - استخدام المجلد الجذري لضمان عمل جميع الصفحات
-templates = Jinja2Templates(directory="templates")
+# القوالب - استخدام المسارات المطلقة لضمان عمل جميع الصفحات
+templates = Jinja2Templates(directory=str(APP_ROOT / "templates"))
 
 # Static files - إصلاح: دعم الملفات الثابتة
 if (APP_ROOT / "css").exists():
