@@ -304,11 +304,16 @@ async def library_page(request: Request):
 
 @app.get("/app", response_class=HTMLResponse)
 async def app_home(request: Request):
-    user = get_current_user(request)
     stats = get_platform_stats()
-    return templates.TemplateResponse(request, "index.html", {
-        "user": user, "stats": stats
-    })
+    return render_template(request, "index.html", {"stats": stats})
+
+@app.get("/privacy", response_class=HTMLResponse)
+async def privacy_page(request: Request):
+    return render_template(request, "privacy.html")
+
+@app.get("/terms", response_class=HTMLResponse)
+async def terms_page(request: Request):
+    return render_template(request, "terms.html")
 
 # التسجيل
 @app.get("/app/register", response_class=HTMLResponse)
@@ -519,17 +524,27 @@ async def blog_post_page(request: Request, slug: str):
     # إزالة .html إذا كانت موجودة في الـ slug لتجنب التكرار
     clean_slug = slug.replace(".html", "")
     
-    # حاول أولاً من مجلد blog/
+    # 1. حاول أولاً من مجلد blog/ (المقالات المولدة بالذكاء الاصطناعي)
     file_path = Path(f"blog/{clean_slug}.html")
     if file_path.exists():
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
         return HTMLResponse(content=content)
-    # ثم من قاعدة البيانات
+        
+    # 2. حاول من مجلد templates/ (تقارير الحضارات الكلاسيكية)
+    template_path = Path(f"templates/{clean_slug}.html")
+    if template_path.exists():
+        # التأكد من أنه ليس أحد القوالب الأساسية المحمية
+        protected_templates = ["index.html", "login.html", "register.html", "dashboard.html", "admin.html", "analyze.html"]
+        if f"{clean_slug}.html" not in protected_templates:
+            return render_template(request, f"{clean_slug}.html")
+            
+    # 3. ثم من قاعدة البيانات
     posts = get_all_blog_posts(limit=200)
-    post = next((p for p in posts if p.get("slug") == slug), None)
+    post = next((p for p in posts if p.get("slug") == clean_slug or p.get("slug") == slug), None)
     if post:
         return render_template(request, "blog_post.html", {"post": post})
+        
     raise HTTPException(status_code=404, detail="المقال غير موجود")
 
 # إحصائيات المنصة
@@ -617,7 +632,16 @@ def health_check():
 
 @app.middleware("http")
 async def auth_middleware(request: Request, call_next):
-    """Middleware لفرض تسجيل الدخول على المسارات المحمية"""
+    """Middleware لفرض تسجيل الدخول على المسارات المحمية وإدارة الروابط"""
+    
+    # تحويل الروابط التي تنتهي بـ .html إلى مسارات نظيفة (باستثناء الملفات الثابتة)
+    path = request.url.path
+    if path.endswith(".html") and not path.startswith("/static/"):
+        clean_path = path[:-5]
+        # استثناء للمدونة لأن مسارها هو /blog
+        if clean_path == "/blog":
+            return RedirectResponse(url="/blog", status_code=301)
+        return RedirectResponse(url=clean_path, status_code=301)
     
     # المسارات العامة التي لا تتطلب تسجيل دخول
     public_routes = [
@@ -628,6 +652,17 @@ async def auth_middleware(request: Request, call_next):
         "/api/register",
         "/api/subscribe",
         "/blog",
+        "/app/community",
+        "/app/lucid-lab",
+        "/app/cosmic-dictionary",
+        "/app/global-map",
+        "/app/personality-test",
+        "/app/offers",
+        "/about",
+        "/faq",
+        "/dream-interpreter",
+        "/shop",
+        "/dream-experience",
         "/static/",
         "/docs",
         "/openapi.json"
@@ -641,7 +676,7 @@ async def auth_middleware(request: Request, call_next):
                 is_public = True
                 break
         else:
-            if request.url.path == route:
+            if request.url.path == route or request.url.path.startswith("/blog/"):
                 is_public = True
                 break
     
