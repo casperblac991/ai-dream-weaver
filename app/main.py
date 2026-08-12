@@ -125,7 +125,7 @@ def create_session(user_id: int) -> str:
 # ========== دالة لقراءة المقالات من مجلد blog/ (للتحديث اليومي) ==========
 def get_blog_posts_from_folder(limit=50):
     """تجلب المقالات من ملفات HTML الموجودة في مجلد blog/"""
-    blog_dir = Path("blog")
+    blog_dir = APP_ROOT / "blog"
     posts = []
     if blog_dir.exists():
         html_files = glob.glob(str(blog_dir / "*.html"))
@@ -525,7 +525,7 @@ async def blog_post_page(request: Request, slug: str):
     clean_slug = slug.replace(".html", "")
     
     # 1. حاول أولاً من مجلد templates/ (تقارير الحضارات الكلاسيكية المصممة بعناية)
-    template_path = Path(f"templates/{clean_slug}.html")
+    template_path = APP_ROOT / "templates" / f"{clean_slug}.html"
     if template_path.exists():
         # التأكد من أنه ليس أحد القوالب الأساسية المحمية
         protected_templates = ["index.html", "login.html", "register.html", "dashboard.html", "admin.html", "analyze.html", "blog.html", "blog_post.html"]
@@ -533,7 +533,7 @@ async def blog_post_page(request: Request, slug: str):
             return render_template(request, f"{clean_slug}.html")
 
     # 2. حاول من مجلد blog/ (المقالات المولدة بالذكاء الاصطناعي)
-    file_path = Path(f"blog/{clean_slug}.html")
+    file_path = APP_ROOT / "blog" / f"{clean_slug}.html"
     if file_path.exists():
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
