@@ -29,14 +29,24 @@
     .nav-links { display: flex; align-items: center; gap: 1rem; }
     .nav-links a { color: #e2d9f3; text-decoration: none; font-size: .85rem; }
     .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
-    .page-title { text-align: center; margin-bottom: 3rem; }
-    .page-title h1 { font-size: 2.5rem; color: #f0c060; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
-    .card { background: rgba(30,10,60,0.6); border: 1px solid rgba(124,58,237,0.3); border-radius: 15px; padding: 1.5rem; transition: 0.3s; text-decoration: none; color: inherit; }
-    .card:hover { transform: translateY(-5px); border-color: #a855f7; }
-    .card h3 { color: #f0c060; margin-bottom: 1rem; }
-    .card p { font-size: 0.9rem; color: rgba(226,217,243,0.7); }
-    .card-meta { margin-top: 1rem; font-size: 0.8rem; color: #a855f7; display: flex; justify-content: space-between; }
+    .page-hero { text-align: center; padding: 3rem 0; }
+    .page-hero h1 { font-size: 3rem; font-weight: 900; color: #f0c060; margin-bottom: 1rem; }
+    .page-hero p { color: rgba(226,217,243,0.7); max-width: 600px; margin: 0 auto; }
+    
+    .sec-head { display: flex; align-items: center; gap: 1rem; margin: 2rem 0; }
+    .sec-head h2 { font-size: 1.5rem; color: #f0c060; white-space: nowrap; }
+    .sec-head .line { flex: 1; height: 1px; background: rgba(124,58,237,0.4); }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
+    .card { background: rgba(30,10,60,0.6); border: 1px solid rgba(124,58,237,0.3); border-radius: 20px; overflow: hidden; transition: 0.3s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+    .card:hover { transform: translateY(-5px); border-color: #a855f7; box-shadow: 0 10px 30px rgba(124,58,237,0.2); }
+    .card-img { height: 180px; background: linear-gradient(135deg, #1e0a3c, #0c0a3e); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+    .card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .card-tag { display: inline-block; padding: 0.2rem 0.8rem; border-radius: 50px; font-size: 0.75rem; font-weight: bold; margin-bottom: 0.8rem; background: rgba(168,85,247,0.2); color: #a855f7; border: 1px solid rgba(168,85,247,0.4); }
+    .card h3 { font-size: 1.2rem; color: #f0c060; margin-bottom: 0.8rem; }
+    .card p { font-size: 0.9rem; color: rgba(226,217,243,0.7); margin-bottom: 1.5rem; flex: 1; }
+    .card-meta { font-size: 0.8rem; color: rgba(226,217,243,0.5); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; }
+    .read-more { color: #f0c060; font-weight: bold; }
 </style>
 </head>
 <body class="{{ lang }}">
@@ -51,25 +61,59 @@
 </nav>
 
 <div class="container">
-    <div class="page-title">
-        <h1>{{ t('nav_blog') }}</h1>
-        <p>اكتشف أسرار الأحلام عبر الحضارات والذكاء الاصطناعي</p>
+    <div class="page-hero">
+        <h1>📚 موسوعة الأحلام</h1>
+        <p>تقارير الحضارات القديمة · رموز الأحلام · كتب التراث · تحليل علمي ونفسي للأحلام بالذكاء الاصطناعي</p>
     </div>
 
+    <!-- تقارير الحضارات -->
+    <div class="sec-head"><h2>🏛️ تقارير الحضارات القديمة</h2><div class="line"></div></div>
+    <div class="grid">
+        <a href="/blog/ancient-egypt-dreams" class="card">
+            <div class="card-img">🏛️</div>
+            <div class="card-body">
+                <span class="card-tag">مصر القديمة</span>
+                <h3>بردية تشيستر بيتي وأحلام الفراعنة</h3>
+                <p>استكشف كيف استخدم الفراعنة الأحلام لاتخاذ القرارات الملكية والتواصل مع الآلهة. رموز التمساح والقطة والميزان.</p>
+                <div class="card-meta"><span>📅 2026-03-04</span><span class="read-more">اقرأ التقرير ←</span></div>
+            </div>
+        </a>
+        <a href="/blog/islamic-dream-interpretation" class="card">
+            <div class="card-img">☪️</div>
+            <div class="card-body">
+                <span class="card-tag">التراث الإسلامي</span>
+                <h3>ابن سيرين: إمام المفسرين</h3>
+                <p>منهجية محمد بن سيرين في تفسير الأحلام. الفرق بين الرؤيا الصالحة وأضغاث الأحلام والتعامل مع الكوابيس.</p>
+                <div class="card-meta"><span>📅 2026-03-01</span><span class="read-more">اقرأ التقرير ←</span></div>
+            </div>
+        </a>
+        <a href="/blog/babylonian-dreams" class="card">
+            <div class="card-img">🗿</div>
+            <div class="card-body">
+                <span class="card-tag">بلاد الرافدين</span>
+                <h3>أحلام جلجامش وألواح نينوى</h3>
+                <p>أقدم سجلات الأحلام في التاريخ البشري. كيف فسر البابليون أحلام الملوك والكهنة في حضارة ما بين النهرين.</p>
+                <div class="card-meta"><span>📅 2026-02-25</span><span class="read-more">اقرأ التقرير ←</span></div>
+            </div>
+        </a>
+    </div>
+
+    <!-- أحدث المقالات الذكية -->
+    <div class="sec-head"><h2>🤖 أحدث تقارير الذكاء الاصطناعي</h2><div class="line"></div></div>
     <div class="grid">
         {% for post in posts %}
         <a href="/blog/{{ post.slug }}" class="card">
-            <h3>{{ post.title }}</h3>
-            <p>{{ post.excerpt }}</p>
-            <div class="card-meta">
-                <span>📅 {{ post.created_at[:10] }}</span>
-                <span>{{ post.author }}</span>
+            <div class="card-img">📚</div>
+            <div class="card-body">
+                <span class="card-tag">{{ post.category or 'تفسير' }}</span>
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.excerpt }}</p>
+                <div class="card-meta">
+                    <span>📅 {{ post.created_at[:10] if post.created_at else '2026' }}</span>
+                    <span class="read-more">اقرأ المزيد ←</span>
+                </div>
             </div>
         </a>
-        {% else %}
-        <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
-            <p>لا توجد مقالات حالياً. جاري توليد المحتوى...</p>
-        </div>
         {% endfor %}
     </div>
 </div>

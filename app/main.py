@@ -98,6 +98,25 @@ def get_current_user(request: Request):
         return get_user_by_id(user_id)
     return None
 
+def render_template(request: Request, template_name: str, context: dict = None):
+    if context is None:
+        context = {}
+    lang = request.cookies.get("lang", "ar")
+    user = get_current_user(request)
+    
+    # الأساسيات المطلوبة لكل قالب
+    base_context = {
+        "request": request,
+        "user": user,
+        "lang": lang,
+        "t": lambda key: get_text(key, lang),
+        "now": datetime.now()
+    }
+    
+    # دمج السياق الإضافي
+    base_context.update(context)
+    return templates.TemplateResponse(template_name, base_context)
+
 def create_session(user_id: int) -> str:
     token = secrets.token_hex(32)
     sessions[token] = user_id
@@ -159,15 +178,8 @@ def get_all_blog_posts(limit=50):
 # ========== الصفحات الأساسية ==========
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
-    user = get_current_user(request)
     stats = get_platform_stats()
-    lang = request.cookies.get("lang", "ar")
-    return templates.TemplateResponse(request, "index.html", {
-        "user": user, 
-        "stats": stats,
-        "lang": lang,
-        "t": lambda key: get_text(key, lang)
-    })
+    return render_template(request, "index.html", {"stats": stats})
 
 @app.get("/set-lang/{lang}")
 async def set_lang(lang: str):
@@ -178,44 +190,33 @@ async def set_lang(lang: str):
 # Static HTML pages (served from root directory)
 @app.get("/about", response_class=HTMLResponse)
 async def about_page(request: Request):
-    lang = request.cookies.get("lang", "ar")
-    return templates.TemplateResponse(request, "about.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
+    return render_template(request, "about.html")
 
 @app.get("/faq", response_class=HTMLResponse)
 async def faq_page(request: Request):
-    lang = request.cookies.get("lang", "ar")
-    return templates.TemplateResponse(request, "faq.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
+    return render_template(request, "faq.html")
 
 # دعم الروابط المرنة (بامتداد .html وبدونه)
 @app.get("/app/personality-test", response_class=HTMLResponse)
 async def personality_test_page(request: Request):
-    lang = request.cookies.get("lang", "ar")
-    return templates.TemplateResponse(request, "personality-test.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
+    return render_template(request, "personality-test.html")
 
 @app.get("/app/lucid-dreaming", response_class=HTMLResponse)
 async def lucid_dreaming_page(request: Request):
-    lang = request.cookies.get("lang", "ar")
-    return templates.TemplateResponse(request, "lucid-dreaming.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
+    return render_template(request, "lucid-dreaming.html")
 
 @app.get("/app/offers", response_class=HTMLResponse)
 async def offers_page(request: Request):
-    lang = request.cookies.get("lang", "ar")
-    return templates.TemplateResponse(request, "offers.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
+    return render_template(request, "offers.html")
 
 @app.get("/app/global-map", response_class=HTMLResponse)
 async def global_map_page(request: Request):
-    lang = request.cookies.get("lang", "ar")
-    return templates.TemplateResponse(request, "global-map.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
+    return render_template(request, "global-map.html")
 
 @app.get("/app/community", response_class=HTMLResponse)
 async def community_page(request: Request):
-    lang = request.cookies.get("lang", "ar")
     public_dreams = get_public_dreams(limit=20)
-    return templates.TemplateResponse(request, "community.html", {
-        "dreams": public_dreams,
-        "lang": lang,
-        "t": lambda key: get_text(key, lang)
-    })
+    return render_template(request, "community.html", {"dreams": public_dreams})
 
 @app.post("/app/api/like-dream/{dream_id}")
 async def api_like_dream(dream_id: int):
@@ -237,13 +238,11 @@ async def api_add_comment(request: Request):
 
 @app.get("/app/lucid-lab", response_class=HTMLResponse)
 async def lucid_lab_page(request: Request):
-    lang = request.cookies.get("lang", "ar")
-    return templates.TemplateResponse(request, "lucid-lab.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
+    return render_template(request, "lucid-lab.html")
 
 @app.get("/app/cosmic-dictionary", response_class=HTMLResponse)
 async def cosmic_dictionary_page(request: Request):
-    lang = request.cookies.get("lang", "ar")
-    return templates.TemplateResponse(request, "cosmic-dictionary.html", {"lang": lang, "t": lambda key: get_text(key, lang)})
+    return render_template(request, "cosmic-dictionary.html")
 
 @app.post("/api/generate-video")
 async def api_generate_video(request: Request):
@@ -257,19 +256,19 @@ async def api_generate_video(request: Request):
 # Placeholder pages for /store and /library
 @app.get("/shop", response_class=HTMLResponse)
 async def shop_page(request: Request):
-    return templates.TemplateResponse(request, "shop.html")
+    return render_template(request, "shop.html")
 
 @app.get("/dream-interpreter", response_class=HTMLResponse)
 async def dream_interpreter_page(request: Request):
-    return templates.TemplateResponse(request, "dream-interpreter.html")
+    return render_template(request, "dream-interpreter.html")
 
 @app.get("/dream-experience.html", response_class=HTMLResponse)
 async def dream_experience_page(request: Request):
-    return templates.TemplateResponse(request, "dream-experience.html")
+    return render_template(request, "dream-experience.html")
 
 @app.get("/dream-experience", response_class=HTMLResponse)
 async def dream_experience_redirect(request: Request):
-    return templates.TemplateResponse(request, "dream-experience.html")
+    return render_template(request, "dream-experience.html")
 
 @app.get("/store", response_class=HTMLResponse)
 async def store_page(request: Request):
@@ -317,7 +316,7 @@ async def register_page(request: Request):
     user = get_current_user(request)
     if user:
         return RedirectResponse("/app/dashboard")
-    return templates.TemplateResponse(request, "register.html")
+    return render_template(request, "register.html")
 
 @app.post("/app/register")
 async def register(
@@ -342,7 +341,7 @@ async def login_page(request: Request):
     user = get_current_user(request)
     if user:
         return RedirectResponse("/app/dashboard")
-    return templates.TemplateResponse(request, "login.html")
+    return render_template(request, "login.html")
 
 @app.post("/app/login")
 async def login(
@@ -437,8 +436,7 @@ async def analyze_page(request: Request):
     user = get_current_user(request)
     if not user:
         return RedirectResponse("/app/login")
-    lang = request.cookies.get("lang", "ar")
-    return templates.TemplateResponse(request, "analyze.html", {"user": user, "lang": lang, "t": lambda key: get_text(key, lang)})
+    return render_template(request, "analyze.html")
 
 @app.post("/app/analyze")
 async def analyze(
@@ -521,17 +519,16 @@ async def subscribe_email(request: Request):
 # المدونة (تدعم التحديث اليومي)
 @app.get("/blog", response_class=HTMLResponse)
 async def blog_page(request: Request):
-    user = get_current_user(request)
     posts = get_all_blog_posts(limit=30)
-    return templates.TemplateResponse(request, "blog.html", {
-        "user": user, "posts": posts
-    })
+    return render_template(request, "blog.html", {"posts": posts})
 
 @app.get("/blog/{slug}", response_class=HTMLResponse)
 async def blog_post_page(request: Request, slug: str):
-    user = get_current_user(request)
+    # إزالة .html إذا كانت موجودة في الـ slug لتجنب التكرار
+    clean_slug = slug.replace(".html", "")
+    
     # حاول أولاً من مجلد blog/
-    file_path = Path(f"blog/{slug}.html")
+    file_path = Path(f"blog/{clean_slug}.html")
     if file_path.exists():
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -540,9 +537,7 @@ async def blog_post_page(request: Request, slug: str):
     posts = get_all_blog_posts(limit=200)
     post = next((p for p in posts if p.get("slug") == slug), None)
     if post:
-        return templates.TemplateResponse(request, "blog_post.html", {
-            "user": user, "post": post
-        })
+        return render_template(request, "blog_post.html", {"post": post})
     raise HTTPException(status_code=404, detail="المقال غير موجود")
 
 # إحصائيات المنصة
@@ -572,8 +567,7 @@ async def admin_page(request: Request):
     subscribers = get_all_subscribers()
     stats = get_platform_stats()
     posts = get_all_blog_posts(limit=50)
-    return templates.TemplateResponse(request, "admin.html", {
-        "user": user,
+    return render_template(request, "admin.html", {
         "users": users, "subscribers": subscribers,
         "stats": stats, "posts": posts
     })
