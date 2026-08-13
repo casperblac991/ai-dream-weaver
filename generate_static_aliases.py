@@ -22,10 +22,10 @@ for name, target in aliases.items():
 
 app_aliases = {
     "login": "login.html", "register": "register.html", "dashboard": "dashboard.html", "analyze": "analyze.html",
-    "community": "../templates/community.html", "lucid-lab": "../templates/lucid-lab.html", "cosmic-dictionary": "../templates/cosmic-dictionary.html",
-    "global-map": "../templates/global-map.html", "personality-test": "../templates/personality-test.html", "offers": "../templates/offers.html",
-    "explore": "explore.html", "trending": "trending.html", "dream-feed": "../templates/dream-feed.html",
-    "dream-interpreter": "../templates/dream-interpreter.html", "contact": "contact.html",
+    "community": "community.html", "lucid-lab": "lucid-lab.html", "cosmic-dictionary": "cosmic-dictionary.html",
+    "global-map": "global-map.html", "personality-test": "personality-test.html", "offers": "offers.html",
+    "explore": "explore.html", "trending": "trending.html", "dream-feed": "dream-feed.html",
+    "dream-interpreter": "dream-interpreter.html", "contact": "contact.html",
 }
 for name, filename in app_aliases.items():
     if (ROOT / "app" / filename).is_file():
