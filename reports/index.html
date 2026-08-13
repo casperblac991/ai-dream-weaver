@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>موسوعة التقارير | نَسَّاج</title>
+  <style>
+    :root{color-scheme:dark}body{margin:0;background:#07051a;color:#f4eaff;font-family:Arial,Tahoma,sans-serif}main{max-width:1100px;margin:auto;padding:42px 20px}h1{color:#ffd166;text-align:center}#count{text-align:center;color:#8be9fd;margin:18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}.card{border:1px solid #7547c9;border-radius:16px;padding:20px;background:#15102f}.card h2{font-size:1.15rem;color:#ffd166}.date{color:#a99bc7;font-size:.9rem}.card a{display:inline-block;margin-top:14px;color:#111;background:#ffd166;border-radius:22px;padding:9px 16px;text-decoration:none;font-weight:bold}.back{display:block;text-align:center;color:#8be9fd;margin-top:32px}
+  </style>
+</head>
+<body><main><h1>موسوعة التقارير والرموز</h1><p id="count">جاري تحميل التقارير...</p><section class="grid" id="grid"></section><a class="back" href="/">العودة إلى الرئيسية</a></main>
+<script>
+(async()=>{const count=document.getElementById('count'),grid=document.getElementById('grid');try{const r=await fetch('./index.json',{cache:'no-store'});const data=await r.json();const reports=Array.isArray(data.reports)?data.reports:[];count.textContent=`إجمالي التقارير: ${data.total_reports||reports.length}`;grid.innerHTML=reports.slice().reverse().map(x=>`<article class="card"><h2>${esc(x.title||'تقرير')}</h2><div class="date">${esc(x.date||'')}</div><a href="./${encodeURIComponent(x.file||'')}" target="_blank" rel="noopener">قراءة التقرير</a></article>`).join('')}catch(e){count.textContent='تعذر تحميل الفهرس';grid.innerHTML='<p>سيتم تحديث التقارير قريباً.</p>'}})();function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+</script></body></html>

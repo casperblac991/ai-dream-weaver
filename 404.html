@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>نَسَّاج | جارٍ التحويل</title></head><body><p>جاري تحويل الرابط...</p><script>
+(function(){
+  const path=location.pathname;
+  const aliases={
+    '/login':'/app/login.html','/register':'/app/register.html','/signup':'/app/register.html','/dashboard':'/app/dashboard.html',
+    '/app/login':'/app/login.html','/app/register':'/app/register.html','/app/dashboard':'/app/dashboard.html','/app/analyze':'/app/analyze.html',
+    '/app/community':'/app/community.html','/app/lucid-lab':'/app/lucid-lab.html','/app/cosmic-dictionary':'/app/cosmic-dictionary.html',
+    '/app/global-map':'/app/global-map.html','/app/personality-test':'/app/personality-test.html','/app/offers':'/app/offers.html',
+    '/contact':'/app/contact.html','/creators':'/app/explore.html','/prompt-lab':'/app/dream-interpreter.html',
+    '/trending':'/app/trending.html','/dream-feed':'/app/dream-feed.html','/cart':'/shop.html'
+  };
+  if(aliases[path]){location.replace(aliases[path]);return;}
+  if(path==='/feed.xml'){location.replace('/blog.html');return;}
+  if(path.startsWith('/blog/')&&!path.endsWith('.html')){location.replace(path+'.html');return;}
+  if(path.startsWith('/reports/')&&!path.endsWith('.html')){location.replace(path+'.html');return;}
+  if(path.startsWith('/articles/')&&!path.endsWith('.html')){location.replace(path+'.html');return;}
+  location.replace('/blog.html');
+})();
+</script></body></html>
