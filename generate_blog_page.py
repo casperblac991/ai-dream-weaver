@@ -1,75 +1,44 @@
 from pathlib import Path
+import json
 import re
 from html import escape
 
 ROOT = Path(__file__).parent
-blog_dir = ROOT / "blog"
-reports_dir = ROOT / "reports"
+BLOG_DIR = ROOT / "blog"
+REPORTS_DIR = ROOT / "reports"
 
-posts = []
 
-def extract_meta(html_content, default_title):
-    title = default_title
-    m_title = re.search(r'<title>(.*?)</title>', html_content, re.IGNORECASE)
-    if m_title:
-        title = m_title.group(1).strip()
-    return title
+def extract_title(content: str, fallback: str) -> str:
+    match = re.search(r"<title[^>]*>(.*?)</title>", content, re.IGNORECASE | re.DOTALL)
+    if not match:
+        return fallback
+    title = re.sub(r"\s+", " ", match.group(1)).strip()
+    return title or fallback
 
-for p in sorted(blog_dir.glob("*.html"), key=lambda x: x.stat().st_mtime, reverse=True):
-    content = p.read_text(encoding="utf-8", errors="ignore")
-    title = extract_meta(content, p.stem.replace("-", " "))
-    date = "2026"
-    m_date = re.search(r'2026-\d{2}-\d{2}', p.name + content)
-    if m_date:
-        date = m_date.group(0)
-    posts.append({
-        "title": title,
-        "url": f"/blog/{p.name}",
-        "date": date,
-        "category": "موسوعة الحضارات والتراث"
-    })
 
-for p in sorted(reports_dir.glob("*.html"), key=lambda x: x.stat().st_mtime, reverse=True):
-    content = p.read_text(encoding="utf-8", errors="ignore")
-    title = extract_meta(content, p.stem.replace("-", " "))
-    date = "2026"
-    m_date = re.search(r'2026-\d{2}-\d{2}', p.name + content)
-    if m_date:
-        date = m_date.group(0)
-    posts.append({
-        "title": title,
-        "url": f"/reports/{p.name}",
-        "date": date,
-        "category": "التقارير التحليلية"
-    })
+def extract_date(filename: str, content: str) -> str:
+    match = re.search(r"20\d{2}-\d{2}-\d{2}", filename + " " + content)
+    return match.group(0) if match else ""
 
-print(f"Total collected items for blog: {len(posts)}")
 
-html_cards = []
-for item in posts:
-    t_esc = escape(item["title"])
-    u_esc = escape(item["url"])
-    d_esc = escape(item["date"])
-    c_esc = escape(item["category"])
-    card = f'''
-    <a href="{u_esc}" class="card" data-title="{t_esc}">
-        <div class="card-img">📜</div>
-        <div class="card-body">
-            <span class="card-tag">{c_esc}</span>
-            <h3>{t_esc}</h3>
-            <p>تقرير بحثي شامل وموسّع من أرشيف منصة نَسَّاج لتفسير الأحلام والرموز.</p>
-            <div class="card-meta">
-                <span>📅 {d_esc}</span>
-                <span class="read-more">اقرأ التقرير ←</span>
-            </div>
-        </div>
-    </a>
-    '''
-    html_cards.append(card)
+def collect(directory: Path, prefix: str, category: str):
+    entries = []
+    for path in directory.glob("*.html"):
+        content = path.read_text(encoding="utf-8", errors="ignore")
+        entries.append({
+            "title": extract_title(content, path.stem.replace("-", " ")),
+            "url": f"{prefix}/{path.name}",
+            "date": extract_date(path.name, content),
+            "category": category,
+        })
+    return entries
 
-cards_html_str = "".join(html_cards)
 
-page_template = f'''<!doctype html>
+posts = collect(BLOG_DIR, "/blog", "موسوعة الحضارات والتراث") + collect(REPORTS_DIR, "/reports", "التقارير التحليلية")
+posts.sort(key=lambda item: (item["date"], item["title"]), reverse=True)
+(ROOT / "blog_index.json").write_text(json.dumps(posts, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
+page = r'''<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -77,111 +46,25 @@ page_template = f'''<!doctype html>
 <title>موسوعة التقارير والمدونة | Weaver نَسَّاج</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
-    *, *::before, *::after {{ margin: 0; padding: 0; box-sizing: border-box; }}
-    body {{
-        font-family: 'Tajawal', sans-serif;
-        background: #050210;
-        color: #e2d9f3;
-        line-height: 1.6;
-    }}
-    .bg {{ position: fixed; inset: 0; z-index: -2; background: radial-gradient(ellipse at 20% 50%,#1e0a3c 0%,transparent 60%), radial-gradient(ellipse at 80% 20%,#0c0a3e 0%,transparent 50%),#050210; }}
-    nav {{
-        position: sticky; top: 0; z-index: 100;
-        display: flex; justify-content: space-between; align-items: center;
-        padding: .75rem 2rem;
-        background: rgba(5,2,16,.9);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(124,58,237,.4);
-    }}
-    .logo {{ font-size: 1.4rem; font-weight: 900; display: flex; align-items: center; gap: 5px; text-decoration: none; }}
-    .logo-en {{ background: linear-gradient(135deg,#f0c060,#7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }}
-    .logo-ar {{ color: #a855f7; }}
-    .nav-links {{ display: flex; align-items: center; gap: 1rem; }}
-    .nav-links a {{ color: #e2d9f3; text-decoration: none; font-size: .85rem; }}
-    .container {{ max-width: 1200px; margin: 0 auto; padding: 2rem; }}
-    .page-hero {{ text-align: center; padding: 3rem 0; }}
-    .page-hero h1 {{ font-size: 3rem; font-weight: 900; color: #f0c060; margin-bottom: 1rem; }}
-    .page-hero p {{ color: rgba(226,217,243,0.7); max-width: 700px; margin: 0 auto; }}
-    
-    .search-box {{
-        margin: 2rem auto;
-        max-width: 600px;
-        display: flex;
-        gap: 10px;
-    }}
-    .search-box input {{
-        flex: 1;
-        padding: 14px 20px;
-        background: rgba(30,10,60,0.8);
-        border: 1px solid rgba(124,58,237,0.5);
-        border-radius: 30px;
-        color: white;
-        font-family: inherit;
-        font-size: 1rem;
-        outline: none;
-    }}
-    .search-box input:focus {{ border-color: #f0c060; box-shadow: 0 0 15px rgba(240,192,96,0.3); }}
-    
-    .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }}
-    .card {{ background: rgba(30,10,60,0.6); border: 1px solid rgba(124,58,237,0.3); border-radius: 20px; overflow: hidden; transition: 0.3s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }}
-    .card:hover {{ transform: translateY(-5px); border-color: #a855f7; box-shadow: 0 10px 30px rgba(124,58,237,0.2); }}
-    .card-img {{ height: 140px; background: linear-gradient(135deg, #1e0a3c, #0c0a3e); display: flex; align-items: center; justify-content: center; font-size: 3rem; }}
-    .card-body {{ padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }}
-    .card-tag {{ display: inline-block; padding: 0.2rem 0.8rem; border-radius: 50px; font-size: 0.75rem; font-weight: bold; margin-bottom: 0.8rem; background: rgba(168,85,247,0.2); color: #a855f7; border: 1px solid rgba(168,85,247,0.4); }}
-    .card h3 {{ font-size: 1.1rem; color: #f0c060; margin-bottom: 0.8rem; }}
-    .card p {{ font-size: 0.85rem; color: rgba(226,217,243,0.7); margin-bottom: 1.5rem; flex: 1; }}
-    .card-meta {{ font-size: 0.8rem; color: rgba(226,217,243,0.5); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; }}
-    .read-more {{ color: #f0c060; font-weight: bold; }}
-    .footer {{ text-align: center; padding: 40px; color: rgba(226,217,243,0.5); border-top: 1px solid rgba(124,58,237,0.3); margin-top: 60px; }}
+*{box-sizing:border-box}body{margin:0;font-family:Tajawal,Arial,sans-serif;background:#050210;color:#e2d9f3;line-height:1.6}.bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 20% 50%,#1e0a3c 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,#0c0a3e 0%,transparent 50%),#050210}nav{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:.75rem 2rem;background:rgba(5,2,16,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(124,58,237,.4)}.logo{font-size:1.4rem;font-weight:900;display:flex;gap:5px;text-decoration:none}.logo-en{background:linear-gradient(135deg,#f0c060,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.logo-ar{color:#a855f7}.nav-links{display:flex;gap:1rem}.nav-links a{color:#e2d9f3;text-decoration:none;font-size:.85rem}.container{max-width:1200px;margin:auto;padding:2rem}.hero{text-align:center;padding:2.5rem 0 1rem}.hero h1{font-size:clamp(2rem,5vw,3rem);color:#f0c060;margin:0 0 1rem}.hero p{color:rgba(226,217,243,.72);max-width:720px;margin:auto}.tools{display:flex;gap:10px;max-width:800px;margin:2rem auto;flex-wrap:wrap}.tools input,.tools select{flex:1;min-width:220px;padding:13px 18px;background:rgba(30,10,60,.85);border:1px solid rgba(124,58,237,.55);border-radius:28px;color:#fff;font:inherit;outline:none}.tools select{flex:0 1 260px}.status{text-align:center;color:#b8acd5;margin:1rem 0}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.2rem}.card{background:rgba(30,10,60,.68);border:1px solid rgba(124,58,237,.35);border-radius:18px;overflow:hidden;transition:.25s;text-decoration:none;color:inherit;display:flex;flex-direction:column}.card:hover{transform:translateY(-4px);border-color:#a855f7;box-shadow:0 10px 25px rgba(124,58,237,.2)}.card-img{height:110px;background:linear-gradient(135deg,#1e0a3c,#0c0a3e);display:flex;align-items:center;justify-content:center;font-size:2.6rem}.card-body{padding:1.1rem;display:flex;flex-direction:column;min-height:190px}.tag{display:inline-block;padding:.15rem .65rem;border-radius:50px;font-size:.72rem;font-weight:bold;margin-bottom:.55rem;background:rgba(168,85,247,.2);color:#c084fc;border:1px solid rgba(168,85,247,.4);align-self:flex-start}.card h2{font-size:1rem;color:#f0c060;margin:.2rem 0 .55rem}.card p{font-size:.82rem;color:rgba(226,217,243,.68);margin:0 0 1rem;flex:1}.meta{font-size:.75rem;color:rgba(226,217,243,.58);border-top:1px solid rgba(255,255,255,.1);padding-top:.7rem;display:flex;justify-content:space-between}.read{color:#f0c060;font-weight:bold}.pager{display:flex;justify-content:center;align-items:center;gap:1rem;margin:2rem 0}.pager button{border:1px solid #7445c5;background:#17123a;color:#fff;border-radius:20px;padding:9px 18px;cursor:pointer;font:inherit}.pager button:disabled{opacity:.4;cursor:not-allowed}.footer{text-align:center;padding:35px;color:rgba(226,217,243,.5);border-top:1px solid rgba(124,58,237,.3);margin-top:45px}@media(max-width:650px){nav{padding:.75rem 1rem}.nav-links{gap:.5rem}.nav-links a{font-size:.75rem}.container{padding:1rem}.grid{grid-template-columns:1fr}}
 </style>
 </head>
-<body>
-<div class="bg"></div>
-<nav>
-    <a href="/" class="logo"><span class="logo-en">Weaver</span><span class="logo-ar">نَسَّاج</span></a>
-    <div class="nav-links">
-        <a href="/">الرئيسية</a>
-        <a href="/app/community">المجتمع</a>
-        <a href="/reports">التقارير</a>
-        <a href="/blog.html">المدونة</a>
-    </div>
-</nav>
-
-<div class="container">
-    <div class="page-hero">
-        <h1>📚 موسوعة التقارير والمدونة</h1>
-        <p>أرشيف متكامل يضم أكثر من 800 تقرير ومقال عن الحضارات القديمة، رموز الأحلام، وتراث التفسير الإسلامي والعالمي.</p>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="ابحث في عناوين التقارير والرموز..." onkeyup="filterCards()">
-        </div>
-    </div>
-
-    <div class="grid" id="postsGrid">
-        {cards_html_str}
-    </div>
-</div>
-
-<div class="footer">
-    <p>© 2026 Weaver | نَسَّاج — موسوعة الأحلام والرموز بالذكاء الاصطناعي</p>
-</div>
-
+<body><div class="bg"></div>
+<nav><a href="/" class="logo"><span class="logo-en">Weaver</span><span class="logo-ar">نَسَّاج</span></a><div class="nav-links"><a href="/">الرئيسية</a><a href="/app/community">المجتمع</a><a href="/reports/">التقارير</a><a href="/blog.html">المدونة</a></div></nav>
+<main class="container"><section class="hero"><h1>📚 موسوعة التقارير والمدونة</h1><p>أرشيف سريع ومنظم لتقارير الحضارات، رموز الأحلام، كتب التراث، والتحليل العلمي والنفسي.</p></section>
+<section class="tools"><input id="search" type="search" placeholder="ابحث في عناوين التقارير والرموز..." autocomplete="off"><select id="category"><option value="">كل الأقسام</option></select></section>
+<p id="status" class="status">جاري تحميل الفهرس...</p><section id="grid" class="grid" aria-live="polite"></section>
+<div class="pager"><button id="prev" type="button">السابق</button><span id="pageInfo"></span><button id="next" type="button">التالي</button></div></main>
+<footer class="footer">© 2026 Weaver | نَسَّاج — موسوعة الأحلام والرموز بالذكاء الاصطناعي</footer>
 <script>
-function filterCards() {{
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const cards = document.getElementsByClassName('card');
-    for (let i = 0; i < cards.length; i++) {{
-        const title = cards[i].getAttribute('data-title').toLowerCase();
-        if (title.includes(input)) {{
-            cards[i].style.display = "";
-        }} else {{
-            cards[i].style.display = "none";
-        }}
-    }}
-}}
-</script>
-</body>
-</html>
+const PER_PAGE=24;let all=[],filtered=[],page=1;const $=id=>document.getElementById(id);const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function render(){const total=Math.max(1,Math.ceil(filtered.length/PER_PAGE));page=Math.min(page,total);const start=(page-1)*PER_PAGE;const visible=filtered.slice(start,start+PER_PAGE);$('status').textContent=`عرض ${filtered.length} من أصل ${all.length} تقريراً ومقالاً`;$('pageInfo').textContent=`صفحة ${page} من ${total}`;$('prev').disabled=page<=1;$('next').disabled=page>=total;$('grid').innerHTML=visible.map(x=>`<a class="card" href="${encodeURI(x.url)}"><div class="card-img">📜</div><div class="card-body"><span class="tag">${esc(x.category)}</span><h2>${esc(x.title)}</h2><p>تقرير بحثي من أرشيف منصة نَسَّاج لتفسير الأحلام والرموز.</p><div class="meta"><span>📅 ${esc(x.date||'')}</span><span class="read">اقرأ التقرير ←</span></div></div></a>`).join('')||'<p class="status">لا توجد نتائج مطابقة لبحثك.</p>';}
+function filter(){const q=$('search').value.trim().toLowerCase(),c=$('category').value;filtered=all.filter(x=>(!q||`${x.title} ${x.category}`.toLowerCase().includes(q))&&(!c||x.category===c));page=1;render();}
+$('search').addEventListener('input',filter);$('category').addEventListener('change',filter);$('prev').addEventListener('click',()=>{page--;render();window.scrollTo({top:250,behavior:'smooth'});});$('next').addEventListener('click',()=>{page++;render();window.scrollTo({top:250,behavior:'smooth'});});
+fetch('/blog_index.json?v=20260813').then(r=>{if(!r.ok)throw Error('index');return r.json()}).then(data=>{all=Array.isArray(data)?data:[];filtered=all;[...new Set(all.map(x=>x.category).filter(Boolean))].forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;$('category').appendChild(o)});render()}).catch(()=>{$('status').textContent='تعذر تحميل فهرس المدونة. أعد المحاولة لاحقاً.'});
+</script></body></html>
 '''
-
-(ROOT / "blog.html").write_text(page_template, encoding="utf-8")
-print("BLOG_PAGE_GENERATED_SUCCESSFULLY")
+(ROOT / "blog.html").write_text(page, encoding="utf-8")
+print(f"BLOG_INDEX_ITEMS={len(posts)}")
+print(f"BLOG_HTML_BYTES={(ROOT / 'blog.html').stat().st_size}")
+print(f"BLOG_INDEX_BYTES={(ROOT / 'blog_index.json').stat().st_size}")
