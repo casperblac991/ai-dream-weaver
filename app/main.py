@@ -30,6 +30,8 @@ import base64
 import hashlib
 import hmac
 import time
+from urllib.parse import quote
+from xml.sax.saxutils import escape as escape_xml
 from datetime import datetime
 from pathlib import Path
 import glob
@@ -91,6 +93,8 @@ if (APP_ROOT / "images").exists():
     app.mount("/images", StaticFiles(directory=str(APP_ROOT / "images")), name="images")
 if (APP_ROOT / "reports").exists():
     app.mount("/reports-assets", StaticFiles(directory=str(APP_ROOT / "reports")), name="reports-assets")
+if (APP_ROOT / "articles").exists():
+    app.mount("/articles", StaticFiles(directory=str(APP_ROOT / "articles")), name="articles")
 
 # إدارة الجلسات
 sessions: dict = {}
@@ -151,57 +155,55 @@ def set_session_cookie(response, token: str):
     )
     return response
 
-# ========== دالة لقراءة المقالات من مجلد blog/ (للتحديث اليومي) ==========
-def get_blog_posts_from_folder(limit=50):
-    """تجلب المقالات من ملفات HTML الموجودة في مجلد blog/"""
-    blog_dir = APP_ROOT / "blog"
+# ========== فهرسة المحتوى (المدونة + أرشيف المقالات) ==========
+def get_blog_posts_from_folder(limit=1000):
+    """تجلب المقالات من blog/ وarticles/ مع الاحتفاظ بالملفات القديمة."""
+    import re
     posts = []
-    if blog_dir.exists():
-        html_files = glob.glob(str(blog_dir / "*.html"))
+    for folder_name in ("blog", "articles"):
+        folder = APP_ROOT / folder_name
+        if not folder.exists():
+            continue
+        html_files = glob.glob(str(folder / "*.html"))
         for file_path in sorted(html_files, key=lambda x: os.path.getmtime(x), reverse=True):
             try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                import re
-                title_match = re.search(r'<title>(.*?)</title>', content, re.IGNORECASE)
-                if title_match:
-                    title = title_match.group(1)
-                else:
-                    name = Path(file_path).stem
-                    title = name.replace('-', ' ').replace('_', ' ')
-                
+                content = Path(file_path).read_text(encoding="utf-8", errors="ignore")
+                title_match = re.search(r"<title[^>]*>(.*?)</title>", content, re.IGNORECASE | re.DOTALL)
+                title = title_match.group(1).strip() if title_match else Path(file_path).stem.replace("-", " ").replace("_", " ")
+                title = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", title))
                 name_stem = Path(file_path).stem
-                parts = name_stem.split('-')
-                if len(parts) >= 3 and parts[0].isdigit() and parts[1].isdigit() and parts[2].isdigit():
-                    date_str = f"{parts[0]}-{parts[1]}-{parts[2]}"
+                date_match = re.match(r"(20\d{2}-?\d{2}-?\d{2})", name_stem)
+                if date_match:
+                    raw_date = date_match.group(1).replace("-", "")
+                    date_str = f"{raw_date[:4]}-{raw_date[4:6]}-{raw_date[6:8]}"
                 else:
                     date_str = datetime.fromtimestamp(os.path.getmtime(file_path)).strftime("%Y-%m-%d")
-                
-                text = re.sub(r'<[^>]+>', '', content)
-                excerpt = text[:150] + "..." if len(text) > 150 else text
-                
+                text = re.sub(r"<[^>]+>", " ", content)
+                text = re.sub(r"\s+", " ", text).strip()
                 posts.append({
                     "title": title,
                     "slug": Path(file_path).stem,
                     "date": date_str,
-                    "excerpt": excerpt,
-                    "category": "تفسير أحلام",
-                    "author": "Weaver AI"
+                    "excerpt": text[:180] + "..." if len(text) > 180 else text,
+                    "category": "أرشيف المدونة" if folder_name == "blog" else "التقارير والمقالات القديمة",
+                    "author": "Weaver AI",
+                    "source_folder": folder_name
                 })
-            except Exception as e:
-                print(f"خطأ في قراءة {file_path}: {e}")
+            except Exception as exc:
+                print(f"خطأ في قراءة {file_path}: {exc}")
+    posts.sort(key=lambda item: item.get("date", "2000-01-01"), reverse=True)
     return posts[:limit]
 
 def get_all_blog_posts(limit=50):
-    """تجلب المقالات من قاعدة البيانات (الأساسية) ومن مجلد blog/ (التوليد اليومي)"""
-    db_posts = get_db_blog_posts(limit=100)
-    folder_posts = get_blog_posts_from_folder(limit=100)
+    """تجمع سجلات قاعدة البيانات مع أرشيف blog/ وarticles/ دون فقد المحتوى القديم."""
+    db_posts = get_db_blog_posts(limit=1000)
+    folder_posts = get_blog_posts_from_folder(limit=1000)
     all_posts = {p["slug"]: p for p in db_posts}
     for p in folder_posts:
         if p["slug"] not in all_posts:
             all_posts[p["slug"]] = p
     posts_list = list(all_posts.values())
-    posts_list.sort(key=lambda x: x.get("date", "2000-01-01"), reverse=True)
+    posts_list.sort(key=lambda x: x.get("date", x.get("created_at", "2000-01-01")), reverse=True)
     return posts_list[:limit]
 
 # ========== الصفحات الأساسية ==========
@@ -587,17 +589,87 @@ async def api_customer_reply(request: Request):
         return JSONResponse({"error": "message required"}, status_code=400)
     return JSONResponse({"reply": generate_customer_reply(message, language), "status": "success"})
 
+@app.get("/login")
+async def login_alias():
+    return RedirectResponse("/app/login")
+
+@app.get("/register")
+async def register_alias():
+    return RedirectResponse("/app/register")
+
+@app.get("/signup")
+async def signup_alias():
+    return RedirectResponse("/app/register")
+
+@app.get("/dashboard")
+async def dashboard_alias(request: Request):
+    return await dashboard(request)
+
+@app.get("/cart")
+async def cart_alias():
+    return RedirectResponse("/shop")
+
+@app.get("/contact", response_class=HTMLResponse)
+async def contact_page(request: Request):
+    return render_template(request, "contact.html")
+
+@app.get("/creators", response_class=HTMLResponse)
+async def creators_page(request: Request):
+    return render_template(request, "explore.html")
+
+@app.get("/dream-feed", response_class=HTMLResponse)
+async def dream_feed_page(request: Request):
+    return render_template(request, "dream-feed.html")
+
+@app.get("/prompt-lab", response_class=HTMLResponse)
+async def prompt_lab_page(request: Request):
+    return render_template(request, "dream-interpreter.html")
+
+@app.get("/trending", response_class=HTMLResponse)
+async def trending_page(request: Request):
+    return render_template(request, "trending.html")
+
+@app.get("/feed.xml", response_class=HTMLResponse)
+async def feed_xml(request: Request):
+    posts = get_all_blog_posts(limit=30)
+    items = []
+    for post in posts:
+        slug = str(post.get("slug", ""))
+        title = str(post.get("title", "تقرير أحلام"))
+        date = str(post.get("date", post.get("created_at", "")))
+        items.append(
+            "<item>"
+            f"<title>{escape_xml(title)}</title>"
+            f"<link>https://aidreamweaver.store/blog/{quote(slug)}</link>"
+            f"<guid>https://aidreamweaver.store/blog/{quote(slug)}</guid>"
+            f"<pubDate>{escape_xml(date)}</pubDate>"
+            "</item>"
+        )
+    xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" \
+        "<rss version=\"2.0\"><channel>" \
+        "<title>Weaver Dream Feed</title>" \
+        "<link>https://aidreamweaver.store/blog</link>" \
+        "<description>أحدث مقالات وتقارير منصة نَسَّاج</description>" \
+        + "".join(items) + "</channel></rss>"
+    return HTMLResponse(content=xml, media_type="application/rss+xml")
+
 @app.get("/reports", response_class=HTMLResponse)
+@app.get("/reports/", response_class=HTMLResponse)
 async def reports_page(request: Request):
     return render_template(request, "reports.html")
 
 @app.get("/reports/{report_file:path}")
 async def report_file(report_file: str):
-    report_root = (APP_ROOT / "reports").resolve()
-    candidate = (report_root / report_file).resolve()
-    if report_root not in candidate.parents and candidate != report_root:
+    safe_name = Path(report_file).name
+    if safe_name != report_file or safe_name in {"", ".", ".."}:
         raise HTTPException(status_code=403, detail="غير مصرح")
-    if not candidate.is_file():
+    candidate = None
+    for folder in (APP_ROOT / "reports", APP_ROOT / "blog", APP_ROOT / "articles"):
+        possible = folder / safe_name
+        if possible.is_file():
+            candidate = possible
+            break
+    if candidate is None:
         raise HTTPException(status_code=404, detail="التقرير غير موجود")
     return FileResponse(str(candidate))
 
@@ -621,12 +693,11 @@ async def blog_post_page(request: Request, slug: str):
         if f"{clean_slug}.html" not in protected_templates:
             return render_template(request, f"{clean_slug}.html")
 
-    # 2. حاول من مجلد blog/ (المقالات المولدة بالذكاء الاصطناعي)
-    file_path = APP_ROOT / "blog" / f"{clean_slug}.html"
-    if file_path.exists():
-        with open(file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        return HTMLResponse(content=content)
+    # 2. حاول من أرشيف blog/ أو articles/ قبل الرجوع إلى قاعدة البيانات.
+    for folder_name in ("blog", "articles"):
+        file_path = APP_ROOT / folder_name / f"{clean_slug}.html"
+        if file_path.exists():
+            return HTMLResponse(content=file_path.read_text(encoding="utf-8", errors="ignore"))
             
     # 3. ثم من قاعدة البيانات
     posts = get_all_blog_posts(limit=200)
@@ -728,7 +799,7 @@ async def auth_middleware(request: Request, call_next):
     if path.endswith(".html") and not path.startswith("/static/"):
         page_name = path.rsplit("/", 1)[-1]
         template_path = APP_ROOT / "templates" / page_name
-        if template_path.is_file() or path.startswith("/reports/"):
+        if template_path.is_file() or path.startswith("/reports/") or path.startswith("/articles/"):
             pass
         else:
             clean_path = path[:-5]
@@ -748,6 +819,16 @@ async def auth_middleware(request: Request, call_next):
         "/api/ollama-status",
         "/api/customer-reply",
         "/api/subscribe",
+        "/login",
+        "/register",
+        "/signup",
+        "/contact",
+        "/creators",
+        "/dream-feed",
+        "/prompt-lab",
+        "/trending",
+        "/feed.xml",
+        "/cart",
         "/api/stats",
         "/api/health",
         "/health",
@@ -756,6 +837,7 @@ async def auth_middleware(request: Request, call_next):
         "/community",
         "/offers",
         "/reports",
+        "/articles/",
         "/app/lucid-lab",
         "/app/cosmic-dictionary",
         "/app/global-map",
@@ -773,7 +855,7 @@ async def auth_middleware(request: Request, call_next):
     
     # التحقق من ما إذا كان المسار عام
     is_public = False
-    if path.endswith(".html") and (APP_ROOT / "templates" / path.rsplit("/", 1)[-1]).is_file():
+    if path.endswith(".html") and ((APP_ROOT / "templates" / path.rsplit("/", 1)[-1]).is_file() or path.startswith("/articles/") or path.startswith("/reports/")):
         is_public = True
     for route in public_routes:
         if route.endswith("/"):
