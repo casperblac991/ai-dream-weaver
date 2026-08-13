@@ -211,10 +211,12 @@
             errorEl.style.display = 'block';
         }
         
-        // Check if already logged in
-        if (localStorage.getItem('user_id')) {
-            window.location.href = '/app/dashboard';
-        }
+        // Verify the server session instead of trusting stale localStorage data.
+        fetch('/api/me', { credentials: 'same-origin' })
+            .then(response => {
+                if (response.ok) window.location.href = '/app/dashboard';
+            })
+            .catch(() => {});
     </script>
 </body>
 </html>

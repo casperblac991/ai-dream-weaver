@@ -1,0 +1,46 @@
+*** Begin Patch
+*** Update File: /home/ubuntu/ai-dream-weaver/app/ai.py
+@@
+ def call_ollama_local(messages: List[Dict[str, str]], model: Optional[str] = None, max_tokens: int = 1500) -> Optional[str]:
+@@
+     return None
++
++
++def check_ollama_status() -> Dict[str, Any]:
++    """Check whether Ollama is reachable and whether the configured model exists."""
++    base_url = OLLAMA_BASE_URL.rstrip("/")
++    try:
++        response = requests.get(f"{base_url}/api/tags", timeout=5)
++        if response.status_code != 200:
++            return {"status": "unavailable", "http_status": response.status_code}
++        models = response.json().get("models", [])
++        wanted = OLLAMA_MODEL.split(":")[0]
++        available = any(item.get("name", "").split(":")[0] == wanted for item in models)
++        return {"status": "connected", "model": OLLAMA_MODEL, "model_available": available}
++    except requests.RequestException as exc:
++        return {"status": "unavailable", "error": str(exc)}
++
++
++def interpret_dream_local(dream_text: str, style: str = "islamic", language: str = "ar") -> str:
++    """Interpret a dream locally and fall back to the configured provider chain."""
++    style_config = INTERPRETATION_STYLES.get(style, INTERPRETATION_STYLES["general"])
++    system = style_config.get(language, style_config.get("ar", "You are a balanced dream interpreter."))
++    prompt = f"فسّر هذا الحلم بوضوح واتزان:\n\n{dream_text}" if language == "ar" else f"Interpret this dream clearly and in a balanced way:\n\n{dream_text}"
++    result = call_ollama_local([{"role": "system", "content": system}, {"role": "user", "content": prompt}])
++    return result or interpret_dream(dream_text, style=style, language=language)
++
++
++def generate_customer_reply(message: str, language: str = "ar") -> str:
++    """Generate a safe customer-support response through the configured AI providers."""
++    system = {
++        "ar": "أنت موظف دعم عملاء لمنصة نسّاج. أجب بلطف ووضوح ولا تعد بنتائج غير مؤكدة.",
++        "en": "You are a helpful Weaver customer-support agent. Be clear, kind, and do not promise uncertain outcomes.",
++        "fr": "Vous êtes un agent du support client de Weaver. Répondez avec clarté et courtoisie, sans promesses incertaines.",
++    }.get(language, "You are a helpful Weaver customer-support agent.")
++    messages = [{"role": "system", "content": system}, {"role": "user", "content": message}]
++    result = call_groq(messages, max_tokens=600)
++    return result or "شكراً لتواصلك معنا. تلقينا رسالتك وسيراجعها فريق الدعم ويرد عليك قريباً."
+*** End Patch
+PATCH
+
+cd /home/ubuntu/ai-dream-weaver && git diff -- app/ai.py app/ai_fix.patch | sed -n '1,220p'
