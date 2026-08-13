@@ -26,6 +26,10 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
 import secrets
+import base64
+import hashlib
+import hmac
+import time
 from datetime import datetime
 from pathlib import Path
 import glob
@@ -45,7 +49,7 @@ from app.database import (
     get_public_dreams, like_dream, add_comment, get_dream_comments
 )
 from app.translations import get_text
-from app.ai import interpret_dream, generate_image_prompt, generate_blog_article
+from app.ai import interpret_dream, interpret_dream_local, generate_image_prompt, generate_blog_article, check_ollama_status, generate_customer_reply
 from app.shop import router as shop_router
 
 # تهيئة قاعدة البيانات (ستنشئ جميع الجداول المطلوبة)
@@ -86,16 +90,30 @@ if (APP_ROOT / "js").exists():
 if (APP_ROOT / "images").exists():
     app.mount("/images", StaticFiles(directory=str(APP_ROOT / "images")), name="images")
 if (APP_ROOT / "reports").exists():
-    app.mount("/reports", StaticFiles(directory=str(APP_ROOT / "reports")), name="reports")
+    app.mount("/reports-assets", StaticFiles(directory=str(APP_ROOT / "reports")), name="reports-assets")
 
 # إدارة الجلسات
 sessions: dict = {}
+SESSION_SECRET = os.getenv("SESSION_SECRET", "change-this-session-secret-in-production").encode("utf-8")
+SESSION_MAX_AGE = 86400 * 30
 
 def get_current_user(request: Request):
     session_token = request.cookies.get("session_token")
     if session_token and session_token in sessions:
         user_id = sessions[session_token]
         return get_user_by_id(user_id)
+    if session_token:
+        try:
+            encoded_payload, signature = session_token.split(".", 1)
+            encoded_payload += "=" * (-len(encoded_payload) % 4)
+            payload = base64.urlsafe_b64decode(encoded_payload.encode("ascii"))
+            expected = hmac.new(SESSION_SECRET, payload, hashlib.sha256).hexdigest()
+            if hmac.compare_digest(signature, expected):
+                user_id_text, created_text = payload.decode("utf-8").split(":", 1)
+                if time.time() - int(created_text) <= SESSION_MAX_AGE:
+                    return get_user_by_id(int(user_id_text))
+        except (ValueError, TypeError, OSError):
+            pass
     return None
 
 def render_template(request: Request, template_name: str, context: dict = None):
@@ -118,9 +136,20 @@ def render_template(request: Request, template_name: str, context: dict = None):
     return templates.TemplateResponse(request, template_name, base_context)
 
 def create_session(user_id: int) -> str:
-    token = secrets.token_hex(32)
+    payload = f"{user_id}:{int(time.time())}".encode("utf-8")
+    encoded = base64.urlsafe_b64encode(payload).decode("ascii").rstrip("=")
+    signature = hmac.new(SESSION_SECRET, payload, hashlib.sha256).hexdigest()
+    token = f"{encoded}.{signature}"
     sessions[token] = user_id
     return token
+
+def set_session_cookie(response, token: str):
+    response.set_cookie(
+        key="session_token", value=token, max_age=SESSION_MAX_AGE,
+        httponly=True, samesite="lax",
+        secure=os.getenv("COOKIE_SECURE", "false").lower() == "true"
+    )
+    return response
 
 # ========== دالة لقراءة المقالات من مجلد blog/ (للتحديث اليومي) ==========
 def get_blog_posts_from_folder(limit=50):
@@ -334,8 +363,7 @@ async def register(
     if result.get("success"):
         token = create_session(result["user_id"])
         response = RedirectResponse("/app/dashboard", status_code=302)
-        response.set_cookie("session_token", token, max_age=86400 * 30, httponly=True)
-        return response
+        return set_session_cookie(response, token)
     return render_template(request, "register.html", {"error": result.get("message", "خطأ في التسجيل")})
 
 # تسجيل الدخول
@@ -356,8 +384,7 @@ async def login(
     if user:
         token = create_session(user["id"])
         response = RedirectResponse("/app/dashboard", status_code=302)
-        response.set_cookie("session_token", token, max_age=86400 * 30, httponly=True)
-        return response
+        return set_session_cookie(response, token)
     return render_template(request, "login.html", {"error": "خطأ في البريد الإلكتروني أو كلمة المرور"})
 
 # تسجيل الخروج
@@ -371,6 +398,19 @@ async def logout(request: Request):
     return response
 
 # ========== JSON API Endpoints ==========
+
+@app.get("/api/me")
+async def api_me(request: Request):
+    user = get_current_user(request)
+    if not user:
+        return JSONResponse({"authenticated": False}, status_code=401)
+    return JSONResponse({
+        "authenticated": True,
+        "user_id": user["id"],
+        "username": user["username"],
+        "email": user["email"],
+        "plan": user.get("plan", "free")
+    })
 
 @app.post("/api/login")
 async def api_login(request: Request):
@@ -386,12 +426,13 @@ async def api_login(request: Request):
         user = login_user(email, password)
         if user:
             token = create_session(user["id"])
-            return JSONResponse({
+            response = JSONResponse({
                 "success": True,
                 "user_id": user["id"],
                 "username": user["username"],
-                "token": token
+                "authenticated": True
             })
+            return set_session_cookie(response, token)
         return JSONResponse({"error": "البريد الإلكتروني أو كلمة المرور غير صحيحة"}, status_code=401)
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
@@ -408,12 +449,13 @@ async def api_register(request: Request):
         result = register_user(username, email, password)
         if result.get("success"):
             token = create_session(result["user_id"])
-            return JSONResponse({
+            response = JSONResponse({
                 "success": True,
                 "user_id": result["user_id"],
                 "username": username,
-                "token": token
+                "authenticated": True
             })
+            return set_session_cookie(response, token)
         return JSONResponse({"error": result.get("message", "خطأ في التسجيل")}, status_code=400)
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
@@ -480,7 +522,6 @@ async def api_interpret(request: Request):
             return JSONResponse({"error": "dream text required"}, status_code=400)
         
         # محاولة استخدام Ollama المحلي أولاً
-        from app.ai import check_ollama_status, interpret_dream_local
         status = check_ollama_status()
         
         if status["status"] == "connected":
@@ -518,6 +559,54 @@ async def subscribe_email(request: Request):
 async def blog_page(request: Request):
     posts = get_all_blog_posts(limit=30)
     return render_template(request, "blog.html", {"posts": posts})
+
+@app.get("/community", response_class=HTMLResponse)
+async def community_alias(request: Request):
+    return await community_page(request)
+
+@app.get("/offers", response_class=HTMLResponse)
+async def offers_alias(request: Request):
+    return await offers_page(request)
+
+@app.get("/app/dream/{dream_id}", response_class=HTMLResponse)
+async def dream_detail_page(request: Request, dream_id: int):
+    user = get_current_user(request)
+    if not user:
+        return RedirectResponse("/app/login")
+    dream = next((item for item in get_user_dreams(user["id"]) if item.get("id") == dream_id), None)
+    if not dream:
+        raise HTTPException(status_code=404, detail="الحلم غير موجود")
+    return render_template(request, "dream.html", {"dream": dream})
+
+@app.post("/api/customer-reply")
+async def api_customer_reply(request: Request):
+    body = await request.json()
+    message = str(body.get("message", "")).strip()
+    language = body.get("language", "ar")
+    if not message:
+        return JSONResponse({"error": "message required"}, status_code=400)
+    return JSONResponse({"reply": generate_customer_reply(message, language), "status": "success"})
+
+@app.get("/reports", response_class=HTMLResponse)
+async def reports_page(request: Request):
+    return render_template(request, "reports.html")
+
+@app.get("/reports/{report_file:path}")
+async def report_file(report_file: str):
+    report_root = (APP_ROOT / "reports").resolve()
+    candidate = (report_root / report_file).resolve()
+    if report_root not in candidate.parents and candidate != report_root:
+        raise HTTPException(status_code=403, detail="غير مصرح")
+    if not candidate.is_file():
+        raise HTTPException(status_code=404, detail="التقرير غير موجود")
+    return FileResponse(str(candidate))
+
+@app.get("/{page_name}.html", response_class=HTMLResponse)
+async def html_template_page(request: Request, page_name: str):
+    template_name = f"{page_name}.html"
+    if not (APP_ROOT / "templates" / template_name).is_file():
+        raise HTTPException(status_code=404, detail="الصفحة غير موجودة")
+    return render_template(request, template_name)
 
 @app.get("/blog/{slug}", response_class=HTMLResponse)
 async def blog_post_page(request: Request, slug: str):
@@ -634,14 +723,18 @@ def health_check():
 async def auth_middleware(request: Request, call_next):
     """Middleware لفرض تسجيل الدخول على المسارات المحمية وإدارة الروابط"""
     
-    # تحويل الروابط التي تنتهي بـ .html إلى مسارات نظيفة (باستثناء الملفات الثابتة)
+    # احتفظ بالصفحات ذات الامتداد .html إذا كان القالب موجوداً، وإلا استخدم الرابط النظيف.
     path = request.url.path
     if path.endswith(".html") and not path.startswith("/static/"):
-        clean_path = path[:-5]
-        # استثناء للمدونة لأن مسارها هو /blog
-        if clean_path == "/blog":
-            return RedirectResponse(url="/blog", status_code=301)
-        return RedirectResponse(url=clean_path, status_code=301)
+        page_name = path.rsplit("/", 1)[-1]
+        template_path = APP_ROOT / "templates" / page_name
+        if template_path.is_file() or path.startswith("/reports/"):
+            pass
+        else:
+            clean_path = path[:-5]
+            if clean_path == "/blog":
+                return RedirectResponse(url="/blog", status_code=301)
+            return RedirectResponse(url=clean_path, status_code=301)
     
     # المسارات العامة التي لا تتطلب تسجيل دخول
     public_routes = [
@@ -650,9 +743,19 @@ async def auth_middleware(request: Request, call_next):
         "/app/register",
         "/api/login",
         "/api/register",
+        "/api/me",
+        "/api/interpret",
+        "/api/ollama-status",
+        "/api/customer-reply",
         "/api/subscribe",
+        "/api/stats",
+        "/api/health",
+        "/health",
         "/blog",
         "/app/community",
+        "/community",
+        "/offers",
+        "/reports",
         "/app/lucid-lab",
         "/app/cosmic-dictionary",
         "/app/global-map",
@@ -670,6 +773,8 @@ async def auth_middleware(request: Request, call_next):
     
     # التحقق من ما إذا كان المسار عام
     is_public = False
+    if path.endswith(".html") and (APP_ROOT / "templates" / path.rsplit("/", 1)[-1]).is_file():
+        is_public = True
     for route in public_routes:
         if route.endswith("/"):
             if request.url.path.startswith(route):

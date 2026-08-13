@@ -1,0 +1,131 @@
+--- app/main.py
++++ app/main.py
+@@ -26,7 +26,11 @@
+ import uvicorn
+ import os
+ import secrets
++import base64
++import hashlib
++import hmac
++import time
+ from datetime import datetime
+@@ -45,7 +49,7 @@
+     get_public_dreams, like_dream, add_comment, get_dream_comments
+ )
+ from app.translations import get_text
+-from app.ai import interpret_dream, generate_image_prompt, generate_blog_article
++from app.ai import interpret_dream, interpret_dream_local, generate_image_prompt, generate_blog_article, check_ollama_status, generate_customer_reply
+@@ -90,15 +94,43 @@
+ # إدارة الجلسات
+ sessions: dict = {}
++SESSION_SECRET = os.getenv("SESSION_SECRET", "change-this-session-secret-in-production").encode("utf-8")
++SESSION_MAX_AGE = 86400 * 30
+ 
+ def get_current_user(request: Request):
+     session_token = request.cookies.get("session_token")
+     if session_token and session_token in sessions:
+         user_id = sessions[session_token]
+         return get_user_by_id(user_id)
++    if session_token:
++        try:
++            encoded_payload, signature = session_token.split(".", 1)
++            payload = base64.urlsafe_b64decode(encoded_payload.encode("ascii"))
++            expected = hmac.new(SESSION_SECRET, payload, hashlib.sha256).hexdigest()
++            if hmac.compare_digest(signature, expected):
++                user_id_text, created_text = payload.decode("utf-8").split(":", 1)
++                if time.time() - int(created_text) <= SESSION_MAX_AGE:
++                    return get_user_by_id(int(user_id_text))
++        except (ValueError, TypeError, OSError):
++            pass
+     return None
+@@ -120,10 +152,21 @@
+ def create_session(user_id: int) -> str:
+-    token = secrets.token_hex(32)
++    payload = f"{user_id}:{int(time.time())}".encode("utf-8")
++    encoded = base64.urlsafe_b64encode(payload).decode("ascii").rstrip("=")
++    signature = hmac.new(SESSION_SECRET, payload, hashlib.sha256).hexdigest()
++    token = f"{encoded}.{signature}"
+     sessions[token] = user_id
+     return token
++
++def set_session_cookie(response, token: str):
++    response.set_cookie(
++        key="session_token", value=token, max_age=SESSION_MAX_AGE,
++        httponly=True, samesite="lax",
++        secure=os.getenv("COOKIE_SECURE", "false").lower() == "true"
++    )
++    return response
+@@ -334,7 +377,7 @@
+         token = create_session(result["user_id"])
+         response = RedirectResponse("/app/dashboard", status_code=302)
+-        response.set_cookie("session_token", token, max_age=86400 * 30, httponly=True)
+-        return response
++        return set_session_cookie(response, token)
+@@ -357,7 +400,7 @@
+         token = create_session(user["id"])
+         response = RedirectResponse("/app/dashboard", status_code=302)
+-        response.set_cookie("session_token", token, max_age=86400 * 30, httponly=True)
+-        return response
++        return set_session_cookie(response, token)
+@@ -386,15 +429,17 @@
+         user = login_user(email, password)
+         if user:
+             token = create_session(user["id"])
+-            return JSONResponse({
++            response = JSONResponse({
+                 "success": True,
+                 "user_id": user["id"],
+                 "username": user["username"],
+-                "token": token
++                "authenticated": True
+             })
++            return set_session_cookie(response, token)
+@@ -408,15 +453,17 @@
+         result = register_user(username, email, password)
+         if result.get("success"):
+             token = create_session(result["user_id"])
+-            return JSONResponse({
++            response = JSONResponse({
+                 "success": True,
+                 "user_id": result["user_id"],
+                 "username": username,
+-                "token": token
++                "authenticated": True
+             })
++            return set_session_cookie(response, token)
+@@ -481,12 +528,10 @@
+-        # محاولة استخدام Ollama المحلي أولاً
+-        from app.ai import check_ollama_status, interpret_dream_local
+         status = check_ollama_status()
+@@ -516,6 +561,26 @@
+ async def blog_page(request: Request):
+     posts = get_all_blog_posts(limit=30)
+     return render_template(request, "blog.html", {"posts": posts})
++
++@app.get("/community", response_class=HTMLResponse)
++async def community_alias(request: Request):
++    return await community_page(request)
++
++@app.get("/offers", response_class=HTMLResponse)
++async def offers_alias(request: Request):
++    return await offers_page(request)
++
++@app.get("/app/dream/{dream_id}", response_class=HTMLResponse)
++async def dream_detail_page(request: Request, dream_id: int):
++    user = get_current_user(request)
++    if not user:
++        return RedirectResponse("/app/login")
++    dream = next((item for item in get_user_dreams(user["id"]) if item.get("id") == dream_id), None)
++    if not dream:
++        raise HTTPException(status_code=404, detail="الحلم غير موجود")
++    return render_template(request, "dream.html", {"dream": dream})
++
++@app.post("/api/customer-reply")
++async def api_customer_reply(request: Request):
++    body = await request.json()
++    message = str(body.get("message", "")).strip()
++    language = body.get("language", "ar")
++    if not message:
++        return JSONResponse({"error": "message required"}, status_code=400)
++    return JSONResponse({"reply": generate_customer_reply(message, language), "status": "success"})
+*** End of File

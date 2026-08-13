@@ -5,19 +5,19 @@ Weaver Auth - نظام المصادقة (معدل للاستيراد من databa
 """
 
 import re
-from passlib.context import CryptContext
+import bcrypt
 from app.database import create_user, get_user_by_email, update_last_login
 
-# إعداد bcrypt
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 def hash_password(password: str) -> str:
-    """تشفير كلمة المرور باستخدام bcrypt"""
-    return pwd_context.hash(password)
+    """تشفير كلمة المرور باستخدام bcrypt مباشرةً لتوافق أفضل مع الإصدارات الحديثة."""
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """التحقق من كلمة المرور"""
-    return pwd_context.verify(plain_password, hashed_password)
+    """التحقق من كلمة المرور مع التعامل الآمن مع الهاش غير الصالح."""
+    try:
+        return bcrypt.checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
+    except (ValueError, TypeError):
+        return False
 
 def validate_email(email: str) -> bool:
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
