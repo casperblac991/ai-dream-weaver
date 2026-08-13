@@ -148,12 +148,12 @@ def get_all_users(limit=100):
         return [dict(row) for row in rows]
 
 # ========== دوال الأحلام ==========
-def save_dream(user_id, dream_text, interpretation, image_prompt=""):
+def save_dream(user_id, dream_text, interpretation, image_prompt="", style="islamic", language="ar", is_public=0):
     with get_db() as db:
         cursor = db.execute("""
-            INSERT INTO dreams (user_id, dream_text, interpretation, image_prompt)
-            VALUES (?, ?, ?, ?)
-        """, (user_id, dream_text, interpretation, image_prompt))
+            INSERT INTO dreams (user_id, dream_text, interpretation, image_prompt, style, language, is_public)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (user_id, dream_text, interpretation, image_prompt, style, language, int(bool(is_public))))
         db.commit()
         return cursor.lastrowid
 

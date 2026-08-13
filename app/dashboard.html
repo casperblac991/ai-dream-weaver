@@ -2,6 +2,7 @@
 <html>
 
 <head>
+<script src="/js/api-client.js"></script>
 
 <title>Dashboard - Dreamora AI</title>
 
@@ -72,46 +73,30 @@ Publish dream to Dream Feed
 </div>
 
 <script>
+const resultEl = document.getElementById('result');
+const dreamTextEl = document.getElementById('dreamText');
 
-let user_id = localStorage.getItem("user_id")
-
-async function analyzeDream(){
-
-let dream=document.getElementById("dreamText").value
-let publicDream=document.getElementById("publicDream").checked ? 1 : 0
-
-let response=await fetch("/api/analyze-dream",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-user_id:user_id,
-dream:dream,
-public:publicDream
-})
-
-})
-
-let data=await response.json()
-
-document.getElementById("result").innerHTML=`
-
-<h3>Dream</h3>
-${data.dream}
-
-<br><br>
-
-<h3>AI Interpretation</h3>
-${data.interpretation}
-
-`
-
+async function analyzeDream() {
+  const dream = dreamTextEl.value.trim();
+  if (!dream) {
+    resultEl.textContent = 'Please write your dream first.';
+    return;
+  }
+  resultEl.textContent = 'Analyzing...';
+  try {
+    const response = await fetch('/api/interpret', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dream, language: 'en', style: 'general' })
+    });
+    const data = await response.json();
+    if (!response.ok || data.error) throw new Error(data.error || 'Request failed');
+    resultEl.textContent = data.interpretation || 'No interpretation returned.';
+  } catch (error) {
+    console.error(error);
+    resultEl.textContent = 'The AI service is unavailable right now. Please try again.';
+  }
 }
-
 </script>
 
 </body>

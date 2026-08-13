@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+  <script src="/js/api-client.js"></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DZ4WQDX31M"></script>
 <script>
@@ -987,9 +988,9 @@ body[data-lang="en"] .notification {
   <div class="nav-buttons">
     <!-- أزرار تسجيل الدخول وإنشاء حساب (تمت الإضافة) -->
     <div class="auth-buttons">
-     href="https://ai-dream-weaver.onrender.com/app/login"
-     href="https://ai-dream-weaver.onrender.com/app/register" 
-    
+      <a href="/app/login.html" class="btn-login" data-i18n="nav.login">🔐 تسجيل الدخول</a>
+      <a href="/app/register.html" class="btn-signup" data-i18n="nav.signup">🚀 إنشاء حساب</a>
+    </div>
 
     <div class="lang-selector" id="langSelector">
       <button class="lang-btn" id="langBtn">
@@ -1341,7 +1342,7 @@ async function generatePrompt() {
   btnText.innerHTML = '<span class="spinner"></span> ' + (currentLang === 'ar' ? 'جاري التوليد...' : 'Generating...');
   output.innerHTML = currentLang === 'ar' ? '⏳ جاري توليد أمر احترافي...' : 'Generating professional prompt...';
   try {
-    const response = await fetch('/api/groq', {
+    const response = await fetch('/api/customer-reply', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

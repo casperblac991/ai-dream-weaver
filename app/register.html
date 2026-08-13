@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <script src="/js/api-client.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إنشاء حساب - نَسَّاج</title>
@@ -192,8 +193,9 @@
                     successEl.style.display = 'block';
                     localStorage.setItem('user_id', data.user_id);
                     localStorage.setItem('username', data.username);
+                    if (data.session_token) localStorage.setItem('session_token', data.session_token);
                     setTimeout(() => {
-                        window.location.href = '/app/dashboard';
+                        window.location.href = '/app/dashboard.html';
                     }, 1000);
                 } else {
                     showError(data.error || 'حدث خطأ في إنشاء الحساب');

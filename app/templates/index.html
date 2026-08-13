@@ -1341,7 +1341,7 @@ async function generatePrompt() {
   btnText.innerHTML = '<span class="spinner"></span> ' + (currentLang === 'ar' ? 'جاري التوليد...' : 'Generating...');
   output.innerHTML = currentLang === 'ar' ? '⏳ جاري توليد أمر احترافي...' : 'Generating professional prompt...';
   try {
-    const response = await fetch('/api/groq', {
+    const response = await fetch('/api/customer-reply', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
