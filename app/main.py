@@ -73,6 +73,8 @@ app.add_middleware(
     allow_origins=[
         "https://ai-dream-weaver.onrender.com",
         "https://aidreamweaver.store",
+        "https://www.aidreamweaver.store",
+        "http://aidreamweaver.store",
         "http://localhost:10000",
         "http://127.0.0.1:10000",
     ],
@@ -102,22 +104,28 @@ SESSION_SECRET = os.getenv("SESSION_SECRET", "change-this-session-secret-in-prod
 SESSION_MAX_AGE = 86400 * 30
 
 def get_current_user(request: Request):
-    session_token = request.cookies.get("session_token")
-    if session_token and session_token in sessions:
-        user_id = sessions[session_token]
-        return get_user_by_id(user_id)
-    if session_token:
-        try:
-            encoded_payload, signature = session_token.split(".", 1)
-            encoded_payload += "=" * (-len(encoded_payload) % 4)
-            payload = base64.urlsafe_b64decode(encoded_payload.encode("ascii"))
-            expected = hmac.new(SESSION_SECRET, payload, hashlib.sha256).hexdigest()
-            if hmac.compare_digest(signature, expected):
-                user_id_text, created_text = payload.decode("utf-8").split(":", 1)
-                if time.time() - int(created_text) <= SESSION_MAX_AGE:
-                    return get_user_by_id(int(user_id_text))
-        except (ValueError, TypeError, OSError):
-            pass
+    """Resolve the authenticated user from the cookie or the static frontend bearer token."""
+    session_token = request.cookies.get("session_token", "")
+    if not session_token:
+        authorization = request.headers.get("authorization", "")
+        if authorization.lower().startswith("bearer "):
+            session_token = authorization[7:].strip()
+
+    if not session_token:
+        return None
+    if session_token in sessions:
+        return get_user_by_id(sessions[session_token])
+    try:
+        encoded_payload, signature = session_token.split(".", 1)
+        encoded_payload += "=" * (-len(encoded_payload) % 4)
+        payload = base64.urlsafe_b64decode(encoded_payload.encode("ascii"))
+        expected = hmac.new(SESSION_SECRET, payload, hashlib.sha256).hexdigest()
+        if hmac.compare_digest(signature, expected):
+            user_id_text, created_text = payload.decode("utf-8").split(":", 1)
+            if time.time() - int(created_text) <= SESSION_MAX_AGE:
+                return get_user_by_id(int(user_id_text))
+    except (ValueError, TypeError, OSError, UnicodeError):
+        pass
     return None
 
 def render_template(request: Request, template_name: str, context: dict = None):
@@ -432,7 +440,8 @@ async def api_login(request: Request):
                 "success": True,
                 "user_id": user["id"],
                 "username": user["username"],
-                "authenticated": True
+                "authenticated": True,
+                "session_token": token
             })
             return set_session_cookie(response, token)
         return JSONResponse({"error": "البريد الإلكتروني أو كلمة المرور غير صحيحة"}, status_code=401)
@@ -455,7 +464,8 @@ async def api_register(request: Request):
                 "success": True,
                 "user_id": result["user_id"],
                 "username": username,
-                "authenticated": True
+                "authenticated": True,
+                "session_token": token
             })
             return set_session_cookie(response, token)
         return JSONResponse({"error": result.get("message", "خطأ في التسجيل")}, status_code=400)
@@ -588,6 +598,71 @@ async def api_customer_reply(request: Request):
     if not message:
         return JSONResponse({"error": "message required"}, status_code=400)
     return JSONResponse({"reply": generate_customer_reply(message, language), "status": "success"})
+
+@app.get("/api/public-dreams")
+async def api_public_dreams():
+    return JSONResponse({"dreams": get_public_dreams(limit=50)})
+
+@app.get("/api/dreams")
+async def api_user_dreams(request: Request):
+    user = get_current_user(request)
+    if not user:
+        return JSONResponse({"error": "يجب تسجيل الدخول"}, status_code=401)
+    dreams = get_user_dreams(user["id"])
+    for dream in dreams:
+        dream.setdefault("dream", dream.get("dream_text", ""))
+    return JSONResponse({"dreams": dreams})
+
+@app.get("/api/dream/{dream_id}")
+async def api_dream(dream_id: int, request: Request):
+    user = get_current_user(request)
+    if not user:
+        return JSONResponse({"error": "يجب تسجيل الدخول"}, status_code=401)
+    dream = next((item for item in get_user_dreams(user["id"]) if item.get("id") == dream_id), None)
+    if not dream:
+        return JSONResponse({"error": "الحلم غير موجود"}, status_code=404)
+    dream.setdefault("dream", dream.get("dream_text", ""))
+    return JSONResponse(dream)
+
+@app.get("/api/profile/{username}")
+async def api_profile(username: str):
+    users = [item for item in get_all_users(limit=1000) if item.get("username") == username]
+    if not users:
+        return JSONResponse({"error": "المستخدم غير موجود"}, status_code=404)
+    user = users[0]
+    dreams = get_user_dreams(user["id"])
+    return JSONResponse({"username": user["username"], "dreams": dreams})
+
+@app.get("/api/search")
+async def api_search(keyword: str = ""):
+    query = keyword.strip().lower()
+    dreams = get_public_dreams(limit=100)
+    results = [item for item in dreams if not query or query in str(item.get("dream_text", item.get("dream", ""))).lower()]
+    return JSONResponse({"results": results})
+
+@app.get("/api/trending")
+async def api_trending():
+    dreams = sorted(get_public_dreams(limit=100), key=lambda item: (item.get("likes", 0), item.get("views", 0)), reverse=True)
+    return JSONResponse({"dreams": dreams[:30]})
+
+@app.post("/api/analyze-dream")
+async def api_analyze_dream(request: Request):
+    user = get_current_user(request)
+    if not user:
+        return JSONResponse({"error": "يجب تسجيل الدخول أولاً"}, status_code=401)
+    body = await request.json()
+    dream_text = str(body.get("dream", "")).strip()
+    if not dream_text:
+        return JSONResponse({"error": "نص الحلم مطلوب"}, status_code=400)
+    language = body.get("language", "ar")
+    style = body.get("style", "islamic")
+    interpretation = interpret_dream(dream_text, style=style, language=language)
+    dream_id = save_dream(
+        user["id"], dream_text, interpretation,
+        style=style, language=language, is_public=body.get("public", 0)
+    )
+    increment_dreams_used(user["id"])
+    return JSONResponse({"success": True, "dream_id": dream_id, "dream": dream_text, "interpretation": interpretation})
 
 @app.get("/login")
 async def login_alias():

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <script src="/js/api-client.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول - نَسَّاج</title>
@@ -165,7 +166,8 @@
                 if (data.success) {
                     localStorage.setItem('user_id', data.user_id);
                     localStorage.setItem('username', data.username);
-                    window.location.href = '/app/dashboard';
+                    if (data.session_token) localStorage.setItem('session_token', data.session_token);
+                    window.location.href = '/app/dashboard.html';
                 } else {
                     showError(data.error || 'حدث خطأ في تسجيل الدخول');
                 }
