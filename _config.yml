@@ -1,0 +1,37 @@
+# GitHub Pages settings.
+# Keeps internal files (source code, databases, logs, exported contact lists)
+# out of the published website. They stay in the repository but are no longer
+# reachable at https://aidreamweaver.store/...
+exclude:
+  - "*.py"
+  - "**/*.py"
+  - "app/*.py"
+  - "automation/*.py"
+  - "*.pyc"
+  - "**/*.pyc"
+  - "*.db"
+  - "**/*.db"
+  - "app/*.db"
+  - "*.log"
+  - "**/*.log"
+  - "*.sh"
+  - "*.patch"
+  - "app/*.patch"
+  - __pycache__
+  - app/__pycache__
+  - automation
+  - exports
+  - logs
+  - n8n-workflows
+  - Secrets.json
+  - marketing_emails.txt
+  - docker-compose.n8n.yml
+  - Dockerfile
+  - dockerfile
+  - Procfile
+  - requirements.txt
+  - app/requirements.txt
+  - runtime.txt
+  - render.yaml
+  - render.txt
+  - setup
