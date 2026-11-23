@@ -73,3 +73,33 @@
     });
   };
 })();
+
+/* Language switch for the static site: there is no /set-lang server route on GitHub Pages. */
+(function () {
+  'use strict';
+  var NAV = {
+    ar: { n3: '👥 المجتمع', n4: '🧪 مختبر الأحلام', n_dict: '🌌 القاموس الكوني', n_map: '🌍 خارطة الأحلام', n_test: '🧠 تحليل الشخصية', n_offers: '💎 عروض خاصة', loginBtn: '🔐 تسجيل الدخول', signupBtn: '🚀 إنشاء حساب' },
+    en: { n3: '👥 Community', n4: '🧪 Dream Lab', n_dict: '🌌 Cosmic Dictionary', n_map: '🌍 Dream Map', n_test: '🧠 Personality Analysis', n_offers: '💎 Special Offers', loginBtn: '🔐 Log in', signupBtn: '🚀 Sign up' }
+  };
+  document.addEventListener('DOMContentLoaded', function () {
+    var links = document.querySelectorAll('a[href^="/set-lang/"]');
+    if (!links.length) return;
+    try {
+      if (typeof T !== 'undefined' && T.ar && T.en) {
+        Object.assign(T.ar, NAV.ar);
+        Object.assign(T.en, NAV.en);
+      }
+    } catch (_) {}
+    links.forEach(function (a) {
+      var lang = a.getAttribute('href').split('/').pop();
+      if (lang !== 'ar' && lang !== 'en') { a.style.display = 'none'; return; }
+      a.classList.remove('on');
+      if (!document.getElementById('btn-' + lang)) a.id = 'btn-' + lang;
+      a.setAttribute('href', '#');
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (typeof window.setLang === 'function') window.setLang(lang);
+      });
+    });
+  });
+})();
